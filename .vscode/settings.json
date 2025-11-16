@@ -1,0 +1,7 @@
+{
+  "eslint.format.enable": true,
+  "eslint.enable": true,
+  "biome.enabled": true,
+  "typescript.tsserver.experimental.enableProjectDiagnostics": true,
+  "cSpell.words": ["Wahl"]
+}
