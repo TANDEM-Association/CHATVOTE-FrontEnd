@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     template: '%s | wahl.chat',
   },
   description:
-    'Verstehe die Ziele und Positionen der Parteien für die Bundestagswahl 2025. Unterhalte dich bei wahl.chat mit den Programmen der Parteien, stelle Fragen zu deinen Themen und lass Parteipositionen kritisch einordnen.',
+    'Verstehe die Ziele und Positionen der Parteien der Bundesrepublik Deutschland. Unterhalte dich bei wahl.chat mit den Programmen der Parteien, stelle Fragen zu deinen Themen und lass Parteipositionen kritisch einordnen.',
   applicationName: 'wahl.chat',
   keywords: [
     'Wahl Chat',
