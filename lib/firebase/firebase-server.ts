@@ -37,7 +37,12 @@ import { GROUP_PARTY_ID, WAHL_CHAT_PARTY_ID } from '@/lib/constants';
 import { CacheTags } from '@/lib/cache-tags';
 import type { WahlSwiperQuestion } from '@/lib/wahl-swiper/wahl-swiper.types';
 import type { FullUser } from '@/components/anonymous-auth';
+import { firebaseEmulatorConfig } from './firebase-emulator-config';
+import { connectEmulators } from './firebase-emulator';
 
+
+let serverAppInitialized: boolean = false
+  
 async function getServerApp({
   useHeaders = true,
 }: { useHeaders?: boolean } = {}) {
@@ -48,7 +53,22 @@ async function getServerApp({
     authIdToken = headersList.get('authorization')?.split(' ')[1];
   }
 
-  return initializeServerApp(firebaseConfig, { authIdToken });
+  const serverApp = initializeServerApp(firebaseConfig, { authIdToken });
+  if (firebaseEmulatorConfig.useEmulator === "true" && !serverAppInitialized) {
+    connectEmulators(getFirestore(serverApp), getAuth(serverApp),'Server')
+    logFirebaseMode('server');
+    serverAppInitialized = true;
+  }
+
+  return serverApp;
+}
+
+function logFirebaseMode(mode: string) {
+  if (firebaseEmulatorConfig.useEmulator) {
+    console.info(`[firebase] ${mode} running in EMULATOR mode`);
+  } else {
+    console.info(`[firebase] ${mode} running in CLOUD mode`);
+  }
 }
 
 export async function getCurrentUser() {

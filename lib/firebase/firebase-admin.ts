@@ -1,77 +1,76 @@
-'use server';
+"use server";
 
 import {
-  initializeApp,
-  getApp,
+  cert,
+  getApps,
+  getApp as getAdminApp,
+  initializeApp as initializeAdminApp,
   type App as FirebaseApp,
-} from 'firebase-admin/app';
-import { credential } from 'firebase-admin';
-import { getFirestore, Timestamp } from 'firebase-admin/firestore';
-import type { ShareableChatSessionSnapshot, Tenant } from './firebase.types';
-import { GROUP_PARTY_ID } from '@/lib/constants';
-import { unstable_cache as cache } from 'next/cache';
-import { CacheTags } from '@/lib/cache-tags';
-import { firestoreTimestampToDate } from '@/lib/utils';
+} from "firebase-admin/app";
+import { firebaseEmulatorConfig } from "./firebase-emulator-config";
+import { getFirestore, Timestamp } from "firebase-admin/firestore";
+import type { ShareableChatSessionSnapshot, Tenant } from "./firebase.types";
+import { GROUP_PARTY_ID } from "@/lib/constants";
+import { unstable_cache as cache } from "next/cache";
+import { CacheTags } from "@/lib/cache-tags";
+import { firestoreTimestampToDate } from "@/lib/utils";
 import type {
   GroupedMessage,
   MessageItem,
-} from '@/lib/stores/chat-store.types';
-import { getCurrentUser } from './firebase-server';
+} from "@/lib/stores/chat-store.types";
+import { getCurrentUser } from "./firebase-server";
 
-let app: FirebaseApp;
+let admin: FirebaseApp;
+if (getApps().length === 0) {
+  console.log("Initializing Firebase Admin App");
 
-try {
-  app = getApp();
-} catch (error) {
-  console.log('Initializing Firebase Admin App', error);
-
-  const {
-    NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-    FIREBASE_CLIENT_EMAIL,
-    FIREBASE_PRIVATE_KEY,
-  } = process.env;
-
-  if (
-    !NEXT_PUBLIC_FIREBASE_PROJECT_ID ||
-    !FIREBASE_CLIENT_EMAIL ||
-    !FIREBASE_PRIVATE_KEY
-  ) {
-    throw new Error('Missing Firebase environment variables.');
+  if (firebaseEmulatorConfig.useEmulator === "true") {
+    process.env.FIREBASE_AUTH_EMULATOR_HOST =
+      firebaseEmulatorConfig.firebaseAuthEmulatorHost;
+    process.env.FIRESTORE_EMULATOR_HOST =
+      firebaseEmulatorConfig.firestoreEmulatorHost;
+    console.info(
+      `[firebase-admin] Using emulators. Auth at ${process.env.FIREBASE_AUTH_EMULATOR_HOST}, Firestore at ${process.env.FIRESTORE_EMULATOR_HOST}`,
+    );
+    admin = initializeAdminApp({ projectId: firebaseEmulatorConfig.projectId });
+  } else {
+    const adminConfig = {
+      credential: cert({
+        projectId: process.env.FIREBASE_ADMIN_PROJECT_ID,
+        clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+        privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, "\n"),
+      }),
+    };
+    admin = initializeAdminApp(adminConfig);
   }
-
-  app = initializeApp({
-    credential: credential.cert({
-      projectId: NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-      clientEmail: FIREBASE_CLIENT_EMAIL,
-      privateKey: FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'),
-    }),
-  });
+} else {
+  admin = getAdminApp();
 }
 
-const db = getFirestore(app);
+const db = getFirestore(admin);
 
 export async function createShareableSession(sessionId: string) {
-  const sessionRef = db.collection('chat_sessions').doc(sessionId);
+  const sessionRef = db.collection("chat_sessions").doc(sessionId);
 
   const session = await sessionRef.get();
 
   if (!session.exists) {
-    throw new Error('Session not found');
+    throw new Error("Session not found");
   }
 
   const sessionData = session.data();
 
   if (!sessionData) {
-    throw new Error('Session data not found');
+    throw new Error("Session data not found");
   }
 
-  const messagesRef = sessionRef.collection('messages');
+  const messagesRef = sessionRef.collection("messages");
   const messages = await messagesRef.get();
 
   const messagesData = messages.docs.map((doc) => doc.data());
 
   const shareableSessionSnapshotRef = await db
-    .collection('shareable_chat_session_snapshots')
+    .collection("shareable_chat_session_snapshots")
     .add({
       session_id: session.id,
       title: sessionData.title,
@@ -101,24 +100,24 @@ export async function copySharedChatSession(
   const user = await getCurrentUser();
 
   if (!user) {
-    throw new Error('User not found');
+    throw new Error("User not found");
   }
 
   const snapshotRef = db
-    .collection('shareable_chat_session_snapshots')
+    .collection("shareable_chat_session_snapshots")
     .doc(snapshotId);
   const snapshot = await snapshotRef.get();
   if (!snapshot.exists) {
-    throw new Error('Snapshot not found');
+    throw new Error("Snapshot not found");
   }
 
   const data = snapshot.data();
   if (!data) {
-    throw new Error('Snapshot data not found');
+    throw new Error("Snapshot data not found");
   }
 
   const batch = db.batch();
-  const newSessionRef = db.collection('chat_sessions').doc();
+  const newSessionRef = db.collection("chat_sessions").doc();
   batch.set(newSessionRef, {
     created_at: Timestamp.now(),
     updated_at: Timestamp.now(),
@@ -128,7 +127,7 @@ export async function copySharedChatSession(
   });
 
   for (const message of data.messages) {
-    batch.set(newSessionRef.collection('messages').doc(message.id), message);
+    batch.set(newSessionRef.collection("messages").doc(message.id), message);
   }
 
   await batch.commit();
@@ -142,7 +141,7 @@ export async function copySharedChatSession(
 
 export async function getSnapshotImpl(snapshotId: string) {
   const snapshotRef = db
-    .collection('shareable_chat_session_snapshots')
+    .collection("shareable_chat_session_snapshots")
     .doc(snapshotId);
   const snapshot = await snapshotRef.get();
   const data = snapshot.data();
@@ -177,7 +176,7 @@ export async function getTenantImpl(tenantId?: string | null) {
     return;
   }
 
-  const tenantRef = db.collection('tenants').doc(tenantId);
+  const tenantRef = db.collection("tenants").doc(tenantId);
   const tenant = await tenantRef.get();
 
   if (!tenant.exists) {
