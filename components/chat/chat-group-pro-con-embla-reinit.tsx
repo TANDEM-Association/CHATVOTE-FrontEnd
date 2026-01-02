@@ -1,3 +1,5 @@
+'use client';
+
 import { useCarousel } from '@/components/ui/carousel';
 import { useChatStore } from '@/components/providers/chat-store-provider';
 import { useEffect } from 'react';

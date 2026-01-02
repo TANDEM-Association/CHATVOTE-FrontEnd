@@ -7,12 +7,14 @@ import { useCallback } from 'react';
 import MessageLoadingBorderTrail from './message-loading-border-trail';
 import { Button } from '@/components/ui/button';
 import LoginButton from '@/components/auth/login-button';
+import { useTranslations } from 'next-intl';
 
 function ChatInputRateLimit() {
   const { user } = useAnonymousAuth();
   const input = useChatStore((state) => state.input);
   const addUserMessage = useChatStore((state) => state.addUserMessage);
   const quickReplies = useChatStore((state) => state.currentQuickReplies);
+  const t = useTranslations('rate-limit');
   const loading = useChatStore((state) => {
     const loading = state.loading;
     return (
@@ -37,7 +39,7 @@ function ChatInputRateLimit() {
 
       addUserMessage(user.uid, effectiveInput);
     },
-    [user?.uid, input, addUserMessage]
+    [user?.uid, input, addUserMessage],
   );
 
   const handleQuickReplyClick = (reply: string) => {
@@ -53,7 +55,7 @@ function ChatInputRateLimit() {
         <div
           className={cn(
             'flex overflow-x-auto gap-1 px-3 md:px-4 whitespace-nowrap [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden',
-            loading && 'opacity-50 z-0'
+            loading && 'opacity-50 z-0',
           )}
         >
           {quickReplies.map((r) => (
@@ -73,7 +75,7 @@ function ChatInputRateLimit() {
       <section
         className={cn(
           'flex flex-col px-3 md:px-4',
-          quickReplies.length > 0 && 'mt-2'
+          quickReplies.length > 0 && 'mt-2',
         )}
       >
         <div className="flex items-center gap-2">
@@ -81,17 +83,15 @@ function ChatInputRateLimit() {
             <span className="absolute inline-flex size-full animate-ping rounded-full bg-yellow-400 opacity-75" />
             <span className="relative inline-flex size-2 rounded-full bg-yellow-500" />
           </span>
-          <h2 className="font-bold">Server derzeit ausgelastet!</h2>
+          <h2 className="font-bold">{t('server-busy')}</h2>
         </div>
         <p className="text-sm text-muted-foreground">
-          Chatte mit den vorgeschlagenen Fragen weiter oder{' '}
-          <span className="font-bold">melde dich an</span>, um eigene Fragen zu
-          stellen.
+          {t('message')}
         </p>
         <LoginButton
           noUserChildren={
             <Button size="sm" className="mt-2">
-              Anmelden
+              {t('login-button')}
             </Button>
           }
         />

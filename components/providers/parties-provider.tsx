@@ -1,4 +1,5 @@
 'use client';
+
 import type { PartyDetails } from '@/lib/party-details';
 import {} from '@/lib/utils';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
@@ -9,7 +10,7 @@ type PartiesContextType = {
 };
 
 export const PartiesContext = createContext<PartiesContextType | undefined>(
-  undefined
+  undefined,
 );
 
 export type Props = {

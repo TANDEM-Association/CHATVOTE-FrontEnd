@@ -32,7 +32,7 @@ function NavbarItem({ details, mobileClose }: Props) {
           ? 'text-primary font-medium'
           : 'text-primary/50 hover:text-primary/70',
         highlight &&
-          'dark:text-indigo-100 dark:hover:text-indigo-50 border-none text-indigo-900 hover:text-indigo-900'
+          'dark:text-indigo-100 dark:hover:text-indigo-50 border-none text-indigo-900 hover:text-indigo-900',
       )}
       onClick={mobileClose}
     >

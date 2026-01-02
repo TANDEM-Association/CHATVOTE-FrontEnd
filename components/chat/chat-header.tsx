@@ -13,8 +13,10 @@ import { HelpCircleIcon } from 'lucide-react';
 import HowToDialog from '@/components/how-to-dialog';
 import { IS_EMBEDDED } from '@/lib/utils';
 import ChatEmbedHeader from './chat-embed-header';
+import { useTranslations } from 'next-intl';
 
-async function ChatHeader() {
+function ChatHeader() {
+  const t = useTranslations('navigation');
   if (IS_EMBEDDED) {
     return <ChatEmbedHeader />;
   }
@@ -27,7 +29,7 @@ async function ChatHeader() {
             <TooltipTrigger asChild>
               <SidebarTrigger />
             </TooltipTrigger>
-            <TooltipContent>Menü öffnen</TooltipContent>
+            <TooltipContent>{t('open-menu')}</TooltipContent>
           </Tooltip>
           <ChatHeaderTitleDescription />
         </div>

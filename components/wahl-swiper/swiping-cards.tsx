@@ -1,16 +1,18 @@
 import { Progress } from '@/components/ui/progress';
+import { ChevronsRightIcon, HeartIcon, XIcon } from 'lucide-react';
 import ThesisCard from './thesis-card';
 import WahlSwiperButton from './wahl-swiper-button';
-import { ChevronsRightIcon, HeartIcon, XIcon } from 'lucide-react';
 import { useWahlSwiperStore } from '@/components/providers/wahl-swiper-store-provider';
+import { useTranslations } from 'next-intl';
 
 function SwipingCards() {
+  const t = useTranslations('swiper');
   const currentThesesStack = useWahlSwiperStore((state) => state.thesesStack);
   const progress = useWahlSwiperStore(
     (state) =>
       ((state.allTheses.length - state.thesesStack.length) /
         state.allTheses.length) *
-      100
+      100,
   );
   const removeCard = useWahlSwiperStore((state) => state.removeCard);
   const handleBack = useWahlSwiperStore((state) => state.back);
@@ -44,15 +46,15 @@ function SwipingCards() {
       <section className="mx-auto mt-6 flex flex-row flex-wrap justify-center gap-4 text-xs text-muted-foreground">
         <div className="flex flex-row items-center gap-2">
           <XIcon className="size-4 text-red-500" />
-          <p>Nein</p>
+          <p>{t('no-label')}</p>
         </div>
         <div className="flex flex-row items-center gap-2">
           <ChevronsRightIcon className="size-4 text-gray-500" />
-          <p>Überspringen</p>
+          <p>{t('skip-label')}</p>
         </div>
         <div className="flex flex-row items-center gap-2">
           <HeartIcon className="size-4 text-green-500" />
-          <p>Ja</p>
+          <p>{t('yes-label')}</p>
         </div>
       </section>
     </div>

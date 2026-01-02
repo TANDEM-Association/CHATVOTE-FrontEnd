@@ -15,13 +15,13 @@ function ErrorView({ error, reset }: ErrorProps) {
       <h1 className="text-center text-2xl font-bold">
         Oops!
         <br />
-        Etwas ist schief gelaufen.
+        Something went wrong.
       </h1>
       <p className="text-center text-sm text-muted-foreground">
         {error.message}
       </p>
       <Button onClick={reset} className="mt-2">
-        Versuche es erneut
+        Try again
       </Button>
     </div>
   );

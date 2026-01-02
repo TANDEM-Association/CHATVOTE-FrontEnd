@@ -40,9 +40,8 @@ import type { FullUser } from '@/components/anonymous-auth';
 import { firebaseEmulatorConfig } from './firebase-emulator-config';
 import { connectEmulators } from './firebase-emulator';
 
+let serverAppInitialized = false;
 
-let serverAppInitialized: boolean = false
-  
 async function getServerApp({
   useHeaders = true,
 }: { useHeaders?: boolean } = {}) {
@@ -54,8 +53,8 @@ async function getServerApp({
   }
 
   const serverApp = initializeServerApp(firebaseConfig, { authIdToken });
-  if (firebaseEmulatorConfig.useEmulator === "true" && !serverAppInitialized) {
-    connectEmulators(getFirestore(serverApp), getAuth(serverApp),'Server')
+  if (firebaseEmulatorConfig.useEmulator === 'true' && !serverAppInitialized) {
+    connectEmulators(getFirestore(serverApp), getAuth(serverApp), 'Server');
     logFirebaseMode('server');
     serverAppInitialized = true;
   }

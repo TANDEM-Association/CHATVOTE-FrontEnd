@@ -1,9 +1,11 @@
+'use client';
 import { ChevronsRightIcon, HeartIcon, XIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { useState } from 'react';
 import type { SwipeType } from '@/lib/wahl-swiper/wahl-swiper.types';
 import WahlSwiperSkipButton from './wahl-swiper-skip-button';
+import { useTranslations } from 'next-intl';
 
 type Props = {
   type: SwipeType;
@@ -18,6 +20,7 @@ export type WahlSwiperButtonVariant = {
 };
 
 function WahlSwiperButton({ type, onClick }: Props) {
+  const t = useTranslations('swiper');
   const [clicked, setClicked] = useState(false);
 
   const variants: Record<SwipeType, WahlSwiperButtonVariant> = {
@@ -41,7 +44,7 @@ function WahlSwiperButton({ type, onClick }: Props) {
         'md:hover:bg-gray-500/10 md:hover:border-gray-500/20 hover:bg-transparent border size-10',
       normal:
         'bg-gray-500/20 border-gray-500 hover:bg-gray-500/20 border scale-100 hover:scale-100 md:hover:scale-100',
-      tooltip: 'Überspringen',
+      tooltip: t('skip-tooltip'),
     },
   };
 
@@ -70,7 +73,7 @@ function WahlSwiperButton({ type, onClick }: Props) {
       className={cn(
         'size-14 rounded-full transition-all duration-200 border-4 md:hover:scale-[1.18] ease-in-out',
         !clicked && variants[type].hover,
-        clicked && variants[type].normal
+        clicked && variants[type].normal,
       )}
       tooltip={variants[type].tooltip}
       onClick={handleClick}

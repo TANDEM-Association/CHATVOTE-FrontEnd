@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import LoginButton from '@/components/auth/login-button';
 import MessageLoadingBorderTrail from './chat/message-loading-border-trail';
 import { useEffect, useRef, useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 type Props = {
   isLoading: boolean;
@@ -20,6 +21,7 @@ function StickyInputRateLimit({
 }: Props) {
   const [isSticky, setIsSticky] = useState(true);
   const ref = useRef<HTMLDivElement>(null);
+  const t = useTranslations('rate-limit');
 
   useEffect(() => {
     const cachedRef = ref.current;
@@ -28,7 +30,7 @@ function StickyInputRateLimit({
 
     const observer = new IntersectionObserver(
       ([e]) => setIsSticky(e.intersectionRatio < 1),
-      { threshold: 1 }
+      { threshold: 1 },
     );
 
     observer.observe(cachedRef);
@@ -44,21 +46,21 @@ function StickyInputRateLimit({
       className={cn(
         'sticky bottom-[-1px] -mx-2 md:pb-2 pb-4 z-40 transition-all duration-300 ease-out',
         !isSticky && 'mx-0',
-        className
+        className,
       )}
     >
       <div
         className={cn(
           'relative w-full overflow-hidden rounded-lg border border-input bg-muted py-3 md:py-4',
           'shadow-2xl transition-shadow',
-          !isSticky && 'shadow-none'
+          !isSticky && 'shadow-none',
         )}
       >
         {quickReplies && quickReplies.length > 0 && (
           <div
             className={cn(
               'flex overflow-x-auto gap-1 px-3 md:px-4 whitespace-nowrap [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden',
-              isLoading && 'opacity-50 z-0'
+              isLoading && 'opacity-50 z-0',
             )}
           >
             {quickReplies.map((r) => (
@@ -78,7 +80,7 @@ function StickyInputRateLimit({
         <section
           className={cn(
             'flex flex-col px-3 md:px-4',
-            quickReplies && quickReplies.length > 0 && 'mt-2'
+            quickReplies && quickReplies.length > 0 && 'mt-2',
           )}
         >
           <div className="flex items-center gap-2">
@@ -86,17 +88,15 @@ function StickyInputRateLimit({
               <span className="absolute inline-flex size-full animate-ping rounded-full bg-yellow-400 opacity-75" />
               <span className="relative inline-flex size-2 rounded-full bg-yellow-500" />
             </span>
-            <h2 className="font-bold">Server derzeit ausgelastet!</h2>
+            <h2 className="font-bold">{t('server-busy')}</h2>
           </div>
           <p className="text-sm text-muted-foreground">
-            Chatte mit den vorgeschlagenen Fragen weiter oder{' '}
-            <span className="font-bold">melde dich an</span>, um eigene Fragen
-            zu stellen.
+            {t('message')}
           </p>
           <LoginButton
             noUserChildren={
               <Button size="sm" className="mt-2">
-                Anmelden
+                {t('login-button')}
               </Button>
             }
           />

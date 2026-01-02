@@ -4,6 +4,7 @@ import LoginButton from '@/components/auth/login-button';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { getCurrentUser } from '@/lib/firebase/firebase-server';
+import { getTranslations } from 'next-intl/server';
 import { cn, getUserDetailsFromUser, IS_EMBEDDED } from '@/lib/utils';
 import UserAvatar from '@/components/auth/user-avatar';
 import EmbedOpenWebsiteButton from '@/components/embed-open-website-button';
@@ -14,19 +15,21 @@ type Props = {
 };
 
 export default async function NavBar({ className }: Props) {
+  const t = await getTranslations('nav');
+
   const tabs: NavbarItemDetails[] = [
     {
-      label: 'Startseite',
+      label: t('home'),
       href: '/',
     },
     {
-      label: 'Wahl Swiper',
+      label: t('wahl-swiper'),
       href: '/swiper',
       highlight: true,
       icon: <SparklesIcon className="size-3" />,
     },
     {
-      label: 'Anleitung',
+      label: t('how-to'),
       href: '/how-to',
     },
   ];
@@ -38,7 +41,7 @@ export default async function NavBar({ className }: Props) {
     <nav
       className={cn(
         'flex flex-col md:flex-row items-center justify-center gap-2',
-        className
+        className,
       )}
     >
       {!IS_EMBEDDED ? (
@@ -56,7 +59,7 @@ export default async function NavBar({ className }: Props) {
         userDetails={userDetails}
         noUserChildren={
           <Button variant="default" size="sm">
-            Anmelden
+            {t('login')}
           </Button>
         }
         userChildren={<UserAvatar details={userDetails} />}

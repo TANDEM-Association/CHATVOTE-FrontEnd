@@ -1,3 +1,5 @@
+'use client';
+
 import { SCROLL_CONTAINER_ID } from '@/lib/scroll-constants';
 import { chatViewScrollToBottom } from '@/lib/scroll-utils';
 import { useEffect } from 'react';

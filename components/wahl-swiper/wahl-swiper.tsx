@@ -1,5 +1,4 @@
 'use client';
-
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useWahlSwiperStore } from '@/components/providers/wahl-swiper-store-provider';
 import { useRouter } from 'next/navigation';
@@ -7,23 +6,23 @@ import { useAnonymousAuth } from '@/components/anonymous-auth';
 import SwipingCards from './swiping-cards';
 import LoadingSpinner from '@/components/loading-spinner';
 import { toast } from 'sonner';
+import { useTranslations } from 'next-intl';
 
 function WahlSwiper() {
   const [isLoading, setIsLoading] = useState(false);
   const finished = useWahlSwiperStore(
-    (state) => state.thesesStack.length === 0
+    (state) => state.thesesStack.length === 0,
   );
   const saveSwiperHistory = useWahlSwiperStore(
-    (state) => state.saveSwiperHistory
+    (state) => state.saveSwiperHistory,
   );
   const { user } = useAnonymousAuth();
   const router = useRouter();
+  const t = useTranslations('swiper');
 
   const handleFinished = useCallback(async () => {
     const errorToast = () =>
-      toast.error(
-        'Fehler beim Berechnen deiner Ergebnisse. Bitte lade die Seite neu.'
-      );
+      toast.error(t('error-calculate-results'));
 
     if (!user) {
       errorToast();
@@ -40,7 +39,7 @@ function WahlSwiper() {
       errorToast();
       setIsLoading(false);
     }
-  }, [user, router, saveSwiperHistory]);
+  }, [user, router, saveSwiperHistory, t]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (finished) {

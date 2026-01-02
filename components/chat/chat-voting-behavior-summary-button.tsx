@@ -20,10 +20,10 @@ function ChatVotingBehaviorSummaryButton({
 }: Props) {
   const party = useParty(partyId);
   const generateVotingBehaviorSummary = useChatStore(
-    (state) => state.generateVotingBehaviorSummary
+    (state) => state.generateVotingBehaviorSummary,
   );
   const clickedVotingBehaviorSummaryButton = useChatStore(
-    (state) => state.clickedVotingBehaviorSummaryButton
+    (state) => state.clickedVotingBehaviorSummaryButton,
   );
 
   const handleGenerateVotingBehaviorSummary = async () => {

@@ -11,8 +11,10 @@ import type { SourceDocument } from '@/lib/firebase/firebase.types';
 import { buildPartyImageUrl } from '@/lib/utils';
 import Image from 'next/image';
 import Link from 'next/link';
+import { getTranslations } from 'next-intl/server';
 
 async function SourcesPage() {
+  const t = await getTranslations('pages.sources');
   const sources = await getSourceDocuments();
   const parties = await getParties();
 
@@ -22,19 +24,13 @@ async function SourcesPage() {
       acc[source.party_id].push(source);
       return acc;
     },
-    {} as Record<string, SourceDocument[]>
+    {} as Record<string, SourceDocument[]>,
   );
 
   return (
     <article>
-      <h1 className="text-xl md:text-2xl font-bold mt-4">
-        Quellen die <span className="underline">wahl.chat</span> nutzt
-      </h1>
-      <p className="text-sm text-muted-foreground mb-2">
-        Diese Quellen nutzt unsere KI für die allgemeinen Antworten. Für das
-        Einordnen von Positionen verwenden wir Perplexity.ai, welches sich auf
-        aktuelle Informationen aus dem Internet stützt.
-      </p>
+      <h1 className="text-xl md:text-2xl font-bold mt-4">{t('title')}</h1>
+      <p className="text-sm text-muted-foreground mb-2">{t('description')}</p>
       <Accordion type="single" collapsible asChild>
         <section>
           {Object.entries(sourcesByPartyId).map(([partyId, sources]) => {

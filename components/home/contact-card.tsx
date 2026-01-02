@@ -1,13 +1,17 @@
+import { useTranslations } from 'next-intl';
+
 import HomeSocialMediaIcon from '@/components/icons/home-social-media-icon';
 
 function ContactCard() {
+  const t = useTranslations('home');
+
   return (
     <div className="flex flex-col rounded-md border border-border">
       <div className="flex grow flex-col justify-between p-4">
         <div>
-          <h2 className="font-bold">Bleibe up to date</h2>
+          <h2 className="font-bold">{t('contact-title')}</h2>
           <p className="text-sm text-muted-foreground">
-            Finde uns auf Social Media oder kontaktiere uns per E-Mail.
+            {t('contact-description')}
           </p>
         </div>
         <div className="flex flex-row gap-3 items-center mt-4">

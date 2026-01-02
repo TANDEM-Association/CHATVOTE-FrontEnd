@@ -3,8 +3,11 @@ import { Button } from '@/components/ui/button';
 import { HeartHandshakeIcon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { getTranslations } from 'next-intl/server';
 
-function AboutUs() {
+export default async function AboutUs() {
+  const t = await getTranslations('about-us');
+
   return (
     <div className="mx-auto flex max-w-xl flex-col items-center justify-center space-y-6 pt-4">
       <div className="relative aspect-[4/3] w-full">
@@ -19,7 +22,9 @@ function AboutUs() {
       <section className="space-y-4">
         <p>
           <span className="font-bold [&_a]:underline">
-            Hinter <Link href="http://wahl.chat/">wahl.chat</Link> stehen:{' '}
+            {t('team-intro-start')}{' '}
+            <Link href="http://wahl.chat/">wahl.chat</Link>{' '}
+            {t('team-intro-end')}
             <a href="https://www.linkedin.com/in/sebmai/" target="_blank">
               Sebastian
             </a>
@@ -43,21 +48,12 @@ function AboutUs() {
               Roman
             </a>{' '}
           </span>
-          (im Bild von links nach rechts)
+          ({t('team-image')})
         </p>
 
-        <p>
-          Das Team von wahl.chat stammt aus München und hat sich ursprünglich in
-          Cambridge, UK zur gemeinsamen Forschung an KI zusammengefunden.
-          Mittlerweile sind wir über drei Länder verstreut aber haben weiterhin
-          ein gemeinsames Ziel: Mit wahl.chat möchten wir einen Beitrag zur
-          Demokratie leisten, indem wir Politik leichter zugänglich machen.
-          Basierend auf den Grundsatzprogrammen und Positionspapieren der
-          Parteien ermöglichen wir eine einfache, quellengestützte
-          Informationsmöglichkeit mit der wir politische Bildung neu denken.
-        </p>
+        <p>{t('team-description')}</p>
         <p className="[&_a]:underline">
-          Zudem bedanken wir uns für ihre Unterstützung bei:{' '}
+          {t('thanks-supporters')}
           <a target="_blank" href="https://www.linkedin.com/in/simonkaran/">
             Simon
           </a>
@@ -93,29 +89,28 @@ function AboutUs() {
           , Mai
         </p>
         <p className="[&_a]:underline">
-          Wenn du uns helfen möchtest, kannst du gerne Teil des{' '}
-          <Link href="http://wahl.chat/">wahl.chat</Link> Teams werden. Melde
-          dich einfach unter: <a href="mailto:info@wahl.chat">info@wahl.chat</a>
+          {t('join-team-start')}
+          <Link href="http://wahl.chat/">wahl.chat</Link>
+          {t('join-team-end')}
+          <a href="mailto:info@wahl.chat">info@wahl.chat</a>
         </p>
         <p className="[&_a]:underline">
-          Es besteht auch die Möglichkeit, eine Bachelor- oder Masterarbeit bei
-          uns zu schreiben. Melde dich hierfür am besten mit einem
-          Themenvorschlag direkt bei{' '}
+          {t('thesis-invitation')}{' '}
           <a href="mailto:robin@wahl.chat">robin@wahl.chat</a>
         </p>
 
         <div className="flex items-center justify-between gap-4 rounded-md border border-border p-4">
           <div className="flex flex-col">
-            <h2 className="font-bold">Unterstütze uns</h2>
+            <h2 className="font-bold">{t('support-us-title')}</h2>
             <p className="text-sm text-muted-foreground">
-              Hilf uns, laufende Kosten für die KI zu decken!
+              {t('support-description')}
             </p>
           </div>
 
           <DonationDialog>
             <Button>
               <HeartHandshakeIcon />
-              Spenden
+              {t('donate')}
             </Button>
           </DonationDialog>
         </div>
@@ -123,5 +118,3 @@ function AboutUs() {
     </div>
   );
 }
-
-export default AboutUs;

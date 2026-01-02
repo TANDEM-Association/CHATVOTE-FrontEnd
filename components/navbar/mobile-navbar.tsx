@@ -26,7 +26,7 @@ function MobileNavbar({ userDetails }: Props) {
           aria-label="Open menu"
         >
           <div className="h-[2px] w-4 rounded-full bg-foreground transition-all duration-300 group-data-[state=open]:translate-y-[3px] group-data-[state=open]:rotate-45" />
-          <div className="h-[2px] w-5 rounded-full bg-foreground transition-all duration-300 group-data-[state=open]:w-4 group-data-[state=open]:-translate-y-[3px] group-data-[state=open]:-rotate-45" />
+          <div className="h-[2px] w-5 rounded-full bg-foreground transition-all duration-300 group-data-[state=open]:w-4 group-data-[state=open]:translate-y-[-3px] group-data-[state=open]:-rotate-45" />
         </button>
       </Dialog.Trigger>
 

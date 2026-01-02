@@ -2,9 +2,12 @@ import Logo from '@/components/chat/logo';
 import { ArrowRightIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import WahlSwiperTeaserVector from './wahl-swiper-teaser-vector';
 
 function SwiperTeaserCard() {
+  const t = useTranslations('home');
+
   return (
     <div className="relative h-[250px] overflow-hidden rounded-md border border-border bg-muted p-6 text-center md:col-span-2 md:h-[174px] md:text-left">
       <div className="flex items-center justify-center gap-2 md:justify-normal">
@@ -13,12 +16,12 @@ function SwiperTeaserCard() {
       </div>
 
       <p className="mt-2 text-sm text-black/70 dark:text-white/70">
-        Finde jetzt die passende Partei.
+        {t('swiper-description')}
       </p>
 
       <Button className="relative z-10 mt-2" asChild>
         <Link href="/swiper">
-          Wahl Swiper
+          {t('swiper-button')}
           <ArrowRightIcon className="size-4" />
         </Link>
       </Button>

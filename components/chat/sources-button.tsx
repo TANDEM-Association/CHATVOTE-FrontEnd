@@ -1,3 +1,5 @@
+'use client';
+
 import { BookMarkedIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -17,6 +19,7 @@ import type { Source } from '@/lib/stores/chat-store.types';
 import { useMemo } from 'react';
 import { buildPdfUrl, cn, prettyDate } from '@/lib/utils';
 import { ChatMessageIcon } from './chat-message-icon';
+import { useTranslations } from 'next-intl';
 
 type Props = {
   sources: Source[];
@@ -26,6 +29,7 @@ type Props = {
 type SourceWithIndex = Source & { index: number };
 
 function SourcesButton({ sources, messageContent }: Props) {
+  const t = useTranslations('chat');
   const buildSourceKey = (source: Source, index: number) =>
     `${source.source}-${source.page}-${index}`;
 
@@ -77,39 +81,39 @@ function SourcesButton({ sources, messageContent }: Props) {
               className="h-8 px-2 text-xs group-data-[has-message-background]:bg-zinc-100 group-data-[has-message-background]:hover:bg-zinc-200 group-data-[has-message-background]:dark:bg-zinc-900 group-data-[has-message-background]:dark:hover:bg-zinc-800"
             >
               <BookMarkedIcon />
-              Quellen
+              {t('sources-button')}
             </Button>
           </ResponsiveDialogTrigger>
         </TooltipTrigger>
-        <TooltipContent>Quellen</TooltipContent>
+        <TooltipContent>{t('sources-button')}</TooltipContent>
       </Tooltip>
       <ResponsiveDialogContent className="flex max-h-[95dvh] flex-col">
         <ResponsiveDialogHeader>
-          <ResponsiveDialogTitle>Quellen</ResponsiveDialogTitle>
+          <ResponsiveDialogTitle>{t('sources-title')}</ResponsiveDialogTitle>
           <ResponsiveDialogDescription>
-            Klicke auf eine Quelle, um sie in einem neuen Fenster zu öffnen.
+            {t('sources-description')}
           </ResponsiveDialogDescription>
         </ResponsiveDialogHeader>
 
         <div className={cn('flex flex-col grow overflow-y-auto p-4 md:p-0')}>
           {sourcesReferenced.length > 0 && (
-            <p className="text-sm font-bold">Im Text referenziert:</p>
+            <p className="text-sm font-bold">{t('sources-referenced')}:</p>
           )}
           {sourcesReferenced.map((source, index) => (
-            <SourceItem key={buildSourceKey(source, index)} source={source} />
+            <SourceItem key={buildSourceKey(source, index)} source={source} t={t} />
           ))}
           {sourcesNotReferenced.length > 0 && (
             <p
               className={cn(
                 'text-sm font-bold',
-                sourcesReferenced.length > 0 && 'mt-4'
+                sourcesReferenced.length > 0 && 'mt-4',
               )}
             >
-              Zusätzlich analysiert:
+              {t('sources-analyzed')}:
             </p>
           )}
           {sourcesNotReferenced.map((source, index) => (
-            <SourceItem key={buildSourceKey(source, index)} source={source} />
+            <SourceItem key={buildSourceKey(source, index)} source={source} t={t} />
           ))}
         </div>
       </ResponsiveDialogContent>
@@ -117,7 +121,7 @@ function SourcesButton({ sources, messageContent }: Props) {
   );
 }
 
-function SourceItem({ source }: { source: SourceWithIndex }) {
+function SourceItem({ source, t }: { source: SourceWithIndex; t: (key: string) => string }) {
   const onSourceClick = (source: Source) => {
     const url = buildPdfUrl(source);
     return window.open(url.toString(), '_blank');
@@ -138,7 +142,7 @@ function SourceItem({ source }: { source: SourceWithIndex }) {
         </div>
         {source.document_publish_date && (
           <span className="text-left text-xs text-muted-foreground">
-            Veröffentlicht am:{' '}
+            {t('published-on')}:{' '}
             <span className="font-bold">
               {prettyDate(source.document_publish_date)}
             </span>
@@ -146,7 +150,7 @@ function SourceItem({ source }: { source: SourceWithIndex }) {
         )}
       </div>
       <p className="flex h-8 items-center justify-center whitespace-nowrap rounded-md bg-muted px-2 text-xs text-muted-foreground">
-        S. {source.page}
+        {t('page')} {source.page}
       </p>
       {source.party_id && <ChatMessageIcon partyId={source.party_id} />}
     </button>

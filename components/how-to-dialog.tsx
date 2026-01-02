@@ -7,23 +7,29 @@ import {
   ResponsiveDialogTrigger,
 } from './chat/responsive-drawer-dialog';
 import HowTo from './how-to';
+import { useTranslations } from 'next-intl';
 
 type Props = {
   children: React.ReactNode;
 };
 
 function HowToDialog({ children }: Props) {
+  const t = useTranslations('how-to');
+
   return (
     <ResponsiveDialog>
       <ResponsiveDialogTrigger asChild>{children}</ResponsiveDialogTrigger>
       <ResponsiveDialogContent className="flex flex-col max-h-[95dvh] overflow-hidden">
         <ResponsiveDialogHeader>
           <ResponsiveDialogTitle>
-            Was kann ich mit <span className="underline">wahl.chat</span> alles
-            machen?
+            {t.rich('dialog-title', {
+              underline: (chunks) => (
+                <span className="underline">{chunks}</span>
+              ),
+            })}
           </ResponsiveDialogTitle>
           <ResponsiveDialogDescription>
-            Tipps und Tricks, wie du wahl.chat am besten nutzen kannst.
+            {t('dialog-description')}
           </ResponsiveDialogDescription>
         </ResponsiveDialogHeader>
 

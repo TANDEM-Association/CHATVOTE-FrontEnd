@@ -1,42 +1,58 @@
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
-import { TENANT_ID_HEADER } from './lib/constants';
+import createMiddleware from "next-intl/middleware";
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import { TENANT_ID_HEADER } from "./lib/constants";
+import { routing } from "./i18n/routing";
+
+const intlMiddleware = createMiddleware(routing);
 
 export async function middleware(request: NextRequest) {
-  const budgetSpent = process.env.BUDGET_SPENT === 'true';
+  // Handle budget spent redirect
+  const budgetSpent = process.env.BUDGET_SPENT === "true";
 
   if (budgetSpent) {
-    return NextResponse.redirect(new URL('/budget-spent', request.url));
+    // Extract locale from pathname or use default
+    const pathnameLocale = request.nextUrl.pathname.split("/")[1];
+    const locale = routing.locales.includes(pathnameLocale as any)
+      ? pathnameLocale
+      : routing.defaultLocale;
+    return NextResponse.redirect(
+      new URL(`/${locale}/budget-spent`, request.url),
+    );
   }
 
-  const tenantIdSearchParam = request.nextUrl.searchParams.get('tenant_id');
+  // Handle tenant ID
+  const tenantIdSearchParam = request.nextUrl.searchParams.get("tenant_id");
 
   if (tenantIdSearchParam) {
-    const requestHeaders = new Headers(request.headers);
-    requestHeaders.set(TENANT_ID_HEADER, tenantIdSearchParam);
-
-    return NextResponse.next({
-      request: {
-        headers: requestHeaders,
-      },
-    });
+    const response = intlMiddleware(request);
+    response.headers.set(TENANT_ID_HEADER, tenantIdSearchParam);
+    return response;
   }
 
-  const isOld = request.nextUrl.pathname.startsWith('/chat');
+  // Handle legacy /chat routes
+  const isOld = request.nextUrl.pathname.startsWith("/chat");
 
   if (isOld) {
-    if (request.nextUrl.pathname === '/chat') {
-      return NextResponse.redirect(new URL(`/`, request.url));
+    const pathnameLocale = request.nextUrl.pathname.split("/")[1];
+    const locale = routing.locales.includes(pathnameLocale as any)
+      ? pathnameLocale
+      : routing.defaultLocale;
+
+    if (request.nextUrl.pathname === "/chat") {
+      return NextResponse.redirect(new URL(`/${locale}`, request.url));
     }
 
-    const secondPart = request.nextUrl.pathname.split('/')[2];
-
-    const newPath = `/session?party_id=${secondPart}`;
+    const secondPart = request.nextUrl.pathname.split("/")[2];
+    const newPath = `/${locale}/session?party_id=${secondPart}`;
 
     return NextResponse.redirect(new URL(newPath, request.url));
   }
+
+  // Apply i18n middleware for all other requests
+  return intlMiddleware(request);
 }
 
 export const config = {
-  matcher: ['/', '/chat/:path*', '/session/:path*'],
+  matcher: "/((?!api|trpc|_next|_vercel|.*\\..*).*)",
 };

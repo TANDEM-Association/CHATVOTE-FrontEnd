@@ -1,5 +1,3 @@
-'use client';
-
 import { buildPartyImageUrl, cn } from '@/lib/utils';
 import { SparklesIcon } from 'lucide-react';
 import Image from 'next/image';
@@ -7,6 +5,7 @@ import { useParty } from '@/components/providers/parties-provider';
 import { WAHL_CHAT_PARTY_ID } from '@/lib/constants';
 import Logo from './logo';
 import type { PartyDetails } from '@/lib/party-details';
+import { useTranslations } from 'next-intl';
 
 type Props = {
   partyId?: string;
@@ -14,6 +13,7 @@ type Props = {
 };
 
 export function ChatMessageIcon({ partyId, party }: Props) {
+  const t = useTranslations('chat');
   const clientParty = useParty(partyId ?? '');
 
   const normalizedParty = clientParty ?? party;
@@ -23,13 +23,13 @@ export function ChatMessageIcon({ partyId, party }: Props) {
       style={{ backgroundColor: normalizedParty?.background_color }}
       className={cn(
         'relative flex size-8 shrink-0 items-center justify-center overflow-hidden rounded-full ring-1 ring-border',
-        party && 'dark:bg-slate-200'
+        party && 'dark:bg-slate-200',
       )}
     >
       {normalizedParty ? (
         <Image
           src={buildPartyImageUrl(normalizedParty?.party_id ?? '')}
-          alt={normalizedParty?.name ?? 'Keine Partei ausgewählt'}
+          alt={normalizedParty?.name ?? t('no-party-selected')}
           fill
           sizes="32px"
           className="object-contain"

@@ -1,9 +1,11 @@
 'use client';
+
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import GoogleIcon from '@/components/icons/google-icon';
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import {
   EmailAuthProvider,
   getAuth,
@@ -34,6 +36,7 @@ type Props = {
 };
 
 function LoginForm({ onSuccess }: Props) {
+  const t = useTranslations('auth');
   const { refreshUser } = useAnonymousAuth();
   const [isRegister, setIsRegister] = useState(false);
   const [isResetPassword, setIsResetPassword] = useState(false);
@@ -60,7 +63,7 @@ function LoginForm({ onSuccess }: Props) {
   const handleAuthError = (error: unknown, provider: AuthProvider) => {
     if (error instanceof FirebaseError) {
       if (error.code === 'auth/invalid-credential') {
-        return toast.error('Die eingegebenen Daten sind ungültig.');
+        return toast.error(t('error-invalid-credentials'));
       }
       if (error.code === 'auth/credential-already-in-use') {
         return handleCredentialAlreadyInUse(error, provider);
@@ -76,7 +79,7 @@ function LoginForm({ onSuccess }: Props) {
 
   const handleCredentialAlreadyInUse = async (
     error: FirebaseError,
-    provider: AuthProvider
+    provider: AuthProvider,
   ) => {
     const auth = getAuth();
 
@@ -140,7 +143,7 @@ function LoginForm({ onSuccess }: Props) {
   };
 
   const handleOAuthLogin = async (
-    provider: GoogleAuthProvider | GithubAuthProvider
+    provider: GoogleAuthProvider | GithubAuthProvider,
   ) => {
     const auth = getAuth();
 
@@ -166,7 +169,7 @@ function LoginForm({ onSuccess }: Props) {
     } catch (error) {
       handleAuthError(
         error,
-        provider instanceof GoogleAuthProvider ? 'google' : 'github'
+        provider instanceof GoogleAuthProvider ? 'google' : 'github',
       );
     }
   };
@@ -193,13 +196,11 @@ function LoginForm({ onSuccess }: Props) {
   };
 
   const showErrorReloadToast = () => {
-    toast.error(
-      'Es ist ein Fehler aufgetreten. Bitte lade die Seite neu und versuche es erneut.'
-    );
+    toast.error(t('error-general'));
   };
 
   const showSuccessToast = () => {
-    toast.success('Erfolgreich angemeldet');
+    toast.success(t('success-login'));
   };
 
   const handleResetPassword = async () => {
@@ -227,29 +228,27 @@ function LoginForm({ onSuccess }: Props) {
       />
       <div className="mb-4">
         <ResponsiveDialogTitle className="text-center text-2xl font-bold md:text-left">
-          {isRegister ? 'Registrieren' : 'Anmelden'}
+          {isRegister ? t('register') : t('login')}
         </ResponsiveDialogTitle>
         <ResponsiveDialogDescription className="text-center text-sm text-muted-foreground md:text-left">
-          {isRegister
-            ? 'Du kannst dich bei wahl.chat registrieren um deine Chatverläufe zu speichern und mit mehreren Geräten abzurufen.'
-            : 'Du kannst dich bei wahl.chat anmelden um deine Chatverläufe zu speichern und mit mehreren Geräten abzurufen.'}
+          {isRegister ? t('register-description') : t('login-description')}
         </ResponsiveDialogDescription>
       </div>
 
       <div className="flex flex-col">
         <div className="mt-4 grid gap-1">
-          <Label htmlFor="email">Email</Label>
+          <Label htmlFor="email">{t('email-label')}</Label>
           <Input
             id="email"
             name="email"
             type="email"
-            placeholder="max@mustermann.de"
+            placeholder={t('email-placeholder')}
             required
           />
         </div>
         <div className="my-4 grid gap-1">
           <div className="flex items-center">
-            <Label htmlFor="password">Passwort</Label>
+            <Label htmlFor="password">{t('password-label')}</Label>
             <Button
               variant="link"
               className="ml-auto inline-block h-fit p-0 text-sm underline-offset-4 hover:underline"
@@ -257,7 +256,7 @@ function LoginForm({ onSuccess }: Props) {
               size="sm"
               type="button"
             >
-              Passwort vergessen?
+              {t('forgot-password')}
             </Button>
           </div>
           <Input
@@ -271,20 +270,21 @@ function LoginForm({ onSuccess }: Props) {
         </div>
         <div className="flex flex-col gap-2">
           <Button type="submit" className="w-full" disabled={isLoading}>
-            {isRegister ? 'Registrieren' : 'Anmelden'}
+            {isRegister ? t('register-button') : t('login-button')}
           </Button>
           <p className="text-center text-xs text-muted-foreground">
-            Mit deinem Klick auf {isRegister ? 'Registrieren' : 'Anmelden'}{' '}
-            akzeptierst du unsere{' '}
+            {t('terms-acceptance', {
+              action: isRegister ? t('register-button') : t('login-button'),
+            })}{' '}
             <Link href="/datenschutz" target="_blank" className="underline">
-              Datenschutzerklärung
+              {t('privacy-policy')}
             </Link>
             .
           </p>
 
           <div className="relative my-4 text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
             <span className="relative z-10 bg-background px-2 text-muted-foreground">
-              Oder nutze einen der folgenden Anbieter
+              {t('or-use-provider')}
             </span>
           </div>
 
@@ -297,7 +297,7 @@ function LoginForm({ onSuccess }: Props) {
               type="button"
             >
               <GoogleIcon className="!size-3" />
-              Mit Google anmelden
+              {t('google-login')}
             </Button>
             <Button
               variant="outline"
@@ -307,13 +307,13 @@ function LoginForm({ onSuccess }: Props) {
               onClick={handleGithubLogin}
             >
               <GithubIcon className="!size-3" />
-              Mit Github anmelden
+              {t('github-login')}
             </Button>
           </div>
         </div>
       </div>
       <div className="mt-4 text-center text-sm">
-        {isRegister ? 'Hast du schon einen Account?' : 'Noch keinen Account?'}{' '}
+        {isRegister ? t('has-account') : t('no-account')}{' '}
         <Button
           size="sm"
           type="button"
@@ -322,7 +322,7 @@ function LoginForm({ onSuccess }: Props) {
           className="p-0 underline underline-offset-4"
           disabled={isLoading}
         >
-          {isRegister ? 'Anmelden' : 'Registrieren'}
+          {isRegister ? t('login-button') : t('register-button')}
         </Button>
       </div>
     </form>

@@ -3,9 +3,11 @@
 import { ArrowRightIcon } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 
 function WahlSwiperTeaserTag() {
   const pathname = usePathname();
+  const t = useTranslations('nav');
 
   if (pathname === '/swiper') return null;
 
@@ -18,7 +20,7 @@ function WahlSwiperTeaserTag() {
         <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-indigo-600 opacity-75" />
         <span className="relative inline-flex size-2 rounded-full bg-indigo-600" />
       </span>
-      Wahl Swiper
+      {t('wahl-swiper')}
       <ArrowRightIcon className="size-3" />
     </Link>
   );

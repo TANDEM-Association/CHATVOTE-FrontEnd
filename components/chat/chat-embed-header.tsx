@@ -9,8 +9,10 @@ import { Button } from '@/components/ui/button';
 import HowToDialog from '@/components/how-to-dialog';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import EmbedOpenWebsiteButton from '@/components/embed-open-website-button';
+import { useTranslations } from 'next-intl';
 
 function ChatEmbedHeader() {
+  const t = useTranslations('navigation');
   return (
     <>
       <header className="relative z-10 flex min-h-chat-header w-full items-center gap-1 border-b border-b-muted bg-background px-4">
@@ -19,7 +21,7 @@ function ChatEmbedHeader() {
             <TooltipTrigger asChild>
               <SidebarTrigger />
             </TooltipTrigger>
-            <TooltipContent>Menü öffnen</TooltipContent>
+            <TooltipContent>{t('open-menu')}</TooltipContent>
           </Tooltip>
         </div>
         <div className="flex items-center gap-1">
