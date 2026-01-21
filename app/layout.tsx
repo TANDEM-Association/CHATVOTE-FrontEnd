@@ -93,6 +93,9 @@ export const viewport: Viewport = {
   maximumScale: 1, // Disable auto-zoom on mobile Safari
 };
 
+// Force dynamic rendering to avoid Firebase calls during build
+export const dynamic = 'force-dynamic';
+
 const LIGHT_THEME_COLOR = 'hsl(0 0% 100%)';
 const DARK_THEME_COLOR = 'hsl(240deg 10% 3.92%)';
 const THEME_COLOR_SCRIPT = `\

@@ -12,6 +12,9 @@ import { buildPartyImageUrl } from '@/lib/utils';
 import Image from 'next/image';
 import Link from 'next/link';
 
+// Force dynamic rendering to avoid Firebase calls during build
+export const dynamic = 'force-dynamic';
+
 async function SourcesPage() {
   const sources = await getSourceDocuments();
   const parties = await getParties();

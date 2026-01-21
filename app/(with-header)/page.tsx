@@ -15,6 +15,9 @@ import HomePartyCards from '@/components/home/home-party-cards';
 import { IS_EMBEDDED } from '@/lib/utils';
 import SwiperTeaserCard from '@/components/home/swiper-teaser-card';
 
+// Force dynamic rendering to avoid Firebase calls during build
+export const dynamic = 'force-dynamic';
+
 export default async function Home() {
   const wahlChatQuestions = await getHomeInputProposedQuestions();
   const systemStatus = await getSystemStatus();

@@ -5,6 +5,9 @@ import WahlSwiperChatWrapper from '@/components/wahl-swiper/wahl-swiper-chat-wra
 import WahlSwiperExperimentalDisclaimer from '@/components/wahl-swiper/wahl-swiper-experimental-disclaimer';
 import { getWahlSwiperTheses } from '@/lib/firebase/firebase-server';
 
+// Force dynamic rendering to avoid Firebase calls during build
+export const dynamic = 'force-dynamic';
+
 async function WahlOMatPage() {
   const thesesResponse = await getWahlSwiperTheses();
   const theses = thesesResponse.map((thesis) => ({

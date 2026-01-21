@@ -43,3 +43,13 @@ next-env.d.ts
 .wrangler
 
 package-lock.json
+
+# Firebase service account (sensitive)
+*firebase-adminsdk*.json
+
+# Docker
+.dockerignore
+
+# local tooling
+.idea/
+doc_agent_wip/

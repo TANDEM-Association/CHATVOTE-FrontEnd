@@ -1,6 +1,14 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
+  output: 'standalone',
+  // Disable static page generation during Docker build to avoid Firebase connection issues
+  ...(process.env.IS_BUILD_TIME === 'true' && {
+    experimental: {
+      // @ts-ignore
+      isrMemoryCacheSize: 0,
+    },
+  }),
   images: {
     remotePatterns: [
       {

@@ -3,6 +3,9 @@ import { getParties } from '@/lib/firebase/firebase-server';
 import { generateOgImageUrl } from '@/lib/utils';
 import { redirect } from 'next/navigation';
 
+// Force dynamic rendering to avoid Firebase calls during build
+export const dynamic = 'force-dynamic';
+
 type Props = {
   searchParams: Promise<{
     session_id?: string;

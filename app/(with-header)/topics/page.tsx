@@ -9,6 +9,9 @@ import { ArrowLeftIcon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
+// Force dynamic rendering to avoid Firebase calls during build
+export const dynamic = 'force-dynamic';
+
 async function TopicsPage() {
   const exampleQuestionsShareableChatSessions =
     await getExampleQuestionsShareableChatSession();

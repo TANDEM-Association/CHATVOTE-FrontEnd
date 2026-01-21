@@ -14,6 +14,9 @@ import { ArrowLeftIcon } from 'lucide-react';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 
+// Force dynamic rendering to avoid Firebase calls during build
+export const dynamic = 'force-dynamic';
+
 type Props = {
   searchParams: Promise<{
     snapshot_id: string;

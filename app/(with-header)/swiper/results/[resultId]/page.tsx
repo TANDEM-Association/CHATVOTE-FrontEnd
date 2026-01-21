@@ -8,6 +8,9 @@ import { getUserDetailsFromUser } from '@/lib/utils';
 import { wahlSwiperCalculateScore } from '@/lib/wahl-swiper/wahl-swiper-calculate-score';
 import { notFound, redirect } from 'next/navigation';
 
+// Force dynamic rendering to avoid Firebase calls during build
+export const dynamic = 'force-dynamic';
+
 type Props = {
   params: Promise<{
     resultId: string;
