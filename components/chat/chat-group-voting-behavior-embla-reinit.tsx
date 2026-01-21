@@ -1,6 +1,7 @@
-import { useCarousel } from '@/components/ui/carousel';
-import { useChatStore } from '@/components/providers/chat-store-provider';
-import { useEffect } from 'react';
+import { useEffect } from "react";
+
+import { useChatStore } from "@/components/providers/chat-store-provider";
+import { useCarousel } from "@/components/ui/carousel";
 
 type Props = {
   messageId: string;
@@ -10,25 +11,23 @@ type Props = {
 function ChatGroupVotingBehaviorEmblaReinit({ messageId, isExpanded }: Props) {
   const embla = useCarousel();
   const isLoadingVotingBehavior = useChatStore(
-    (state) => state.loading.votingBehaviorSummary === messageId
+    (state) => state.loading.votingBehaviorSummary === messageId,
   );
   const currentStreamedVotingBehavior = useChatStore(
-    (state) => state.currentStreamedVotingBehavior
+    (state) => state.currentStreamedVotingBehavior,
   );
 
   useEffect(() => {
-    reinitEmbla();
+    (async () => {
+      await new Promise((resolve) => setTimeout(resolve, 0));
+      embla.api?.reInit();
+    })();
   }, [
     embla.api,
     isLoadingVotingBehavior,
     isExpanded,
     currentStreamedVotingBehavior,
   ]);
-
-  const reinitEmbla = async () => {
-    await new Promise((resolve) => setTimeout(resolve, 0));
-    embla.api?.reInit();
-  };
 
   return null;
 }

@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { useAnonymousAuth } from '@/components/anonymous-auth';
-import { useChatStore } from '@/components/providers/chat-store-provider';
-import { cn } from '@/lib/utils';
-import { useCallback } from 'react';
-import MessageLoadingBorderTrail from './message-loading-border-trail';
-import { Button } from '@/components/ui/button';
-import LoginButton from '@/components/auth/login-button';
+import { useAnonymousAuth } from "@/components/anonymous-auth";
+import LoginButton from "@/components/auth/login-button";
+import { useChatStore } from "@/components/providers/chat-store-provider";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+
+import MessageLoadingBorderTrail from "./message-loading-border-trail";
 
 function ChatInputRateLimit() {
   const { user } = useAnonymousAuth();
@@ -23,22 +23,21 @@ function ChatInputRateLimit() {
     );
   });
 
-  const handleSubmit = useCallback(
-    async (e: React.FormEvent<HTMLFormElement> | string) => {
-      let effectiveInput = input;
+  const handleSubmit = async (
+    event: React.FormEvent<HTMLFormElement> | string,
+  ) => {
+    let effectiveInput = input;
 
-      if (typeof e === 'string') {
-        effectiveInput = e;
-      } else {
-        e.preventDefault();
-      }
+    if (typeof event === "string") {
+      effectiveInput = event;
+    } else {
+      event.preventDefault();
+    }
 
-      if (!user?.uid || !effectiveInput.trim()) return;
+    if (!user?.uid || !effectiveInput.trim()) return;
 
-      addUserMessage(user.uid, effectiveInput);
-    },
-    [user?.uid, input, addUserMessage]
-  );
+    addUserMessage(user.uid, effectiveInput);
+  };
 
   const handleQuickReplyClick = (reply: string) => {
     handleSubmit(reply);
@@ -47,13 +46,13 @@ function ChatInputRateLimit() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="relative w-full overflow-hidden rounded-lg border border-input bg-muted py-3 md:py-4"
+      className="border-input bg-muted relative w-full overflow-hidden rounded-lg border py-3 md:py-4"
     >
       {quickReplies.length > 0 && (
         <div
           className={cn(
-            'flex overflow-x-auto gap-1 px-3 md:px-4 whitespace-nowrap [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden',
-            loading && 'opacity-50 z-0'
+            "flex gap-1 overflow-x-auto px-3 whitespace-nowrap [-ms-overflow-style:none] [scrollbar-width:none] md:px-4 [&::-webkit-scrollbar]:hidden",
+            loading && "z-0 opacity-50",
           )}
         >
           {quickReplies.map((r) => (
@@ -72,8 +71,8 @@ function ChatInputRateLimit() {
 
       <section
         className={cn(
-          'flex flex-col px-3 md:px-4',
-          quickReplies.length > 0 && 'mt-2'
+          "flex flex-col px-3 md:px-4",
+          quickReplies.length > 0 && "mt-2",
         )}
       >
         <div className="flex items-center gap-2">
@@ -81,17 +80,17 @@ function ChatInputRateLimit() {
             <span className="absolute inline-flex size-full animate-ping rounded-full bg-yellow-400 opacity-75" />
             <span className="relative inline-flex size-2 rounded-full bg-yellow-500" />
           </span>
-          <h2 className="font-bold">Server derzeit ausgelastet!</h2>
+          <h2 className="font-bold">Serveur actuellement surchargé !</h2>
         </div>
-        <p className="text-sm text-muted-foreground">
-          Chatte mit den vorgeschlagenen Fragen weiter oder{' '}
-          <span className="font-bold">melde dich an</span>, um eigene Fragen zu
-          stellen.
+        <p className="text-muted-foreground text-sm">
+          Continuez à discuter avec les questions suggérées ou{" "}
+          <span className="font-bold">connectez-vous</span> pour poser vos
+          propres questions.
         </p>
         <LoginButton
           noUserChildren={
             <Button size="sm" className="mt-2">
-              Anmelden
+              Se connecter
             </Button>
           }
         />

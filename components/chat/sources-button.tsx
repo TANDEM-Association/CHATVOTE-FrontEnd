@@ -1,5 +1,17 @@
-import { BookMarkedIcon } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { useMemo } from "react";
+
+import { BookMarkedIcon } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { type Source } from "@/lib/stores/chat-store.types";
+import { buildPdfUrl, cn, prettyDate } from "@/lib/utils";
+
+import { ChatMessageIcon } from "./chat-message-icon";
 import {
   ResponsiveDialog,
   ResponsiveDialogContent,
@@ -7,16 +19,7 @@ import {
   ResponsiveDialogHeader,
   ResponsiveDialogTitle,
   ResponsiveDialogTrigger,
-} from './responsive-drawer-dialog';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
-import type { Source } from '@/lib/stores/chat-store.types';
-import { useMemo } from 'react';
-import { buildPdfUrl, cn, prettyDate } from '@/lib/utils';
-import { ChatMessageIcon } from './chat-message-icon';
+} from "./responsive-drawer-dialog";
 
 type Props = {
   sources: Source[];
@@ -37,7 +40,7 @@ function SourcesButton({ sources, messageContent }: Props) {
       const numbers = match.match(/^\[(\d+(?:\s*,\s*\d+)*)\]$/);
 
       if (!numbers) return [];
-      const numbersArray = numbers[1].split(',');
+      const numbersArray = numbers[1].split(",");
       return numbersArray.map((number) => Number.parseInt(number));
     });
 
@@ -77,23 +80,24 @@ function SourcesButton({ sources, messageContent }: Props) {
               className="h-8 px-2 text-xs group-data-[has-message-background]:bg-zinc-100 group-data-[has-message-background]:hover:bg-zinc-200 group-data-[has-message-background]:dark:bg-zinc-900 group-data-[has-message-background]:dark:hover:bg-zinc-800"
             >
               <BookMarkedIcon />
-              Quellen
+              Sources
             </Button>
           </ResponsiveDialogTrigger>
         </TooltipTrigger>
-        <TooltipContent>Quellen</TooltipContent>
+        <TooltipContent>Sources</TooltipContent>
       </Tooltip>
       <ResponsiveDialogContent className="flex max-h-[95dvh] flex-col">
         <ResponsiveDialogHeader>
-          <ResponsiveDialogTitle>Quellen</ResponsiveDialogTitle>
+          <ResponsiveDialogTitle>Sources</ResponsiveDialogTitle>
           <ResponsiveDialogDescription>
-            Klicke auf eine Quelle, um sie in einem neuen Fenster zu öffnen.
+            Cliquez sur une source pour l&lsquo;ouvrir dans une nouvelle
+            fenêtre.
           </ResponsiveDialogDescription>
         </ResponsiveDialogHeader>
 
-        <div className={cn('flex flex-col grow overflow-y-auto p-4 md:p-0')}>
+        <div className={cn("flex grow flex-col overflow-y-auto p-4 md:p-0")}>
           {sourcesReferenced.length > 0 && (
-            <p className="text-sm font-bold">Im Text referenziert:</p>
+            <p className="text-sm font-bold">Référencé dans le texte :</p>
           )}
           {sourcesReferenced.map((source, index) => (
             <SourceItem key={buildSourceKey(source, index)} source={source} />
@@ -101,11 +105,11 @@ function SourcesButton({ sources, messageContent }: Props) {
           {sourcesNotReferenced.length > 0 && (
             <p
               className={cn(
-                'text-sm font-bold',
-                sourcesReferenced.length > 0 && 'mt-4'
+                "text-sm font-bold",
+                sourcesReferenced.length > 0 && "mt-4",
               )}
             >
-              Zusätzlich analysiert:
+              Analysé en plus :
             </p>
           )}
           {sourcesNotReferenced.map((source, index) => (
@@ -120,32 +124,32 @@ function SourcesButton({ sources, messageContent }: Props) {
 function SourceItem({ source }: { source: SourceWithIndex }) {
   const onSourceClick = (source: Source) => {
     const url = buildPdfUrl(source);
-    return window.open(url.toString(), '_blank');
+    return window.open(url.toString(), "_blank");
   };
 
   return (
     <button
-      className="flex flex-row items-center justify-between gap-2 rounded-md p-2 transition-colors hover:bg-muted/50"
+      className="hover:bg-muted/50 flex flex-row items-center justify-between gap-2 rounded-md p-2 transition-colors"
       onClick={() => onSourceClick(source)}
       type="button"
     >
       <div className="flex grow flex-col justify-start overflow-hidden">
         <div className="flex grow flex-row items-center gap-2">
-          <div className="inline-flex size-5 items-center justify-center rounded-full bg-muted text-xs">
+          <div className="bg-muted inline-flex size-5 items-center justify-center rounded-full text-xs">
             {source.index + 1}
-          </div>{' '}
+          </div>{" "}
           <p className="grow truncate text-start">{source.source}</p>
         </div>
         {source.document_publish_date && (
-          <span className="text-left text-xs text-muted-foreground">
-            Veröffentlicht am:{' '}
+          <span className="text-muted-foreground text-left text-xs">
+            Publié le :{" "}
             <span className="font-bold">
               {prettyDate(source.document_publish_date)}
             </span>
           </span>
         )}
       </div>
-      <p className="flex h-8 items-center justify-center whitespace-nowrap rounded-md bg-muted px-2 text-xs text-muted-foreground">
+      <p className="bg-muted text-muted-foreground flex h-8 items-center justify-center rounded-md px-2 text-xs whitespace-nowrap">
         S. {source.page}
       </p>
       {source.party_id && <ChatMessageIcon partyId={source.party_id} />}

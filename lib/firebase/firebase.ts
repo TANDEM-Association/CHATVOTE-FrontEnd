@@ -1,35 +1,37 @@
-import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
 import {
-  getFirestore,
-  getDocs,
-  collection,
-  query,
-  limit,
-  where,
-  getDoc,
-  doc,
-  onSnapshot,
-  updateDoc,
-  orderBy,
-  Timestamp,
-  setDoc,
-  arrayUnion,
   addDoc,
+  arrayUnion,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  getFirestore,
+  limit,
+  onSnapshot,
+  orderBy,
+  query,
   serverTimestamp,
-} from 'firebase/firestore';
-import { firebaseConfig } from './firebase-config';
-import type {
-  GroupedMessage,
-  MessageFeedback,
-  MessageItem,
-  VotingBehavior,
-} from '@/lib/stores/chat-store.types';
-import { firestoreTimestampToDate, generateUuid } from '@/lib/utils';
-import type { ChatSession, LlmSystemStatus } from './firebase.types';
-import type { WahlChatUser } from '@/components/anonymous-auth';
-import type { WahlSwiperResultHistory } from '@/lib/wahl-swiper/wahl-swiper.types';
-import type { SwiperMessage } from '@/lib/wahl-swiper/wahl-swiper-store.types';
+  setDoc,
+  Timestamp,
+  updateDoc,
+  where,
+} from "firebase/firestore";
+
+import { type ChatvoteUser } from "@/components/anonymous-auth";
+import { type ChatvoteSwiperResultHistory } from "@/lib/chatvote-swiper/chatvote-swiper.types";
+import { type SwiperMessage } from "@/lib/chatvote-swiper/chatvote-swiper-store.types";
+import {
+  type GroupedMessage,
+  type MessageFeedback,
+  type MessageItem,
+  type VotingBehavior,
+} from "@/lib/stores/chat-store.types";
+import { firestoreTimestampToDate, generateUuid } from "@/lib/utils";
+
+import { type ChatSession, type LlmSystemStatus } from "./firebase.types";
+import { firebaseConfig } from "./firebase-config";
 
 const app = initializeApp(firebaseConfig);
 
@@ -42,7 +44,7 @@ export async function createChatSession(
   sessionId: string,
   tenantId?: string,
 ): Promise<void> {
-  return await setDoc(doc(db, 'chat_sessions', sessionId), {
+  return await setDoc(doc(db, "chat_sessions", sessionId), {
     user_id: userId,
     party_ids: partyIds,
     created_at: Timestamp.now(),
@@ -54,10 +56,10 @@ export async function createChatSession(
 export async function getUsersChatHistory(uid: string): Promise<ChatSession[]> {
   const history = await getDocs(
     query(
-      collection(db, 'chat_sessions'),
-      where('user_id', '==', uid),
-      orderBy('updated_at', 'desc'),
-      orderBy('created_at', 'desc'),
+      collection(db, "chat_sessions"),
+      where("user_id", "==", uid),
+      orderBy("updated_at", "desc"),
+      orderBy("created_at", "desc"),
       limit(30),
     ),
   );
@@ -74,10 +76,10 @@ export function listenToHistory(
 ) {
   const unsubscribe = onSnapshot(
     query(
-      collection(db, 'chat_sessions'),
-      where('user_id', '==', uid),
-      orderBy('updated_at', 'desc'),
-      orderBy('created_at', 'desc'),
+      collection(db, "chat_sessions"),
+      where("user_id", "==", uid),
+      orderBy("updated_at", "desc"),
+      orderBy("created_at", "desc"),
       limit(15),
     ),
     (snapshot) => {
@@ -97,7 +99,7 @@ export function listenToSystemStatus(
   callback: (status: LlmSystemStatus) => void,
 ) {
   const unsubscribe = onSnapshot(
-    doc(db, 'system_status', 'llm_status'),
+    doc(db, "system_status", "llm_status"),
     (snapshot) => {
       callback({
         is_at_rate_limit: snapshot.data()?.is_at_rate_limit ?? false,
@@ -109,7 +111,7 @@ export function listenToSystemStatus(
 }
 
 export async function getChatSession(sessionId: string) {
-  const session = await getDoc(doc(db, 'chat_sessions', sessionId));
+  const session = await getDoc(doc(db, "chat_sessions", sessionId));
   return {
     id: session.id,
     ...session.data(),
@@ -118,8 +120,8 @@ export async function getChatSession(sessionId: string) {
 
 export async function getChatSessionMessages(sessionId: string) {
   const messagesRef = query(
-    collection(db, 'chat_sessions', sessionId, 'messages'),
-    orderBy('created_at', 'asc'),
+    collection(db, "chat_sessions", sessionId, "messages"),
+    orderBy("created_at", "asc"),
   );
 
   const snapshot = await getDocs(messagesRef);
@@ -140,7 +142,7 @@ export async function updateChatSession(
   sessionId: string,
   data: Partial<ChatSession>,
 ) {
-  await updateDoc(doc(db, 'chat_sessions', sessionId), data);
+  await updateDoc(doc(db, "chat_sessions", sessionId), data);
 }
 
 export async function addMessageToGroupedMessageOfChatSession(
@@ -149,7 +151,7 @@ export async function addMessageToGroupedMessageOfChatSession(
   message: MessageItem,
 ) {
   await setDoc(
-    doc(db, 'chat_sessions', sessionId, 'messages', groupedMessageId),
+    doc(db, "chat_sessions", sessionId, "messages", groupedMessageId),
     {
       id: groupedMessageId,
       messages: arrayUnion(message),
@@ -161,7 +163,7 @@ export async function addMessageToGroupedMessageOfChatSession(
 
 async function getGroupedMessage(sessionId: string, groupedMessageId: string) {
   const groupedMessage = await getDoc(
-    doc(db, 'chat_sessions', sessionId, 'messages', groupedMessageId),
+    doc(db, "chat_sessions", sessionId, "messages", groupedMessageId),
   );
   return {
     id: groupedMessage.id,
@@ -179,9 +181,9 @@ export async function addProConPerspectiveToMessage(
 
   const groupedMessageRef = doc(
     db,
-    'chat_sessions',
+    "chat_sessions",
     sessionId,
-    'messages',
+    "messages",
     groupedMessageId,
   );
 
@@ -209,9 +211,9 @@ export async function addVotingBehaviorToMessage(
 
   const groupedMessageRef = doc(
     db,
-    'chat_sessions',
+    "chat_sessions",
     sessionId,
-    'messages',
+    "messages",
     groupedMessageId,
   );
 
@@ -235,7 +237,7 @@ export async function addUserMessageToChatSession(
 ) {
   const messageId = generateUuid();
 
-  await setDoc(doc(db, 'chat_sessions', sessionId, 'messages', messageId), {
+  await setDoc(doc(db, "chat_sessions", sessionId, "messages", messageId), {
     id: messageId,
     messages: [
       {
@@ -243,11 +245,11 @@ export async function addUserMessageToChatSession(
         content: message,
         sources: [],
         created_at: Timestamp.now(),
-        role: 'user',
+        role: "user",
       },
     ],
     quick_replies: [],
-    role: 'user',
+    role: "user",
     created_at: Timestamp.now(),
   } satisfies GroupedMessage);
 }
@@ -257,13 +259,13 @@ export async function updateQuickRepliesOfMessage(
   messageId: string,
   quickReplies: string[],
 ) {
-  await updateDoc(doc(db, 'chat_sessions', sessionId, 'messages', messageId), {
+  await updateDoc(doc(db, "chat_sessions", sessionId, "messages", messageId), {
     quick_replies: quickReplies,
   });
 }
 
 export async function updateTitleOfMessage(sessionId: string, title: string) {
-  await updateDoc(doc(db, 'chat_sessions', sessionId), {
+  await updateDoc(doc(db, "chat_sessions", sessionId), {
     title,
   });
 }
@@ -274,7 +276,7 @@ export async function updateMessageInChatSession(
   data: Partial<GroupedMessage>,
 ) {
   await updateDoc(
-    doc(db, 'chat_sessions', sessionId, 'messages', messageId),
+    doc(db, "chat_sessions", sessionId, "messages", messageId),
     data,
   );
 }
@@ -289,9 +291,9 @@ export async function updateMessageFeedback(
 
   const groupedMessageRef = doc(
     db,
-    'chat_sessions',
+    "chat_sessions",
     sessionId,
-    'messages',
+    "messages",
     groupedMessageId,
   );
 
@@ -310,7 +312,7 @@ export async function updateMessageFeedback(
 }
 
 export async function getUser(uid: string) {
-  const user = await getDoc(doc(db, 'users', uid));
+  const user = await getDoc(doc(db, "users", uid));
 
   const data = user.data();
 
@@ -323,16 +325,16 @@ export async function getUser(uid: string) {
           timestamp: firestoreTimestampToDate(data.survey_status.timestamp),
         }
       : undefined,
-  } as WahlChatUser;
+  } as ChatvoteUser;
 }
 
-export async function updateUser(uid: string, data: Partial<WahlChatUser>) {
-  await setDoc(doc(db, 'users', uid), data, { merge: true });
+export async function updateUser(uid: string, data: Partial<ChatvoteUser>) {
+  await setDoc(doc(db, "users", uid), data, { merge: true });
 }
 
 export async function userAllowNewsletter(uid: string, allowed: boolean) {
   await setDoc(
-    doc(db, 'users', uid),
+    doc(db, "users", uid),
     {
       newsletter_allowed: allowed,
     },
@@ -340,12 +342,12 @@ export async function userAllowNewsletter(uid: string, allowed: boolean) {
   );
 }
 
-export async function saveWahlSwiperHistory(
+export async function saveChatvoteSwiperHistory(
   userId: string,
-  history: WahlSwiperResultHistory,
+  history: ChatvoteSwiperResultHistory,
   chatMessages: Record<string, SwiperMessage[]>,
 ) {
-  const collectionRef = collection(db, 'wahl_swiper_results');
+  const collectionRef = collection(db, "chatvote_swiper_results");
 
   const docRef = await addDoc(collectionRef, {
     user_id: userId,
@@ -357,8 +359,8 @@ export async function saveWahlSwiperHistory(
   return docRef.id;
 }
 
-export async function setWahlSwiperResultToPublic(resultId: string) {
-  await updateDoc(doc(db, 'wahl_swiper_results', resultId), {
+export async function setChatvoteSwiperResultToPublic(resultId: string) {
+  await updateDoc(doc(db, "chatvote_swiper_results", resultId), {
     is_public: true,
   });
 }

@@ -1,5 +1,10 @@
-'use client';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+"use client";
+import { useCallback, useEffect, useMemo, useState } from "react";
+
+import { useSearchParams } from "next/navigation";
+
+import { track } from "@vercel/analytics/react";
+import { ShareIcon } from "lucide-react";
 import {
   FacebookIcon,
   FacebookShareButton,
@@ -9,15 +14,14 @@ import {
   WhatsappIcon,
   WhatsappShareButton,
   XIcon,
-} from 'react-share';
-import { useChatStore } from '@/components/providers/chat-store-provider';
-import { Label } from '@/components/ui/label';
-import CopyButton from './copy-button';
-import { Input } from '@/components/ui/input';
-import { useSearchParams } from 'next/navigation';
-import { Button } from '@/components/ui/button';
-import { ShareIcon } from 'lucide-react';
-import { track } from '@vercel/analytics/react';
+} from "react-share";
+
+import { useChatStore } from "@/components/providers/chat-store-provider";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+
+import CopyButton from "./copy-button";
 
 type Props = {
   sharePrivateSession: boolean;
@@ -28,16 +32,16 @@ function ChatShareLinkInputForm({ sharePrivateSession }: Props) {
   const sessionTitle = useChatStore((state) => state.currentChatTitle);
   const sharingSnapshot = useChatStore((state) => state.sharingSnapshot);
   const generateSharingSnapshotLink = useChatStore(
-    (state) => state.generateSharingSnapshotLink
+    (state) => state.generateSharingSnapshotLink,
   );
   const params = useSearchParams();
 
   const link = useMemo(() => {
     if (!sharePrivateSession || !sharingSnapshot?.id) {
       const url = new URL(window.location.href);
-      const partyIds = params.getAll('partyId');
+      const partyIds = params.getAll("partyId");
       partyIds.forEach((partyId) =>
-        url.searchParams.append('partyId', partyId)
+        url.searchParams.append("partyId", partyId),
       );
       return url.toString();
     }
@@ -50,7 +54,7 @@ function ChatShareLinkInputForm({ sharePrivateSession }: Props) {
       setIsLoading(true);
       await generateSharingSnapshotLink();
 
-      track('share_link_generated');
+      track("share_link_generated");
     } catch (error) {
       console.error(error);
     } finally {
@@ -100,15 +104,15 @@ function ChatShareLinkInputForm({ sharePrivateSession }: Props) {
         <TwitterShareButton
           url={link}
           title={sessionTitle}
-          hashtags={['WahlChat', 'Wahl2025', 'Bundestagswahl']}
-          via="WahlChat"
+          hashtags={["Chatvote", "Elections", "Politique"]}
+          via="chatvote_fr"
         >
           <XIcon size={30} borderRadius={10} />
         </TwitterShareButton>
         <LinkedinShareButton url={link} title={sessionTitle}>
           <LinkedinIcon size={30} borderRadius={10} />
         </LinkedinShareButton>
-        <FacebookShareButton url={link} hashtag="#WahlChat">
+        <FacebookShareButton url={link} hashtag="#Chatvote">
           <FacebookIcon size={30} borderRadius={10} />
         </FacebookShareButton>
         <Button

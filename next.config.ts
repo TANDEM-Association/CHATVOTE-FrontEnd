@@ -1,19 +1,20 @@
-import type { NextConfig } from 'next';
+/* eslint-disable @typescript-eslint/no-require-imports */
+import { type NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'wahl.chat',
-        port: '',
-        pathname: '/images/**',
+        protocol: "https",
+        hostname: "chatvote.fr",
+        port: "",
+        pathname: "/images/**",
       },
       {
-        protocol: 'https',
-        hostname: 'dev.wahl.chat',
-        port: '',
-        pathname: '/images/**',
+        protocol: "https",
+        hostname: "dev.chatvote.fr",
+        port: "",
+        pathname: "/images/**",
       },
     ],
   },
@@ -24,8 +25,8 @@ const nextConfig: NextConfig = {
   },
 };
 
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
-  enabled: process.env.ANALYZE === 'true',
+const withBundleAnalyzer = require("@next/bundle-analyzer")({
+  enabled: process.env.ANALYZE === "true",
 });
 
 export default withBundleAnalyzer(nextConfig);

@@ -1,11 +1,14 @@
-'use client';
+"use client";
 
-import { useEffect, useRef, useState } from 'react';
-import { cn } from '@/lib/utils';
-import MessageLoadingBorderTrail from './chat/message-loading-border-trail';
-import Logo from './chat/logo';
-import { Button } from './ui/button';
-import { ArrowUp } from 'lucide-react';
+import { useEffect, useRef, useState } from "react";
+
+import { ArrowUp } from "lucide-react";
+
+import { cn } from "@/lib/utils";
+
+import Logo from "./chat/logo";
+import MessageLoadingBorderTrail from "./chat/message-loading-border-trail";
+import { Button } from "./ui/button";
 
 type Props = {
   isLoading: boolean;
@@ -15,7 +18,7 @@ type Props = {
 };
 
 function StickyInput({ isLoading, onSubmit, quickReplies, className }: Props) {
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState("");
   const [isSticky, setIsSticky] = useState(true);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -26,7 +29,7 @@ function StickyInput({ isLoading, onSubmit, quickReplies, className }: Props) {
 
     const observer = new IntersectionObserver(
       ([e]) => setIsSticky(e.intersectionRatio < 1),
-      { threshold: 1 }
+      { threshold: 1 },
     );
 
     observer.observe(cachedRef);
@@ -49,27 +52,27 @@ function StickyInput({ isLoading, onSubmit, quickReplies, className }: Props) {
     <div
       ref={ref}
       className={cn(
-        'sticky bottom-[-1px] -mx-2 md:pb-2 pb-4 z-40 transition-all duration-300 ease-out',
-        !isSticky && 'mx-0',
-        className
+        "sticky bottom-[-1px] z-40 -mx-2 pb-4 transition-all duration-300 ease-out md:pb-2",
+        !isSticky && "mx-0",
+        className,
       )}
     >
       <form
         onSubmit={handleSubmit}
         className={cn(
-          'relative shadow-2xl transition-shadow duration-300 max-w-xl mx-auto w-full grid overflow-hidden rounded-[20px] border border-input dark:focus-within:border-zinc-700 focus-within:border-zinc-300 bg-chat-input ease-out md:shadow-none',
-          !isSticky && 'shadow-none'
+          "border-input bg-chat-input relative mx-auto grid w-full max-w-xl overflow-hidden rounded-[20px] border shadow-2xl transition-shadow duration-300 ease-out focus-within:border-zinc-300 md:shadow-none dark:focus-within:border-zinc-700",
+          !isSticky && "shadow-none",
         )}
       >
         {isLoading && <MessageLoadingBorderTrail />}
 
-        <div className="flex gap-1 overflow-x-auto whitespace-nowrap px-2 pt-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="flex gap-1 overflow-x-auto px-2 pt-2 whitespace-nowrap [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {quickReplies?.map((reply) => {
             return (
               <button
                 key={reply}
                 className={cn(
-                  'shrink-0 rounded-full bg-muted px-2 py-1 transition-colors enabled:hover:bg-muted/70 disabled:cursor-not-allowed disabled:opacity-50'
+                  "bg-muted enabled:hover:bg-muted/70 shrink-0 rounded-full px-2 py-1 transition-colors disabled:cursor-not-allowed disabled:opacity-50",
                 )}
                 type="button"
                 onClick={() => handleQuickReplyClick(reply)}
@@ -82,12 +85,12 @@ function StickyInput({ isLoading, onSubmit, quickReplies, className }: Props) {
 
         <Logo
           variant="small"
-          className="absolute bottom-2 left-2 size-8 translate-y-0 rounded-full border border-border p-1"
+          className="border-border absolute bottom-2 left-2 size-8 translate-y-0 rounded-full border p-1"
         />
         <input
-          className="w-full bg-chat-input px-12 py-3 text-[16px] placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-0 disabled:cursor-not-allowed"
+          className="bg-chat-input placeholder:text-muted-foreground w-full px-12 py-3 text-[16px] focus-visible:ring-0 focus-visible:outline-none disabled:cursor-not-allowed"
           name="question"
-          placeholder="Frage die Parteien..."
+          placeholder="Posez vos questions aux partis..."
           value={input}
           type="text"
           onChange={(e) => setInput(e.target.value)}
@@ -96,7 +99,7 @@ function StickyInput({ isLoading, onSubmit, quickReplies, className }: Props) {
         <Button
           type="submit"
           className={cn(
-            'absolute right-2 bottom-2 translate-y-0 flex size-8 items-center justify-center rounded-full bg-foreground text-background transition-colors hover:bg-foreground/80 disabled:bg-foreground/20 disabled:text-muted'
+            "bg-foreground text-background hover:bg-foreground/80 disabled:bg-foreground/20 disabled:text-muted absolute right-2 bottom-2 flex size-8 translate-y-0 items-center justify-center rounded-full transition-colors",
           )}
           disabled={!input.length || isLoading}
         >

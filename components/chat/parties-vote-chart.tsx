@@ -1,4 +1,9 @@
-import type { Vote } from '@/lib/socket.types';
+import { useMemo } from "react";
+
+import { type Vote } from "@/lib/socket.types";
+
+import { useChatVotingDetails } from "../providers/chat-voting-details-provider";
+import { useParties } from "../providers/parties-provider";
 import {
   Select,
   SelectContent,
@@ -6,11 +11,9 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '../ui/select';
-import { useMemo } from 'react';
-import VoteChart from './vote-chart';
-import { useParties } from '../providers/parties-provider';
-import { useChatVotingDetails } from '../providers/chat-voting-details-provider';
+} from "../ui/select";
+
+import VoteChart from "./vote-chart";
 
 type Props = {
   vote: Vote;
@@ -26,8 +29,8 @@ function PartiesVoteChart({ vote }: Props) {
     return byParty.map((party) => ({
       key: party.party,
       name:
-        party.party === 'fraktionslose'
-          ? 'Fraktionslose'
+        party.party === "fraktionslose"
+          ? "Fraktionslose"
           : (parties?.find((p) => p.party_id === party.party)?.name ??
             party.party),
     }));
@@ -42,20 +45,20 @@ function PartiesVoteChart({ vote }: Props) {
   }
 
   return (
-    <section className="flex flex-col items-center justify-center gap-4 flex-1">
+    <section className="flex flex-1 flex-col items-center justify-center gap-4">
       <VoteChart
         voteResults={selectedPartyData}
         memberCount={selectedPartyData.members}
       />
 
-      <div className="grow flex flex-col items-center justify-center">
+      <div className="flex grow flex-col items-center justify-center">
         <Select
           defaultValue={selectedPartyId}
           value={selectedPartyId}
           onValueChange={setSelectedPartyId}
         >
           <SelectTrigger className="h-8 w-[130px] rounded-lg">
-            <SelectValue placeholder="Wähle eine Partei" />
+            <SelectValue placeholder="Choisir un parti" />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>

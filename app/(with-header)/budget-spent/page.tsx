@@ -1,27 +1,29 @@
-import DonationDialog from '@/components/donation-dialog';
-import { Button } from '@/components/ui/button';
-import { BadgeEuroIcon, HeartHandshakeIcon } from 'lucide-react';
-import Link from 'next/link';
+import Link from "next/link";
+
+import { BadgeEuroIcon, HeartHandshakeIcon } from "lucide-react";
+
+import DonationDialog from "@/components/donation-dialog";
+import { Button } from "@/components/ui/button";
 
 function BudgetSpent() {
   return (
-    <section className="max-w-lg mx-auto flex flex-col items-center p-4 space-y-4 h-full justify-center text-center">
+    <section className="mx-auto flex h-full max-w-lg flex-col items-center justify-center space-y-4 p-4 text-center">
       <BadgeEuroIcon className="size-12" />
-      <h1 className="text-2xl font-bold">Budget aufgebraucht</h1>
+      <h1 className="text-2xl font-bold">Budget épuisé</h1>
       <p>
-        Da wir uns ausschließlich mit Spenden finanzieren, kann es dazu kommen,
-        dass unser budget aufgebraucht ist.
+        Comme nous nous finançons exclusivement par des dons, il peut arriver
+        que notre budget soit épuisé.
       </p>
-      <p>Wenn du uns unterstützen möchtest, kannst du uns gerne spenden.</p>
+      <p>Si vous souhaitez nous soutenir, vous pouvez faire un don.</p>
       <div className="flex justify-center gap-2">
         <DonationDialog>
           <Button>
             <HeartHandshakeIcon />
-            Unterstütze uns
+            Soutenez-nous
           </Button>
         </DonationDialog>
         <Button variant="outline" asChild>
-          <Link href="/about-us">Über uns</Link>
+          <Link href="/about-us">À propos</Link>
         </Button>
       </div>
     </section>

@@ -1,29 +1,30 @@
-import type { PartyDetails } from '@/lib/party-details';
-import type { MetadataRoute } from 'next';
+import { type MetadataRoute } from "next";
+
+import { type PartyDetails } from "@/lib/party-details";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const pages = [
-    'https://wahl.chat/icon.svg',
-    'https://wahl.chat/manifest.json',
-    'https://wahl.chat/pdf/view',
-    'https://wahl.chat/apple-icon.png',
-    'https://wahl.chat/donate',
-    'https://wahl.chat/about-us',
-    'https://wahl.chat/icon.png',
-    'https://wahl.chat/datenschutz',
-    'https://wahl.chat/impressum',
-    'https://wahl.chat/sources',
-    'https://wahl.chat/how-to',
-    'https://wahl.chat',
-    'https://wahl.chat/swiper',
+    "https://chatvote.fr/icon.svg",
+    "https://chatvote.fr/manifest.json",
+    "https://chatvote.fr/pdf/view",
+    "https://chatvote.fr/apple-icon.png",
+    "https://chatvote.fr/donate",
+    "https://chatvote.fr/about-us",
+    "https://chatvote.fr/icon.png",
+    "https://chatvote.fr/privacy-policy",
+    "https://chatvote.fr/legal-notice",
+    "https://chatvote.fr/sources",
+    "https://chatvote.fr/how-to",
+    "https://chatvote.fr",
+    "https://chatvote.fr/swiper",
   ];
 
-  const parties = await fetch('https://wahl.chat/api/parties').then(
+  const parties = await fetch("https://chatvote.fr/api/parties").then(
     (res) => res.json() as Promise<PartyDetails[]>,
   );
 
   const partyPages = parties.map((party) => ({
-    url: `https://wahl.chat/session?party_id=${party.party_id}`,
+    url: `https://chatvote.fr/session?party_id=${party.party_id}`,
     lastModified: new Date().toISOString(),
   }));
 

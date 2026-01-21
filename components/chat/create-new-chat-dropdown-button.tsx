@@ -1,12 +1,15 @@
-'use client';
+"use client";
+
+import { useState } from "react";
 
 import {
   DropdownMenu,
   DropdownMenuContent,
-} from '@/components/ui/dropdown-menu';
-import { useState } from 'react';
-import CreateNewChatDropdownButtonTrigger from './create-new-chat-dropdown-button-trigger';
-import PartyCards from '../party-cards';
+} from "@/components/ui/dropdown-menu";
+
+import PartyCards from "../party-cards";
+
+import CreateNewChatDropdownButtonTrigger from "./create-new-chat-dropdown-button-trigger";
 
 function CreateNewChatDropdownButton() {
   const [open, setOpen] = useState(false);
@@ -16,18 +19,20 @@ function CreateNewChatDropdownButton() {
       <CreateNewChatDropdownButtonTrigger
         onTriggerClick={() => setOpen(true)}
       />
-      <DropdownMenuContent align="end" className="p-3 w-[80vw] max-w-[300px]">
+      <DropdownMenuContent align="end" className="w-[80vw] max-w-[300px] p-3">
         <div className="mb-2 flex flex-col">
-          <h2 className="text-lg font-bold">Neuer Chat</h2>
-          <p className="text-sm text-muted-foreground">
-            Erstelle einen neuen Chat.
+          <h2 className="text-lg font-bold">Nouveau chat</h2>
+          <p className="text-muted-foreground text-sm">
+            Créez un nouveau chat.
           </p>
         </div>
         <PartyCards
           gridColumns={3}
           selectable={false}
-          onPartyClicked={() => setOpen(false)}
-          showWahlChatButton
+          onPartyClicked={() => {
+            setOpen(false);
+          }}
+          showChatvoteButton={true}
         />
       </DropdownMenuContent>
     </DropdownMenu>

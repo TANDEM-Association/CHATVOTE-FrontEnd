@@ -1,15 +1,17 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
+import { useState } from "react";
+
+import { useAnonymousAuth } from "@/components/anonymous-auth";
 import {
   ResponsiveDialog,
   ResponsiveDialogContent,
   ResponsiveDialogTrigger,
-} from '@/components/chat/responsive-drawer-dialog';
-import LoginForm from './login-form';
-import { useAnonymousAuth } from '@/components/anonymous-auth';
-import UserDialog from './user-dialog';
-import { getUserDetailsFromUser, type UserDetails } from '@/lib/utils';
+} from "@/components/chat/responsive-drawer-dialog";
+import { getUserDetailsFromUser, type UserDetails } from "@/lib/utils";
+
+import LoginForm from "./login-form";
+import UserDialog from "./user-dialog";
 
 type Props = {
   userDialogAsChild?: boolean;
@@ -33,7 +35,7 @@ function LoginButton({
     // hacky fix since the sidebar collides with the drawer's pointer events settings
     setTimeout(() => {
       if (document) {
-        document.body.style.pointerEvents = 'auto';
+        document.body.style.pointerEvents = "auto";
       }
     }, 500);
   };

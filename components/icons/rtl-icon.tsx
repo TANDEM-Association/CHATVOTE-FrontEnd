@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils';
+import { cn } from "@/lib/utils";
 
 type Props = {
   className?: string;
@@ -7,7 +7,7 @@ type Props = {
 function RtlIcon({ className }: Props) {
   return (
     <svg
-      className={cn('w-12', className)}
+      className={cn("w-12", className)}
       width="174"
       height="31"
       viewBox="0 0 174 31"

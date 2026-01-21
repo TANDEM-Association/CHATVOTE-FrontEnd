@@ -1,22 +1,23 @@
-'use client';
+"use client";
 
-import type {
-  AddUserMessagePayload,
-  ChatSessionInitializedPayload,
-  ChatSessionInitPayload,
-  GenerateVotingBehaviorSummaryPayload,
-  PartyResponseChunkReadyPayload,
-  PartyResponseCompletePayload,
-  ProConPerspectiveReadyPayload,
-  ProConPerspectiveRequestPayload,
-  QuickRepliesAndTitleReadyPayload,
-  RespondingPartiesSelectedPayload,
-  SourcesReadyPayload,
-  VotingBehaviorCompletePayload,
-  VotingBehaviorResultPayload,
-  VotingBehaviorSummaryChunkPayload,
-} from './socket.types';
-import { socket } from '@/components/providers/socket-provider';
+import { socket } from "@/components/providers/socket-provider";
+
+import {
+  type AddUserMessagePayload,
+  type ChatSessionInitializedPayload,
+  type ChatSessionInitPayload,
+  type GenerateVotingBehaviorSummaryPayload,
+  type PartyResponseChunkReadyPayload,
+  type PartyResponseCompletePayload,
+  type ProConPerspectiveReadyPayload,
+  type ProConPerspectiveRequestPayload,
+  type QuickRepliesAndTitleReadyPayload,
+  type RespondingPartiesSelectedPayload,
+  type SourcesReadyPayload,
+  type VotingBehaviorCompletePayload,
+  type VotingBehaviorResultPayload,
+  type VotingBehaviorSummaryChunkPayload,
+} from "./socket.types";
 
 type ChatSocketListenerEvent = {
   connect: () => void;
@@ -73,21 +74,21 @@ class ChatSocket {
   }
 
   public initializeChatSession(data: ChatSessionInitPayload) {
-    this.emit('chat_session_init', data);
+    this.emit("chat_session_init", data);
   }
 
   public addUserMessage(data: AddUserMessagePayload) {
-    this.emit('chat_answer_request', data);
+    this.emit("chat_answer_request", data);
   }
 
   public generateProConPerspective(data: ProConPerspectiveRequestPayload) {
-    this.emit('pro_con_perspective_request', data);
+    this.emit("pro_con_perspective_request", data);
   }
 
   public generateVotingBehaviorSummary(
     data: GenerateVotingBehaviorSummaryPayload,
   ) {
-    this.emit('voting_behavior_request', data);
+    this.emit("voting_behavior_request", data);
   }
 }
 

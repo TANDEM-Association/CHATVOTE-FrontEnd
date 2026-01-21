@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils';
+import { cn } from "@/lib/utils";
 
 type Props = {
   className?: string;
@@ -13,7 +13,7 @@ function RheinpfalzIcon({ className }: Props) {
       height="120"
       viewBox="-0.64125 -0.64125 193.9075 22.6575"
       id="svg3288"
-      className={cn('size-6', className)}
+      className={cn("size-6", className)}
     >
       <defs id="defs3290" />
       <g transform="translate(-278.6875,-521.67468)" id="layer1">

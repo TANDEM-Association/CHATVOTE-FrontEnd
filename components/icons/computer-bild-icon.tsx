@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils';
+import { cn } from "@/lib/utils";
 
 type Props = {
   className?: string;
@@ -10,7 +10,7 @@ function ComputerBildIcon({ className }: Props) {
       enableBackground="new 0 0 192 68"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0.06 192 67.58"
-      className={cn('size-6', className)}
+      className={cn("size-6", className)}
     >
       <path
         d="M87.738 35.9864H55.5933V67.6401H87.738V35.9864Z"

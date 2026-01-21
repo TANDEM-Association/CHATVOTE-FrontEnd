@@ -8,7 +8,7 @@ function InitialSuggestionBubble({ children, onClick }: Props) {
     <button
       type="button"
       onClick={onClick}
-      className="cursor-pointer rounded-full border border-input px-3 py-2 text-xs text-muted-foreground ring-offset-background transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2  "
+      className="border-input text-muted-foreground ring-offset-background hover:bg-muted focus-visible:ring-ring cursor-pointer rounded-full border px-3 py-2 text-xs transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
     >
       {children}
     </button>

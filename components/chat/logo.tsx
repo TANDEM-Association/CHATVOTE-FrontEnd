@@ -1,19 +1,19 @@
-import { cn } from '@/lib/utils';
+import { cn } from "@/lib/utils";
 
 type Props = {
-  variant?: 'small' | 'large' | 'default';
+  variant?: "small" | "large" | "default";
   className?: string;
 };
 
-function Logo({ variant = 'default', className }: Props) {
+function Logo({ variant = "default", className }: Props) {
   const defaultProps = {
-    fill: 'none',
-    xmlns: 'http://www.w3.org/2000/svg',
-    className: cn('text-primary', className),
-    'aria-label': 'wahl.chat Logo',
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    className: cn("text-primary", className),
+    "aria-label": "chatvote Logo",
   };
 
-  if (variant === 'small') {
+  if (variant === "small") {
     return (
       <svg viewBox="0 0 349 350" {...defaultProps}>
         <path
@@ -28,7 +28,7 @@ function Logo({ variant = 'default', className }: Props) {
     );
   }
 
-  if (variant === 'large') {
+  if (variant === "large") {
     return (
       <svg viewBox="0 0 880 114" {...defaultProps}>
         <path

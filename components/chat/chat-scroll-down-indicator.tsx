@@ -1,11 +1,13 @@
-'use client';
+"use client";
 
-import { chatViewScrollToBottom } from '@/lib/scroll-utils';
-import { cn } from '@/lib/utils';
-import { ArrowDownIcon } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { SCROLL_CONTAINER_ID } from '@/lib/scroll-constants';
+import { useEffect, useState } from "react";
+
+import { ArrowDownIcon } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
+import { SCROLL_CONTAINER_ID } from "@/lib/scroll-constants";
+import { chatViewScrollToBottom } from "@/lib/scroll-utils";
+import { cn } from "@/lib/utils";
 
 function ChatScrollDownIndicator() {
   const [isVisible, setIsVisible] = useState(false);
@@ -25,12 +27,12 @@ function ChatScrollDownIndicator() {
       setIsVisible(isScrolled);
     };
 
-    scrollContainer.addEventListener('scroll', handleScroll);
-    scrollContainer.addEventListener('resize', handleScroll);
+    scrollContainer.addEventListener("scroll", handleScroll);
+    scrollContainer.addEventListener("resize", handleScroll);
 
     return () => {
-      scrollContainer.removeEventListener('scroll', handleScroll);
-      scrollContainer.removeEventListener('resize', handleScroll);
+      scrollContainer.removeEventListener("scroll", handleScroll);
+      scrollContainer.removeEventListener("resize", handleScroll);
     };
   }, [isVisible]);
 
@@ -41,23 +43,23 @@ function ChatScrollDownIndicator() {
   return (
     <div
       className={cn(
-        'absolute inset-x-4 -top-10 flex justify-end pointer-events-none'
+        "pointer-events-none absolute inset-x-4 -top-10 flex justify-end",
       )}
     >
       <Button
         variant="default"
         className={cn(
-          'size-8 rounded-full shadow-xl bg-background dark:bg-zinc-900 border border-border hover:bg-zinc-100 dark:hover:bg-muted',
-          'transition-all duration-200 ease-in-out z-40',
-          'md:hover:scale-110 md:hover:-translate-y-1',
+          "bg-background border-border dark:hover:bg-muted size-8 rounded-full border shadow-xl hover:bg-zinc-100 dark:bg-zinc-900",
+          "z-40 transition-all duration-200 ease-in-out",
+          "md:hover:-translate-y-1 md:hover:scale-110",
           isVisible
-            ? 'opacity-100 translate-y-0 scale-100 pointer-events-auto'
-            : 'opacity-0 translate-y-2 scale-0 pointer-events-none'
+            ? "pointer-events-auto translate-y-0 scale-100 opacity-100"
+            : "pointer-events-none translate-y-2 scale-0 opacity-0",
         )}
         onClick={handleClick}
         size="icon"
       >
-        <ArrowDownIcon className="size-4 text-muted-foreground" />
+        <ArrowDownIcon className="text-muted-foreground size-4" />
       </Button>
     </div>
   );

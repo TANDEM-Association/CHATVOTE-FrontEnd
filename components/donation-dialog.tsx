@@ -4,9 +4,9 @@ import {
   ResponsiveDialogDescription,
   ResponsiveDialogTitle,
   ResponsiveDialogTrigger,
-} from './chat/responsive-drawer-dialog';
-import DonationForm from './donation-form';
-import VisuallyHidden from './visually-hidden';
+} from "./chat/responsive-drawer-dialog";
+import DonationForm from "./donation-form";
+import VisuallyHidden from "./visually-hidden";
 
 type Props = {
   children: React.ReactNode;
@@ -18,9 +18,9 @@ function DonationDialog({ children }: Props) {
       <ResponsiveDialogTrigger asChild>{children}</ResponsiveDialogTrigger>
       <ResponsiveDialogContent>
         <VisuallyHidden>
-          <ResponsiveDialogTitle>Spenden</ResponsiveDialogTitle>
+          <ResponsiveDialogTitle>Faire un don</ResponsiveDialogTitle>
           <ResponsiveDialogDescription>
-            Halte wahl.chat mit deiner Spende am Leben!
+            Maintenez chatvote en vie grâce à votre don !
           </ResponsiveDialogDescription>
         </VisuallyHidden>
         <DonationForm />

@@ -1,6 +1,6 @@
 importScripts(
-  'https://www.gstatic.com/firebasejs/11.0.2/firebase-app-compat.js',
-  'https://www.gstatic.com/firebasejs/11.0.2/firebase-auth-compat.js'
+  "https://www.gstatic.com/firebasejs/11.0.2/firebase-app-compat.js",
+  "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth-compat.js",
 );
 
 const urlParams = new URLSearchParams(location.search);
@@ -15,7 +15,7 @@ firebase.initializeApp(config);
  *     available. Otherwise, the promise resolves with null.
  */
 const getIdToken = () => {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve, _) => {
     const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
       unsubscribe();
 
@@ -24,9 +24,9 @@ const getIdToken = () => {
           (idToken) => {
             resolve(idToken);
           },
-          (error) => {
+          (_) => {
             resolve(null);
-          }
+          },
         );
       } else {
         firebase
@@ -35,7 +35,7 @@ const getIdToken = () => {
           .then((res) => {
             resolve(res.user.getIdToken());
           })
-          .catch((error) => {
+          .catch((_) => {
             resolve(null);
           });
       }
@@ -45,18 +45,18 @@ const getIdToken = () => {
 
 const getOriginFromUrl = (url) => {
   // https://stackoverflow.com/questions/1420881/how-to-extract-base-url-from-a-string-in-javascript
-  const pathArray = url.split('/');
+  const pathArray = url.split("/");
   const protocol = pathArray[0];
   const host = pathArray[2];
-  return protocol + '//' + host;
+  return protocol + "//" + host;
 };
 
 // Get underlying body if available. Works for text and json bodies.
 const getBodyContent = (req) => {
   return Promise.resolve()
     .then(() => {
-      if (req.method !== 'GET') {
-        if (req.headers.get('Content-Type').indexOf('json') !== -1) {
+      if (req.method !== "GET") {
+        if (req.headers.get("Content-Type").indexOf("json") !== -1) {
           return req.json().then((json) => {
             return JSON.stringify(json);
           });
@@ -65,12 +65,12 @@ const getBodyContent = (req) => {
         }
       }
     })
-    .catch((error) => {
+    .catch((_) => {
       // Ignore error.
     });
 };
 
-self.addEventListener('fetch', (event) => {
+self.addEventListener("fetch", (event) => {
   /** @type {FetchEvent} */
   const evt = event;
 
@@ -81,8 +81,8 @@ self.addEventListener('fetch', (event) => {
     // For same origin https requests, append idToken to header.
     if (
       self.location.origin == getOriginFromUrl(evt.request.url) &&
-      (self.location.protocol == 'https:' ||
-        self.location.hostname == 'localhost') &&
+      (self.location.protocol == "https:" ||
+        self.location.hostname == "localhost") &&
       idToken
     ) {
       // Clone headers as request headers are immutable.
@@ -91,13 +91,13 @@ self.addEventListener('fetch', (event) => {
         headers.append(key, val);
       });
       // Add ID token to header.
-      headers.append('Authorization', 'Bearer ' + idToken);
+      headers.append("Authorization", "Bearer " + idToken);
       processRequestPromise = getBodyContent(req).then((body) => {
         try {
           req = new Request(req.url, {
             method: req.method,
             headers: headers,
-            mode: 'same-origin',
+            mode: "same-origin",
             credentials: req.credentials,
             cache: req.cache,
             redirect: req.redirect,
@@ -106,6 +106,7 @@ self.addEventListener('fetch', (event) => {
             // bodyUsed: req.bodyUsed,
             // context: req.context
           });
+          // eslint-disable-next-line unused-imports/no-unused-vars
         } catch (e) {
           // This will fail for CORS requests. We just continue with the
           // fetch caching logic below and do not pass the ID token.
@@ -122,22 +123,22 @@ self.addEventListener('fetch', (event) => {
   evt.respondWith(getIdToken().then(requestProcessor, requestProcessor));
 });
 
-self.addEventListener('message', (event) => {
+self.addEventListener("message", (event) => {
   const data = event.data;
 
   switch (data.type) {
-    case 'SYNC_ID_TOKEN':
+    case "SYNC_ID_TOKEN":
       getIdToken().then((idToken) => {
-        event.source.postMessage({ type: 'ID_TOKEN', idToken });
+        event.source.postMessage({ type: "ID_TOKEN", idToken });
       });
       break;
 
     // Handle other message types as needed
     default:
-      console.warn('Unknown message type:', data.type);
+      console.warn("Unknown message type:", data.type);
   }
 });
 
-self.addEventListener('activate', (event) => {
+self.addEventListener("activate", (event) => {
   event.waitUntil(clients.claim());
 });

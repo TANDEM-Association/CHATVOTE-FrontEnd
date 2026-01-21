@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import DonationForm from '@/components/donation-form';
+import DonationForm from "@/components/donation-form";
 
 function DonatePage() {
   return <DonationForm />;

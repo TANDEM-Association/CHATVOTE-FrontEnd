@@ -1,19 +1,19 @@
-import { cx } from 'class-variance-authority';
+import { cx } from "class-variance-authority";
 
-import AnimatedMessageSequence from './animated-message-sequence';
-import { ChatMessageIcon } from './chat-message-icon';
+import AnimatedMessageSequence from "./animated-message-sequence";
+import { ChatMessageIcon } from "./chat-message-icon";
 
 function ThinkingMessage() {
   const messages = [
-    'Relevante Quellen ermitteln...',
-    'Quellen analysieren...',
-    'Daten verarbeiten...',
-    'Ergebnisse generieren...',
-    'Abschließen...',
+    "Recherche des sources pertinentes...",
+    "Analyse des sources...",
+    "Traitement des données...",
+    "Génération des résultats...",
+    "Finalisation...",
   ];
 
   return (
-    <div className={cx('flex gap-3 md:gap-4 items-center')}>
+    <div className={cx("flex items-center gap-3 md:gap-4")}>
       <ChatMessageIcon />
 
       <AnimatedMessageSequence

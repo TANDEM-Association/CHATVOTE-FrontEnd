@@ -1,20 +1,22 @@
-import { clsx, type ClassValue } from 'clsx';
-import type { Timestamp } from 'firebase/firestore';
-import { twMerge } from 'tailwind-merge';
-import type { Source } from '@/lib/stores/chat-store.types';
-import type { PartyDetails } from '@/lib/party-details';
-import { GROUP_PARTY_ID } from './constants';
-import type { SerializableFirebaseUser } from '@/components/anonymous-auth';
-import type { User } from 'firebase/auth';
+import { type ClassValue, clsx } from "clsx";
+import { type User } from "firebase/auth";
+import { type Timestamp } from "firebase/firestore";
+import { twMerge } from "tailwind-merge";
 
-export const IS_EMBEDDED = process.env.IS_EMBEDDED === 'true';
+import { type SerializableFirebaseUser } from "@/components/anonymous-auth";
+import { type PartyDetails } from "@/lib/party-details";
+import { type Source } from "@/lib/stores/chat-store.types";
+
+import { GROUP_PARTY_ID } from "./constants";
+
+export const IS_EMBEDDED = process.env.IS_EMBEDDED === "true";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
 const keyStr =
-  'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
+  "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
 
 export function triplet(e1: number, e2: number, e3: number) {
   return (
@@ -32,7 +34,7 @@ function rgbDataURL(r: number, g: number, b: number) {
 }
 
 function hexToRgb(hex: string) {
-  const cleanedHex = hex.replace('#', '');
+  const cleanedHex = hex.replace("#", "");
 
   const r = Number.parseInt(cleanedHex.substring(0, 2), 16);
   const g = Number.parseInt(cleanedHex.substring(2, 4), 16);
@@ -59,15 +61,15 @@ export function prettifiedUrlName(url: string) {
 
 export function prettifiedShortSourceName(source: string): string {
   const shortenings: { [key: string]: string } = {
-    Entwurf: 'Entw.',
-    Regierungsprogramm: 'Prg.',
-    Wahlprogramm: 'Wahlpr.',
+    Projet: "Proj.",
+    Programme: "Prg.",
+    Électoral: "Élect.",
   };
 
   return source
-    .split(' ')
+    .split(" ")
     .map((word) => shortenings[word] || word)
-    .join(' ');
+    .join(" ");
 }
 
 export function generateUuid() {
@@ -95,7 +97,7 @@ export function areSetsEqual(set1: Set<string>, set2: Set<string>): boolean {
 
 export function prettyDate(
   dateString: string,
-  format: 'full' | 'long' | 'medium' | 'short' = 'long',
+  format: "full" | "long" | "medium" | "short" = "long",
 ): string {
   const date = new Date(dateString);
 
@@ -103,7 +105,7 @@ export function prettyDate(
     dateStyle: format,
   };
 
-  return new Intl.DateTimeFormat('en-DE', options).format(date);
+  return new Intl.DateTimeFormat("fr-FR", options).format(date);
 }
 
 export function buildPdfUrl(source: Source) {
@@ -124,7 +126,7 @@ export async function generateOgImageUrl(sessionType: string) {
   try {
     const response = await fetch(`${process.env.SITE_URL}/api/parties`);
     if (!response.ok) {
-      throw new Error('Failed to fetch parties');
+      throw new Error("Failed to fetch parties");
     }
 
     const parties = await response.json();
@@ -138,17 +140,17 @@ export async function generateOgImageUrl(sessionType: string) {
     return;
   }
 
-  const url = new URL(process.env.SITE_URL ?? 'https://wahl.chat');
-  const imageUrl = new URL('/api/og', url);
+  const url = new URL(process.env.SITE_URL ?? "https://chatvote.fr");
+  const imageUrl = new URL("/api/og", url);
   imageUrl.searchParams.set(
-    'partyImageUrl',
-    `${process.env.SITE_URL ?? 'https://wahl.chat'}${buildPartyImageUrl(
+    "partyImageUrl",
+    `${process.env.SITE_URL ?? "https://chatvote.fr"}${buildPartyImageUrl(
       party.party_id,
     )}`,
   );
   imageUrl.searchParams.set(
-    'backgroundColor',
-    party.background_color ?? '#fff',
+    "backgroundColor",
+    party.background_color ?? "#fff",
   );
 
   return imageUrl.toString();

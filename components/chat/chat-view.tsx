@@ -1,13 +1,15 @@
-import { Suspense } from 'react';
-import AiDisclaimer from '@/components/legal/ai-disclaimer';
-import LoadingSpinner from '@/components/loading-spinner';
-import ChatScrollDownIndicator from './chat-scroll-down-indicator';
+import { Suspense } from "react";
+
+import AiDisclaimer from "@/components/legal/ai-disclaimer";
+import LoadingSpinner from "@/components/loading-spinner";
 import {
   getCurrentUser,
   getSystemStatus,
-} from '@/lib/firebase/firebase-server';
-import ChatViewSsr from './chat-view-ssr';
-import ChatDynamicChatInput from './chat-dynamic-chat-input';
+} from "@/lib/firebase/firebase-server";
+
+import ChatDynamicChatInput from "./chat-dynamic-chat-input";
+import ChatScrollDownIndicator from "./chat-scroll-down-indicator";
+import ChatViewSsr from "./chat-view-ssr";
 
 type Props = {
   sessionId?: string;
@@ -25,7 +27,7 @@ async function ChatView({ sessionId, partyIds, initialQuestion }: Props) {
         fallback={
           <div className="flex grow flex-col items-center justify-center gap-2">
             <LoadingSpinner />
-            <p className="text-center text-sm text-muted-foreground">
+            <p className="text-muted-foreground text-center text-sm">
               Loading Chat Session...
             </p>
           </div>

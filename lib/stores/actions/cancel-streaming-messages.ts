@@ -1,7 +1,7 @@
-import type { ChatStoreActionHandlerFor } from '@/lib/stores/chat-store.types';
+import { type ChatStoreActionHandlerFor } from "@/lib/stores/chat-store.types";
 
 export const cancelStreamingMessages: ChatStoreActionHandlerFor<
-  'cancelStreamingMessages'
+  "cancelStreamingMessages"
 > = (get, set) => async (streamingMessageId?: string) => {
   const { pendingStreamingMessageTimeoutHandler, currentStreamingMessages } =
     get();

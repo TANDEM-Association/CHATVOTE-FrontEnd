@@ -1,8 +1,8 @@
-import type { ChatStoreActionHandlerFor } from '@/lib/stores/chat-store.types';
-import { generateUuid } from '@/lib/utils';
+import { type ChatStoreActionHandlerFor } from "@/lib/stores/chat-store.types";
+import { generateUuid } from "@/lib/utils";
 
 export const streamingMessageSourcesReady: ChatStoreActionHandlerFor<
-  'streamingMessageSourcesReady'
+  "streamingMessageSourcesReady"
 > = (get, set) => (sessionId, partyId, sources) =>
   set((state) => {
     if (state.chatSessionId !== sessionId) return;
@@ -12,9 +12,9 @@ export const streamingMessageSourcesReady: ChatStoreActionHandlerFor<
     if (!state.currentStreamingMessages.messages[partyId]) {
       state.currentStreamingMessages.messages[partyId] = {
         party_id: partyId,
-        content: '',
+        content: "",
         id: generateUuid(),
-        role: 'assistant',
+        role: "assistant",
         sources,
       };
 

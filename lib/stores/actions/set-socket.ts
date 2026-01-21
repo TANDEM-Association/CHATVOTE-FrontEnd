@@ -1,6 +1,6 @@
-import type { ChatStoreActionHandlerFor } from '@/lib/stores/chat-store.types';
+import { type ChatStoreActionHandlerFor } from "@/lib/stores/chat-store.types";
 
-export const setSocket: ChatStoreActionHandlerFor<'setSocket'> =
+export const setSocket: ChatStoreActionHandlerFor<"setSocket"> =
   (get, set) => (socket) => {
     set((state) => ({
       socket: {

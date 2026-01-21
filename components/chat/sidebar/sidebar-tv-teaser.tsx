@@ -1,12 +1,14 @@
-import { Button } from '@/components/ui/button';
-import { LibraryBigIcon, XIcon } from 'lucide-react';
-import Link from 'next/link';
-import Logo from '@/components/chat/logo';
-import RtlIcon from '@/components/icons/rtl-icon';
+import Link from "next/link";
+
+import { LibraryBigIcon, XIcon } from "lucide-react";
+
+import Logo from "@/components/chat/logo";
+import RtlIcon from "@/components/icons/rtl-icon";
+import { Button } from "@/components/ui/button";
 
 function SidebarTvTeaser() {
   return (
-    <div className="relative mt-4 overflow-hidden rounded-md border border-border bg-muted p-6 text-center">
+    <div className="border-border bg-muted relative mt-4 overflow-hidden rounded-md border p-6 text-center">
       <div className="grid w-full grid-cols-[1fr_auto_1fr] items-center justify-center gap-4">
         <Logo className="ml-auto w-12" />
         <XIcon className="size-4" />
@@ -14,13 +16,13 @@ function SidebarTvTeaser() {
       </div>
 
       <p className="mt-2 text-sm text-black/70 dark:text-white/70">
-        Beim Quadrell nicht dabei gewesen? <br /> Vergleiche die Themen bei uns.
+        Vous avez manqué le débat ? <br /> Comparez les sujets chez nous.
       </p>
 
       <Button className="relative z-10 mt-2" asChild>
         <Link href="/topics">
           <LibraryBigIcon />
-          Aktuelle Themen
+          Sujets actuels
         </Link>
       </Button>
     </div>

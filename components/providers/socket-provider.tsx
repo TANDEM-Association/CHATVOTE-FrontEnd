@@ -1,21 +1,24 @@
-'use client';
+"use client";
 
-import { useEffect } from 'react';
-import ChatSocket from '@/lib/chat-socket';
-import { useChatStore } from './chat-store-provider';
-import type {
-  ChatSessionInitializedPayload,
-  PartyResponseChunkReadyPayload,
-  PartyResponseCompletePayload,
-  ProConPerspectiveReadyPayload,
-  QuickRepliesAndTitleReadyPayload,
-  RespondingPartiesSelectedPayload,
-  SourcesReadyPayload,
-  VotingBehaviorCompletePayload,
-  VotingBehaviorResultPayload,
-  VotingBehaviorSummaryChunkPayload,
-} from '@/lib/socket.types';
-import { io } from 'socket.io-client';
+import { useEffect } from "react";
+
+import { io } from "socket.io-client";
+
+import ChatSocket from "@/lib/chat-socket";
+import {
+  type ChatSessionInitializedPayload,
+  type PartyResponseChunkReadyPayload,
+  type PartyResponseCompletePayload,
+  type ProConPerspectiveReadyPayload,
+  type QuickRepliesAndTitleReadyPayload,
+  type RespondingPartiesSelectedPayload,
+  type SourcesReadyPayload,
+  type VotingBehaviorCompletePayload,
+  type VotingBehaviorResultPayload,
+  type VotingBehaviorSummaryChunkPayload,
+} from "@/lib/socket.types";
+
+import { useChatStore } from "./chat-store-provider";
 
 type Props = {
   children: React.ReactNode;
@@ -24,7 +27,7 @@ type Props = {
 const baseUrl = process.env.NEXT_PUBLIC_API_URL;
 
 export const socket = io(baseUrl, {
-  transports: ['websocket'],
+  transports: ["websocket"],
 });
 
 const chatSocket = new ChatSocket();
@@ -144,44 +147,44 @@ function SocketProvider({ children }: Props) {
       completeVotingBehavior(data.request_id, data.votes, data.message);
     }
 
-    chatSocket.on('connect', onConnect);
-    chatSocket.on('disconnect', onDisconnect);
-    chatSocket.on('responding_parties_selected', onRespondingPartiesSelected);
-    chatSocket.on('chat_session_initialized', onChatSessionInitialized);
-    chatSocket.on('sources_ready', onSourcesReady);
-    chatSocket.on('party_response_chunk_ready', onPartyResponseChunkReady);
-    chatSocket.on('party_response_complete', onPartyResponseComplete);
-    chatSocket.on('quick_replies_and_title_ready', onQuickRepliesAndTitleReady);
-    chatSocket.on('pro_con_perspective_complete', onProConPerspectiveReady);
+    chatSocket.on("connect", onConnect);
+    chatSocket.on("disconnect", onDisconnect);
+    chatSocket.on("responding_parties_selected", onRespondingPartiesSelected);
+    chatSocket.on("chat_session_initialized", onChatSessionInitialized);
+    chatSocket.on("sources_ready", onSourcesReady);
+    chatSocket.on("party_response_chunk_ready", onPartyResponseChunkReady);
+    chatSocket.on("party_response_complete", onPartyResponseComplete);
+    chatSocket.on("quick_replies_and_title_ready", onQuickRepliesAndTitleReady);
+    chatSocket.on("pro_con_perspective_complete", onProConPerspectiveReady);
     chatSocket.on(
-      'voting_behavior_summary_chunk',
+      "voting_behavior_summary_chunk",
       onVotingBehaviorSummaryChunk,
     );
-    chatSocket.on('voting_behavior_result', onVotingBehaviorResult);
-    chatSocket.on('voting_behavior_complete', onVotingBehaviorComplete);
+    chatSocket.on("voting_behavior_result", onVotingBehaviorResult);
+    chatSocket.on("voting_behavior_complete", onVotingBehaviorComplete);
 
     return () => {
-      chatSocket.off('connect', onConnect);
-      chatSocket.off('disconnect', onDisconnect);
+      chatSocket.off("connect", onConnect);
+      chatSocket.off("disconnect", onDisconnect);
       chatSocket.off(
-        'responding_parties_selected',
+        "responding_parties_selected",
         onRespondingPartiesSelected,
       );
-      chatSocket.off('chat_session_initialized', onChatSessionInitialized);
-      chatSocket.off('sources_ready', onSourcesReady);
-      chatSocket.off('party_response_chunk_ready', onPartyResponseChunkReady);
-      chatSocket.off('party_response_complete', onPartyResponseComplete);
+      chatSocket.off("chat_session_initialized", onChatSessionInitialized);
+      chatSocket.off("sources_ready", onSourcesReady);
+      chatSocket.off("party_response_chunk_ready", onPartyResponseChunkReady);
+      chatSocket.off("party_response_complete", onPartyResponseComplete);
       chatSocket.off(
-        'quick_replies_and_title_ready',
+        "quick_replies_and_title_ready",
         onQuickRepliesAndTitleReady,
       );
-      chatSocket.off('pro_con_perspective_complete', onProConPerspectiveReady);
+      chatSocket.off("pro_con_perspective_complete", onProConPerspectiveReady);
       chatSocket.off(
-        'voting_behavior_summary_chunk',
+        "voting_behavior_summary_chunk",
         onVotingBehaviorSummaryChunk,
       );
-      chatSocket.off('voting_behavior_result', onVotingBehaviorResult);
-      chatSocket.off('voting_behavior_complete', onVotingBehaviorComplete);
+      chatSocket.off("voting_behavior_result", onVotingBehaviorResult);
+      chatSocket.off("voting_behavior_complete", onVotingBehaviorComplete);
     };
   }, [
     selectRespondingParties,
@@ -195,6 +198,7 @@ function SocketProvider({ children }: Props) {
     initializedChatSession,
     addVotingBehaviorSummaryChunk,
     addVotingBehaviorResult,
+    completeVotingBehavior,
   ]);
 
   return <>{children}</>;

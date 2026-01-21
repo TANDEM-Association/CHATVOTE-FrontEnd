@@ -1,7 +1,8 @@
-'use client';
+"use client";
 
-import dynamic from 'next/dynamic';
-const PDFView = dynamic(() => import('@/components/pdf-view'), {
+import dynamic from "next/dynamic";
+
+const PDFView = dynamic(() => import("@/components/pdf-view"), {
   ssr: false,
 });
 

@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils';
+import { cn } from "@/lib/utils";
 
 type Props = {
   className?: string;
@@ -8,7 +8,7 @@ function LoadingSpinner({ className }: Props) {
   return (
     <svg
       className={cn(
-        '-ml-1 mr-3 size-5 animate-spin text-foreground',
+        "text-foreground mr-3 -ml-1 size-5 animate-spin",
         className,
       )}
       xmlns="http://www.w3.org/2000/svg"

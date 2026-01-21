@@ -1,23 +1,28 @@
-'use client';
+"use client";
 
-import { useEffect, useRef, useState } from 'react';
-import { useAnonymousAuth } from '@/components/anonymous-auth';
-import { toast } from 'sonner';
-import { UserIcon, XIcon } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { useEffect, useRef, useState } from "react";
+
+import { usePathname } from "next/navigation";
+
+import { FilloutPopupEmbed } from "@fillout/react";
+import { Timestamp } from "firebase/firestore";
+import { UserIcon, XIcon } from "lucide-react";
+import { toast } from "sonner";
+
+import { useAnonymousAuth } from "@/components/anonymous-auth";
+import Logo from "@/components/chat/logo";
 import {
   ResponsiveDialog,
   ResponsiveDialogContent,
-} from '@/components/chat/responsive-drawer-dialog';
-import LoginForm from './login-form';
-import { FilloutPopupEmbed } from '@fillout/react';
-import '@fillout/react/style.css';
-import { Timestamp } from 'firebase/firestore';
-import { firestoreTimestampToDate } from '@/lib/utils';
-import Logo from '@/components/chat/logo';
-import { usePathname } from 'next/navigation';
+} from "@/components/chat/responsive-drawer-dialog";
+import { Button } from "@/components/ui/button";
+import { firestoreTimestampToDate } from "@/lib/utils";
 
-const LOGIN_REMINDER_TOAST_ID = 'login-reminder-toast';
+import LoginForm from "./login-form";
+
+import "@fillout/react/style.css";
+
+const LOGIN_REMINDER_TOAST_ID = "login-reminder-toast";
 
 function LoginReminderToast() {
   const [isOpen, setIsOpen] = useState(false);
@@ -30,14 +35,14 @@ function LoginReminderToast() {
     if (
       !user?.isAnonymous ||
       shownThisRender.current ||
-      pathname === '/' ||
+      pathname === "/" ||
       user.keep_up_to_date_email
     ) {
       return;
     }
 
     const clickedAway = firestoreTimestampToDate(
-      user.clicked_away_login_reminder
+      user.clicked_away_login_reminder,
     );
 
     if (clickedAway) {
@@ -85,11 +90,11 @@ function LoginReminderToast() {
 
       toast(
         <div className="relative flex flex-col gap-2">
-          <div className="absolute right-0 top-0">
+          <div className="absolute top-0 right-0">
             <Button
               variant="ghost"
               size="icon"
-              className="-mr-2 -mt-2 size-6"
+              className="-mt-2 -mr-2 size-6"
               onClick={handleClose}
             >
               <XIcon className="size-4" />
@@ -99,21 +104,23 @@ function LoginReminderToast() {
           <div className="flex items-center gap-4">
             <Logo variant="small" className="size-6" />
             <div className="flex flex-col">
-              <h1 className="text-base font-bold">Der Koalitionsvertrag!</h1>
-              <p className="text-sm text-muted-foreground">
-                Bald auf <span className="font-bold">wahl.chat</span>
+              <h1 className="text-base font-bold">
+                Les programmes électoraux !
+              </h1>
+              <p className="text-muted-foreground text-sm">
+                Bientôt sur <span className="font-bold">chatvote</span>
               </p>
             </div>
           </div>
-          <p className="text-sm text-muted-foreground">
-            Melde dich an, um nach der Wahl zu erfahren, wie der
-            Koalitionsvertrag umgesetzt wird und welche deiner Wünsche ins
-            Programm aufgenommen wurden.
+          <p className="text-muted-foreground text-sm">
+            Connectez-vous pour découvrir après les élections comment les
+            programmes sont mis en œuvre et quels sont vos souhaits qui ont été
+            pris en compte.
           </p>
 
           <div className="grid grid-cols-2 gap-2">
             <Button size="sm" onClick={handleLoginClick}>
-              Anmelden
+              Se connecter
             </Button>
             <Button variant="outline" size="sm" onClick={handleFeedbackClick}>
               Feedback
@@ -123,10 +130,10 @@ function LoginReminderToast() {
         {
           duration: 10000,
           icon: <UserIcon className="size-4" />,
-          position: 'bottom-right',
+          position: "bottom-right",
           id: LOGIN_REMINDER_TOAST_ID,
           onDismiss: handleClickedAway,
-        }
+        },
       );
     }, timeout);
 
@@ -137,6 +144,7 @@ function LoginReminderToast() {
     updateUser,
     user?.clicked_away_login_reminder,
     pathname,
+    user?.keep_up_to_date_email,
   ]);
 
   return (

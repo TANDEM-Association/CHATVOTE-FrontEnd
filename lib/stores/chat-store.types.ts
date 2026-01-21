@@ -1,14 +1,15 @@
-import type {
-  LLMSize,
-  PartyResponseChunkReadyPayload,
-  StreamingMessage,
-  Vote,
-} from '@/lib/socket.types';
-import type { Timestamp } from 'firebase/firestore';
-import type { PartyDetails } from '@/lib/party-details';
-import type { WritableDraft } from 'immer';
-import type ChatSocket from '@/lib/chat-socket';
-import type { ChatSession, Tenant } from '@/lib/firebase/firebase.types';
+import { type Timestamp } from "firebase/firestore";
+import { type WritableDraft } from "immer";
+
+import type ChatSocket from "@/lib/chat-socket";
+import { type ChatSession, type Tenant } from "@/lib/firebase/firebase.types";
+import { type PartyDetails } from "@/lib/party-details";
+import {
+  type LLMSize,
+  type PartyResponseChunkReadyPayload,
+  type StreamingMessage,
+  type Vote,
+} from "@/lib/socket.types";
 
 export type Source = {
   source: string;
@@ -33,7 +34,7 @@ export type MessageItem = {
   content: string;
   sources: Source[];
   party_id?: string;
-  role: 'assistant' | 'user';
+  role: "assistant" | "user";
   pro_con_perspective?: MessageItem;
   feedback?: MessageFeedback;
   created_at?: Timestamp;
@@ -56,12 +57,12 @@ export type GroupedMessage = {
   messages: MessageItem[];
   chat_title?: string;
   quick_replies?: string[];
-  role: 'user' | 'assistant';
+  role: "user" | "assistant";
   created_at?: Timestamp;
 };
 
 export type MessageFeedback = {
-  feedback: 'like' | 'dislike';
+  feedback: "like" | "dislike";
   detail?: string;
 };
 

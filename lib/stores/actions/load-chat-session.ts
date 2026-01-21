@@ -1,10 +1,10 @@
 import {
   getChatSession,
   getChatSessionMessages,
-} from '@/lib/firebase/firebase';
-import type { ChatStoreActionHandlerFor } from '@/lib/stores/chat-store.types';
+} from "@/lib/firebase/firebase";
+import { type ChatStoreActionHandlerFor } from "@/lib/stores/chat-store.types";
 
-export const loadChatSession: ChatStoreActionHandlerFor<'loadChatSession'> =
+export const loadChatSession: ChatStoreActionHandlerFor<"loadChatSession"> =
   (get, set) => async (chatSessionId) => {
     set((state) => {
       state.loading.chatSession = true;
@@ -47,7 +47,7 @@ export const loadChatSession: ChatStoreActionHandlerFor<'loadChatSession'> =
       set((state) => {
         state.loading.chatSession = false;
         state.loading.newMessage = false;
-        state.error = 'Failed to load chat session';
+        state.error = "Failed to load chat session";
         state.messages = [];
       });
 

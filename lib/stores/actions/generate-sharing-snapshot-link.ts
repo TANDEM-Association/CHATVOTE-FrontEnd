@@ -1,8 +1,8 @@
-import { createShareableSession } from '@/lib/firebase/firebase-admin';
-import type { ChatStoreActionHandlerFor } from '@/lib/stores/chat-store.types';
+import { createShareableSession } from "@/lib/firebase/firebase-admin";
+import { type ChatStoreActionHandlerFor } from "@/lib/stores/chat-store.types";
 
 export const generateSharingSnapshotLink: ChatStoreActionHandlerFor<
-  'generateSharingSnapshotLink'
+  "generateSharingSnapshotLink"
 > = (get, set) => async () => {
   const { chatSessionId, sharingSnapshot, messages } = get();
 

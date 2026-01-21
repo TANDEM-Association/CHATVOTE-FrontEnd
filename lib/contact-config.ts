@@ -1,8 +1,8 @@
 export const socialMediaConfig = {
-  instagram: 'https://www.instagram.com/wahl.chat/',
-  linkedin: 'https://www.linkedin.com/company/wahl-chat',
-  x: 'https://x.com/wahl_chat',
-  email: 'mailto:info@wahl.chat',
+  instagram: "https://www.instagram.com/chatvote.fr/",
+  linkedin: "https://www.linkedin.com/company/chatvote",
+  x: "https://x.com/chatvote_fr",
+  email: "mailto:info@chatvote.fr",
 };
 
-export const PRESS_LINK = 'https://wahlchat.notion.site';
+export const PRESS_LINK = "https://chatvote.notion.site";

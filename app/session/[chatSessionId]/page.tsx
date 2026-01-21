@@ -1,4 +1,4 @@
-import ChatView from '@/components/chat/chat-view';
+import ChatView from "@/components/chat/chat-view";
 
 type Props = {
   params: Promise<{

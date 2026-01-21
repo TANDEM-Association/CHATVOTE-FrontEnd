@@ -1,9 +1,9 @@
-import type {
-  MessageFeedback,
-  MessageItem,
-  Source,
-  VotingBehavior,
-} from './stores/chat-store.types';
+import {
+  type MessageFeedback,
+  type MessageItem,
+  type Source,
+  type VotingBehavior,
+} from "./stores/chat-store.types";
 
 export type SourcesReadyPayload = {
   session_id: string;
@@ -47,7 +47,7 @@ export type CurrentStreamingMessages = {
 
 export type StreamingMessage = {
   id: string;
-  role: 'assistant';
+  role: "assistant";
   content?: string;
   sources?: Source[];
   party_id?: string;
@@ -57,7 +57,7 @@ export type StreamingMessage = {
   feedback?: MessageFeedback;
 };
 
-export type LLMSize = 'small' | 'large';
+export type LLMSize = "small" | "large";
 
 export type ChatSessionInitPayload = {
   session_id: string;

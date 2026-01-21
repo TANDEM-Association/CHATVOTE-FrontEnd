@@ -1,6 +1,7 @@
-import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
-import { type Topic, TOPIC_TITLES } from './topics.data';
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+
+import { type Topic, TOPIC_TITLES } from "./topics.data";
 
 type Props = {
   topic: Topic;
@@ -17,10 +18,10 @@ function TopicTag({ topic, active = false, onClick }: Props) {
         size="sm"
         variant="outline"
         className={cn(
-          'border rounded-md px-2 py-0 w-fit whitespace-nowrap h-7 text-xs',
+          "h-7 w-fit rounded-md border px-2 py-0 text-xs whitespace-nowrap",
           normal,
           hover,
-          active && activeStyle
+          active && activeStyle,
         )}
         onClick={onClick}
       >
@@ -32,9 +33,9 @@ function TopicTag({ topic, active = false, onClick }: Props) {
   return (
     <span
       className={cn(
-        'border rounded-md px-2 py-0 w-fit whitespace-nowrap h-7 text-xs flex items-center justify-center',
+        "flex h-7 w-fit items-center justify-center rounded-md border px-2 py-0 text-xs whitespace-nowrap",
         normal,
-        active && activeStyle
+        active && activeStyle,
       )}
     >
       {title}

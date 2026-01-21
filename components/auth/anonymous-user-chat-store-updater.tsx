@@ -1,8 +1,9 @@
-'use client';
+"use client";
 
-import { useChatStore } from '@/components/providers/chat-store-provider';
-import { useAnonymousAuth } from '@/components/anonymous-auth';
-import { useEffect } from 'react';
+import { useEffect } from "react";
+
+import { useAnonymousAuth } from "@/components/anonymous-auth";
+import { useChatStore } from "@/components/providers/chat-store-provider";
 
 function AnonymousUserChatStoreUpdater() {
   const { user } = useAnonymousAuth();

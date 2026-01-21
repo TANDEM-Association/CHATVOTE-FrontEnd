@@ -1,24 +1,28 @@
-'use client';
+"use client";
 
-import { formatAmountForDisplay } from '@/lib/stripe/stripe-helpers';
+import { useState } from "react";
+
+import Link from "next/link";
+
+import NumberFlow from "@number-flow/react";
+import { track } from "@vercel/analytics/react";
+import { EqualIcon } from "lucide-react";
+
+import { createCheckoutSession } from "@/lib/server-actions/stripe-create-session";
+import { formatAmountForDisplay } from "@/lib/stripe/stripe-helpers";
+import { cn } from "@/lib/utils";
+
+import { Button } from "./ui/button";
 import {
   CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
-} from './ui/card';
-import { createCheckoutSession } from '@/lib/server-actions/stripe-create-session';
-import { useState } from 'react';
-import { Button } from './ui/button';
-import { Slider } from './ui/slider';
-import { DonateSubmitButton } from './donate-submit-button';
-import { cn } from '@/lib/utils';
-import { Input } from './ui/input';
-import Link from 'next/link';
-import NumberFlow from '@number-flow/react';
-import { EqualIcon } from 'lucide-react';
-import { track } from '@vercel/analytics/react';
+} from "./ui/card";
+import { Input } from "./ui/input";
+import { Slider } from "./ui/slider";
+import { DonateSubmitButton } from "./donate-submit-button";
 
 function DonationForm() {
   const [amount, setAmount] = useState(50);
@@ -27,7 +31,7 @@ function DonationForm() {
   const defaultAmounts = [5, 10, 20, 50, 100, 200, 500];
 
   const handleDonate = async (data: FormData) => {
-    track('donation_started', {
+    track("donation_started", {
       amount: amount,
     });
 
@@ -52,25 +56,24 @@ function DonationForm() {
     <form action={handleDonate}>
       <CardHeader>
         <CardTitle className="text-center text-2xl">
-          Halte{' '}
+          Maintenez{" "}
           <Link className="underline" href="/">
-            wahl.chat
-          </Link>{' '}
-          mit deiner Spende am Leben!
+            chatvote
+          </Link>{" "}
+          en vie grâce à votre don !
         </CardTitle>
         <CardDescription className="text-center">
-          Wir finanzieren{' '}
+          Nous finançons actuellement{" "}
           <Link className="underline" href="/">
-            wahl.chat
-          </Link>{' '}
-          derzeit noch vollständig aus eigener Tasche. Deine Spende hilft uns,
-          dieses Projekt weiter zu betreiben und die Kosten für Server und KI zu
-          decken.
+            chatvote
+          </Link>{" "}
+          entièrement de notre poche. Votre don nous aide à maintenir ce projet
+          et à couvrir les coûts des serveurs et de l&lsquo;IA.
         </CardDescription>
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-[1fr,auto,1fr] items-center gap-4">
-          <div className="mb-8 mt-4 flex flex-col items-center justify-center">
+          <div className="mt-4 mb-8 flex flex-col items-center justify-center">
             {customAmount ? (
               <Input
                 type="number"
@@ -78,32 +81,32 @@ function DonationForm() {
                 min="5"
                 max="10000"
                 step="1"
-                className="mb-2 h-16 w-32 text-center !text-4xl font-bold [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                className="mb-2 h-16 w-32 [appearance:textfield] text-center !text-4xl font-bold [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
                 value={amount}
                 onChange={(e) => {
                   const value = Math.max(0, Math.floor(Number(e.target.value)))
                     .toString()
-                    .replace(/^0+/, '');
+                    .replace(/^0+/, "");
                   setAmount(Number(value));
                 }}
               />
             ) : (
               <h1 className="text-center text-4xl font-bold">
-                <NumberFlow value={amount} />{' '}
-                <span className="text-lg text-muted-foreground">€</span>
+                <NumberFlow value={amount} />{" "}
+                <span className="text-muted-foreground text-lg">€</span>
               </h1>
             )}
-            <p className="text-center text-sm text-muted-foreground">
-              einmalige Spende
+            <p className="text-muted-foreground text-center text-sm">
+              don unique
             </p>
           </div>
           <EqualIcon className="text-3xl" />
-          <div className="mb-8 mt-4 flex flex-col items-center justify-center">
+          <div className="mt-4 mb-8 flex flex-col items-center justify-center">
             <h1 className="text-center text-4xl font-bold">
               <NumberFlow value={amount * 50} />
             </h1>
-            <p className="text-center text-sm text-muted-foreground">
-              Menschen informiert
+            <p className="text-muted-foreground text-center text-sm">
+              personnes informées
             </p>
           </div>
         </div>
@@ -116,7 +119,7 @@ function DonationForm() {
               type="button"
               className={cn(
                 amount === currAmount &&
-                  'bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground/90'
+                  "bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground/90",
               )}
               onClick={() => handleSetAmount(currAmount)}
             >
@@ -128,11 +131,11 @@ function DonationForm() {
             variant="outline"
             className={cn(
               customAmount &&
-                'bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground/90'
+                "bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground/90",
             )}
             onClick={() => setCustomAmount(true)}
           >
-            Andere
+            Autre
           </Button>
         </div>
 

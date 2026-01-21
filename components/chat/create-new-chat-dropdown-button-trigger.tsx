@@ -1,14 +1,15 @@
-'use client';
+"use client";
 
-import { SquarePenIcon } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { SquarePenIcon } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
+import { DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { useSidebar } from "@/components/ui/sidebar";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { useSidebar } from '@/components/ui/sidebar';
+} from "@/components/ui/tooltip";
 
 type Props = {
   onTriggerClick?: () => void;
@@ -17,7 +18,7 @@ type Props = {
 function CreateNewChatDropdownButtonTrigger({ onTriggerClick }: Props) {
   const { isMobile, state } = useSidebar();
 
-  if (!isMobile && state === 'expanded') return null;
+  if (!isMobile && state === "expanded") return null;
 
   return (
     <Tooltip>
@@ -33,7 +34,7 @@ function CreateNewChatDropdownButtonTrigger({ onTriggerClick }: Props) {
           </Button>
         </DropdownMenuTrigger>
       </TooltipTrigger>
-      <TooltipContent>Erstelle einen neuen Chat</TooltipContent>
+      <TooltipContent>Créer un nouveau chat</TooltipContent>
     </Tooltip>
   );
 }

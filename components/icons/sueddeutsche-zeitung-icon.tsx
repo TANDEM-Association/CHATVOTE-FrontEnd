@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils';
+import { cn } from "@/lib/utils";
 
 type Props = {
   className?: string;
@@ -12,7 +12,7 @@ function SueddeutscheZeitungIcon({ className }: Props) {
       width="921.26"
       height="141.732"
       viewBox="0 0 921.26 141.732"
-      className={cn('size-6', className)}
+      className={cn("size-6", className)}
     >
       <path
         fill="currentColor"

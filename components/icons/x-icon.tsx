@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils';
+import { cn } from "@/lib/utils";
 
 type Props = {
   className?: string;
@@ -9,7 +9,7 @@ function XIcon({ className }: Props) {
     <svg
       viewBox="0 0 300.251 300.251"
       xmlns="http://www.w3.org/2000/svg"
-      className={cn('size-6 text-foreground', className)}
+      className={cn("text-foreground size-6", className)}
     >
       <path
         fill="currentColor"

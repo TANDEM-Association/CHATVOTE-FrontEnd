@@ -1,5 +1,5 @@
-import type { Vote } from '@/lib/socket.types';
-import useCarouselCurrentIndex from '@/lib/hooks/use-carousel-current-index';
+import useCarouselCurrentIndex from "@/lib/hooks/use-carousel-current-index";
+import { type Vote } from "@/lib/socket.types";
 
 type Props = {
   votes: Vote[];
@@ -13,7 +13,7 @@ function ChatVoteDetailsSlideCounter({ votes }: Props) {
       <p className="text-sm font-bold">
         {selectedIndex + 1} / {votes.length}
       </p>
-      <span className="text-xs text-muted-foreground">Abstimmungen</span>
+      <span className="text-muted-foreground text-xs">Abstimmungen</span>
     </div>
   );
 }

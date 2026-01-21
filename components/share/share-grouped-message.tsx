@@ -1,20 +1,22 @@
-'use client';
+"use client";
 
-import type {
-  GroupedMessage,
-  MessageItem,
-} from '@/lib/stores/chat-store.types';
-import ShareSingleMessage from './share-single-message';
+import AutoHeight from "embla-carousel-auto-height";
+
+import ChatGroupSlideCounter from "@/components/chat/chat-group-slide-counter";
 import {
+  Carousel,
   CarouselContent,
-  CarouselPrevious,
   CarouselItem,
   CarouselNext,
-} from '@/components/ui/carousel';
-import { Carousel } from '@/components/ui/carousel';
-import AutoHeight from 'embla-carousel-auto-height';
-import ChatGroupSlideCounter from '@/components/chat/chat-group-slide-counter';
-import type { PartyDetails } from '@/lib/party-details';
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import { type PartyDetails } from "@/lib/party-details";
+import {
+  type GroupedMessage,
+  type MessageItem,
+} from "@/lib/stores/chat-store.types";
+
+import ShareSingleMessage from "./share-single-message";
 
 type Props = {
   message: GroupedMessage;
@@ -22,7 +24,7 @@ type Props = {
 };
 
 function ShareGroupedMessage({ message, parties }: Props) {
-  if (message.role === 'user') {
+  if (message.role === "user") {
     return <ShareSingleMessage message={message.messages[0]} />;
   }
 

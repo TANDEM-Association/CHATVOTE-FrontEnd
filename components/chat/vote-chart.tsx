@@ -1,11 +1,12 @@
-import { Pie, PieChart } from 'recharts';
+import NumberFlow from "@number-flow/react";
+import { Pie, PieChart } from "recharts";
+
 import {
   type ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from '../ui/chart';
-import NumberFlow from '@number-flow/react';
+} from "../ui/chart";
 
 type Props = {
   voteResults: {
@@ -20,50 +21,50 @@ type Props = {
 
 const chartConfig = {
   not_voted: {
-    label: 'Nicht abgestimmt',
-    color: 'hsl(var(--chart-1))',
+    label: "Non voté",
+    color: "hsl(var(--chart-1))",
   },
   abstain: {
-    label: 'Enthaltung',
-    color: 'hsl(var(--chart-2))',
+    label: "Abstention",
+    color: "hsl(var(--chart-2))",
   },
   no: {
-    label: 'Nein',
-    color: 'hsl(var(--chart-3))',
+    label: "Non",
+    color: "hsl(var(--chart-3))",
   },
   yes: {
-    label: 'Ja',
-    color: 'hsl(var(--chart-4))',
+    label: "Oui",
+    color: "hsl(var(--chart-4))",
   },
 } satisfies ChartConfig;
 
 function VoteChart({ voteResults, memberCount }: Props) {
   const chartData = [
     {
-      voteType: 'yes',
+      voteType: "yes",
       result: voteResults.yes,
-      fill: 'hsl(var(--chart-yes))',
+      fill: "hsl(var(--chart-yes))",
     },
     {
-      voteType: 'no',
+      voteType: "no",
       result: voteResults.no,
-      fill: 'hsl(var(--chart-no))',
+      fill: "hsl(var(--chart-no))",
     },
     {
-      voteType: 'abstain',
+      voteType: "abstain",
       result: voteResults.abstain,
-      fill: 'hsl(var(--chart-abstain))',
+      fill: "hsl(var(--chart-abstain))",
     },
     {
-      voteType: 'not_voted',
+      voteType: "not_voted",
       result: voteResults.not_voted,
-      fill: 'hsl(var(--chart-not-voted))',
+      fill: "hsl(var(--chart-not-voted))",
     },
   ];
 
   return (
-    <div className="h-[150px] w-[150px] relative">
-      <ChartContainer config={chartConfig} className="size-full z-20 relative">
+    <div className="relative h-[150px] w-[150px]">
+      <ChartContainer config={chartConfig} className="relative z-20 size-full">
         <PieChart>
           <ChartTooltip
             cursor={false}
@@ -79,9 +80,9 @@ function VoteChart({ voteResults, memberCount }: Props) {
           />
         </PieChart>
       </ChartContainer>
-      <div className="absolute top-0 left-0 right-0 bottom-0 flex flex-col items-center justify-center">
+      <div className="absolute top-0 right-0 bottom-0 left-0 flex flex-col items-center justify-center">
         <NumberFlow className="text-lg font-bold" value={memberCount} />
-        <p className="text-xs text-muted-foreground">Mitglieder</p>
+        <p className="text-muted-foreground text-xs">Membres</p>
       </div>
     </div>
   );

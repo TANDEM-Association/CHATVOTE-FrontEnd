@@ -1,15 +1,15 @@
-'use client';
+"use client";
 
 import {
   buildProConPerspectiveSeparatorId,
   buildVotingBehaviorSeparatorId,
   SCROLL_CONTAINER_ID,
-} from './scroll-constants';
+} from "./scroll-constants";
 
 export async function chatViewScrollToBottom({
-  behavior = 'smooth',
+  behavior = "smooth",
 }: {
-  behavior?: 'smooth' | 'instant';
+  behavior?: "smooth" | "instant";
 } = {}) {
   if (!document) return;
 
@@ -37,8 +37,8 @@ export async function chatViewScrollToProConPerspectiveContainer(
   if (!proConPerspectiveSeparator) return;
 
   proConPerspectiveSeparator.scrollIntoView({
-    behavior: 'smooth',
-    block: 'start',
+    behavior: "smooth",
+    block: "start",
   });
 }
 
@@ -54,8 +54,8 @@ export async function chatViewScrollToVotingBehaviorContainer(
   if (!votingBehaviorSeparator) return;
 
   votingBehaviorSeparator.scrollIntoView({
-    behavior: 'smooth',
-    block: 'start',
+    behavior: "smooth",
+    block: "start",
   });
 }
 
@@ -73,7 +73,7 @@ export function scrollToTopOfLastElementInChatScrollContainer() {
 
   scrollContainer.scrollTo({
     top: Math.min(lastElement.offsetTop - 12, scrollContainer.scrollHeight),
-    behavior: 'smooth',
+    behavior: "smooth",
   });
 }
 
@@ -102,7 +102,7 @@ export async function scrollToCarouselContainerBottom(containerId: string) {
       carouselContainer.offsetTop - 12,
       scrollContainer.scrollHeight,
     ),
-    behavior: 'smooth',
+    behavior: "smooth",
   });
 }
 
@@ -122,7 +122,7 @@ export async function scrollMessageBottomInView(messageId: string) {
 
   if (isMessageBottomInView) return;
 
-  message.scrollIntoView({ behavior: 'smooth', block: 'end' });
+  message.scrollIntoView({ behavior: "smooth", block: "end" });
 }
 
 function findNearestChildOfParent(
@@ -145,7 +145,7 @@ function findNearestChildOfParent(
 }
 
 export function scrollMessageIntoView(messageId: string) {
-  if (typeof document === 'undefined') return;
+  if (typeof document === "undefined") return;
 
   const scrollContainer = document.getElementById(SCROLL_CONTAINER_ID);
   const message = document.getElementById(messageId);
@@ -168,6 +168,6 @@ export function scrollMessageIntoView(messageId: string) {
 
   scrollContainer.scrollTo({
     top: messageContainer.offsetTop - 12,
-    behavior: 'instant',
+    behavior: "instant",
   });
 }

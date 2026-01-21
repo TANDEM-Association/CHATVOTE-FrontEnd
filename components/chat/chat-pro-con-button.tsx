@@ -1,11 +1,13 @@
-'use client';
-import { useChatStore } from '@/components/providers/chat-store-provider';
-import { Button } from '@/components/ui/button';
-import ProConIcon from './pro-con-icon';
-import type { MessageItem } from '@/lib/stores/chat-store.types';
-import type { StreamingMessage } from '@/lib/socket.types';
-import ChatActionButtonHighlight from './chat-action-button-highlight';
-import { track } from '@vercel/analytics/react';
+"use client";
+import { track } from "@vercel/analytics/react";
+
+import { useChatStore } from "@/components/providers/chat-store-provider";
+import { Button } from "@/components/ui/button";
+import { type StreamingMessage } from "@/lib/socket.types";
+import { type MessageItem } from "@/lib/stores/chat-store.types";
+
+import ChatActionButtonHighlight from "./chat-action-button-highlight";
+import ProConIcon from "./pro-con-icon";
 
 type Props = {
   partyId: string;
@@ -15,16 +17,16 @@ type Props = {
 
 function ChatProConButton({ partyId, message, isLastMessage }: Props) {
   const generateProConPerspective = useChatStore(
-    (state) => state.generateProConPerspective
+    (state) => state.generateProConPerspective,
   );
   const clickedProConButton = useChatStore(
-    (state) => state.clickedProConButton
+    (state) => state.clickedProConButton,
   );
 
   const handleGenerateProConPerspective = async () => {
-    track('pro_con_button_clicked', {
+    track("pro_con_button_clicked", {
       party: partyId,
-      message: message.content ?? 'empty-message',
+      message: message.content ?? "empty-message",
     });
     await generateProConPerspective(partyId, message);
   };
@@ -36,11 +38,11 @@ function ChatProConButton({ partyId, message, isLastMessage }: Props) {
       <Button
         variant="outline"
         className="h-8 px-2 group-data-[has-message-background]:bg-zinc-100 group-data-[has-message-background]:hover:bg-zinc-200 group-data-[has-message-background]:dark:bg-zinc-900 group-data-[has-message-background]:dark:hover:bg-zinc-800"
-        tooltip="Ordne die Position in Pro oder Contra ein"
+        tooltip="Évaluer la position en Pour ou Contre"
         onClick={handleGenerateProConPerspective}
       >
         <ProConIcon />
-        <span className="text-xs">Position einordnen</span>
+        <span className="text-xs">Évaluer la position</span>
       </Button>
       <ChatActionButtonHighlight showHighlight={showHighlight} />
     </div>

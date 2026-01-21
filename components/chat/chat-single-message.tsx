@@ -1,15 +1,16 @@
-import { useChatStore } from '@/components/providers/chat-store-provider';
-import { ChatMessageIcon } from './chat-message-icon';
-import ChatProConExpandable from './chat-pro-con-expandable';
-import type { MessageItem } from '@/lib/stores/chat-store.types';
-import ChatMarkdown from './chat-markdown';
-import ChatSingleMessageActions from './chat-single-message-actions';
-import { cn } from '@/lib/utils';
-import ChatVotingBehaviorExpandable from './chat-voting-behavior-expandable';
-import MessageLoadingBorderTrail from './message-loading-border-trail';
-import ChatSingleUserMessage from './chat-single-user-message';
-import SurveyBanner from './survey-banner';
-import type { PartyDetails } from '@/lib/party-details';
+import { useChatStore } from "@/components/providers/chat-store-provider";
+import { type PartyDetails } from "@/lib/party-details";
+import { type MessageItem } from "@/lib/stores/chat-store.types";
+import { cn } from "@/lib/utils";
+
+import ChatMarkdown from "./chat-markdown";
+import { ChatMessageIcon } from "./chat-message-icon";
+import ChatProConExpandable from "./chat-pro-con-expandable";
+import ChatSingleMessageActions from "./chat-single-message-actions";
+import ChatSingleUserMessage from "./chat-single-user-message";
+import ChatVotingBehaviorExpandable from "./chat-voting-behavior-expandable";
+import MessageLoadingBorderTrail from "./message-loading-border-trail";
+import SurveyBanner from "./survey-banner";
 
 type Props = {
   message: MessageItem;
@@ -33,7 +34,7 @@ function ChatSingleMessage({
   const isLoadingAnyAction = useChatStore(
     (state) =>
       state.loading.proConPerspective === message.id ||
-      state.loading.votingBehaviorSummary === message.id
+      state.loading.votingBehaviorSummary === message.id,
   );
 
   const shouldHaveBackground =
@@ -47,7 +48,7 @@ function ChatSingleMessage({
     </div>
   );
 
-  if (message.role === 'user') {
+  if (message.role === "user") {
     return (
       <ChatSingleUserMessage
         message={message}
@@ -56,20 +57,20 @@ function ChatSingleMessage({
     );
   }
 
-  if (message.role === 'assistant') {
+  if (message.role === "assistant") {
     return (
       <article
         id={message.id}
         className={cn(
-          'flex flex-col gap-4 relative transition-all duration-200 ease-out',
-          shouldHaveBackground && 'bg-zinc-100 dark:bg-zinc-900 group',
+          "relative flex flex-col gap-4 transition-all duration-200 ease-out",
+          shouldHaveBackground && "group bg-zinc-100 dark:bg-zinc-900",
           !isGroupChat &&
             shouldHaveBackground &&
-            'border border-muted p-3 md:p-4 rounded-lg'
+            "border-muted rounded-lg border p-3 md:p-4",
         )}
         data-has-message-background={Boolean(shouldHaveBackground)}
       >
-        <div className={cn('flex items-start justify-start gap-3 md:gap-4')}>
+        <div className={cn("flex items-start justify-start gap-3 md:gap-4")}>
           {showAssistantIcon && (
             <ChatMessageIcon partyId={partyId} party={party} />
           )}
@@ -98,6 +99,6 @@ function ChatSingleMessage({
   return <ChatMarkdown message={message} />;
 }
 
-ChatSingleMessage.displayName = 'ChatSingleMessage';
+ChatSingleMessage.displayName = "ChatSingleMessage";
 
 export default ChatSingleMessage;

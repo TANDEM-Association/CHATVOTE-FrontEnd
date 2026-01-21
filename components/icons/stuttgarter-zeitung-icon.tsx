@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils';
+import { cn } from "@/lib/utils";
 
 type Props = {
   className?: string;
@@ -12,7 +12,7 @@ function StuttgarterZeitungIcon({ className }: Props) {
       width="164.60001"
       height="35.779999"
       viewBox="0 0 164.60001 35.779999"
-      className={cn('size-6', className)}
+      className={cn("size-6", className)}
       id="svg3753"
     >
       <defs id="defs3755" />

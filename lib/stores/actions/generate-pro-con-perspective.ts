@@ -1,13 +1,14 @@
-import { scrollMessageBottomInView } from '@/lib/scroll-utils';
-import type { StreamingMessage } from '@/lib/socket.types';
-import type {
-  ChatStoreActionHandlerFor,
-  MessageItem,
-} from '@/lib/stores/chat-store.types';
-import { toast } from 'sonner';
+import { toast } from "sonner";
+
+import { scrollMessageBottomInView } from "@/lib/scroll-utils";
+import { type StreamingMessage } from "@/lib/socket.types";
+import {
+  type ChatStoreActionHandlerFor,
+  type MessageItem,
+} from "@/lib/stores/chat-store.types";
 
 export const generateProConPerspective: ChatStoreActionHandlerFor<
-  'generateProConPerspective'
+  "generateProConPerspective"
 > =
   (get, set) =>
   async (partyId: string, message: MessageItem | StreamingMessage) => {
@@ -16,7 +17,7 @@ export const generateProConPerspective: ChatStoreActionHandlerFor<
     if (!chatSessionId) return;
 
     if (!socket.io?.connected) {
-      toast.error('Socket is not connected');
+      toast.error("Socket is not connected");
 
       return;
     }
@@ -34,7 +35,7 @@ export const generateProConPerspective: ChatStoreActionHandlerFor<
 
     const lastUserMessageBeforeProConPerspective = messages
       .slice(0, indexOfProConPerspectiveMessage)
-      .findLast((m) => m.role === 'user');
+      .findLast((m) => m.role === "user");
 
     if (!lastUserMessageBeforeProConPerspective || !message.content) return;
 

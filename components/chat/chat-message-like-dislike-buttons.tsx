@@ -1,13 +1,14 @@
-'use client';
-import { ThumbsUp } from 'lucide-react';
+"use client";
+import { track } from "@vercel/analytics/react";
+import { ThumbsUp } from "lucide-react";
 
-import type { MessageItem } from '@/lib/stores/chat-store.types';
-import { cn } from '@/lib/utils';
-import { useChatStore } from '@/components/providers/chat-store-provider';
-import { Button } from '@/components/ui/button';
-import type { StreamingMessage } from '@/lib/socket.types';
-import { track } from '@vercel/analytics/react';
-import ChatDislikeFeedbackButton from './chat-dislike-feedback-button';
+import { useChatStore } from "@/components/providers/chat-store-provider";
+import { Button } from "@/components/ui/button";
+import { type StreamingMessage } from "@/lib/socket.types";
+import { type MessageItem } from "@/lib/stores/chat-store.types";
+import { cn } from "@/lib/utils";
+
+import ChatDislikeFeedbackButton from "./chat-dislike-feedback-button";
 
 type Props = {
   message: MessageItem | StreamingMessage;
@@ -17,22 +18,22 @@ function ChatMessageLikeDislikeButtons({ message }: Props) {
   const setMessageFeedback = useChatStore((state) => state.setMessageFeedback);
 
   const handleLike = () => {
-    track('message_liked', {
-      message: message.content ?? 'empty-message',
+    track("message_liked", {
+      message: message.content ?? "empty-message",
     });
-    setMessageFeedback(message.id, { feedback: 'like' });
+    setMessageFeedback(message.id, { feedback: "like" });
   };
 
   const handleDislikeFeedback = (details: string) => {
-    setMessageFeedback(message.id, { feedback: 'dislike', detail: details });
-    track('message_disliked', {
-      message: message.content ?? 'empty-message',
+    setMessageFeedback(message.id, { feedback: "dislike", detail: details });
+    track("message_disliked", {
+      message: message.content ?? "empty-message",
       details,
     });
   };
 
-  const isLiked = message.feedback?.feedback === 'like';
-  const isDisliked = message.feedback?.feedback === 'dislike';
+  const isLiked = message.feedback?.feedback === "like";
+  const isDisliked = message.feedback?.feedback === "dislike";
 
   return (
     <>
@@ -43,7 +44,7 @@ function ChatMessageLikeDislikeButtons({ message }: Props) {
         onClick={handleLike}
       >
         <div className="group-hover/like:-translate-y-2 group-hover/like:scale-125 group-hover/like:transition-transform group-hover/like:duration-200 group-hover/like:ease-in-out">
-          <ThumbsUp className={cn(isLiked && 'fill-foreground/30')} />
+          <ThumbsUp className={cn(isLiked && "fill-foreground/30")} />
         </div>
       </Button>
       <ChatDislikeFeedbackButton

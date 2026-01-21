@@ -1,7 +1,8 @@
-'use client';
+"use client";
 
-import { createContext, useContext, useEffect, useState } from 'react';
-import type { Tenant } from '@/lib/firebase/firebase.types';
+import { createContext, useContext, useState } from "react";
+
+import { type Tenant } from "@/lib/firebase/firebase.types";
 
 type Props = {
   tenant?: Tenant;
@@ -10,21 +11,23 @@ type Props = {
 
 const TenantContext = createContext<Tenant | undefined>(undefined);
 
-function TenantProvider({ children, tenant: initialTenant }: Props) {
+const TenantProvider = ({ children, tenant: initialTenant }: Props) => {
   const [tenant, setTenant] = useState<Tenant | undefined>(initialTenant);
+  const [prevInitialTenant, setPrevInitialTenant] = useState(initialTenant);
 
-  useEffect(() => {
-    // only change tenant if it's not the same as the initial tenant and not undefined
-    // to persist the tenant across re-renders
+  // Adjust state during render when initialTenant prop changes
+  // Only update if initialTenant is defined and has a different id (persist tenant across re-renders)
+  if (prevInitialTenant !== initialTenant) {
+    setPrevInitialTenant(initialTenant);
     if (initialTenant && initialTenant.id !== tenant?.id) {
       setTenant(initialTenant);
     }
-  }, [initialTenant, tenant]);
+  }
 
   return (
     <TenantContext.Provider value={tenant}>{children}</TenantContext.Provider>
   );
-}
+};
 
 export function useTenant() {
   return useContext(TenantContext);

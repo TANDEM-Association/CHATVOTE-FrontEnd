@@ -1,9 +1,10 @@
-'use client';
+"use client";
 
-import { Button } from '@/components/ui/button';
-import ChatGroupPartySelect from '@/components/chat/chat-group-party-select';
-import { GitCompareIcon } from 'lucide-react';
-import { useSidebar } from '@/components/ui/sidebar';
+import { GitCompareIcon } from "lucide-react";
+
+import ChatGroupPartySelect from "@/components/chat/chat-group-party-select";
+import { Button } from "@/components/ui/button";
+import { useSidebar } from "@/components/ui/sidebar";
 
 function ChatSidebarGroupSelect() {
   const { setOpenMobile, isMobile } = useSidebar();
@@ -18,7 +19,7 @@ function ChatSidebarGroupSelect() {
     // hacky fix since the sidebar collides with the drawer's pointer events settings
     setTimeout(() => {
       if (document) {
-        document.body.style.pointerEvents = 'auto';
+        document.body.style.pointerEvents = "auto";
       }
     }, 500);
   };
@@ -27,11 +28,11 @@ function ChatSidebarGroupSelect() {
     <div className="w-full">
       <ChatGroupPartySelect onNewChat={handleNewChat}>
         <Button
-          className="mt-4 w-full max-w-xl whitespace-normal border border-border"
+          className="border-border mt-4 w-full max-w-xl border whitespace-normal"
           variant="secondary"
         >
           <GitCompareIcon />
-          Parteien vergleichen
+          Comparer les partis
         </Button>
       </ChatGroupPartySelect>
     </div>

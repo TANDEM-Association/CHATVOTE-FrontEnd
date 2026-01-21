@@ -1,7 +1,9 @@
-import { useMemo } from 'react';
-import type { Vote } from '@/lib/socket.types';
-import useCarouselCurrentIndex from '@/lib/hooks/use-carousel-current-index';
-import AnimateTextOverflow from './animate-text-overflow';
+import { useMemo } from "react";
+
+import useCarouselCurrentIndex from "@/lib/hooks/use-carousel-current-index";
+import { type Vote } from "@/lib/socket.types";
+
+import AnimateTextOverflow from "./animate-text-overflow";
 
 type Props = {
   votes: Vote[];
@@ -13,17 +15,17 @@ function ChatVoteDetailsHeader({ votes }: Props) {
   const vote = votes[selectedIndex];
 
   const formattedDate = useMemo(() => {
-    return new Date(vote.date).toLocaleDateString('de-DE', {
-      day: '2-digit',
-      month: 'long',
-      year: 'numeric',
+    return new Date(vote.date).toLocaleDateString("de-DE", {
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
     });
   }, [vote.date]);
 
   return (
-    <div className="pt-6 text-center md:text-left border-b border-border pb-4">
+    <div className="border-border border-b pt-6 pb-4 text-center md:text-left">
       <AnimateTextOverflow>{vote.title}</AnimateTextOverflow>
-      <p className="text-xs text-muted-foreground text-center">
+      <p className="text-muted-foreground text-center text-xs">
         {formattedDate}
       </p>
     </div>

@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils';
+import { cn } from "@/lib/utils";
 
 type Props = {
   className?: string;
@@ -8,7 +8,7 @@ function GithubIcon({ className }: Props) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      className={cn('size-6', className)}
+      className={cn("size-6", className)}
       viewBox="0 0 98 96"
     >
       <path

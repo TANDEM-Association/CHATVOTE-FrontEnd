@@ -1,8 +1,8 @@
-import { addVotingBehaviorToMessage } from '@/lib/firebase/firebase';
-import type { ChatStoreActionHandlerFor } from '@/lib/stores/chat-store.types';
+import { addVotingBehaviorToMessage } from "@/lib/firebase/firebase";
+import { type ChatStoreActionHandlerFor } from "@/lib/stores/chat-store.types";
 
 export const completeVotingBehavior: ChatStoreActionHandlerFor<
-  'completeVotingBehavior'
+  "completeVotingBehavior"
 > = (get, set) => async (requestId, votes, completeMessage) => {
   const { currentStreamedVotingBehavior, chatSessionId } = get();
 

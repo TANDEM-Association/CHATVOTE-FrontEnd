@@ -1,18 +1,20 @@
-import { SidebarTrigger } from '@/components/ui/sidebar';
+import { HelpCircleIcon } from "lucide-react";
+
+import HowToDialog from "@/components/how-to-dialog";
+import { Button } from "@/components/ui/button";
+import { SidebarTrigger } from "@/components/ui/sidebar";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
-import ChatShareButton from './chat-share-button';
-import SocketDisconnectedBanner from './socket-disconnected-banner';
-import CreateNewChatDropdownButton from './create-new-chat-dropdown-button';
-import ChatHeaderTitleDescription from './chat-header-title-description';
-import { Button } from '@/components/ui/button';
-import { HelpCircleIcon } from 'lucide-react';
-import HowToDialog from '@/components/how-to-dialog';
-import { IS_EMBEDDED } from '@/lib/utils';
-import ChatEmbedHeader from './chat-embed-header';
+} from "@/components/ui/tooltip";
+import { IS_EMBEDDED } from "@/lib/utils";
+
+import ChatEmbedHeader from "./chat-embed-header";
+import ChatHeaderTitleDescription from "./chat-header-title-description";
+import ChatShareButton from "./chat-share-button";
+import CreateNewChatDropdownButton from "./create-new-chat-dropdown-button";
+import SocketDisconnectedBanner from "./socket-disconnected-banner";
 
 async function ChatHeader() {
   if (IS_EMBEDDED) {
@@ -21,7 +23,7 @@ async function ChatHeader() {
 
   return (
     <>
-      <header className="relative z-10 flex min-h-chat-header w-full items-center gap-1 border-b border-b-muted bg-background px-4">
+      <header className="min-h-chat-header border-b-muted bg-background relative z-10 flex w-full items-center gap-1 border-b px-4">
         <div className="flex min-w-0 grow items-center gap-2 overflow-x-hidden">
           <Tooltip>
             <TooltipTrigger asChild>

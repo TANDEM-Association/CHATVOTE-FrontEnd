@@ -3,74 +3,76 @@ import {
   AlertTriangleIcon,
   CpuIcon,
   GitBranch,
-} from 'lucide-react';
+} from "lucide-react";
+
 import {
   ResponsiveDialog,
   ResponsiveDialogContent,
   ResponsiveDialogHeader,
   ResponsiveDialogTitle,
   ResponsiveDialogTrigger,
-} from '@/components/chat/responsive-drawer-dialog';
+} from "@/components/chat/responsive-drawer-dialog";
 
 function AiDisclaimerContent() {
   return (
-    <div className="px-4 pb-4 md:px-0 md:pb-0 text-sm text-foreground">
+    <div className="text-foreground px-4 pb-4 text-sm md:px-0 md:pb-0">
       <p>
-        Die Antworten auf wahl.chat werden von einer{' '}
-        <span className="font-semibold">künstlichen Intelligenz</span>{' '}
-        generiert. Sie basieren auf Informationen, die aus{' '}
-        <span className="font-semibold">öffentlich zugänglichen Partei-</span>{' '}
-        und <span className="font-semibold">Wahlprogrammen</span> extrahiert
-        wurden. Während wahl.chat bestrebt ist, genaue Informationen über
-        Parteipositionen und -werte zu liefern, gilt:
+        Les réponses sur chatvote sont générées par une{" "}
+        <span className="font-semibold">intelligence artificielle</span>. Elles
+        sont basées sur des informations extraites de{" "}
+        <span className="font-semibold">programmes de partis</span> et de{" "}
+        <span className="font-semibold">programmes électoraux</span> accessibles
+        au public. Bien que chatvote s&lsquo;efforce de fournir des informations
+        précises sur les positions et valeurs des partis, il convient de noter :
       </p>
 
       <ul className="flex list-inside flex-col gap-4 py-4 *:flex *:items-center *:gap-2">
         <li>
           <CpuIcon className="mr-2 size-6 shrink-0" />
           <span className="inline-block">
-            Die{' '}
-            <span className="font-semibold">Verarbeitung und Generierung</span>{' '}
-            aller Inhalte erfolgt{' '}
-            <span className="font-semibold">automatisiert.</span>
+            Le{" "}
+            <span className="font-semibold">traitement et la génération</span>{" "}
+            de tout le contenu sont{" "}
+            <span className="font-semibold">automatisés.</span>
           </span>
         </li>
         <li>
           <AlertCircleIcon className="mr-2 size-6 shrink-0" />
           <span className="inline-block">
-            Die Antworten sind{' '}
+            Les réponses ne doivent{" "}
             <span className="font-semibold">
-              nicht als offizielle Parteiaussagen
-            </span>{' '}
-            zu verstehen.
+              pas être considérées comme des déclarations officielles des partis
+            </span>
+            .
           </span>
         </li>
         <li>
           <GitBranch className="mr-2 size-6 shrink-0" />
           <span className="inline-block">
+            Les{" "}
             <span className="font-semibold">
-              Komplexe politische Positionen
-            </span>{' '}
-            können eventuell nicht in allen Nuancen erfasst werden.
+              positions politiques complexes
+            </span>{" "}
+            peuvent ne pas être saisies dans toutes leurs nuances.
           </span>
         </li>
         <li>
           <AlertTriangleIcon className="mr-2 size-6 shrink-0" />
           <span className="inline-block">
-            <span className="font-semibold">Ungenauigkeiten</span> oder{' '}
-            <span className="font-semibold">Fehlinterpretationen</span> können
-            gelegentlich auftreten.
+            Des <span className="font-semibold">inexactitudes</span> ou des{" "}
+            <span className="font-semibold">mauvaises interprétations</span>{" "}
+            peuvent parfois survenir.
           </span>
         </li>
       </ul>
 
       <p>
-        Dieser KI-Chat dient als{' '}
-        <span className="font-semibold">Bildungswerkzeug</span>, um verschiedene
-        politische Positionen kennenzulernen. Für{' '}
-        <span className="font-semibold">verbindliche Informationen</span> nutzen
-        Sie bitte die{' '}
-        <span className="font-semibold">offiziellen Parteiquellen</span>.
+        Ce chat IA sert d&lsquo;
+        <span className="font-semibold">outil éducatif</span> pour découvrir
+        différentes positions politiques. Pour des{" "}
+        <span className="font-semibold">informations contraignantes</span>,
+        veuillez utiliser les{" "}
+        <span className="font-semibold">sources officielles des partis</span>.
       </p>
     </div>
   );
@@ -79,15 +81,15 @@ function AiDisclaimerContent() {
 function AiDisclaimer() {
   return (
     <ResponsiveDialog>
-      <p className="my-2 text-center text-xs text-muted-foreground">
-        wahl.chat kann Fehler machen.{' '}
+      <p className="text-muted-foreground my-2 text-center text-xs">
+        chatvote peut faire des erreurs.{" "}
         <ResponsiveDialogTrigger className="font-semibold underline">
-          Erfahre hier mehr.
+          En savoir plus ici.
         </ResponsiveDialogTrigger>
       </p>
       <ResponsiveDialogContent>
         <ResponsiveDialogHeader>
-          <ResponsiveDialogTitle>KI Hinweis</ResponsiveDialogTitle>
+          <ResponsiveDialogTitle>Avis IA</ResponsiveDialogTitle>
         </ResponsiveDialogHeader>
         <AiDisclaimerContent />
       </ResponsiveDialogContent>

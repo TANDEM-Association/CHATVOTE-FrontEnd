@@ -1,7 +1,7 @@
-import type { ChatStoreActionHandlerFor } from '@/lib/stores/chat-store.types';
+import { type ChatStoreActionHandlerFor } from "@/lib/stores/chat-store.types";
 
 export const setSocketConnecting: ChatStoreActionHandlerFor<
-  'setSocketConnecting'
+  "setSocketConnecting"
 > = (get, set) => (isConnecting) => {
   set((state) => {
     state.socket.isConnecting = isConnecting;

@@ -1,14 +1,15 @@
+import { Timestamp } from "firebase/firestore";
+import { toast } from "sonner";
+
 import {
   addUserMessageToChatSession,
   createChatSession,
-} from '@/lib/firebase/firebase';
-import { chatViewScrollToBottom } from '@/lib/scroll-utils';
-import { generateUuid } from '@/lib/utils';
-import { toast } from 'sonner';
-import type { ChatStoreActionHandlerFor } from '@/lib/stores/chat-store.types';
-import { Timestamp } from 'firebase/firestore';
+} from "@/lib/firebase/firebase";
+import { chatViewScrollToBottom } from "@/lib/scroll-utils";
+import { type ChatStoreActionHandlerFor } from "@/lib/stores/chat-store.types";
+import { generateUuid } from "@/lib/utils";
 
-export const chatAddUserMessage: ChatStoreActionHandlerFor<'addUserMessage'> =
+export const chatAddUserMessage: ChatStoreActionHandlerFor<"addUserMessage"> =
   (get, set) =>
   async (userId: string, message: string, fromInitialQuestion?: boolean) => {
     const {
@@ -22,7 +23,8 @@ export const chatAddUserMessage: ChatStoreActionHandlerFor<'addUserMessage'> =
     } = get();
 
     if (!socket.io?.connected) {
-      if (!fromInitialQuestion) toast.error('wahl.chat ist nicht verbunden.');
+      if (!fromInitialQuestion)
+        toast.error("chatvote n&lsquo;est pas connecté.");
       else
         set((state) => {
           state.initialQuestionError = message;
@@ -41,7 +43,7 @@ export const chatAddUserMessage: ChatStoreActionHandlerFor<'addUserMessage'> =
       get().chatSessionId ?? get().localPreliminaryChatSessionId;
 
     if (!safeSessionId) {
-      toast.error('Chat Session out of sync');
+      toast.error("Chat Session out of sync");
 
       return;
     }
@@ -50,20 +52,20 @@ export const chatAddUserMessage: ChatStoreActionHandlerFor<'addUserMessage'> =
     const lastMessage = messages[messages.length - 1];
     const isMessageResend =
       messages.length > 0 &&
-      lastMessage.role === 'user' &&
+      lastMessage.role === "user" &&
       lastMessage.messages[0].content === message;
 
     set((state) => {
       if (!isMessageResend) {
         state.messages.push({
           id: generateUuid(),
-          role: 'user',
+          role: "user",
           messages: [
             {
               id: generateUuid(),
               content: message,
               sources: [],
-              role: 'user',
+              role: "user",
               created_at: Timestamp.now(),
             },
           ],
@@ -71,7 +73,7 @@ export const chatAddUserMessage: ChatStoreActionHandlerFor<'addUserMessage'> =
           created_at: Timestamp.now(),
         });
 
-        state.input = '';
+        state.input = "";
       }
       state.loading.newMessage = true;
     });
@@ -88,12 +90,12 @@ export const chatAddUserMessage: ChatStoreActionHandlerFor<'addUserMessage'> =
           tenant?.id,
         );
 
-        if (typeof window !== 'undefined') {
+        if (typeof window !== "undefined") {
           const url = new URL(window.location.href);
 
-          if (url.pathname === '/session') {
-            url.searchParams.set('session_id', safeSessionId);
-            window.history.replaceState({}, '', url);
+          if (url.pathname === "/session") {
+            url.searchParams.set("session_id", safeSessionId);
+            window.history.replaceState({}, "", url);
           }
         }
       }
@@ -129,7 +131,7 @@ export const chatAddUserMessage: ChatStoreActionHandlerFor<'addUserMessage'> =
 
       set((state) => {
         state.loading.newMessage = false;
-        state.error = 'Failed to get chat answer';
+        state.error = "Failed to get chat answer";
       });
     }
   };

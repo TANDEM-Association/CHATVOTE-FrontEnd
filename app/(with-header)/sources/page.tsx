@@ -1,16 +1,17 @@
-import Logo from '@/components/chat/logo';
+import Image from "next/image";
+import Link from "next/link";
+
+import Logo from "@/components/chat/logo";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from '@/components/ui/accordion';
-import { WAHL_CHAT_PARTY_ID } from '@/lib/constants';
-import { getParties, getSourceDocuments } from '@/lib/firebase/firebase-server';
-import type { SourceDocument } from '@/lib/firebase/firebase.types';
-import { buildPartyImageUrl } from '@/lib/utils';
-import Image from 'next/image';
-import Link from 'next/link';
+} from "@/components/ui/accordion";
+import { CHATVOTE_PARTY_ID } from "@/lib/constants";
+import { type SourceDocument } from "@/lib/firebase/firebase.types";
+import { getParties, getSourceDocuments } from "@/lib/firebase/firebase-server";
+import { buildPartyImageUrl } from "@/lib/utils";
 
 async function SourcesPage() {
   const sources = await getSourceDocuments();
@@ -22,35 +23,35 @@ async function SourcesPage() {
       acc[source.party_id].push(source);
       return acc;
     },
-    {} as Record<string, SourceDocument[]>
+    {} as Record<string, SourceDocument[]>,
   );
 
   return (
     <article>
-      <h1 className="text-xl md:text-2xl font-bold mt-4">
-        Quellen die <span className="underline">wahl.chat</span> nutzt
+      <h1 className="mt-4 text-xl font-bold md:text-2xl">
+        Sources utilisées par <span className="underline">chatvote</span>
       </h1>
-      <p className="text-sm text-muted-foreground mb-2">
-        Diese Quellen nutzt unsere KI für die allgemeinen Antworten. Für das
-        Einordnen von Positionen verwenden wir Perplexity.ai, welches sich auf
-        aktuelle Informationen aus dem Internet stützt.
+      <p className="text-muted-foreground mb-2 text-sm">
+        Notre IA utilise ces sources pour les réponses générales. Pour
+        contextualiser les positions, nous utilisons Perplexity.ai qui
+        s&lsquo;appuie sur des informations actuelles d&lsquo;Internet.
       </p>
       <Accordion type="single" collapsible asChild>
         <section>
           {Object.entries(sourcesByPartyId).map(([partyId, sources]) => {
             const party =
-              partyId === WAHL_CHAT_PARTY_ID
+              partyId === CHATVOTE_PARTY_ID
                 ? undefined
                 : parties.find((party) => party.party_id === partyId);
 
-            const name = party?.name ?? 'wahl.chat';
+            const name = party?.name ?? "chatvote";
 
             return (
               <AccordionItem value={partyId} key={partyId}>
                 <AccordionTrigger>
                   <div className="flex items-center gap-4">
-                    {partyId === WAHL_CHAT_PARTY_ID ? (
-                      <div className="rounded-full aspect-square object-contain p-1 border border-border size-8">
+                    {partyId === CHATVOTE_PARTY_ID ? (
+                      <div className="border-border aspect-square size-8 rounded-full border object-contain p-1">
                         <Logo variant="small" className="size-full" />
                       </div>
                     ) : (
@@ -59,7 +60,7 @@ async function SourcesPage() {
                         alt={name}
                         width={32}
                         height={32}
-                        className="rounded-full aspect-square object-contain p-1"
+                        className="aspect-square rounded-full object-contain p-1"
                         style={{ backgroundColor: party?.background_color }}
                       />
                     )}
@@ -67,7 +68,7 @@ async function SourcesPage() {
                   </div>
                 </AccordionTrigger>
                 <AccordionContent>
-                  <ul className="list-disc list-inside">
+                  <ul className="list-inside list-disc">
                     {sources.map((source) => (
                       <li key={source.id}>
                         <Link

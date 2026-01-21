@@ -1,11 +1,14 @@
-import { Button } from '@/components/ui/button';
-import { VoteIcon } from 'lucide-react';
-import { useChatStore } from '@/components/providers/chat-store-provider';
-import type { MessageItem } from '@/lib/stores/chat-store.types';
-import type { StreamingMessage } from '@/lib/socket.types';
-import { useParty } from '../providers/parties-provider';
-import ChatActionButtonHighlight from './chat-action-button-highlight';
-import { track } from '@vercel/analytics/react';
+import { track } from "@vercel/analytics/react";
+import { VoteIcon } from "lucide-react";
+
+import { useChatStore } from "@/components/providers/chat-store-provider";
+import { Button } from "@/components/ui/button";
+import { type StreamingMessage } from "@/lib/socket.types";
+import { type MessageItem } from "@/lib/stores/chat-store.types";
+
+import { useParty } from "../providers/parties-provider";
+
+import ChatActionButtonHighlight from "./chat-action-button-highlight";
 
 type Props = {
   partyId: string;
@@ -20,16 +23,16 @@ function ChatVotingBehaviorSummaryButton({
 }: Props) {
   const party = useParty(partyId);
   const generateVotingBehaviorSummary = useChatStore(
-    (state) => state.generateVotingBehaviorSummary
+    (state) => state.generateVotingBehaviorSummary,
   );
   const clickedVotingBehaviorSummaryButton = useChatStore(
-    (state) => state.clickedVotingBehaviorSummaryButton
+    (state) => state.clickedVotingBehaviorSummaryButton,
   );
 
   const handleGenerateVotingBehaviorSummary = async () => {
-    track('voting_behavior_summary_button_clicked', {
+    track("voting_behavior_summary_button_clicked", {
       party: partyId,
-      message: message.content ?? 'empty-message',
+      message: message.content ?? "empty-message",
     });
     generateVotingBehaviorSummary(partyId, message);
   };
@@ -43,11 +46,11 @@ function ChatVotingBehaviorSummaryButton({
       <Button
         variant="outline"
         className="h-8 px-2 group-data-[has-message-background]:bg-zinc-100 group-data-[has-message-background]:hover:bg-zinc-200 group-data-[has-message-background]:dark:bg-zinc-900 group-data-[has-message-background]:dark:hover:bg-zinc-800"
-        tooltip="Analysiere das Abstimmungsverhalten der Partei"
+        tooltip="Analyser le comportement de vote du parti"
         onClick={handleGenerateVotingBehaviorSummary}
       >
         <VoteIcon />
-        <span className="text-xs">Abstimmungsverhalten</span>
+        <span className="text-xs">Comportement de vote</span>
       </Button>
 
       <ChatActionButtonHighlight showHighlight={showHighlight} />

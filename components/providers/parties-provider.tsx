@@ -1,7 +1,7 @@
-'use client';
-import type { PartyDetails } from '@/lib/party-details';
-import {} from '@/lib/utils';
-import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+"use client";
+import { createContext, useContext, useMemo, useRef } from "react";
+
+import { type PartyDetails } from "@/lib/party-details";
 
 type PartiesContextType = {
   parties?: PartyDetails[];
@@ -9,7 +9,7 @@ type PartiesContextType = {
 };
 
 export const PartiesContext = createContext<PartiesContextType | undefined>(
-  undefined
+  undefined,
 );
 
 export type Props = {
@@ -20,7 +20,7 @@ export type Props = {
 export const useParties = (partyIds?: string[]) => {
   const context = useContext(PartiesContext);
   if (!context) {
-    throw new Error('useParties must be used within a PartiesProvider');
+    throw new Error("useParties must be used within a PartiesProvider");
   }
 
   const parties = useMemo(() => {
@@ -43,18 +43,31 @@ export const useParty = (partyId: string) => {
   return parties[0];
 };
 
-export const PartiesProvider = ({ children, parties }: Props) => {
-  const [randomizedParties, setRandomizedParties] = useState<
-    PartyDetails[] | undefined
-  >();
+function shuffleArray<T>(array: T[]): T[] {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
 
-  useEffect(() => {
-    setRandomizedParties([...parties].sort(() => Math.random() - 0.5));
-  }, [parties]);
+export const PartiesProvider = ({ children, parties }: Props) => {
+  const randomizedPartiesRef = useRef<PartyDetails[] | null>(null);
+  const prevPartiesRef = useRef<PartyDetails[] | null>(null);
+
+  // Compute randomized parties when parties prop changes (ref-based to avoid render issues)
+  if (prevPartiesRef.current !== parties) {
+    prevPartiesRef.current = parties;
+    randomizedPartiesRef.current = shuffleArray(parties);
+  }
 
   return (
     <PartiesContext.Provider
-      value={{ parties: randomizedParties, partyCount: parties?.length }}
+      value={{
+        parties: randomizedPartiesRef.current ?? undefined,
+        partyCount: parties?.length,
+      }}
     >
       {children}
     </PartiesContext.Provider>

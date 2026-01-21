@@ -1,7 +1,10 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { useTenant } from '../providers/tenant-provider';
+import { useState, useSyncExternalStore } from "react";
+
+import Link from "next/link";
+
+import { useTenant } from "../providers/tenant-provider";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -10,52 +13,69 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from '../ui/alert-dialog';
-import { Button } from '../ui/button';
-import Link from 'next/link';
+} from "../ui/alert-dialog";
+import { Button } from "../ui/button";
 
-function IframeChecker() {
+function subscribe() {
+  // Iframe status never changes, so no-op subscription
+  return () => {};
+}
+
+function getIsInIframe() {
+  return window.self !== window.top;
+}
+
+function getServerSnapshot() {
+  return false;
+}
+
+const IframeChecker = () => {
   const tenant = useTenant();
-  const [showAlert, setShowAlert] = useState<boolean>(false);
+  const isInIframe = useSyncExternalStore(
+    subscribe,
+    getIsInIframe,
+    getServerSnapshot,
+  );
+  const [dismissed, setDismissed] = useState(false);
 
-  useEffect(() => {
-    const isInIframe = window.self !== window.top;
-
-    if (isInIframe && !tenant) {
-      setShowAlert(true);
-    }
-  }, [tenant]);
+  const showAlert = isInIframe && !tenant && !dismissed;
 
   if (!showAlert) {
     return null;
   }
 
+  const handleOpenChange = (open: boolean) => {
+    if (!open) {
+      setDismissed(true);
+    }
+  };
+
   return (
-    <AlertDialog open={showAlert} onOpenChange={setShowAlert}>
+    <AlertDialog open={showAlert} onOpenChange={handleOpenChange}>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>
-            Berechtigung zur Einbindung benötigt
+            Autorisation d&lsquo;intégration requise
           </AlertDialogTitle>
           <AlertDialogDescription>
-            Um wahl.chat in einem iFrame zu verwenden, nimm bitte Kontakt zu uns
-            über die E-Mail-Adresse{' '}
-            <Link className="underline" href="mailto:info@wahl.chat">
-              info@wahl.chat
-            </Link>{' '}
-            auf.
+            Pour utiliser chatvote dans un iFrame, veuillez nous contacter à
+            l&lsquo;adresse e-mail{" "}
+            <Link className="underline" href="mailto:info@chatvote.fr">
+              info@chatvote.fr
+            </Link>
+            .
           </AlertDialogDescription>
         </AlertDialogHeader>
 
         <AlertDialogFooter>
-          <AlertDialogCancel>Schließen</AlertDialogCancel>
+          <AlertDialogCancel>Fermer</AlertDialogCancel>
           <Button>
-            <Link href="mailto:info@wahl.chat">Kontaktiere uns</Link>
+            <Link href="mailto:info@chatvote.fr">Contactez-nous</Link>
           </Button>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
   );
-}
+};
 
 export default IframeChecker;

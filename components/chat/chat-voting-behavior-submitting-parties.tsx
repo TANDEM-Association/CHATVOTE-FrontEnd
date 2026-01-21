@@ -1,8 +1,11 @@
-import type { Vote } from '@/lib/socket.types';
-import { useParties } from '../providers/parties-provider';
-import { useMemo } from 'react';
-import Image from 'next/image';
-import { buildPartyImageUrl } from '@/lib/utils';
+import { useMemo } from "react";
+
+import Image from "next/image";
+
+import { type Vote } from "@/lib/socket.types";
+import { buildPartyImageUrl } from "@/lib/utils";
+
+import { useParties } from "../providers/parties-provider";
 
 type Props = {
   vote: Vote;
@@ -19,19 +22,19 @@ function ChatVotingBehaviorSubmittingParties({ vote }: Props) {
 
   return (
     <>
-      <p className="text-sm font-bold pt-4 pb-2">
-        Einreichende{' '}
-        {vote.submitting_parties.length > 1 ? 'Parteien' : 'Partei'}
+      <p className="pt-4 pb-2 text-sm font-bold">
+        {vote.submitting_parties.length > 1 ? "Partis" : "Parti"} soumissionnaire
+        {vote.submitting_parties.length > 1 ? "s" : ""}
       </p>
 
       <div className="flex flex-row flex-wrap gap-2">
         {submittingParties.map((party) => (
           <div
-            className="text-xs flex flex-row items-center gap-2 bg-muted rounded-full p-2"
+            className="bg-muted flex flex-row items-center gap-2 rounded-full p-2 text-xs"
             key={party.party_id}
           >
             <div
-              className="relative flex items-center justify-center size-6 rounded-full"
+              className="relative flex size-6 items-center justify-center rounded-full"
               style={{
                 backgroundColor: party.background_color,
               }}

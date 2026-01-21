@@ -1,13 +1,15 @@
-import type { StreamingMessage } from '@/lib/socket.types';
-import type { MessageItem } from '@/lib/stores/chat-store.types';
-import { Separator } from '@/components/ui/separator';
-import ChatProConButton from './chat-pro-con-button';
-import CopyButton from './copy-button';
-import ChatMessageLikeDislikeButtons from './chat-message-like-dislike-buttons';
-import SourcesButton from './sources-button';
-import ChatVotingBehaviorSummaryButton from './chat-voting-behavior-summary-button';
-import { useChatStore } from '../providers/chat-store-provider';
-import { WAHL_CHAT_PARTY_ID } from '@/lib/constants';
+import { Separator } from "@/components/ui/separator";
+import { CHATVOTE_PARTY_ID } from "@/lib/constants";
+import { type StreamingMessage } from "@/lib/socket.types";
+import { type MessageItem } from "@/lib/stores/chat-store.types";
+
+import { useChatStore } from "../providers/chat-store-provider";
+
+import ChatMessageLikeDislikeButtons from "./chat-message-like-dislike-buttons";
+import ChatProConButton from "./chat-pro-con-button";
+import ChatVotingBehaviorSummaryButton from "./chat-voting-behavior-summary-button";
+import CopyButton from "./copy-button";
+import SourcesButton from "./sources-button";
 
 type Props = {
   message: MessageItem | StreamingMessage;
@@ -24,35 +26,35 @@ function ChatSingleMessageActions({
   partyId,
 }: Props) {
   const isLoadingProConPerspective = useChatStore(
-    (state) => state.loading.proConPerspective === message.id
+    (state) => state.loading.proConPerspective === message.id,
   );
   const isLoadingVotingBehaviorSummary = useChatStore(
-    (state) => state.loading.votingBehaviorSummary === message.id
+    (state) => state.loading.votingBehaviorSummary === message.id,
   );
 
   if (!showMessageActions) return null;
 
-  const isWahlChatMessage = partyId === WAHL_CHAT_PARTY_ID;
+  const isChatvoteMessage = partyId === CHATVOTE_PARTY_ID;
 
   const showProConButton =
     partyId &&
     !message.pro_con_perspective &&
     !isLoadingProConPerspective &&
-    !isWahlChatMessage;
+    !isChatvoteMessage;
 
   const showVotingBehaviorSummaryButton =
     partyId &&
     !message.voting_behavior &&
     !isLoadingVotingBehaviorSummary &&
-    !isWahlChatMessage;
+    !isChatvoteMessage;
 
   const showSeparator = showProConButton || showVotingBehaviorSummaryButton;
 
   return (
-    <div className="flex flex-wrap items-center gap-2 text-muted-foreground">
+    <div className="text-muted-foreground flex flex-wrap items-center gap-2">
       <SourcesButton
         sources={message.sources ?? []}
-        messageContent={message.content ?? ''}
+        messageContent={message.content ?? ""}
       />
       {showProConButton && (
         <ChatProConButton
@@ -79,7 +81,7 @@ function ChatSingleMessageActions({
 
       <div className="flex items-center">
         <CopyButton
-          text={message.content ?? ''}
+          text={message.content ?? ""}
           variant="ghost"
           size="icon"
           className="size-8"

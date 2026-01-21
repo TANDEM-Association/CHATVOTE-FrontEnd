@@ -1,8 +1,10 @@
-import type { Vote } from '@/lib/socket.types';
-import OverallVoteChart from './overall-vote-chart';
-import { Separator } from '../ui/separator';
-import PartiesVoteChart from './parties-vote-chart';
-import useCarouselCurrentIndex from '@/lib/hooks/use-carousel-current-index';
+import useCarouselCurrentIndex from "@/lib/hooks/use-carousel-current-index";
+import { type Vote } from "@/lib/socket.types";
+
+import { Separator } from "../ui/separator";
+
+import OverallVoteChart from "./overall-vote-chart";
+import PartiesVoteChart from "./parties-vote-chart";
 
 type Props = {
   votes: Vote[];
@@ -15,31 +17,31 @@ function ChatVoteChartsHeader({ votes }: Props) {
 
   return (
     <>
-      <div className="grid grid-cols-2 md:flex gap-0 mb-0 mt-8 md:mt-12 justify-center px-4">
+      <div className="mt-8 mb-0 grid grid-cols-2 justify-center gap-0 px-4 md:mt-12 md:flex">
         <OverallVoteChart vote={vote} />
         <Separator
           orientation="vertical"
-          className="h-[100px] my-auto hidden md:block"
+          className="my-auto hidden h-[100px] md:block"
         />
         <PartiesVoteChart vote={vote} />
       </div>
 
-      <div className="flex flex-row gap-4 text-sm text-muted-foreground flex-wrap justify-center items-center mt-4 p-4">
+      <div className="text-muted-foreground mt-4 flex flex-row flex-wrap items-center justify-center gap-4 p-4 text-sm">
         <p>
-          <span className="size-2 bg-[hsl(var(--chart-yes))] rounded-full inline-block mr-2" />
-          Ja
+          <span className="mr-2 inline-block size-2 rounded-full bg-[hsl(var(--chart-yes))]" />
+          Oui
         </p>
         <p>
-          <span className="size-2 bg-[hsl(var(--chart-no))] rounded-full inline-block mr-2" />
-          Nein
+          <span className="mr-2 inline-block size-2 rounded-full bg-[hsl(var(--chart-no))]" />
+          Non
         </p>
         <p>
-          <span className="size-2 bg-[hsl(var(--chart-abstain))] rounded-full inline-block mr-2" />
-          Enthaltung
+          <span className="mr-2 inline-block size-2 rounded-full bg-[hsl(var(--chart-abstain))]" />
+          Abstention
         </p>
         <p>
-          <span className="size-2 bg-[hsl(var(--chart-not-voted))] rounded-full inline-block mr-2" />
-          Nicht abgestimmt
+          <span className="mr-2 inline-block size-2 rounded-full bg-[hsl(var(--chart-not-voted))]" />
+          Non voté
         </p>
       </div>
 

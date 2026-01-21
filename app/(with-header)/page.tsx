@@ -1,22 +1,23 @@
-import ContactCard from '@/components/home/contact-card';
-import SupportUsCard from '@/components/home/support-us-card';
+import { GitCompareIcon, MousePointerClickIcon } from "lucide-react";
+
+import ChatGroupPartySelect from "@/components/chat/chat-group-party-select";
+import ContactCard from "@/components/home/contact-card";
+import HomeInput from "@/components/home/home-input";
+import HomePartyCards from "@/components/home/home-party-cards";
+import HowToCard from "@/components/home/how-to-card";
+import KnownFrom from "@/components/home/known-from";
+import SupportUsCard from "@/components/home/support-us-card";
+import SwiperTeaserCard from "@/components/home/swiper-teaser-card";
+import { Button } from "@/components/ui/button";
 import {
   getHomeInputProposedQuestions,
   getSystemStatus,
   getUser,
-} from '@/lib/firebase/firebase-server';
-import HomeInput from '@/components/home/home-input';
-import { Button } from '@/components/ui/button';
-import { GitCompareIcon, MousePointerClickIcon } from 'lucide-react';
-import ChatGroupPartySelect from '@/components/chat/chat-group-party-select';
-import KnownFrom from '@/components/home/known-from';
-import HowToCard from '@/components/home/how-to-card';
-import HomePartyCards from '@/components/home/home-party-cards';
-import { IS_EMBEDDED } from '@/lib/utils';
-import SwiperTeaserCard from '@/components/home/swiper-teaser-card';
+} from "@/lib/firebase/firebase-server";
+import { IS_EMBEDDED } from "@/lib/utils";
 
 export default async function Home() {
-  const wahlChatQuestions = await getHomeInputProposedQuestions();
+  const chatvoteQuestions = await getHomeInputProposedQuestions();
   const systemStatus = await getSystemStatus();
   const user = await getUser();
 
@@ -27,7 +28,7 @@ export default async function Home() {
       <div className="mt-4 flex w-full flex-row items-center justify-center gap-2">
         <MousePointerClickIcon />
         <h1 className="text-center text-sm font-semibold">
-          Wähle eine Partei und stelle der KI deine Fragen
+          Choisissez un parti et posez vos questions à l&lsquo;IA
         </h1>
       </div>
 
@@ -36,18 +37,18 @@ export default async function Home() {
       <div className="w-full">
         <ChatGroupPartySelect>
           <Button
-            className="mt-4 w-full max-w-xl whitespace-normal border border-border"
+            className="border-border mt-4 w-full max-w-xl border whitespace-normal"
             variant="secondary"
           >
             <GitCompareIcon />
-            Wähle mehrere Parteien zum Vergleichen
+            Sélectionner plusieurs partis pour comparer
           </Button>
         </ChatGroupPartySelect>
       </div>
 
       <HomeInput
         className="hidden md:block"
-        questions={wahlChatQuestions}
+        questions={chatvoteQuestions}
         initialSystemStatus={systemStatus}
         hasValidServerUser={!user?.isAnonymous}
       />
@@ -70,7 +71,7 @@ export default async function Home() {
 
       <HomeInput
         className="md:hidden"
-        questions={wahlChatQuestions}
+        questions={chatvoteQuestions}
         initialSystemStatus={systemStatus}
         hasValidServerUser={!user?.isAnonymous}
       />

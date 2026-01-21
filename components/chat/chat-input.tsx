@@ -1,13 +1,14 @@
-'use client';
+"use client";
 
-import { cn } from '@/lib/utils';
-import { ArrowUp } from 'lucide-react';
-import { useCallback } from 'react';
-import { useAnonymousAuth } from '@/components/anonymous-auth';
-import { useChatStore } from '@/components/providers/chat-store-provider';
-import { Button } from '@/components/ui/button';
-import ChatInputAddPartiesButton from './chat-input-add-parties-button';
-import MessageLoadingBorderTrail from './message-loading-border-trail';
+import { ArrowUp } from "lucide-react";
+
+import { useAnonymousAuth } from "@/components/anonymous-auth";
+import { useChatStore } from "@/components/providers/chat-store-provider";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+
+import ChatInputAddPartiesButton from "./chat-input-add-parties-button";
+import MessageLoadingBorderTrail from "./message-loading-border-trail";
 
 function ChatInput() {
   const { user } = useAnonymousAuth();
@@ -25,22 +26,21 @@ function ChatInput() {
     );
   });
 
-  const handleSubmit = useCallback(
-    async (e: React.FormEvent<HTMLFormElement> | string) => {
-      let effectiveInput = input;
+  const handleSubmit = async (
+    event: React.FormEvent<HTMLFormElement> | string,
+  ) => {
+    let effectiveInput = input;
 
-      if (typeof e === 'string') {
-        effectiveInput = e;
-      } else {
-        e.preventDefault();
-      }
+    if (typeof event === "string") {
+      effectiveInput = event;
+    } else {
+      event.preventDefault();
+    }
 
-      if (!user?.uid || !effectiveInput.trim()) return;
+    if (!user?.uid || !effectiveInput.trim()) return;
 
-      addUserMessage(user.uid, effectiveInput);
-    },
-    [user?.uid, input, addUserMessage]
-  );
+    addUserMessage(user.uid, effectiveInput);
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value);
@@ -54,8 +54,8 @@ function ChatInput() {
     <form
       onSubmit={handleSubmit}
       className={cn(
-        'relative w-full overflow-hidden rounded-[30px] border border-input dark:focus-within:border-zinc-700 focus-within:border-zinc-300 transition-colors bg-chat-input',
-        quickReplies?.length > 0 && 'rounded-[20px]'
+        "border-input bg-chat-input relative w-full overflow-hidden rounded-[30px] border transition-colors focus-within:border-zinc-300 dark:focus-within:border-zinc-700",
+        quickReplies?.length > 0 && "rounded-[20px]",
       )}
     >
       {quickReplies.length > 0 && (
@@ -63,14 +63,14 @@ function ChatInput() {
           <ChatInputAddPartiesButton disabled={loading} />
           <div
             className={cn(
-              'ml-7 flex gap-1 px-2 pt-2 overflow-x-auto whitespace-nowrap [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden',
-              loading && 'opacity-50 z-0'
+              "ml-7 flex gap-1 overflow-x-auto px-2 pt-2 whitespace-nowrap [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
+              loading && "z-0 opacity-50",
             )}
           >
             {quickReplies.map((r) => (
               <button
                 key={r}
-                className="shrink-0 rounded-full bg-muted px-2 py-1 transition-colors enabled:hover:bg-muted/50 disabled:cursor-not-allowed"
+                className="bg-muted enabled:hover:bg-muted/50 shrink-0 rounded-full px-2 py-1 transition-colors disabled:cursor-not-allowed"
                 onClick={() => handleQuickReplyClick(r)}
                 disabled={loading}
                 type="button"
@@ -85,8 +85,8 @@ function ChatInput() {
       {loading && <MessageLoadingBorderTrail />}
 
       <input
-        className="w-full bg-chat-input py-3 pl-4 pr-11 text-[16px] placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-0 disabled:cursor-not-allowed"
-        placeholder="Schreibe eine Nachricht..."
+        className="bg-chat-input placeholder:text-muted-foreground w-full py-3 pr-11 pl-4 text-[16px] focus-visible:ring-0 focus-visible:outline-none disabled:cursor-not-allowed"
+        placeholder="Écrivez un message..."
         onChange={handleChange}
         value={input}
         disabled={loading}
@@ -96,8 +96,8 @@ function ChatInput() {
         type="submit"
         disabled={!input.length || loading}
         className={cn(
-          'absolute right-2 top-1/2 flex size-8 -translate-y-1/2 items-center justify-center rounded-full bg-foreground text-background transition-colors hover:bg-foreground/80 disabled:bg-foreground/20 disabled:text-muted',
-          quickReplies.length > 0 && 'bottom-0 translate-y-0'
+          "bg-foreground text-background hover:bg-foreground/80 disabled:bg-foreground/20 disabled:text-muted absolute top-1/2 right-2 flex size-8 -translate-y-1/2 items-center justify-center rounded-full transition-colors",
+          quickReplies.length > 0 && "bottom-0 translate-y-0",
         )}
       >
         <ArrowUp className="size-4 font-bold" />

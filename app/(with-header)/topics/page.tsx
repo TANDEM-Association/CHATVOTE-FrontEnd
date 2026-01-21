@@ -1,21 +1,23 @@
-import TopicsFilterableList from '@/components/topics/topics-filterable-list';
-import { Button } from '@/components/ui/button';
+import Image from "next/image";
+import Link from "next/link";
+
+import { ArrowLeftIcon } from "lucide-react";
+
+import TopicsFilterableList from "@/components/topics/topics-filterable-list";
+import { Button } from "@/components/ui/button";
 import {
   getExampleQuestionsShareableChatSession,
   getParties,
-} from '@/lib/firebase/firebase-server';
-import { buildPartyImageUrl } from '@/lib/utils';
-import { ArrowLeftIcon } from 'lucide-react';
-import Image from 'next/image';
-import Link from 'next/link';
+} from "@/lib/firebase/firebase-server";
+import { buildPartyImageUrl } from "@/lib/utils";
 
 async function TopicsPage() {
   const exampleQuestionsShareableChatSessions =
     await getExampleQuestionsShareableChatSession();
   const allParties = await getParties();
-  const partiesToUse = ['spd', 'cdu', 'gruene', 'afd'];
+  const partiesToUse = ["spd", "cdu", "gruene", "afd"];
   const parties = allParties.filter((party) =>
-    partiesToUse.includes(party.party_id)
+    partiesToUse.includes(party.party_id),
   );
 
   return (
@@ -23,7 +25,7 @@ async function TopicsPage() {
       <Button variant="link" asChild className="mt-4 px-0">
         <Link href="/">
           <ArrowLeftIcon className="size-4" />
-          Zur Startseite
+          Retour à l&lsquo;accueil
         </Link>
       </Button>
 
@@ -47,10 +49,10 @@ async function TopicsPage() {
         ))}
       </div>
 
-      <h1 className="mt-4 text-2xl font-bold">Fragen zu beliebten Themen</h1>
-      <p className="text-sm text-muted-foreground">
-        Hier findest du Fragen zu den beliebten Themen der Parteien. Klicke auf
-        eine Frage um Details zu sehen.
+      <h1 className="mt-4 text-2xl font-bold">Questions sur les sujets populaires</h1>
+      <p className="text-muted-foreground text-sm">
+        Retrouvez ici les questions sur les sujets populaires des partis.
+        Cliquez sur une question pour voir les détails.
       </p>
 
       <TopicsFilterableList

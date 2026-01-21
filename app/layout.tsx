@@ -1,91 +1,76 @@
-import { AnonymousAuthProvider } from '@/components/anonymous-auth';
-import { Toaster } from '@/components/ui/sonner';
+import { type Metadata, type Viewport } from "next";
+import { headers } from "next/headers";
 
-import AuthServiceWorkerProvider from '@/components/providers/auth-service-worker-provider';
-import { ThemeProvider } from '@/components/providers/theme-provider';
-import { TooltipProvider } from '@/components/ui/tooltip';
-import type { Metadata, Viewport } from 'next';
-import { Analytics } from '@vercel/analytics/react';
-import './globals.css';
-import { PartiesProvider } from '@/components/providers/parties-provider';
-import { getParties, getUser } from '@/lib/firebase/firebase-server';
-import { headers } from 'next/headers';
-import { TENANT_ID_HEADER } from '@/lib/constants';
-import TenantProvider from '@/components/providers/tenant-provider';
-import { getTenant } from '@/lib/firebase/firebase-admin';
-import { domAnimation, LazyMotion } from 'motion/react';
-import { IS_EMBEDDED } from '@/lib/utils';
+import { Analytics } from "@vercel/analytics/react";
+import { domAnimation, LazyMotion } from "motion/react";
+
+import { AnonymousAuthProvider } from "@/components/anonymous-auth";
+import AuthServiceWorkerProvider from "@/components/providers/auth-service-worker-provider";
+import { PartiesProvider } from "@/components/providers/parties-provider";
+import TenantProvider from "@/components/providers/tenant-provider";
+import { ThemeProvider } from "@/components/providers/theme-provider";
+import { Toaster } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { TENANT_ID_HEADER } from "@/lib/constants";
+import { getTenant } from "@/lib/firebase/firebase-admin";
+import { getParties, getUser } from "@/lib/firebase/firebase-server";
+import { IS_EMBEDDED } from "@/lib/utils";
+
+import "./globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://wahl.chat'),
+  metadataBase: new URL("https://chatvote.fr"),
   title: {
-    default: 'wahl.chat - Politik interaktiv verstehen',
-    template: '%s | wahl.chat',
+    default: "chatvote - Comprendre la politique de manière interactive",
+    template: "%s | chatvote",
   },
   description:
-    'Verstehe die Ziele und Positionen der Parteien der Bundesrepublik Deutschland. Unterhalte dich bei wahl.chat mit den Programmen der Parteien, stelle Fragen zu deinen Themen und lass Parteipositionen kritisch einordnen.',
-  applicationName: 'wahl.chat',
+    "Comprenez les objectifs et positions des partis politiques français. Discutez avec les programmes des partis sur chatvote, posez vos questions sur vos sujets et obtenez une analyse critique des positions politiques.",
+  applicationName: "chatvote",
   keywords: [
-    'Wahl Chat',
-    'Wahl',
-    'Chat',
-    'AI Wahl Chat',
-    'AI Wahlprogramm',
-    'KI Chat',
-    'KI Wahlprogramm',
-    'Wahlprogramm',
-    'Parteien',
-    'Politik',
-    'Politik verstehen',
-    'Bundestagswahl',
-    'Bundestagswahl 2025',
-    'AI',
-    'KI',
-    'Künstliche Intelligenz',
-    'Chatbot',
-    'Chat',
-    'Unterhaltung',
-    'Unterhaltungskanal',
-    'Unterhaltungskanal für Politik',
-    'Unterhaltungskanal für die Bundestagswahl 2025',
-    'Deutschland',
-    'Deutschlandpolitik',
-    'Deutschlandpolitik 2025',
-    'Germany',
-    'Germany politics',
-    'Germany politics 2025',
-    'KI Wahlhilfe',
-    'KI Wahl',
-    'Wahl KI',
-    'Wahlentscheidung Hilfe',
-    'Wahl informieren',
-    'Wahlcheck 2025',
-    'Wahlcheck',
-    'Wahl-o-Mat',
-    'Wahl-o-Mat Alternative',
+    "Chatvote",
+    "Chat politique",
+    "IA politique",
+    "Chat IA",
+    "Programme électoral",
+    "Partis politiques",
+    "Politique",
+    "Comprendre la politique",
+    "Élections françaises",
+    "IA",
+    "Intelligence artificielle",
+    "Chatbot",
+    "Chat",
+    "France",
+    "Politique française",
+    "Aide au vote",
+    "Décision électorale",
+    "S&lsquo;informer sur les élections",
+    "Comparateur politique",
   ],
-  robots: 'index, follow',
+  robots: "index, follow",
   openGraph: {
     title: {
-      default: 'wahl.chat - Politik interaktiv verstehen',
-      template: '%s | wahl.chat - Politik interaktiv verstehen',
+      default: "chatvote - Comprendre la politique de manière interactive",
+      template:
+        "%s | chatvote - Comprendre la politique de manière interactive",
     },
     description:
-      'Verstehe die Ziele und Positionen der Parteien der Bundesrepublik Deutschland. Unterhalte dich bei wahl.chat mit den Programmen der Parteien, stelle Fragen zu deinen Themen und lass Parteipositionen kritisch einordnen.',
-    images: ['/images/logo.webp'],
-    url: 'https://wahl.chat',
-    siteName: 'wahl.chat',
-    locale: 'de-DE',
-    type: 'website',
+      "Comprenez les objectifs et positions des partis politiques français. Discutez avec les programmes des partis sur chatvote, posez vos questions sur vos sujets et obtenez une analyse critique des positions politiques.",
+    images: ["/images/logo.webp"],
+    url: "https://chatvote.fr",
+    siteName: "chatvote",
+    locale: "fr-FR",
+    type: "website",
   },
   twitter: {
-    card: 'summary_large_image',
-    site: '@wahl_chat',
-    creator: '@wahl_chat',
-    title: 'wahl.chat | Wahlprogramme der Parteien für die Bundestagswahl 2025',
+    card: "summary_large_image",
+    site: "@chatvote_fr",
+    creator: "@chatvote_fr",
+    title: "chatvote | Programmes des partis pour les élections françaises",
     description:
-      'Verstehe die Ziele und Positionen der Parteien der Bundesrepublik Deutschland. Unterhalte dich bei wahl.chat mit den Programmen der Parteien, stelle Fragen zu deinen Themen und lass Parteipositionen kritisch einordnen.',
-    images: ['/images/logo.webp'],
+      "Comprenez les objectifs et positions des partis politiques français. Discutez avec les programmes des partis sur chatvote, posez vos questions sur vos sujets et obtenez une analyse critique des positions politiques.",
+    images: ["/images/logo.webp"],
   },
 };
 
@@ -93,8 +78,8 @@ export const viewport: Viewport = {
   maximumScale: 1, // Disable auto-zoom on mobile Safari
 };
 
-const LIGHT_THEME_COLOR = 'hsl(0 0% 100%)';
-const DARK_THEME_COLOR = 'hsl(240deg 10% 3.92%)';
+const LIGHT_THEME_COLOR = "hsl(0 0% 100%)";
+const DARK_THEME_COLOR = "hsl(240deg 10% 3.92%)";
 const THEME_COLOR_SCRIPT = `\
 (function() {
   var html = document.documentElement;
@@ -125,7 +110,7 @@ export default async function RootLayout({
   const user = await getUser();
 
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="fr" suppressHydrationWarning>
       <head>
         <script
           dangerouslySetInnerHTML={{

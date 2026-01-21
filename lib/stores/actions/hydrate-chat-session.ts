@@ -1,10 +1,11 @@
-import { toast } from 'sonner';
-import type { ChatStoreActionHandlerFor } from '@/lib/stores/chat-store.types';
-import { chatViewScrollToBottom } from '@/lib/scroll-utils';
-import { areSetsEqual, generateUuid } from '@/lib/utils';
+import { toast } from "sonner";
+
+import { chatViewScrollToBottom } from "@/lib/scroll-utils";
+import { type ChatStoreActionHandlerFor } from "@/lib/stores/chat-store.types";
+import { areSetsEqual, generateUuid } from "@/lib/utils";
 
 export const hydrateChatSession: ChatStoreActionHandlerFor<
-  'hydrateChatSession'
+  "hydrateChatSession"
 > =
   (get, set) =>
   async ({
@@ -44,10 +45,10 @@ export const hydrateChatSession: ChatStoreActionHandlerFor<
       state.tenant = tenant;
     });
 
-    if (initialQuestion && typeof window !== 'undefined') {
+    if (initialQuestion && typeof window !== "undefined") {
       const url = new URL(window.location.href);
-      url.searchParams.delete('q');
-      window.history.replaceState({}, '', url.toString());
+      url.searchParams.delete("q");
+      window.history.replaceState({}, "", url.toString());
     }
 
     if (chatSession && messages !== undefined) {
@@ -85,9 +86,9 @@ export const hydrateChatSession: ChatStoreActionHandlerFor<
     } else if (chatSessionId && changedPage) {
       await toast
         .promise(loadChatSession(chatSessionId), {
-          loading: 'Loading chat session...',
-          success: 'Chat session loaded!',
-          error: 'Failed to load chat session',
+          loading: "Loading chat session...",
+          success: "Chat session loaded!",
+          error: "Failed to load chat session",
         })
         .unwrap();
     } else {

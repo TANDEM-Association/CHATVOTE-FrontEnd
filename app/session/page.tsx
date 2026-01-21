@@ -1,7 +1,8 @@
-import ChatView from '@/components/chat/chat-view';
-import { getParties } from '@/lib/firebase/firebase-server';
-import { generateOgImageUrl } from '@/lib/utils';
-import { redirect } from 'next/navigation';
+import { redirect } from "next/navigation";
+
+import ChatView from "@/components/chat/chat-view";
+import { getParties } from "@/lib/firebase/firebase-server";
+import { generateOgImageUrl } from "@/lib/utils";
 
 type Props = {
   searchParams: Promise<{
@@ -52,7 +53,7 @@ async function Page({ searchParams }: Props) {
       : undefined;
 
   normalizedPartyIds = normalizedPartyIds?.filter((id) =>
-    parties.some((p) => p.party_id === id)
+    parties.some((p) => p.party_id === id),
   );
 
   return <ChatView partyIds={normalizedPartyIds} initialQuestion={q} />;

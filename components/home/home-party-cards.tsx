@@ -1,11 +1,12 @@
-'use client';
+"use client";
 
-import PartyCards from '@/components/party-cards';
-import { track } from '@vercel/analytics/react';
+import { track } from "@vercel/analytics/react";
+
+import PartyCards from "@/components/party-cards";
 
 export default function HomePartyCards() {
   const handlePartyClick = (partyId: string) => {
-    track('home_page_party_clicked', {
+    track("home_page_party_clicked", {
       party: partyId,
     });
   };

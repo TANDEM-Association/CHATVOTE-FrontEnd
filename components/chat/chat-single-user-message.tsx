@@ -1,11 +1,12 @@
-import type { MessageItem } from '@/lib/stores/chat-store.types';
-import { useChatStore } from '@/components/providers/chat-store-provider';
-import { useAnonymousAuth } from '@/components/anonymous-auth';
-import { toast } from 'sonner';
-import { Button } from '@/components/ui/button';
-import { RotateCcwIcon } from 'lucide-react';
+import { RotateCcwIcon } from "lucide-react";
+import { toast } from "sonner";
 
-export const INITIAL_MESSAGE_ID = 'initial-question';
+import { useAnonymousAuth } from "@/components/anonymous-auth";
+import { useChatStore } from "@/components/providers/chat-store-provider";
+import { Button } from "@/components/ui/button";
+import { type MessageItem } from "@/lib/stores/chat-store.types";
+
+export const INITIAL_MESSAGE_ID = "initial-question";
 
 type Props = {
   message: MessageItem;
@@ -26,18 +27,18 @@ function ChatSingleUserMessage({ message, isLastMessage }: Props) {
   const handleResendMessage = () => {
     if (!user) {
       toast.error(
-        'Bitte lade die Seite neu, um eine Nachricht erneut zu senden.'
+        "Veuillez recharger la page pour renvoyer un message.",
       );
       return;
     }
 
-    addUserMessage(user.uid, message.content ?? '');
+    addUserMessage(user.uid, message.content ?? "");
   };
 
   return (
     <article className="flex flex-col items-end justify-end gap-1">
-      <div className="w-fit max-w-[90%] rounded-[20px] bg-muted px-4 py-2 text-foreground">
-        {message.content ?? ''}
+      <div className="bg-muted text-foreground w-fit max-w-[90%] rounded-[20px] px-4 py-2">
+        {message.content ?? ""}
       </div>
       {shouldShowResendButton && (
         <Button
@@ -46,7 +47,7 @@ function ChatSingleUserMessage({ message, isLastMessage }: Props) {
           variant="ghost"
         >
           <RotateCcwIcon className="!size-3" />
-          Erneut senden
+          Renvoyer
         </Button>
       )}
     </article>

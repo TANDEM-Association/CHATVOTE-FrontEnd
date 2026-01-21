@@ -1,3 +1,4 @@
+import ChatGroupPartySelectContent from "./chat-group-party-select-content";
 import {
   ResponsiveDialog,
   ResponsiveDialogContent,
@@ -5,8 +6,7 @@ import {
   ResponsiveDialogHeader,
   ResponsiveDialogTitle,
   ResponsiveDialogTrigger,
-} from './responsive-drawer-dialog';
-import ChatGroupPartySelectContent from './chat-group-party-select-content';
+} from "./responsive-drawer-dialog";
 
 type Props = {
   children: React.ReactNode;
@@ -26,11 +26,11 @@ function ChatGroupPartySelect({
       <ResponsiveDialogTrigger asChild>{children}</ResponsiveDialogTrigger>
       <ResponsiveDialogContent>
         <ResponsiveDialogHeader className="text-left">
-          <ResponsiveDialogTitle>Parteiauswahl</ResponsiveDialogTitle>
+          <ResponsiveDialogTitle>Sélection des partis</ResponsiveDialogTitle>
           <ResponsiveDialogDescription>
             {addPartiesToChat
-              ? 'Ändere die ausgewählten Parteien.'
-              : 'Wähle bis zu sieben Parteien, mit denen du den Chat starten möchtest.'}
+              ? "Modifiez les partis sélectionnés."
+              : "Sélectionnez jusqu&lsquo;à sept partis avec lesquels vous souhaitez démarrer le chat."}
           </ResponsiveDialogDescription>
         </ResponsiveDialogHeader>
         <ChatGroupPartySelectContent

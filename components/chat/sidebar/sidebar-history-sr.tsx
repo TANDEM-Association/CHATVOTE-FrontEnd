@@ -1,8 +1,9 @@
 import {
   getCurrentUser,
   getUsersChatSessions,
-} from '@/lib/firebase/firebase-server';
-import SidebarHistory from './sidebar-history';
+} from "@/lib/firebase/firebase-server";
+
+import SidebarHistory from "./sidebar-history";
 
 async function getChatHistory() {
   const user = await getCurrentUser();
