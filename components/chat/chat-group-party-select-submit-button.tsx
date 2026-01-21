@@ -1,7 +1,10 @@
-import { useEffect, useMemo } from 'react';
-import { Button } from '../ui/button';
-import { ResponsiveDialogClose } from './responsive-drawer-dialog';
-import { useRouter } from 'next/navigation';
+import { useEffect, useMemo } from "react";
+
+import { useRouter } from "next/navigation";
+
+import { Button } from "../ui/button";
+
+import { ResponsiveDialogClose } from "./responsive-drawer-dialog";
 
 type Props = {
   selectedPartyIds: string[];
@@ -19,7 +22,7 @@ function ChatGroupPartySelectSubmitButton({
   const navigateUrl = useMemo(() => {
     const searchParams = new URLSearchParams();
     selectedPartyIds.forEach((partyId) => {
-      searchParams.append('party_id', partyId);
+      searchParams.append("party_id", partyId);
     });
 
     return `/session?${searchParams.toString()}`;
@@ -32,12 +35,14 @@ function ChatGroupPartySelectSubmitButton({
 
   useEffect(() => {
     if (!addPartiesToChat) router.prefetch(navigateUrl);
-  }, [navigateUrl]);
+  }, [addPartiesToChat, navigateUrl, router]);
 
   return (
     <ResponsiveDialogClose asChild>
       <Button className="w-full" onClick={handleSubmit}>
-        {addPartiesToChat ? 'Parteien ändern' : 'Vergleichschat starten'}
+        {addPartiesToChat
+          ? "Modifier les partis"
+          : "Démarrer le chat comparatif"}
       </Button>
     </ResponsiveDialogClose>
   );

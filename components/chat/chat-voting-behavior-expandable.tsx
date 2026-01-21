@@ -1,51 +1,55 @@
-import type { StreamingMessage } from '@/lib/socket.types';
-import type { MessageItem } from '@/lib/stores/chat-store.types';
-import { useChatStore } from '@/components/providers/chat-store-provider';
-import { Separator } from '@/components/ui/separator';
-import { Eye, EyeClosed, SparkleIcon } from 'lucide-react';
-import AnimatedMessageSequence from './animated-message-sequence';
+import { useEffect, useRef, useState } from "react";
+
+import { Eye, EyeClosed, SparkleIcon } from "lucide-react";
+
+import { useChatStore } from "@/components/providers/chat-store-provider";
+import { Button } from "@/components/ui/button";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from '@/components/ui/collapsible';
-import { cn } from '@/lib/utils';
+} from "@/components/ui/collapsible";
+import { Separator } from "@/components/ui/separator";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { Button } from '@/components/ui/button';
-import { useEffect, useRef, useState } from 'react';
-import { buildVotingBehaviorSeparatorId } from '@/lib/scroll-constants';
+} from "@/components/ui/tooltip";
+import { buildVotingBehaviorSeparatorId } from "@/lib/scroll-constants";
 import {
   chatViewScrollToVotingBehaviorContainer,
   scrollMessageIntoView,
-} from '@/lib/scroll-utils';
-import { Markdown } from '../markdown';
-import ChatGroupVotingBehaviorEmblaReinit from './chat-group-voting-behavior-embla-reinit';
-import type { ChatVotingBehaviorDetailButtonRef } from './chat-voting-behavior-detail-button';
-import ChatVotingBehaviorDetailButton from './chat-voting-behavior-detail-button';
+} from "@/lib/scroll-utils";
+import { type StreamingMessage } from "@/lib/socket.types";
+import { type MessageItem } from "@/lib/stores/chat-store.types";
+import { cn } from "@/lib/utils";
+
+import { Markdown } from "../markdown";
+
+import AnimatedMessageSequence from "./animated-message-sequence";
+import ChatGroupVotingBehaviorEmblaReinit from "./chat-group-voting-behavior-embla-reinit";
+import ChatVotingBehaviorDetailButton from "./chat-voting-behavior-detail-button";
+import { type ChatVotingBehaviorDetailButtonRef } from "./chat-voting-behavior-detail-button";
 
 type Props = {
   message: MessageItem | StreamingMessage;
   isGroupChat?: boolean;
 };
 
-function ChatVotingBehaviorExpandable({ message, isGroupChat }: Props) {
+const ChatVotingBehaviorExpandable = ({ message, isGroupChat }: Props) => {
   const [isExpanded, setIsExpanded] = useState(!message.voting_behavior);
   const isLoadingVotingBehaviorSummary = useChatStore(
-    (state) => state.loading.votingBehaviorSummary === message.id
+    (state) => state.loading.votingBehaviorSummary === message.id,
   );
   const shouldShowVotingBehaviorSummary = useChatStore(
     (state) =>
       state.currentStreamedVotingBehavior?.requestId === message.id ||
-      message.voting_behavior?.summary
+      message.voting_behavior?.summary,
   );
   const votingBehavior = useChatStore((state) =>
     state.currentStreamedVotingBehavior?.requestId === message.id
       ? state.currentStreamedVotingBehavior
-      : message.voting_behavior
+      : message.voting_behavior,
   );
   const [
     prevIsLoadingVotingBehaviorSummary,
@@ -56,18 +60,13 @@ function ChatVotingBehaviorExpandable({ message, isGroupChat }: Props) {
 
   const isFirstRender = useRef(true);
 
-  useEffect(() => {
+  // Adjust state during render (React-recommended pattern for prop/state transitions)
+  if (prevIsLoadingVotingBehaviorSummary !== isLoadingVotingBehaviorSummary) {
+    setPrevIsLoadingVotingBehaviorSummary(isLoadingVotingBehaviorSummary);
     if (!prevIsLoadingVotingBehaviorSummary && isLoadingVotingBehaviorSummary) {
       setIsExpanded(true);
     }
-
-    setPrevIsLoadingVotingBehaviorSummary(isLoadingVotingBehaviorSummary);
-  }, [
-    isLoadingVotingBehaviorSummary,
-    message.id,
-    message.voting_behavior,
-    prevIsLoadingVotingBehaviorSummary,
-  ]);
+  }
 
   useEffect(() => {
     if (isFirstRender.current) {
@@ -98,16 +97,16 @@ function ChatVotingBehaviorExpandable({ message, isGroupChat }: Props) {
       <>
         <Separator />
         <div className="flex items-center gap-4">
-          <SparkleIcon className="size-4 animate-spin text-muted-foreground [animation-duration:4s]" />
+          <SparkleIcon className="text-muted-foreground size-4 animate-spin [animation-duration:4s]" />
 
           <AnimatedMessageSequence
             className="text-muted-foreground"
             messages={[
-              'Durchsuche Bundestags-Anträge...',
-              'Durchsuche Abstimmungsprotokolle...',
-              'Analysiere Antragsteller-Informationen...',
-              'Vergleiche Informationen...',
-              'Ergebnisse zusammenfassen...',
+              "Recherche des motions parlementaires...",
+              "Recherche des procès-verbaux de vote...",
+              "Analyse des informations des proposants...",
+              "Comparaison des informations...",
+              "Résumé des résultats...",
             ]}
           />
         </div>
@@ -129,7 +128,7 @@ function ChatVotingBehaviorExpandable({ message, isGroupChat }: Props) {
   };
 
   const getReferenceName = (voteId: number) => {
-    return `Abst. ${voteId}`;
+    return `Vote ${voteId}`;
   };
 
   return (
@@ -142,26 +141,25 @@ function ChatVotingBehaviorExpandable({ message, isGroupChat }: Props) {
             getReferenceTooltip={getReferenceTooltip}
             getReferenceName={getReferenceName}
           >
-            {votingBehavior?.summary ?? ''}
+            {votingBehavior?.summary ?? ""}
           </Markdown>
         </CollapsibleContent>
         <div
           className={cn(
-            'flex flex-row items-center justify-between mt-0',
-            isExpanded && 'mt-4'
+            "mt-0 flex flex-row items-center justify-between",
+            isExpanded && "mt-4",
           )}
         >
           {!isExpanded ? (
-            <p className="text-xs text-muted-foreground">
-              Diese Nachricht enthält weitere Informationen zum{' '}
-              <span className="font-bold">Abstimmungsverhalten</span> der
-              Partei.
+            <p className="text-muted-foreground text-xs">
+              Ce message contient des informations supplémentaires sur le{" "}
+              <span className="font-bold">comportement de vote</span> du parti.
             </p>
           ) : message.voting_behavior ? (
             <ChatVotingBehaviorDetailButton
               votingBehavior={message.voting_behavior}
               ref={votingBehaviorDetailButtonRef}
-              partyId={message.party_id ?? ''}
+              partyId={message.party_id ?? ""}
             />
           ) : (
             <div />
@@ -175,7 +173,7 @@ function ChatVotingBehaviorExpandable({ message, isGroupChat }: Props) {
               </TooltipTrigger>
             </CollapsibleTrigger>
             <TooltipContent>
-              {isExpanded ? 'Verbergen' : 'Anzeigen'}
+              {isExpanded ? "Masquer" : "Afficher"}
             </TooltipContent>
           </Tooltip>
         </div>
@@ -183,6 +181,6 @@ function ChatVotingBehaviorExpandable({ message, isGroupChat }: Props) {
       {emblaReinitComponent}
     </>
   );
-}
+};
 
 export default ChatVotingBehaviorExpandable;

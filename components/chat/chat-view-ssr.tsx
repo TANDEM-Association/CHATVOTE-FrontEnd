@@ -1,3 +1,5 @@
+import { redirect } from "next/navigation";
+
 import {
   getChatSession,
   getChatSessionMessages,
@@ -5,9 +7,9 @@ import {
   getParties,
   getPartiesById,
   getProposedQuestions,
-} from '@/lib/firebase/firebase-server';
-import ChatMessagesView from './chat-messages-view';
-import { redirect } from 'next/navigation';
+} from "@/lib/firebase/firebase-server";
+
+import ChatMessagesView from "./chat-messages-view";
 
 type Props = {
   chatSessionId?: string;
@@ -17,27 +19,27 @@ type Props = {
 
 async function getChatSessionServer(
   chatSessionId: string,
-  partyIds?: string[]
+  partyIds?: string[],
 ) {
   const user = await getCurrentUser();
 
   if (!user) {
-    throw new Error('User not found');
+    throw new Error("User not found");
   }
 
   try {
     const session = await getChatSession(chatSessionId);
 
     if (!session) {
-      throw new Error('Chat session not found');
+      throw new Error("Chat session not found");
     }
 
     return session;
   } catch (error) {
-    console.error('Error getting chat session', error);
+    console.error("Error getting chat session", error);
 
     const searchParams = new URLSearchParams();
-    partyIds?.forEach((partyId) => searchParams.append('party_id', partyId));
+    partyIds?.forEach((partyId) => searchParams.append("party_id", partyId));
 
     redirect(`/session?${searchParams.toString()}`);
   }

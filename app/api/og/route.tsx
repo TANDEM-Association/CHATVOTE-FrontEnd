@@ -1,4 +1,5 @@
-import { ImageResponse } from 'next/og';
+/* eslint-disable @next/next/no-img-element */
+import { ImageResponse } from "next/og";
 
 async function loadGoogleFont(font: string, text: string) {
   const url = `https://fonts.googleapis.com/css2?family=${font}&text=${encodeURIComponent(text)}`;
@@ -14,52 +15,52 @@ async function loadGoogleFont(font: string, text: string) {
     }
   }
 
-  throw new Error('failed to load font data');
+  throw new Error("failed to load font data");
 }
 
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
 
-    const hasPartyImageUrl = searchParams.has('partyImageUrl');
-    const hasBackgroundColor = searchParams.has('backgroundColor');
+    const hasPartyImageUrl = searchParams.has("partyImageUrl");
+    const hasBackgroundColor = searchParams.has("backgroundColor");
 
     if (!hasPartyImageUrl) {
-      return new Response('Party image URL is required', { status: 400 });
+      return new Response("Party image URL is required", { status: 400 });
     }
 
     if (!hasBackgroundColor) {
-      return new Response('Background color is required', { status: 400 });
+      return new Response("Background color is required", { status: 400 });
     }
 
-    const partyImageUrl = searchParams.get('partyImageUrl');
-    const normalizedPartyImageUrl = partyImageUrl?.replace('.webp', '.png');
+    const partyImageUrl = searchParams.get("partyImageUrl");
+    const normalizedPartyImageUrl = partyImageUrl?.replace(".webp", ".png");
 
-    const backgroundColor = searchParams.get('backgroundColor');
+    const backgroundColor = searchParams.get("backgroundColor");
 
-    const title = searchParams.get('title')?.slice(0, 100);
+    const title = searchParams.get("title")?.slice(0, 100);
 
     return new ImageResponse(
       <div
         style={{
-          backgroundColor: 'white',
-          backgroundSize: '150px 150px',
-          height: '100%',
-          width: '100%',
-          display: 'flex',
-          textAlign: 'center',
-          alignItems: 'center',
-          justifyContent: 'center',
-          flexDirection: 'column',
-          flexWrap: 'nowrap',
+          backgroundColor: "white",
+          backgroundSize: "150px 150px",
+          height: "100%",
+          width: "100%",
+          display: "flex",
+          textAlign: "center",
+          alignItems: "center",
+          justifyContent: "center",
+          flexDirection: "column",
+          flexWrap: "nowrap",
         }}
       >
         <div
           style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            justifyItems: 'center',
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            justifyItems: "center",
             gap: 36,
           }}
         >
@@ -103,9 +104,9 @@ export async function GET(request: Request) {
             width="256"
             height="256"
             style={{
-              backgroundColor: backgroundColor ?? 'white',
-              borderRadius: '10px',
-              objectFit: 'contain',
+              backgroundColor: backgroundColor ?? "white",
+              borderRadius: "10px",
+              objectFit: "contain",
               padding: 24,
             }}
           />
@@ -114,14 +115,14 @@ export async function GET(request: Request) {
           <div
             style={{
               fontSize: 50,
-              fontStyle: 'normal',
-              fontFamily: 'Inter',
-              letterSpacing: '-0.025em',
-              color: 'black',
+              fontStyle: "normal",
+              fontFamily: "Inter",
+              letterSpacing: "-0.025em",
+              color: "black",
               marginTop: 30,
-              padding: '0 120px',
+              padding: "0 120px",
               lineHeight: 1.4,
-              whiteSpace: 'pre-wrap',
+              whiteSpace: "pre-wrap",
             }}
           >
             {title}
@@ -134,9 +135,9 @@ export async function GET(request: Request) {
         fonts: title
           ? [
               {
-                name: 'Geist',
-                data: await loadGoogleFont('Inter', title),
-                style: 'normal',
+                name: "Geist",
+                data: await loadGoogleFont("Inter", title),
+                style: "normal",
               },
             ]
           : [],
@@ -144,7 +145,7 @@ export async function GET(request: Request) {
     );
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (e: any) {
-    console.log(`${e.message}`);
+    console.error(`${e.message}`);
     return new Response(`Failed to generate the image`, {
       status: 500,
     });

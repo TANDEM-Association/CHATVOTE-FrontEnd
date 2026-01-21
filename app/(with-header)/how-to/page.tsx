@@ -1,11 +1,10 @@
-import HowTo from '@/components/how-to';
+import HowTo from "@/components/how-to";
 
 function HowToPage() {
   return (
     <>
-      <h1 className="text-xl md:text-2xl font-bold mb-2 mt-4">
-        Was kann ich mit <span className="underline">wahl.chat</span> alles
-        machen?
+      <h1 className="mt-4 mb-2 text-xl font-bold md:text-2xl">
+        Que puis-je faire avec <span className="underline">chatvote</span> ?
       </h1>
       <HowTo />
     </>

@@ -1,6 +1,12 @@
-import { ThumbsDown } from 'lucide-react';
-import { Button } from '../ui/button';
-import { cn } from '@/lib/utils';
+import { useState } from "react";
+
+import { ThumbsDown } from "lucide-react";
+
+import { cn } from "@/lib/utils";
+
+import { Button } from "../ui/button";
+import { Textarea } from "../ui/textarea";
+
 import {
   ResponsiveDialog,
   ResponsiveDialogContent,
@@ -8,9 +14,7 @@ import {
   ResponsiveDialogHeader,
   ResponsiveDialogTitle,
   ResponsiveDialogTrigger,
-} from './responsive-drawer-dialog';
-import { useState } from 'react';
-import { Textarea } from '../ui/textarea';
+} from "./responsive-drawer-dialog";
 
 type Props = {
   isDisliked: boolean;
@@ -30,7 +34,7 @@ function ChatDislikeFeedbackButton({
     setIsOpen(false);
 
     const formData = new FormData(e.target as HTMLFormElement);
-    const details = formData.get('details') as string;
+    const details = formData.get("details") as string;
     onDislikeFeedback(details);
   };
 
@@ -44,26 +48,26 @@ function ChatDislikeFeedbackButton({
           onClick={() => setIsOpen(true)}
         >
           <div className="group-hover/dislike:-translate-y-2 group-hover/dislike:scale-125 group-hover/dislike:transition-transform group-hover/dislike:duration-200 group-hover/dislike:ease-in-out">
-            <ThumbsDown className={cn(isDisliked && 'fill-foreground/30')} />
+            <ThumbsDown className={cn(isDisliked && "fill-foreground/30")} />
           </div>
         </Button>
       </ResponsiveDialogTrigger>
       <ResponsiveDialogContent className="px-4">
         <ResponsiveDialogHeader>
-          <ResponsiveDialogTitle>Feedback abgeben</ResponsiveDialogTitle>
+          <ResponsiveDialogTitle>Donner un feedback</ResponsiveDialogTitle>
           <ResponsiveDialogDescription>
-            Was gefällt dir nicht an dieser Antwort?
+            Qu&lsquo;est-ce qui ne vous plaît pas dans cette réponse ?
           </ResponsiveDialogDescription>
         </ResponsiveDialogHeader>
         <form onSubmit={handleSubmit}>
           <Textarea
-            placeholder="Bitte gib hier dein Feedback ein. (optional)"
+            placeholder="Veuillez saisir votre feedback ici. (optionnel)"
             className="w-full"
             name="details"
             defaultValue={feedbackDetail}
           />
-          <Button className="w-full mt-4 mb-4 md:mb-0" type="submit">
-            Feedback abgeben
+          <Button className="mt-4 mb-4 w-full md:mb-0" type="submit">
+            Envoyer le feedback
           </Button>
         </form>
       </ResponsiveDialogContent>

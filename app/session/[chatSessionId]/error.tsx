@@ -1,7 +1,8 @@
-'use client';
+"use client";
 
-import { Button } from '@/components/ui/button';
-import { BugIcon } from 'lucide-react';
+import { BugIcon } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
 
 export type ErrorProps = {
   error: Error & { digest?: string };
@@ -11,17 +12,17 @@ export type ErrorProps = {
 function ErrorView({ error, reset }: ErrorProps) {
   return (
     <div className="flex size-full flex-col items-center justify-center gap-2 px-4">
-      <BugIcon className="size-12 text-destructive" />
+      <BugIcon className="text-destructive size-12" />
       <h1 className="text-center text-2xl font-bold">
-        Oops!
+        Oups !
         <br />
-        Etwas ist schief gelaufen.
+        Une erreur s&lsquo;est produite.
       </h1>
-      <p className="text-center text-sm text-muted-foreground">
+      <p className="text-muted-foreground text-center text-sm">
         {error.message}
       </p>
       <Button onClick={reset} className="mt-2">
-        Versuche es erneut
+        Réessayer
       </Button>
     </div>
   );

@@ -1,7 +1,7 @@
-import type { ChatStoreActionHandlerFor } from '@/lib/stores/chat-store.types';
+import { type ChatStoreActionHandlerFor } from "@/lib/stores/chat-store.types";
 
 export const setPreSelectedParties: ChatStoreActionHandlerFor<
-  'setPreSelectedParties'
+  "setPreSelectedParties"
 > = (get, set) => (preSelectedParties) => {
   set({ preSelectedParties });
 };

@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { useChatStore } from '@/components/providers/chat-store-provider';
-import { listenToHistory } from '@/lib/firebase/firebase';
-import { cn } from '@/lib/utils';
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
-import { useAnonymousAuth } from '@/components/anonymous-auth';
+import { useEffect, useState } from "react";
+
+import Link from "next/link";
+
+import { useAnonymousAuth } from "@/components/anonymous-auth";
+import { useChatStore } from "@/components/providers/chat-store-provider";
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -14,8 +14,10 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from '@/components/ui/sidebar';
-import type { ChatSession } from '@/lib/firebase/firebase.types';
+} from "@/components/ui/sidebar";
+import { listenToHistory } from "@/lib/firebase/firebase";
+import { type ChatSession } from "@/lib/firebase/firebase.types";
+import { cn } from "@/lib/utils";
 
 type Props = {
   history?: ChatSession[];
@@ -45,7 +47,7 @@ function SidebarHistory({ history: initialHistory }: Props) {
 
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Historie</SidebarGroupLabel>
+      <SidebarGroupLabel>Historique</SidebarGroupLabel>
 
       <SidebarGroupContent>
         <SidebarMenu>
@@ -54,14 +56,14 @@ function SidebarHistory({ history: initialHistory }: Props) {
               <SidebarMenuItem key={item.id}>
                 <SidebarMenuButton
                   asChild
-                  className={cn(chatSessionId === item.id && 'bg-muted')}
+                  className={cn(chatSessionId === item.id && "bg-muted")}
                 >
                   <Link href={`/session/${item.id}`} onClick={handleClick}>
                     <span className="w-full truncate">
                       {item.title ||
-                        item.party_ids?.join(',') ||
+                        item.party_ids?.join(",") ||
                         item.party_id ||
-                        'wahl.chat'}
+                        "chatvote"}
                     </span>
                   </Link>
                 </SidebarMenuButton>

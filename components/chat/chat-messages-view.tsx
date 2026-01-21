@@ -1,20 +1,22 @@
-'use client';
+"use client";
 
-import type { PartyDetails } from '@/lib/party-details';
-import { useEffect, useMemo, useRef } from 'react';
-import { useAnonymousAuth } from '@/components/anonymous-auth';
-import { useChatStore } from '@/components/providers/chat-store-provider';
-import ChatEmptyView from './chat-empty-view';
-import ChatGroupedMessages from './chat-grouped-messages';
-import ChatMessagesScrollView from './chat-messages-scroll-view';
-import CurrentStreamingMessages from './current-streaming-messages';
-import type { GroupedMessage } from '@/lib/stores/chat-store.types';
-import type {
-  ChatSession,
-  ProposedQuestion,
-} from '@/lib/firebase/firebase.types';
-import { INITIAL_MESSAGE_ID } from './chat-single-user-message';
-import { useTenant } from '@/components/providers/tenant-provider';
+import { useEffect, useMemo, useRef } from "react";
+
+import { useAnonymousAuth } from "@/components/anonymous-auth";
+import { useChatStore } from "@/components/providers/chat-store-provider";
+import { useTenant } from "@/components/providers/tenant-provider";
+import {
+  type ChatSession,
+  type ProposedQuestion,
+} from "@/lib/firebase/firebase.types";
+import { type PartyDetails } from "@/lib/party-details";
+import { type GroupedMessage } from "@/lib/stores/chat-store.types";
+
+import ChatEmptyView from "./chat-empty-view";
+import ChatGroupedMessages from "./chat-grouped-messages";
+import ChatMessagesScrollView from "./chat-messages-scroll-view";
+import { INITIAL_MESSAGE_ID } from "./chat-single-user-message";
+import CurrentStreamingMessages from "./current-streaming-messages";
 
 type Props = {
   sessionId?: string;
@@ -42,7 +44,7 @@ function ChatMessagesView({
   const tenant = useTenant();
 
   const hasCurrentStreamingMessages = useChatStore(
-    (state) => state.currentStreamingMessages !== undefined
+    (state) => state.currentStreamingMessages !== undefined,
   );
 
   useEffect(() => {
@@ -81,13 +83,13 @@ function ChatMessagesView({
           id: INITIAL_MESSAGE_ID,
           messages: [
             {
-              role: 'user',
+              role: "user",
               content: initialQuestion,
               id: INITIAL_MESSAGE_ID,
               sources: [],
             },
           ],
-          role: 'user',
+          role: "user",
         } satisfies GroupedMessage,
       ];
     }
@@ -113,7 +115,7 @@ function ChatMessagesView({
             message={m}
             isLastMessage={index === normalizedMessages.length - 1}
             parties={allParties?.filter((p) =>
-              m.messages.some((m) => m.party_id === p.party_id)
+              m.messages.some((m) => m.party_id === p.party_id),
             )}
           />
         ))}

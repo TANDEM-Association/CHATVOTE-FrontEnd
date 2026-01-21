@@ -1,19 +1,21 @@
-'use client';
+"use client";
 
-import type { VariantProps } from 'class-variance-authority';
-import { Check, Copy } from 'lucide-react';
-import { useState } from 'react';
-import { toast } from 'sonner';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
-import { track } from '@vercel/analytics/react';
+import { useState } from "react";
+
+import { track } from "@vercel/analytics/react";
+import { type VariantProps } from "class-variance-authority";
+import { Check, Copy } from "lucide-react";
+import { toast } from "sonner";
+
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 type Props = {
   text: string;
   tooltip?: string;
   className?: string;
-  variant?: VariantProps<typeof Button>['variant'];
-  size?: VariantProps<typeof Button>['size'];
+  variant?: VariantProps<typeof Button>["variant"];
+  size?: VariantProps<typeof Button>["size"];
   loading?: boolean;
 };
 
@@ -30,9 +32,9 @@ function CopyButton({
   const handleCopyMessage = () => {
     navigator.clipboard.writeText(text);
     setIsCopied(true);
-    toast.success('Text in die Zwischenablage kopiert');
+    toast.success("Texte copié dans le presse-papiers");
 
-    track('message_copied', {
+    track("message_copied", {
       message: text,
     });
 
@@ -46,8 +48,8 @@ function CopyButton({
       variant={variant}
       size={size}
       className={cn(
-        'group-data-[has-message-background]:hover:bg-zinc-200 group-data-[has-message-background]:dark:hover:bg-zinc-800',
-        className
+        "group-data-[has-message-background]:hover:bg-zinc-200 group-data-[has-message-background]:dark:hover:bg-zinc-800",
+        className,
       )}
       tooltip={tooltip}
       onClick={handleCopyMessage}

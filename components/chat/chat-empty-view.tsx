@@ -1,14 +1,16 @@
-'use client';
+"use client";
 
-import { useAnonymousAuth } from '@/components/anonymous-auth';
-import { useChatStore } from '@/components/providers/chat-store-provider';
-import type { PartyDetails } from '@/lib/party-details';
-import Image from 'next/image';
-import InitialSuggestionBubble from './initial-suggestion-bubble';
-import GroupChatEmptyView from './group-chat-empty-view';
-import type { ProposedQuestion } from '@/lib/firebase/firebase.types';
-import { buildPartyImageUrl } from '@/lib/utils';
-import Logo from './logo';
+import Image from "next/image";
+
+import { useAnonymousAuth } from "@/components/anonymous-auth";
+import { useChatStore } from "@/components/providers/chat-store-provider";
+import { type ProposedQuestion } from "@/lib/firebase/firebase.types";
+import { type PartyDetails } from "@/lib/party-details";
+import { buildPartyImageUrl } from "@/lib/utils";
+
+import GroupChatEmptyView from "./group-chat-empty-view";
+import InitialSuggestionBubble from "./initial-suggestion-bubble";
+import Logo from "./logo";
 
 type Props = {
   parties?: PartyDetails[];
@@ -40,7 +42,7 @@ function ChatEmptyView({ parties, proposedQuestions }: Props) {
     <div className="flex grow flex-col items-center justify-center gap-4 px-8">
       <div
         style={{ backgroundColor: party?.background_color }}
-        className="relative flex size-28 items-center justify-center rounded-md border border-muted-foreground/20 bg-background md:size-36"
+        className="border-muted-foreground/20 bg-background relative flex size-28 items-center justify-center rounded-md border md:size-36"
       >
         {party ? (
           <Image
@@ -56,15 +58,15 @@ function ChatEmptyView({ parties, proposedQuestions }: Props) {
       </div>
       {party ? (
         <p className="text-center">
-          Stelle dem Wahlprogramm der Partei{' '}
-          <span className="font-semibold">{party.name}</span> deine Fragen und
-          vergleiche ihre Antworten mit denen anderer Parteien.
+          Posez vos questions au programme du parti{" "}
+          <span className="font-semibold">{party.name}</span> et comparez leurs
+          réponses avec celles des autres partis.
         </p>
       ) : (
         <p className="text-center">
-          Stelle Fragen zu allen Themen rund um die{' '}
-          <span className="font-semibold">Bundestagswahl 2025</span> oder frage
-          die Parteien direkt zu ihren Positionen im Wahlprogramm.
+          Posez des questions sur tous les sujets liés aux{" "}
+          <span className="font-semibold">élections</span> ou interrogez
+          directement les partis sur leurs positions dans leur programme.
         </p>
       )}
       <div className="flex max-w-xl flex-wrap justify-center gap-2">

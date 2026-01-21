@@ -1,4 +1,4 @@
-type TruthyKinda = 'true' | 'false';
+type TruthyKinda = "true" | "false";
 
 declare global {
   namespace NodeJS {

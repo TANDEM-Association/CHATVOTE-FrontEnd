@@ -1,5 +1,6 @@
-import { cn } from '@/lib/utils';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from "react";
+
+import { cn } from "@/lib/utils";
 
 type Props = {
   children: React.ReactNode;
@@ -36,8 +37,8 @@ function AnimateTextOverflow({ children, className }: Props) {
         const duration = totalScrollDistance / baseSpeed; // seconds
 
         setAnimationStyle({
-          '--scroll-distance': `-${totalScrollDistance}px`,
-          '--scroll-duration': `${duration}s`,
+          "--scroll-distance": `-${totalScrollDistance}px`,
+          "--scroll-duration": `${duration}s`,
         } as React.CSSProperties);
       } else {
         setIsOverflowing(false);
@@ -47,26 +48,22 @@ function AnimateTextOverflow({ children, className }: Props) {
 
     calculateOverflow();
 
-    window.addEventListener('resize', calculateOverflow);
+    window.addEventListener("resize", calculateOverflow);
     return () => {
-      window.removeEventListener('resize', calculateOverflow);
+      window.removeEventListener("resize", calculateOverflow);
     };
   }, [children, scrollPaddingStart, scrollPaddingEnd]);
 
   return (
     <div
-      className={cn('w-full overflow-hidden h-8 relative', className)}
+      className={cn("relative h-8 w-full overflow-hidden", className)}
       ref={containerRef}
     >
       {isOverflowing ? (
         <>
-          <div
-            className="pointer-events-none absolute inset-0 z-20 before:absolute before:left-0 before:top-0 before:h-full before:w-1/6 
-        before:bg-gradient-to-r before:from-background before:to-transparent after:absolute after:right-0 
-        after:top-0 after:h-full after:w-1/6 after:bg-gradient-to-l after:from-background after:to-transparent"
-          />
+          <div className="before:from-background after:from-background pointer-events-none absolute inset-0 z-20 before:absolute before:top-0 before:left-0 before:h-full before:w-1/6 before:bg-gradient-to-r before:to-transparent after:absolute after:top-0 after:right-0 after:h-full after:w-1/6 after:bg-gradient-to-l after:to-transparent" />
           <h1
-            className="text-xl font-bold absolute left-0 top-0 whitespace-nowrap animate-scroll"
+            className="animate-scroll absolute top-0 left-0 text-xl font-bold whitespace-nowrap"
             ref={textRef}
             style={{
               ...animationStyle,
@@ -79,7 +76,7 @@ function AnimateTextOverflow({ children, className }: Props) {
         </>
       ) : (
         <h1
-          className="text-xl font-bold text-center absolute left-0 right-0 top-0 whitespace-nowrap"
+          className="absolute top-0 right-0 left-0 text-center text-xl font-bold whitespace-nowrap"
           ref={textRef}
         >
           {children}

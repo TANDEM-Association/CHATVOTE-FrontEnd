@@ -1,11 +1,11 @@
-import { WAHL_CHAT_PARTY_ID } from '@/lib/constants';
-import { updateChatSession } from '@/lib/firebase/firebase';
-import type { StreamingMessage } from '@/lib/socket.types';
-import type { ChatStoreActionHandlerFor } from '@/lib/stores/chat-store.types';
-import { generateUuid } from '@/lib/utils';
+import { CHATVOTE_PARTY_ID } from "@/lib/constants";
+import { updateChatSession } from "@/lib/firebase/firebase";
+import { type StreamingMessage } from "@/lib/socket.types";
+import { type ChatStoreActionHandlerFor } from "@/lib/stores/chat-store.types";
+import { generateUuid } from "@/lib/utils";
 
 export const selectRespondingParties: ChatStoreActionHandlerFor<
-  'selectRespondingParties'
+  "selectRespondingParties"
 > = (get, set) => async (sessionId, partyIds) => {
   set((state) => {
     if (state.chatSessionId !== sessionId) return;
@@ -17,9 +17,9 @@ export const selectRespondingParties: ChatStoreActionHandlerFor<
         partyId,
         {
           party_id: partyId,
-          content: '',
+          content: "",
           id: generateUuid(),
-          role: 'assistant',
+          role: "assistant",
           sources: [],
         } satisfies StreamingMessage,
       ]),
@@ -31,8 +31,7 @@ export const selectRespondingParties: ChatStoreActionHandlerFor<
   const { partyIds: currentPartyIds } = get();
 
   const newPartyIds = partyIds.filter(
-    (partyId) =>
-      !currentPartyIds.has(partyId) && partyId !== WAHL_CHAT_PARTY_ID,
+    (partyId) => !currentPartyIds.has(partyId) && partyId !== CHATVOTE_PARTY_ID,
   );
 
   if (newPartyIds.length > 0) {

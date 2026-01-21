@@ -1,3 +1,9 @@
+import { useState } from "react";
+
+import { getAuth, signOut } from "firebase/auth";
+import { LogOutIcon } from "lucide-react";
+
+import { useAnonymousAuth } from "@/components/anonymous-auth";
 import {
   ResponsiveDialog,
   ResponsiveDialogContent,
@@ -6,15 +12,11 @@ import {
   ResponsiveDialogHeader,
   ResponsiveDialogTitle,
   ResponsiveDialogTrigger,
-} from '@/components/chat/responsive-drawer-dialog';
-import { useState } from 'react';
-import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
-import { useAnonymousAuth } from '@/components/anonymous-auth';
-import { Button } from '@/components/ui/button';
-import { LogOutIcon } from 'lucide-react';
-import { getAuth, signOut } from 'firebase/auth';
-import type { UserDetails } from '@/lib/utils';
+} from "@/components/chat/responsive-drawer-dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { type UserDetails } from "@/lib/utils";
 
 type Props = {
   children: React.ReactNode;
@@ -42,9 +44,9 @@ function UserDialog({ children, details, asChild }: Props) {
       </ResponsiveDialogTrigger>
       <ResponsiveDialogContent>
         <ResponsiveDialogHeader>
-          <ResponsiveDialogTitle>Account</ResponsiveDialogTitle>
+          <ResponsiveDialogTitle>Compte</ResponsiveDialogTitle>
           <ResponsiveDialogDescription>
-            Hier kannst du deine persönlichen Details einsehen.
+            Consultez vos informations personnelles ici.
           </ResponsiveDialogDescription>
         </ResponsiveDialogHeader>
 
@@ -69,7 +71,7 @@ function UserDialog({ children, details, asChild }: Props) {
                 disabled
                 id="email"
                 type="email"
-                value={user?.email ?? ''}
+                value={user?.email ?? ""}
               />
             </div>
           </div>
@@ -82,7 +84,7 @@ function UserDialog({ children, details, asChild }: Props) {
             disabled={isLoading}
           >
             <LogOutIcon className="size-4" />
-            Logout
+            Déconnexion
           </Button>
         </ResponsiveDialogFooter>
       </ResponsiveDialogContent>

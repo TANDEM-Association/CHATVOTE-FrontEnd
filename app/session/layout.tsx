@@ -1,9 +1,9 @@
-import AnonymousUserChatStoreUpdater from '@/components/auth/anonymous-user-chat-store-updater';
-import ChatHeader from '@/components/chat/chat-header';
-import ChatSidebar from '@/components/chat/sidebar/chat-sidebar';
-import { ChatStoreProvider } from '@/components/providers/chat-store-provider';
-import SocketProvider from '@/components/providers/socket-provider';
-import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
+import AnonymousUserChatStoreUpdater from "@/components/auth/anonymous-user-chat-store-updater";
+import ChatHeader from "@/components/chat/chat-header";
+import ChatSidebar from "@/components/chat/sidebar/chat-sidebar";
+import { ChatStoreProvider } from "@/components/providers/chat-store-provider";
+import SocketProvider from "@/components/providers/socket-provider";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 
 type Props = {
   children: React.ReactNode;

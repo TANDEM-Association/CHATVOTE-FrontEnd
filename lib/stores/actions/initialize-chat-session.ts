@@ -1,8 +1,8 @@
-import type { ChatStoreActionHandlerFor } from '@/lib/stores/chat-store.types';
-import { generateUuid } from '@/lib/utils';
+import { type ChatStoreActionHandlerFor } from "@/lib/stores/chat-store.types";
+import { generateUuid } from "@/lib/utils";
 
 export const initializeChatSession: ChatStoreActionHandlerFor<
-  'initializeChatSession'
+  "initializeChatSession"
 > = (get, set) => async () => {
   const {
     chatSessionId,
@@ -34,7 +34,7 @@ export const initializeChatSession: ChatStoreActionHandlerFor<
   );
 
   const lastQuickReplies = chatHistory.findLast(
-    (message) => message.role === 'assistant',
+    (message) => message.role === "assistant",
   )?.quick_replies;
 
   socket.io.initializeChatSession({
@@ -43,7 +43,7 @@ export const initializeChatSession: ChatStoreActionHandlerFor<
     party_ids: [...partyIds],
     chat_history: chatHistory,
     last_quick_replies: lastQuickReplies ?? [],
-    current_title: currentChatTitle ?? [...partyIds].join(', ') ?? 'no-title',
+    current_title: currentChatTitle ?? [...partyIds].join(", ") ?? "no-title",
     chat_response_llm_size: getLLMSize(),
   });
 };

@@ -1,23 +1,25 @@
-'use client';
+"use client";
+
+import { createContext, useContext, useEffect, useState } from "react";
+
+import {
+  signInAnonymously,
+  type UserInfo,
+  type UserMetadata,
+} from "firebase/auth";
+import { type Timestamp } from "firebase/firestore";
+import { toast } from "sonner";
 
 import {
   auth,
   getUser,
   updateUser as updateUserFirebase,
-} from '@/lib/firebase/firebase';
-import {
-  signInAnonymously,
-  type UserMetadata,
-  type UserInfo,
-} from 'firebase/auth';
-import type { Timestamp } from 'firebase/firestore';
-import { createContext, useContext, useEffect, useState } from 'react';
-import { toast } from 'sonner';
+} from "@/lib/firebase/firebase";
 
-export type WahlChatUser = {
+export type ChatvoteUser = {
   survey_status?: {
     // where closed just means that the user clicked on the close button on the top right corner of the banner
-    state: 'opened' | 'closed';
+    state: "opened" | "closed";
     timestamp: Date | Timestamp;
   } | null;
   newsletter_allowed?: boolean;
@@ -33,12 +35,12 @@ export type SerializableFirebaseUser = UserInfo & {
   metadata: UserMetadata;
 };
 
-export type FullUser = SerializableFirebaseUser & WahlChatUser;
+export type FullUser = SerializableFirebaseUser & ChatvoteUser;
 
 type AnonymousAuthContextType = {
   user: FullUser | null;
   loading: boolean;
-  updateUser: (data: Partial<WahlChatUser>) => Promise<void>;
+  updateUser: (data: Partial<ChatvoteUser>) => Promise<void>;
   refreshUser: () => Promise<void>;
 };
 
@@ -63,19 +65,7 @@ export function AnonymousAuthProvider({
   const [user, setUser] = useState<FullUser | null>(initialUser);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    auth.onAuthStateChanged(async (user) => {
-      if (user) {
-        setUser(user);
-
-        fetchUser(user.uid);
-      } else {
-        createSession();
-      }
-    });
-  }, []);
-
-  async function fetchUser(uid: string) {
+  const fetchUser = async (uid: string) => {
     const user = await getUser(uid);
     setUser((currUser) => {
       if (!currUser) {
@@ -88,9 +78,21 @@ export function AnonymousAuthProvider({
       };
     });
     setLoading(false);
-  }
+  };
 
-  async function updateUser(data: Partial<WahlChatUser>) {
+  useEffect(() => {
+    auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        setUser(user);
+
+        fetchUser(user.uid);
+      } else {
+        createSession();
+      }
+    });
+  }, []);
+
+  async function updateUser(data: Partial<ChatvoteUser>) {
     if (!user?.uid) return;
 
     await updateUserFirebase(user?.uid, data);
@@ -108,22 +110,10 @@ export function AnonymousAuthProvider({
             ...currUser,
             ...user,
           }
-        : null
+        : null,
     );
 
     if (user) await fetchUser(user.uid);
-  }
-
-  async function createSession() {
-    try {
-      await signInAnonymously(auth);
-    } catch (error) {
-      console.error(error);
-
-      toast.error(
-        'Es ist ein Fehler aufgetreten. Bitte lade die Seite erneut.'
-      );
-    }
   }
 
   return (
@@ -133,4 +123,14 @@ export function AnonymousAuthProvider({
       {children}
     </AnonymousAuthContext.Provider>
   );
+}
+
+async function createSession() {
+  try {
+    await signInAnonymously(auth);
+  } catch (error) {
+    console.error(error);
+
+    toast.error("Une erreur s&lsquo;est produite. Veuillez recharger la page.");
+  }
 }

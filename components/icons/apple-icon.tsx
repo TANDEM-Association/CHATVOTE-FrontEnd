@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils';
+import { cn } from "@/lib/utils";
 
 type Props = {
   className?: string;
@@ -12,7 +12,7 @@ function AppleIcon({ className }: Props) {
       width="814"
       height="1000"
       viewBox="0 0 814 1000"
-      className={cn('size-6', className)}
+      className={cn("size-6", className)}
     >
       <path
         fill="currentColor"

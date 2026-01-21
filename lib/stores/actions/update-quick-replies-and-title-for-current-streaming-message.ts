@@ -1,11 +1,11 @@
 import {
   updateQuickRepliesOfMessage,
   updateTitleOfMessage,
-} from '@/lib/firebase/firebase';
-import type { ChatStoreActionHandlerFor } from '@/lib/stores/chat-store.types';
+} from "@/lib/firebase/firebase";
+import { type ChatStoreActionHandlerFor } from "@/lib/stores/chat-store.types";
 
 export const updateQuickRepliesAndTitleForCurrentStreamingMessage: ChatStoreActionHandlerFor<
-  'updateQuickRepliesAndTitleForCurrentStreamingMessage'
+  "updateQuickRepliesAndTitleForCurrentStreamingMessage"
 > = (get, set) => async (sessionId, quickReplies, title) => {
   const { chatSessionId, messages } = get();
 

@@ -1,8 +1,8 @@
-import { updateMessageFeedback } from '@/lib/firebase/firebase';
-import type { ChatStoreActionHandlerFor } from '@/lib/stores/chat-store.types';
+import { updateMessageFeedback } from "@/lib/firebase/firebase";
+import { type ChatStoreActionHandlerFor } from "@/lib/stores/chat-store.types";
 
 export const setMessageFeedback: ChatStoreActionHandlerFor<
-  'setMessageFeedback'
+  "setMessageFeedback"
 > = (get, set) => async (messageId, feedback) => {
   const { chatSessionId, messages } = get();
   if (!chatSessionId) return;

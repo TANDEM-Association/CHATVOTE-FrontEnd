@@ -1,6 +1,7 @@
-import { SCROLL_CONTAINER_ID } from '@/lib/scroll-constants';
-import { chatViewScrollToBottom } from '@/lib/scroll-utils';
-import { useEffect } from 'react';
+import { useEffect } from "react";
+
+import { SCROLL_CONTAINER_ID } from "@/lib/scroll-constants";
+import { chatViewScrollToBottom } from "@/lib/scroll-utils";
 
 type Props = {
   children: React.ReactNode;
@@ -8,12 +9,12 @@ type Props = {
 
 function ChatMessagesScrollView({ children }: Props) {
   useEffect(() => {
-    chatViewScrollToBottom({ behavior: 'instant' });
+    chatViewScrollToBottom({ behavior: "instant" });
   }, []);
 
   return (
     <div
-      className="grow overflow-y-scroll overflow-x-hidden"
+      className="grow overflow-x-hidden overflow-y-scroll"
       id={SCROLL_CONTAINER_ID}
     >
       {children}

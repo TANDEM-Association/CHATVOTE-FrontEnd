@@ -1,4 +1,4 @@
-import { createContext, useContext } from 'react';
+import { createContext, useContext } from "react";
 
 type ChatVotingDetailsContextType = {
   selectedPartyId: string;
@@ -6,7 +6,7 @@ type ChatVotingDetailsContextType = {
 };
 
 const ChatVotingDetailsContext = createContext<ChatVotingDetailsContextType>({
-  selectedPartyId: '',
+  selectedPartyId: "",
   setSelectedPartyId: () => {},
 });
 

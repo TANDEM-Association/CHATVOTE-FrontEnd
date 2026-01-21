@@ -1,23 +1,24 @@
-'use client';
+"use client";
 
-import { firebaseConfigAsUrlParams } from '@/lib/firebase/firebase-config';
-import { useEffect } from 'react';
+import { useEffect } from "react";
+
+import { firebaseConfigAsUrlParams } from "@/lib/firebase/firebase-config";
 
 function AuthServiceWorkerProvider() {
-  useEffect(() => {
-    registerServiceWorker();
-  }, []);
-
   const registerServiceWorker = async () => {
-    if ('serviceWorker' in navigator) {
+    if ("serviceWorker" in navigator) {
       await navigator.serviceWorker.register(
         `/service-worker.js?${firebaseConfigAsUrlParams}`,
         {
-          scope: '/',
+          scope: "/",
         },
       );
     }
   };
+
+  useEffect(() => {
+    registerServiceWorker();
+  }, []);
 
   return null;
 }

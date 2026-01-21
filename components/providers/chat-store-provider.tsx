@@ -1,15 +1,17 @@
-'use client';
+"use client";
 
-import { useChatSessionParam } from '@/lib/hooks/use-chat-session-param';
-import { createChatStore } from '@/lib/stores/chat-store';
-import type { ChatStore } from '@/lib/stores/chat-store.types';
-import { type ReactNode, createContext, useContext, useRef } from 'react';
-import { useStore } from 'zustand';
+import { createContext, type ReactNode, useContext, useRef } from "react";
+
+import { useStore } from "zustand";
+
+import { useChatSessionParam } from "@/lib/hooks/use-chat-session-param";
+import { createChatStore } from "@/lib/stores/chat-store";
+import { type ChatStore } from "@/lib/stores/chat-store.types";
 
 export type ChatStoreApi = ReturnType<typeof createChatStore>;
 
 export const ChatStoreContext = createContext<ChatStoreApi | undefined>(
-  undefined
+  undefined,
 );
 
 type Props = {

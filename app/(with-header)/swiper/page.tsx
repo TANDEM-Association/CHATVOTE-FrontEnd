@@ -1,12 +1,11 @@
-import { WahlSwiperStoreProvider } from '@/components/providers/wahl-swiper-store-provider';
+import ChatvoteSwiper from "@/components/chatvote-swiper/chatvote-swiper";
+import ChatvoteSwiperChatWrapper from "@/components/chatvote-swiper/chatvote-swiper-chat-wrapper";
+import ChatvoteSwiperExperimentalDisclaimer from "@/components/chatvote-swiper/chatvote-swiper-experimental-disclaimer";
+import { ChatvoteSwiperStoreProvider } from "@/components/providers/chatvote-swiper-store-provider";
+import { getChatvoteSwiperTheses } from "@/lib/firebase/firebase-server";
 
-import WahlSwiper from '@/components/wahl-swiper/wahl-swiper';
-import WahlSwiperChatWrapper from '@/components/wahl-swiper/wahl-swiper-chat-wrapper';
-import WahlSwiperExperimentalDisclaimer from '@/components/wahl-swiper/wahl-swiper-experimental-disclaimer';
-import { getWahlSwiperTheses } from '@/lib/firebase/firebase-server';
-
-async function WahlOMatPage() {
-  const thesesResponse = await getWahlSwiperTheses();
+async function ChatvoteSwiperPage() {
+  const thesesResponse = await getChatvoteSwiperTheses();
   const theses = thesesResponse.map((thesis) => ({
     id: thesis.id,
     question: thesis.question,
@@ -14,14 +13,14 @@ async function WahlOMatPage() {
   }));
 
   return (
-    <WahlSwiperStoreProvider allTheses={theses}>
-      <WahlSwiper />
+    <ChatvoteSwiperStoreProvider allTheses={theses}>
+      <ChatvoteSwiper />
 
-      <WahlSwiperChatWrapper />
+      <ChatvoteSwiperChatWrapper />
 
-      <WahlSwiperExperimentalDisclaimer />
-    </WahlSwiperStoreProvider>
+      <ChatvoteSwiperExperimentalDisclaimer />
+    </ChatvoteSwiperStoreProvider>
   );
 }
 
-export default WahlOMatPage;
+export default ChatvoteSwiperPage;

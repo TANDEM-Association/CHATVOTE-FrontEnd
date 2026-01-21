@@ -1,11 +1,10 @@
-'use server';
+"use server";
 
-import type { PartyDetails } from '@/lib/party-details';
-import { headers } from 'next/headers';
-import { unstable_cache as cache } from 'next/cache';
-import { initializeServerApp } from 'firebase/app';
-import { firebaseConfig } from './firebase-config';
-import { getAuth } from 'firebase/auth';
+import { unstable_cache as cache } from "next/cache";
+import { headers } from "next/headers";
+
+import { initializeServerApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
 import {
   collection,
   doc,
@@ -16,27 +15,31 @@ import {
   orderBy,
   query,
   where,
-} from 'firebase/firestore';
-import type {
-  GroupedMessage,
-  MessageItem,
-} from '@/lib/stores/chat-store.types';
+} from "firebase/firestore";
+
+import { type FullUser } from "@/components/anonymous-auth";
+import { CacheTags } from "@/lib/cache-tags";
+import { type ChatvoteSwiperQuestion } from "@/lib/chatvote-swiper/chatvote-swiper.types";
+import { CHATVOTE_PARTY_ID, GROUP_PARTY_ID } from "@/lib/constants";
+import { type PartyDetails } from "@/lib/party-details";
+import {
+  type GroupedMessage,
+  type MessageItem,
+} from "@/lib/stores/chat-store.types";
 import {
   firestoreTimestampToDate,
   makeFirebaseUserSerializable,
-} from '@/lib/utils';
-import type {
-  ChatSession,
-  ExampleQuestionShareableChatSession,
-  FirebaseWahlSwiperResult,
-  LlmSystemStatus,
-  ProposedQuestion,
-  SourceDocument,
-} from './firebase.types';
-import { GROUP_PARTY_ID, WAHL_CHAT_PARTY_ID } from '@/lib/constants';
-import { CacheTags } from '@/lib/cache-tags';
-import type { WahlSwiperQuestion } from '@/lib/wahl-swiper/wahl-swiper.types';
-import type { FullUser } from '@/components/anonymous-auth';
+} from "@/lib/utils";
+
+import {
+  type ChatSession,
+  type ExampleQuestionShareableChatSession,
+  type FirebaseChatvoteSwiperResult,
+  type LlmSystemStatus,
+  type ProposedQuestion,
+  type SourceDocument,
+} from "./firebase.types";
+import { firebaseConfig } from "./firebase-config";
 
 async function getServerApp({
   useHeaders = true,
@@ -45,7 +48,7 @@ async function getServerApp({
 
   if (useHeaders) {
     const headersList = await headers();
-    authIdToken = headersList.get('authorization')?.split(' ')[1];
+    authIdToken = headersList.get("authorization")?.split(" ")[1];
   }
 
   return initializeServerApp(firebaseConfig, { authIdToken });
@@ -72,8 +75,8 @@ async function getServerFirestore({
 async function getPartiesImpl() {
   const serverDb = await getServerFirestore({ useHeaders: false });
   const queryRef = query(
-    collection(serverDb, 'parties'),
-    orderBy('election_result_forecast_percent', 'desc'),
+    collection(serverDb, "parties"),
+    orderBy("election_result_forecast_percent", "desc"),
   );
   const snapshot = await getDocs(queryRef);
 
@@ -87,7 +90,7 @@ export const getParties = cache(getPartiesImpl, undefined, {
 
 async function getPartyImpl(partyId: string) {
   const serverDb = await getServerFirestore({ useHeaders: false });
-  const docRef = doc(serverDb, 'parties', partyId);
+  const docRef = doc(serverDb, "parties", partyId);
   const snapshot = await getDoc(docRef);
 
   if (!snapshot.exists) {
@@ -116,7 +119,7 @@ export const getPartiesById = cache(getPartiesByIdImpl, undefined, {
 export async function getChatSession(sessionId: string) {
   const serverDb = await getServerFirestore();
 
-  const sessionRef = doc(serverDb, 'chat_sessions', sessionId);
+  const sessionRef = doc(serverDb, "chat_sessions", sessionId);
 
   const session = await getDoc(sessionRef);
 
@@ -143,10 +146,10 @@ export async function getUsersChatSessions(
 ): Promise<ChatSession[]> {
   const serverDb = await getServerFirestore();
   const queryRef = query(
-    collection(serverDb, 'chat_sessions'),
-    where('user_id', '==', uid),
-    orderBy('updated_at', 'desc'),
-    orderBy('created_at', 'desc'),
+    collection(serverDb, "chat_sessions"),
+    where("user_id", "==", uid),
+    orderBy("updated_at", "desc"),
+    orderBy("created_at", "desc"),
     limit(15),
   );
 
@@ -166,8 +169,8 @@ export async function getUsersChatSessions(
 export async function getChatSessionMessages(sessionId: string) {
   const serverDb = await getServerFirestore();
   const messagesRef = query(
-    collection(serverDb, 'chat_sessions', sessionId, 'messages'),
-    orderBy('created_at', 'asc'),
+    collection(serverDb, "chat_sessions", sessionId, "messages"),
+    orderBy("created_at", "asc"),
   );
   const snapshot = await getDocs(messagesRef);
   return snapshot.docs.map((doc) => {
@@ -191,11 +194,11 @@ async function getProposedQuestionsImpl(partyIds?: string[]) {
     ? partyIds.length > 1
       ? GROUP_PARTY_ID
       : partyIds[0]
-    : WAHL_CHAT_PARTY_ID;
+    : CHATVOTE_PARTY_ID;
 
   const queryRef = query(
-    collection(serverDb, 'proposed_questions', normalizedId, 'questions'),
-    where('location', '==', 'chat'),
+    collection(serverDb, "proposed_questions", normalizedId, "questions"),
+    where("location", "==", "chat"),
   );
   const snapshot = await getDocs(queryRef);
 
@@ -218,15 +221,15 @@ export const getProposedQuestions = cache(getProposedQuestionsImpl, undefined, {
 async function getHomeInputProposedQuestionsImpl() {
   const serverDb = await getServerFirestore({ useHeaders: false });
   const questionsRef = query(
-    collection(serverDb, 'proposed_questions', WAHL_CHAT_PARTY_ID, 'questions'),
-    where('location', '==', 'home'),
+    collection(serverDb, "proposed_questions", CHATVOTE_PARTY_ID, "questions"),
+    where("location", "==", "home"),
   );
   const questionsSnapshot = await getDocs(questionsRef);
 
   return questionsSnapshot.docs.map((doc) => {
     return {
       id: doc.id,
-      partyId: WAHL_CHAT_PARTY_ID,
+      partyId: CHATVOTE_PARTY_ID,
       ...doc.data(),
     } as ProposedQuestion;
   });
@@ -243,15 +246,15 @@ export const getHomeInputProposedQuestions = cache(
 
 async function getSourceDocumentsImpl() {
   const serverDb = await getServerFirestore({ useHeaders: false });
-  const partiesRef = collection(serverDb, 'parties');
+  const partiesRef = collection(serverDb, "parties");
   const partiesSnapshot = await getDocs(partiesRef);
 
   const sourcesPromises = [
     ...partiesSnapshot.docs.map((doc) => doc.id),
-    WAHL_CHAT_PARTY_ID,
+    CHATVOTE_PARTY_ID,
   ].map(async (partyId) => {
     const sourcesRef = query(
-      collection(serverDb, 'sources', partyId, 'source_documents'),
+      collection(serverDb, "sources", partyId, "source_documents"),
     );
     const sourcesSnapshot = await getDocs(sourcesRef);
     return sourcesSnapshot.docs.map((doc) => {
@@ -278,8 +281,8 @@ export const getSourceDocuments = cache(getSourceDocumentsImpl, undefined, {
 async function getExampleQuestionsShareableChatSessionImpl() {
   const serverDb = await getServerFirestore({ useHeaders: false });
   const queryRef = query(
-    collection(serverDb, 'shareable_chat_session_snapshots'),
-    where('type', '==', 'example-question'),
+    collection(serverDb, "shareable_chat_session_snapshots"),
+    where("type", "==", "example-question"),
   );
   const snapshot = await getDocs(queryRef);
 
@@ -305,7 +308,7 @@ export const getExampleQuestionsShareableChatSession = cache(
 
 export async function getSystemStatus() {
   const serverDb = await getServerFirestore({ useHeaders: false });
-  const docRef = doc(serverDb, 'system_status', 'llm_status');
+  const docRef = doc(serverDb, "system_status", "llm_status");
   const snapshot = await getDoc(docRef);
 
   return {
@@ -313,27 +316,31 @@ export async function getSystemStatus() {
   } as LlmSystemStatus;
 }
 
-export async function getWahlSwiperHistory(resultId: string) {
+export async function getChatvoteSwiperHistory(resultId: string) {
   const serverDb = await getServerFirestore();
 
-  const docRef = doc(serverDb, 'wahl_swiper_results', resultId);
+  const docRef = doc(serverDb, "chatvote_swiper_results", resultId);
   const snapshot = await getDoc(docRef);
 
-  return snapshot.data() as FirebaseWahlSwiperResult;
+  return snapshot.data() as FirebaseChatvoteSwiperResult;
 }
 
-export async function getWahlSwiperThesesImpl() {
+export async function getChatvoteSwiperThesesImpl() {
   const serverDb = await getServerFirestore({ useHeaders: false });
-  const queryRef = query(collection(serverDb, 'wahl_swiper_theses'));
+  const queryRef = query(collection(serverDb, "chatvote_swiper_theses"));
   const snapshot = await getDocs(queryRef);
 
-  return snapshot.docs.map((doc) => doc.data()) as WahlSwiperQuestion[];
+  return snapshot.docs.map((doc) => doc.data()) as ChatvoteSwiperQuestion[];
 }
 
-export const getWahlSwiperTheses = cache(getWahlSwiperThesesImpl, undefined, {
-  revalidate: 60 * 60 * 24,
-  tags: [CacheTags.WAHL_SWIPER_THESES],
-});
+export const getChatvoteSwiperTheses = cache(
+  getChatvoteSwiperThesesImpl,
+  undefined,
+  {
+    revalidate: 60 * 60 * 24,
+    tags: [CacheTags.CHATVOTE_SWIPER_THESES],
+  },
+);
 
 export async function getUser() {
   try {
@@ -344,7 +351,7 @@ export async function getUser() {
       return null;
     }
 
-    const user = await getDoc(doc(serverDb, 'users', currentUser?.uid));
+    const user = await getDoc(doc(serverDb, "users", currentUser?.uid));
 
     const data = user.data();
 

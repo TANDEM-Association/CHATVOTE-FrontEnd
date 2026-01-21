@@ -1,16 +1,16 @@
-import type { Metadata } from 'next';
+import { type Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: 'Swiper',
-  description: 'Wahl Swiper - Finde heraus, welche Partei zu dir passt.',
+  title: "Swiper",
+  description: "Chatvote Swiper - Trouvez le parti qui vous correspond.",
   openGraph: {
-    title: 'Swiper',
-    description: 'Wahl Swiper - Finde heraus, welche Partei zu dir passt.',
+    title: "Swiper",
+    description: "Chatvote Swiper - Trouvez le parti qui vous correspond.",
   },
   twitter: {
-    card: 'summary_large_image',
-    title: 'Swiper',
-    description: 'Wahl Swiper - Finde heraus, welche Partei zu dir passt.',
+    card: "summary_large_image",
+    title: "Swiper",
+    description: "Chatvote Swiper - Trouvez le parti qui vous correspond.",
   },
 };
 

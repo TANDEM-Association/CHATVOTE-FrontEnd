@@ -1,11 +1,14 @@
-'use client';
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { toast } from 'sonner';
-import { useAnonymousAuth } from '@/components/anonymous-auth';
-import { copySharedChatSession } from '@/lib/firebase/firebase-admin';
-import DynamicRateLimitStickyInput from '@/components/dynamic-rate-limit-sticky-input';
-import type { LlmSystemStatus } from '@/lib/firebase/firebase.types';
+"use client";
+import { useState } from "react";
+
+import { useRouter } from "next/navigation";
+
+import { toast } from "sonner";
+
+import { useAnonymousAuth } from "@/components/anonymous-auth";
+import DynamicRateLimitStickyInput from "@/components/dynamic-rate-limit-sticky-input";
+import { type LlmSystemStatus } from "@/lib/firebase/firebase.types";
+import { copySharedChatSession } from "@/lib/firebase/firebase-admin";
 
 type Props = {
   snapshotId: string;
@@ -26,7 +29,7 @@ function ShareChatInput({
 
   const errorToast = () => {
     toast.error(
-      'Es ist ein Fehler aufgetreten. Bitte versuche es erneut oder lade die Seite neu.'
+      "Une erreur s&lsquo;est produite. Veuillez réessayer ou recharger la page.",
     );
   };
 

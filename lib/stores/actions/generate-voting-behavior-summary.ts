@@ -1,8 +1,8 @@
-import { scrollMessageBottomInView } from '@/lib/scroll-utils';
-import type { ChatStoreActionHandlerFor } from '@/lib/stores/chat-store.types';
+import { scrollMessageBottomInView } from "@/lib/scroll-utils";
+import { type ChatStoreActionHandlerFor } from "@/lib/stores/chat-store.types";
 
 export const generateVotingBehaviorSummary: ChatStoreActionHandlerFor<
-  'generateVotingBehaviorSummary'
+  "generateVotingBehaviorSummary"
 > = (get, set) => async (partyId, message) => {
   const { socket, messages, getLLMSize, isAnonymous } = get();
 
@@ -18,7 +18,7 @@ export const generateVotingBehaviorSummary: ChatStoreActionHandlerFor<
 
   const lastUserMessageBeforeVotingBehavior = messages
     .slice(0, indexOfVotingBehaviorMessage)
-    .findLast((m) => m.role === 'user');
+    .findLast((m) => m.role === "user");
 
   if (!lastUserMessageBeforeVotingBehavior || !message.content) return;
 

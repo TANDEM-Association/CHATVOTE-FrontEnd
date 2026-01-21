@@ -1,3 +1,3 @@
 export enum InternalReferrers {
-  TOPICS = 'topics',
+  TOPICS = "topics",
 }

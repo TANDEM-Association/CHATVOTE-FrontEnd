@@ -1,31 +1,35 @@
-'use client';
+"use client";
 
-import LoadingSpinner from '@/components/loading-spinner';
-import { Button } from '@/components/ui/button';
+import { useLayoutEffect, useMemo, useRef, useState } from "react";
+
+import { useSearchParams } from "next/navigation";
+
+import { MinusIcon, PlusIcon, ShieldAlert } from "lucide-react";
+import { type PDFDocumentProxy } from "pdfjs-dist";
+import { Document, Page, pdfjs } from "react-pdf";
+import AutoSizer from "react-virtualized-auto-sizer";
+import { FixedSizeList as List } from "react-window";
+
+import LoadingSpinner from "@/components/loading-spinner";
+import { Button } from "@/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { MinusIcon, PlusIcon, ShieldAlert } from 'lucide-react';
-import { useSearchParams } from 'next/navigation';
-import type { PDFDocumentProxy } from 'pdfjs-dist';
-import { useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { Document, Page, pdfjs } from 'react-pdf';
-import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
-import 'react-pdf/dist/esm/Page/TextLayer.css';
-import AutoSizer from 'react-virtualized-auto-sizer';
-import { FixedSizeList as List } from 'react-window';
+} from "@/components/ui/tooltip";
+
+import "react-pdf/dist/esm/Page/AnnotationLayer.css";
+import "react-pdf/dist/esm/Page/TextLayer.css";
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-  'pdfjs-dist/build/pdf.worker.min.mjs',
+  "pdfjs-dist/build/pdf.worker.min.mjs",
   import.meta.url,
 ).toString();
 
 function PDFView() {
   const searchParams = useSearchParams();
-  const pdfPath = searchParams.get('pdf');
-  const page = searchParams.get('page');
+  const pdfPath = searchParams.get("pdf");
+  const page = searchParams.get("page");
 
   const [numPages, setNumPages] = useState<number>(0);
   const [zoom, setZoom] = useState<number>(1);
@@ -36,15 +40,15 @@ function PDFView() {
 
   const options = useMemo(
     () => ({
-      cMapUrl: '/cmaps/',
-      standardFontDataUrl: '/standard_fonts/',
+      cMapUrl: "/cmaps/",
+      standardFontDataUrl: "/standard_fonts/",
     }),
     [],
   );
 
   const scrollToPage = (pageNumber: number) => {
     if (listRef.current && pageNumber > 0) {
-      listRef.current.scrollToItem(pageNumber - 1, 'start');
+      listRef.current.scrollToItem(pageNumber - 1, "start");
     }
   };
 
@@ -126,7 +130,7 @@ function PDFView() {
 
   return (
     <main className="relative flex h-svh w-full flex-col items-center">
-      <div className="size-full grow overflow-auto bg-muted">
+      <div className="bg-muted size-full grow overflow-auto">
         <AutoSizer>
           {({ height, width }) => {
             const basePageHeight = calculatePageHeight(height, width);
@@ -185,7 +189,7 @@ function PDFView() {
         </AutoSizer>
       </div>
       <div className="absolute inset-x-0 bottom-0 flex items-center justify-center p-4">
-        <div className="flex items-center gap-2 space-x-4 rounded-full border bg-background p-4 shadow-md transition-shadow duration-200 hover:shadow-lg">
+        <div className="bg-background flex items-center gap-2 space-x-4 rounded-full border p-4 shadow-md transition-shadow duration-200 hover:shadow-lg">
           <Tooltip>
             <TooltipTrigger asChild>
               <Button
@@ -204,7 +208,7 @@ function PDFView() {
             <span className="text-sm font-semibold">
               {Math.round(zoom * 100)}%
             </span>
-            <span className="text-xs text-muted-foreground">Zoom</span>
+            <span className="text-muted-foreground text-xs">Zoom</span>
           </div>
 
           <Tooltip>

@@ -1,7 +1,8 @@
-import type { GroupedMessage } from '@/lib/stores/chat-store.types';
-import type { LLMSize } from '@/lib/socket.types';
-import type { Topic } from '@/components/topics/topics.data';
-import type { WahlSwiperResultHistory } from '../wahl-swiper/wahl-swiper.types';
+import { type Topic } from "@/components/topics/topics.data";
+import { type LLMSize } from "@/lib/socket.types";
+import { type GroupedMessage } from "@/lib/stores/chat-store.types";
+
+import { type ChatvoteSwiperResultHistory } from "../chatvote-swiper/chatvote-swiper.types";
 
 export type ChatSession = {
   id: string;
@@ -33,7 +34,7 @@ export type ProposedQuestion = {
   id: string;
   content: string;
   topic: string;
-  location: 'banner' | 'chat' | 'home';
+  location: "banner" | "chat" | "home";
   partyId: string;
 };
 
@@ -45,7 +46,7 @@ export type SourceDocument = {
   party_id: string;
 };
 
-export const DEFAULT_LLM_SIZE: LLMSize = 'large';
+export const DEFAULT_LLM_SIZE: LLMSize = "large";
 
 export type Tenant = {
   id: string;
@@ -63,9 +64,9 @@ export type LlmSystemStatus = {
   is_at_rate_limit: boolean;
 };
 
-export type FirebaseWahlSwiperResult = {
+export type FirebaseChatvoteSwiperResult = {
   id: string;
   user_id: string;
   created_at: Date;
-  history: WahlSwiperResultHistory;
+  history: ChatvoteSwiperResultHistory;
 };

@@ -1,6 +1,21 @@
-import LoadingSpinner from '@/components/loading-spinner';
-import Link from 'next/link';
-import { Suspense } from 'react';
+import { Suspense } from "react";
+
+import Link from "next/link";
+
+import {
+  HeartHandshakeIcon,
+  HomeIcon,
+  MessageCircleIcon,
+  UserIcon,
+} from "lucide-react";
+
+import LoginButton from "@/components/auth/login-button";
+import Logo from "@/components/chat/logo";
+import { ThemeModeToggle } from "@/components/chat/theme-mode-toggle";
+import DonationDialog from "@/components/donation-dialog";
+import FeedbackDialog from "@/components/feedback-dialog";
+import LoadingSpinner from "@/components/loading-spinner";
+import { Button } from "@/components/ui/button";
 import {
   Sidebar,
   SidebarContent,
@@ -12,25 +27,14 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
-} from '@/components/ui/sidebar';
-import SidebarHistorySr from './sidebar-history-sr';
-import SidebarNewChatButtons from './sidebar-new-chat-buttons';
-import Logo from '@/components/chat/logo';
-import DonationDialog from '@/components/donation-dialog';
-import { Button } from '@/components/ui/button';
-import {
-  HeartHandshakeIcon,
-  HomeIcon,
-  MessageCircleIcon,
-  UserIcon,
-} from 'lucide-react';
-import { ThemeModeToggle } from '@/components/chat/theme-mode-toggle';
-import FeedbackDialog from '@/components/feedback-dialog';
-import ChatSidebarGroupSelect from './chat-sidebar-group-select';
-import LoginButton from '@/components/auth/login-button';
-import { getCurrentUser } from '@/lib/firebase/firebase-server';
-import { getUserDetailsFromUser } from '@/lib/utils';
-import SidebarSwiperTeaser from './sidebar-swiper-teaser';
+} from "@/components/ui/sidebar";
+import { getCurrentUser } from "@/lib/firebase/firebase-server";
+import { getUserDetailsFromUser } from "@/lib/utils";
+
+import ChatSidebarGroupSelect from "./chat-sidebar-group-select";
+import SidebarHistorySr from "./sidebar-history-sr";
+import SidebarNewChatButtons from "./sidebar-new-chat-buttons";
+import SidebarSwiperTeaser from "./sidebar-swiper-teaser";
 
 async function ChatSidebar() {
   const user = await getCurrentUser();
@@ -39,10 +43,10 @@ async function ChatSidebar() {
 
   return (
     <Sidebar
-      mobileVisuallyHiddenTitle="wahl.chat"
-      mobileVisuallyHiddenDescription="Starte einen neuen Chat oder wähle eine vorherige Konversation aus."
+      mobileVisuallyHiddenTitle="chatvote"
+      mobileVisuallyHiddenDescription="Démarrez un nouveau chat ou sélectionnez une conversation précédente."
     >
-      <SidebarHeader className="flex h-chat-header flex-row items-center justify-between border-b border-b-muted pl-4 pr-2">
+      <SidebarHeader className="h-chat-header border-b-muted flex flex-row items-center justify-between border-b pr-2 pl-4">
         <Link href="/" className="flex items-center gap-4">
           <Logo variant="small" className="size-6" />
         </Link>
@@ -53,7 +57,7 @@ async function ChatSidebar() {
             size="icon"
             asChild
             className="size-8"
-            tooltip="Startseite"
+            tooltip="Page d&lsquo;accueil"
           >
             <Link href="/">
               <HomeIcon className="size-4" />
@@ -69,7 +73,7 @@ async function ChatSidebar() {
         </SidebarGroup>
         <SidebarGroup>
           <SidebarGroupContent>
-            <SidebarGroupLabel>Neuer Chat</SidebarGroupLabel>
+            <SidebarGroupLabel>Nouveau chat</SidebarGroupLabel>
             <SidebarNewChatButtons />
 
             <ChatSidebarGroupSelect />
@@ -77,7 +81,7 @@ async function ChatSidebar() {
         </SidebarGroup>
 
         <SidebarGroup>
-          <SidebarGroupLabel>Unterstütze wahl.chat</SidebarGroupLabel>
+          <SidebarGroupLabel>Soutenez chatvote</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
@@ -87,13 +91,13 @@ async function ChatSidebar() {
                   noUserChildren={
                     <SidebarMenuButton>
                       <UserIcon className="size-4" />
-                      <span>Anmelden</span>
+                      <span>Se connecter</span>
                     </SidebarMenuButton>
                   }
                   userChildren={
                     <SidebarMenuButton>
                       <UserIcon className="size-4" />
-                      <span>Account</span>
+                      <span>Compte</span>
                     </SidebarMenuButton>
                   }
                 />
@@ -102,7 +106,7 @@ async function ChatSidebar() {
                 <DonationDialog>
                   <SidebarMenuButton>
                     <HeartHandshakeIcon className="size-4 text-red-400" />
-                    <span>Spenden</span>
+                    <span>Faire un don</span>
                   </SidebarMenuButton>
                 </DonationDialog>
               </SidebarMenuItem>
@@ -119,41 +123,41 @@ async function ChatSidebar() {
         </SidebarGroup>
         <Suspense
           fallback={
-            <div className="flex h-32 flex-col items-center justify-center gap-2 text-center text-sm text-muted-foreground">
+            <div className="text-muted-foreground flex h-32 flex-col items-center justify-center gap-2 text-center text-sm">
               <LoadingSpinner />
-              <p>Lade Historie...</p>
+              <p>Chargement de l&lsquo;historique...</p>
             </div>
           }
         >
           <SidebarHistorySr />
         </Suspense>
         <SidebarGroup>
-          <SidebarGroupLabel>Informationen</SidebarGroupLabel>
+          <SidebarGroupLabel>Informations</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <Link href="/about-us">Über wahl.chat</Link>
+                  <Link href="/about-us">À propos de chatvote</Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <Link href="/how-to">Wie funktioniert wahl.chat?</Link>
+                  <Link href="/how-to">Comment fonctionne chatvote ?</Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <Link href="/sources">Quellen</Link>
+                  <Link href="/sources">Sources</Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <Link href="/impressum">Impressum</Link>
+                  <Link href="/legal-notice">Mentions légales</Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <Link href="/datenschutz">Datenschutz</Link>
+                  <Link href="/privacy-policy">Confidentialité</Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>

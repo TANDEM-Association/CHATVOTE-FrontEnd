@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils';
+import { cn } from "@/lib/utils";
 
 type Props = {
   partyCount: number;
@@ -9,7 +9,7 @@ type Props = {
 function LoadingPartyCards({ partyCount, className, gridColumns }: Props) {
   return (
     <section
-      className={cn('grid w-full gap-2', className)}
+      className={cn("grid w-full gap-2", className)}
       style={{
         gridTemplateColumns: `repeat(${gridColumns}, minmax(0, 1fr))`,
       }}
@@ -19,9 +19,9 @@ function LoadingPartyCards({ partyCount, className, gridColumns }: Props) {
           // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
           key={index}
           className={cn(
-            'flex aspect-square items-center justify-center transition-all rounded-md',
-            'bg-zinc-200 dark:bg-zinc-700 w-full h-fit p-6 border border-muted-foreground/20 overflow-hidden',
-            'animate-pulse'
+            "flex aspect-square items-center justify-center rounded-md transition-all",
+            "border-muted-foreground/20 h-fit w-full overflow-hidden border bg-zinc-200 p-6 dark:bg-zinc-700",
+            "animate-pulse",
           )}
         />
       ))}

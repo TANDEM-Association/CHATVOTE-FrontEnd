@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import type { Source } from '@/lib/stores/chat-store.types';
-import { Markdown } from '@/components/markdown';
-import { buildPdfUrl } from '@/lib/utils';
+import { Markdown } from "@/components/markdown";
+import { type Source } from "@/lib/stores/chat-store.types";
+import { buildPdfUrl } from "@/lib/utils";
 
 type Props = {
   message: {
@@ -22,14 +22,14 @@ function ChatMarkdown({ message }: Props) {
     }
 
     const source = message.sources[number];
-    const isPdfLink = source?.url.includes('.pdf');
+    const isPdfLink = source?.url.includes(".pdf");
 
     if (source && isPdfLink && window) {
       const url = buildPdfUrl(source);
-      return window.open(url.toString(), '_blank');
+      return window.open(url.toString(), "_blank");
     }
 
-    window.open(source.url, '_blank');
+    window.open(source.url, "_blank");
   };
 
   const getReferenceTooltip = (number: number) => {
@@ -72,7 +72,7 @@ function ChatMarkdown({ message }: Props) {
       getReferenceTooltip={getReferenceTooltip}
       getReferenceName={getReferenceName}
     >
-      {message.content ?? ''}
+      {message.content ?? ""}
     </Markdown>
   );
 }

@@ -1,10 +1,12 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { useChatStore } from '@/components/providers/chat-store-provider';
-import { useParties } from '@/components/providers/parties-provider';
-import Logo from './logo';
-import PartyDetailPopover from './party-detail-popover';
+import Link from "next/link";
+
+import { useChatStore } from "@/components/providers/chat-store-provider";
+import { useParties } from "@/components/providers/parties-provider";
+
+import Logo from "./logo";
+import PartyDetailPopover from "./party-detail-popover";
 
 type Props = {
   showPartyPopover?: boolean;

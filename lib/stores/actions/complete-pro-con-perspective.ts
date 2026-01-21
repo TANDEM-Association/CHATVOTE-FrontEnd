@@ -1,8 +1,8 @@
-import { addProConPerspectiveToMessage } from '@/lib/firebase/firebase';
-import type { ChatStoreActionHandlerFor } from '@/lib/stores/chat-store.types';
+import { addProConPerspectiveToMessage } from "@/lib/firebase/firebase";
+import { type ChatStoreActionHandlerFor } from "@/lib/stores/chat-store.types";
 
 export const completeProConPerspective: ChatStoreActionHandlerFor<
-  'completeProConPerspective'
+  "completeProConPerspective"
 > = (get, set) => async (requestId, message) => {
   const { chatSessionId, messages } = get();
 

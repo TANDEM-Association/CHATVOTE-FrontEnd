@@ -1,8 +1,8 @@
-import type { ChatStoreActionHandlerFor } from '@/lib/stores/chat-store.types';
-import { generateUuid } from '@/lib/utils';
+import { type ChatStoreActionHandlerFor } from "@/lib/stores/chat-store.types";
+import { generateUuid } from "@/lib/utils";
 
 export const mergeStreamingChunkPayloadForMessage: ChatStoreActionHandlerFor<
-  'mergeStreamingChunkPayloadForMessage'
+  "mergeStreamingChunkPayloadForMessage"
 > = (get, set) => (sessionId, partyId, chunkPayload) => {
   set((state) => {
     if (!state.currentStreamingMessages) return;
@@ -16,7 +16,7 @@ export const mergeStreamingChunkPayloadForMessage: ChatStoreActionHandlerFor<
         party_id: partyId,
         content: chunkPayload.chunk_content,
         id: generateUuid(),
-        role: 'assistant',
+        role: "assistant",
         sources: [],
       };
 

@@ -1,10 +1,12 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { useCarousel } from '@/components/ui/carousel';
-import Image from 'next/image';
-import type { PartyDetails } from '@/lib/party-details';
-import { Button } from '@/components/ui/button';
-import { scrollToCarouselContainerBottom } from '@/lib/scroll-utils';
-import { buildPartyImageUrl, cn } from '@/lib/utils';
+import { useCallback, useEffect, useRef, useState } from "react";
+
+import Image from "next/image";
+
+import { Button } from "@/components/ui/button";
+import { useCarousel } from "@/components/ui/carousel";
+import { type PartyDetails } from "@/lib/party-details";
+import { scrollToCarouselContainerBottom } from "@/lib/scroll-utils";
+import { buildPartyImageUrl, cn } from "@/lib/utils";
 
 type Props = {
   parties: PartyDetails[];
@@ -36,8 +38,8 @@ function ChatGroupSlideCounter({ parties, containerId }: Props) {
     };
 
     onSelect();
-    api.on('reInit', () => onReInit()).on('select', () => onSelect());
-  }, [api]);
+    api.on("reInit", () => onReInit()).on("select", () => onSelect());
+  }, [api, containerId]);
 
   const scrollTo = useCallback(
     (index: number) => {
@@ -45,7 +47,7 @@ function ChatGroupSlideCounter({ parties, containerId }: Props) {
 
       api.scrollTo(index);
     },
-    [api]
+    [api],
   );
 
   return (
@@ -54,9 +56,9 @@ function ChatGroupSlideCounter({ parties, containerId }: Props) {
         <Button
           key={party.party_id}
           className={cn(
-            'size-5 rounded-full bg-zinc-300 overflow-hidden flex items-center justify-center hover:bg-zinc-300 transition-all duration-300 relative',
+            "relative flex size-5 items-center justify-center overflow-hidden rounded-full bg-zinc-300 transition-all duration-300 hover:bg-zinc-300",
             selectedIndex === index &&
-              'ring-2 ring-zinc-900 dark:ring-zinc-100 ring-offset-2'
+              "ring-2 ring-zinc-900 ring-offset-2 dark:ring-zinc-100",
           )}
           style={{
             background: party.background_color,

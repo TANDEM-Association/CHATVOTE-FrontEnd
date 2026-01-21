@@ -1,12 +1,14 @@
-'use client';
+"use client";
 
-import { useAnonymousAuth } from '@/components/anonymous-auth';
-import { useChatStore } from '@/components/providers/chat-store-provider';
-import InitialSuggestionBubble from './initial-suggestion-bubble';
-import Image from 'next/image';
-import type { PartyDetails } from '@/lib/party-details';
-import type { ProposedQuestion } from '@/lib/firebase/firebase.types';
-import { buildPartyImageUrl } from '@/lib/utils';
+import Image from "next/image";
+
+import { useAnonymousAuth } from "@/components/anonymous-auth";
+import { useChatStore } from "@/components/providers/chat-store-provider";
+import { type ProposedQuestion } from "@/lib/firebase/firebase.types";
+import { type PartyDetails } from "@/lib/party-details";
+import { buildPartyImageUrl } from "@/lib/utils";
+
+import InitialSuggestionBubble from "./initial-suggestion-bubble";
 
 type Props = {
   parties: PartyDetails[];
@@ -42,7 +44,7 @@ function GroupChatEmptyView({ parties, proposedQuestions }: Props) {
               src={buildPartyImageUrl(party.party_id)}
               width={imageSize}
               height={imageSize}
-              className="absolute top-0 aspect-square rounded-full border-2 border-background bg-slate-200 object-contain transition-transform duration-200 ease-in-out hover:z-30 hover:-translate-y-4 hover:scale-125"
+              className="border-background absolute top-0 aspect-square rounded-full border-2 bg-slate-200 object-contain transition-transform duration-200 ease-in-out hover:z-30 hover:-translate-y-4 hover:scale-125"
               style={{
                 backgroundColor: party.background_color,
                 left: `${(index * imageSize) / 2}px`,
@@ -51,12 +53,12 @@ function GroupChatEmptyView({ parties, proposedQuestions }: Props) {
           ))}
         </div>
         <p className="text-center">
-          Starte deinen Vergleichschat mit folgenden Parteien:
+          Démarrez votre chat comparatif avec les partis suivants :
           <br />
           {parties?.map((party, index) => (
             <span key={party.party_id} className="font-semibold">
               {party.name}
-              {parties.length > 1 && index < parties.length - 1 && ', '}
+              {parties.length > 1 && index < parties.length - 1 && ", "}
             </span>
           ))}
         </p>

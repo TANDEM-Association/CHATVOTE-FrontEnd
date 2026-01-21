@@ -1,4 +1,4 @@
-import { TextLoop } from '@/components/ui/text-loop';
+import { TextLoop } from "@/components/ui/text-loop";
 
 type Props = {
   messages: string[];

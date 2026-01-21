@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils';
+import { cn } from "@/lib/utils";
 
 type Props = {
   className?: string;
@@ -13,7 +13,7 @@ function ZdfHeuteIcon({ className }: Props) {
       x="0px"
       y="0px"
       viewBox="0 0 1013.97 407.59"
-      className={cn('size-6', className)}
+      className={cn("size-6", className)}
     >
       <g>
         <g

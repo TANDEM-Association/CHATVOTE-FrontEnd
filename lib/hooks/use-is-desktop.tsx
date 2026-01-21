@@ -1,5 +1,5 @@
-import { useMediaQuery } from 'usehooks-ts';
+import { useMediaQuery } from "usehooks-ts";
 
 export function useIsDesktop() {
-  return useMediaQuery('(min-width: 768px)');
+  return useMediaQuery("(min-width: 768px)");
 }

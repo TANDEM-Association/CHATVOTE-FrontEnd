@@ -1,14 +1,17 @@
-'use client';
+"use client";
 
-import { cn } from '@/lib/utils';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-import type {
-  LlmSystemStatus,
-  ProposedQuestion,
-} from '@/lib/firebase/firebase.types';
-import { track } from '@vercel/analytics/react';
-import DynamicRateLimitStickyInput from '@/components/dynamic-rate-limit-sticky-input';
+import { useState } from "react";
+
+import { useRouter } from "next/navigation";
+
+import { track } from "@vercel/analytics/react";
+
+import DynamicRateLimitStickyInput from "@/components/dynamic-rate-limit-sticky-input";
+import {
+  type LlmSystemStatus,
+  type ProposedQuestion,
+} from "@/lib/firebase/firebase.types";
+import { cn } from "@/lib/utils";
 
 type Props = {
   questions: ProposedQuestion[];
@@ -31,7 +34,7 @@ function HomeInput({
 
     setIsLoading(true);
 
-    track('home_input_used', {
+    track("home_input_used", {
       question,
     });
     router.push(`/session?q=${question}`);
@@ -44,7 +47,7 @@ function HomeInput({
       quickReplies={questions.map((question) => question.content)}
       initialSystemStatus={initialSystemStatus}
       hasValidServerUser={hasValidServerUser}
-      className={cn('mt-4', className)}
+      className={cn("mt-4", className)}
     />
   );
 }

@@ -1,4 +1,7 @@
-import Link from 'next/link';
+import Link from "next/link";
+
+import { MailIcon, MessageSquareHeart } from "lucide-react";
+
 import {
   ResponsiveDialog,
   ResponsiveDialogContent,
@@ -6,9 +9,9 @@ import {
   ResponsiveDialogHeader,
   ResponsiveDialogTitle,
   ResponsiveDialogTrigger,
-} from './chat/responsive-drawer-dialog';
-import { Button } from './ui/button';
-import { MailIcon, MessageSquareHeart } from 'lucide-react';
+} from "./chat/responsive-drawer-dialog";
+import { Button } from "./ui/button";
+
 type Props = {
   children: React.ReactNode;
 };
@@ -20,17 +23,17 @@ function FeedbackDialog({ children }: Props) {
 
       <ResponsiveDialogContent>
         <ResponsiveDialogHeader>
-          <ResponsiveDialogTitle>Feedback!</ResponsiveDialogTitle>
+          <ResponsiveDialogTitle>Feedback !</ResponsiveDialogTitle>
           <ResponsiveDialogDescription>
-            Wir freuen uns über Feedback zu wahl.chat.
+            Nous sommes heureux de recevoir vos retours sur chatvote.
           </ResponsiveDialogDescription>
         </ResponsiveDialogHeader>
 
         <div className="flex w-full flex-col gap-2 p-4 md:p-0">
           <Button asChild variant="outline">
-            <Link href="mailto:info@wahl.chat">
+            <Link href="mailto:info@chatvote.fr">
               <MailIcon />
-              Schreibe uns eine E-Mail
+              Écrivez-nous un e-mail
             </Link>
           </Button>
           <Button asChild variant="outline">
@@ -39,7 +42,7 @@ function FeedbackDialog({ children }: Props) {
               target="_blank"
             >
               <MessageSquareHeart />
-              Fülle unser Feedback-Formular aus
+              Remplissez notre formulaire de feedback
             </Link>
           </Button>
         </div>

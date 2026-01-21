@@ -1,13 +1,15 @@
-import type { NavbarItemDetails } from './navbar-item';
-import NavbarItem from './navbar-item';
-import LoginButton from '@/components/auth/login-button';
-import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
-import { getCurrentUser } from '@/lib/firebase/firebase-server';
-import { cn, getUserDetailsFromUser, IS_EMBEDDED } from '@/lib/utils';
-import UserAvatar from '@/components/auth/user-avatar';
-import EmbedOpenWebsiteButton from '@/components/embed-open-website-button';
-import { SparklesIcon } from 'lucide-react';
+import { SparklesIcon } from "lucide-react";
+
+import LoginButton from "@/components/auth/login-button";
+import UserAvatar from "@/components/auth/user-avatar";
+import EmbedOpenWebsiteButton from "@/components/embed-open-website-button";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { getCurrentUser } from "@/lib/firebase/firebase-server";
+import { cn, getUserDetailsFromUser, IS_EMBEDDED } from "@/lib/utils";
+
+import NavbarItem from "./navbar-item";
+import { type NavbarItemDetails } from "./navbar-item";
 
 type Props = {
   className?: string;
@@ -16,18 +18,18 @@ type Props = {
 export default async function NavBar({ className }: Props) {
   const tabs: NavbarItemDetails[] = [
     {
-      label: 'Startseite',
-      href: '/',
+      label: "Accueil",
+      href: "/",
     },
     {
-      label: 'Wahl Swiper',
-      href: '/swiper',
+      label: "Chatvote Swiper",
+      href: "/swiper",
       highlight: true,
       icon: <SparklesIcon className="size-3" />,
     },
     {
-      label: 'Anleitung',
-      href: '/how-to',
+      label: "Guide",
+      href: "/how-to",
     },
   ];
 
@@ -37,8 +39,8 @@ export default async function NavBar({ className }: Props) {
   return (
     <nav
       className={cn(
-        'flex flex-col md:flex-row items-center justify-center gap-2',
-        className
+        "flex flex-col items-center justify-center gap-2 md:flex-row",
+        className,
       )}
     >
       {!IS_EMBEDDED ? (
@@ -56,7 +58,7 @@ export default async function NavBar({ className }: Props) {
         userDetails={userDetails}
         noUserChildren={
           <Button variant="default" size="sm">
-            Anmelden
+            Se connecter
           </Button>
         }
         userChildren={<UserAvatar details={userDetails} />}

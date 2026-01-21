@@ -1,34 +1,41 @@
 <!--
-SPDX-FileCopyrightText: 2025 2025 wahl.chat
+SPDX-FileCopyrightText: 2025 2025 chatvote
 
 SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 -->
 
-# Wahl.chat app
-Frontend of the leading political information chatbot for the German federal elections 2025.
+# Chatvote app
 
-## About wahl.chat
+Frontend of the leading political information chatbot for the French elections.
+
+## About chatvote
+
 #### Links
-Application URL: https://wahl.chat/ </br>
-About page: https://wahl.chat/about-us </br>
-Press: https://wahlchat.notion.site </br>
+
+Application URL: https://chatvote.fr/ </br>
+About page: https://chatvote.fr/about-us </br>
+Press: https://chatvote.notion.site </br>
 
 #### Our goal in a nutshell
-The aim of wahl.chat is to enable users to engage in a contemporary way with the positions of political parties and to receive answers to individual questions that can be substantiated with sources.
+
+The aim of chatvote is to enable users to engage in a contemporary way with the positions of political parties and to receive answers to individual questions that can be substantiated with sources.
 
 #### Contributions welcome
+
 We appreciate contributions from our community. Please take a look at the open issues, if you are interested.  
-If you are unsure where to start, please contact robin@wahl.chat. 
+If you are unsure where to start, please contact robin@chatvote.fr.
 Further specifications coming soon.
 
 ## License
+
 This project is **source-available** under the **PolyForm Noncommercial 1.0.0** license.
+
 - Free for **non-commercial** use (see LICENSE for permitted purposes)
 - Share the license text and any `Required Notice:` lines when distributing
-- Please contact us at info@wahl.chat to
-a. inform us about your use case
-b. get access to assets required for a reference to wahl.chat on your project page
-- Do not use the wahl.chat name or logo in your project without our permission
+- Please contact us at info@chatvote.fr to
+  a. inform us about your use case
+  b. get access to assets required for a reference to chatvote on your project page
+- Do not use the chatvote name or logo in your project without our permission
 
 ## Getting Started
 
@@ -55,4 +62,3 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-

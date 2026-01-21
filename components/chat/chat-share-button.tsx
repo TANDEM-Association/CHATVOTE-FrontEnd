@@ -1,14 +1,16 @@
-'use client';
+"use client";
 
-import { ShareIcon } from 'lucide-react';
-import { useChatStore } from '@/components/providers/chat-store-provider';
-import { Button } from '@/components/ui/button';
+import { ShareIcon } from "lucide-react";
+
+import { useChatStore } from "@/components/providers/chat-store-provider";
+import { Button } from "@/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
-import ChatShareLinkInputForm from './chat-share-link-input-form';
+} from "@/components/ui/tooltip";
+
+import ChatShareLinkInputForm from "./chat-share-link-input-form";
 import {
   ResponsiveDialog,
   ResponsiveDialogContent,
@@ -16,11 +18,11 @@ import {
   ResponsiveDialogHeader,
   ResponsiveDialogTitle,
   ResponsiveDialogTrigger,
-} from './responsive-drawer-dialog';
+} from "./responsive-drawer-dialog";
 
 function ChatShareButton() {
   const sharePrivateSession = useChatStore(
-    (state) => state.messages.length > 0
+    (state) => state.messages.length > 0,
   );
 
   return (
@@ -33,17 +35,19 @@ function ChatShareButton() {
             </Button>
           </ResponsiveDialogTrigger>
         </TooltipTrigger>
-        <TooltipContent>Chat Session teilen</TooltipContent>
+        <TooltipContent>Partager la session de chat</TooltipContent>
       </Tooltip>
       <ResponsiveDialogContent className="sm:max-w-md">
         <ResponsiveDialogHeader>
           <ResponsiveDialogTitle>
-            {sharePrivateSession ? 'Chat Session teilen' : 'wahl.chat teilen'}
+            {sharePrivateSession
+              ? "Partager la session de chat"
+              : "Partager chatvote"}
           </ResponsiveDialogTitle>
           <ResponsiveDialogDescription>
             {sharePrivateSession
-              ? 'Jeder, der diesen Link hat, kann diese Chat Session sehen.'
-              : 'Teile wahl.chat mit Freunden und Familie.'}
+              ? "Toute personne disposant de ce lien peut voir cette session de chat."
+              : "Partagez chatvote avec vos amis et votre famille."}
           </ResponsiveDialogDescription>
         </ResponsiveDialogHeader>
 

@@ -1,6 +1,6 @@
 {
-  "name": "wahl.chat",
-  "short_name": "wahl.chat",
+  "name": "chatvote",
+  "short_name": "chatvote",
   "icons": [
     {
       "src": "/web-app-manifest-192x192.png",

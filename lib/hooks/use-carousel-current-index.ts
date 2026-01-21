@@ -1,5 +1,6 @@
-import { useCarousel } from '@/components/ui/carousel';
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
+
+import { useCarousel } from "@/components/ui/carousel";
 
 function useCarouselCurrentIndex() {
   const { api } = useCarousel();
@@ -18,7 +19,7 @@ function useCarouselCurrentIndex() {
     };
 
     onSelect();
-    api.on('reInit', () => onReInit()).on('select', () => onSelect());
+    api.on("reInit", () => onReInit()).on("select", () => onSelect());
   }, [api]);
 
   return selectedIndex;

@@ -1,15 +1,16 @@
-import { addMessageToGroupedMessageOfChatSession } from '@/lib/firebase/firebase';
-import type { StreamingMessage } from '@/lib/socket.types';
-import type {
-  ChatStoreActionHandlerFor,
-  GroupedMessage,
-  MessageItem,
-} from '@/lib/stores/chat-store.types';
-import { generateUuid } from '@/lib/utils';
-import { Timestamp } from 'firebase/firestore';
+import { Timestamp } from "firebase/firestore";
+
+import { addMessageToGroupedMessageOfChatSession } from "@/lib/firebase/firebase";
+import { type StreamingMessage } from "@/lib/socket.types";
+import {
+  type ChatStoreActionHandlerFor,
+  type GroupedMessage,
+  type MessageItem,
+} from "@/lib/stores/chat-store.types";
+import { generateUuid } from "@/lib/utils";
 
 export const completeStreamingMessage: ChatStoreActionHandlerFor<
-  'completeStreamingMessage'
+  "completeStreamingMessage"
 > = (get, set) => async (sessionId, partyId, completeMessage) => {
   const { currentStreamingMessages, chatSessionId } = get();
 
@@ -33,11 +34,11 @@ export const completeStreamingMessage: ChatStoreActionHandlerFor<
   ) => {
     return {
       id: message.id,
-      content: completeMessage ?? message.content ?? '',
+      content: completeMessage ?? message.content ?? "",
       sources: message.sources ?? [],
       party_id: message.party_id,
       created_at: Timestamp.now(),
-      role: 'assistant',
+      role: "assistant",
     } satisfies MessageItem;
   };
 
@@ -55,15 +56,15 @@ export const completeStreamingMessage: ChatStoreActionHandlerFor<
     set((state) => {
       const newGroupedMessage: GroupedMessage = {
         id: safeGroupedMessageId,
-        role: 'assistant',
+        role: "assistant",
         messages: Object.values(updatedCurrentStreamingMessages.messages).map(
           (message) => buildNewMessage(message),
         ),
       };
 
-      console.log('newGroupedMessage', newGroupedMessage);
-      console.log(
-        'responding_party_ids',
+      console.info("newGroupedMessage", newGroupedMessage);
+      console.info(
+        "responding_party_ids",
         updatedCurrentStreamingMessages.responding_party_ids,
       );
 

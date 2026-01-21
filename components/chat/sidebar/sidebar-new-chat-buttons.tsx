@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import PartyCards from '@/components/party-cards';
-import { useSidebar } from '@/components/ui/sidebar';
+import PartyCards from "@/components/party-cards";
+import { useSidebar } from "@/components/ui/sidebar";
 
 function SidebarNewChatButtons() {
   const { setOpenMobile } = useSidebar();
@@ -14,7 +14,7 @@ function SidebarNewChatButtons() {
     <PartyCards
       gridColumns={3}
       selectable={false}
-      showWahlChatButton
+      showChatvoteButton={true}
       onPartyClicked={handleNewChat}
     />
   );

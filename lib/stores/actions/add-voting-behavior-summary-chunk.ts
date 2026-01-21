@@ -1,7 +1,7 @@
-import type { ChatStoreActionHandlerFor } from '@/lib/stores/chat-store.types';
+import { type ChatStoreActionHandlerFor } from "@/lib/stores/chat-store.types";
 
 export const addVotingBehaviorSummaryChunk: ChatStoreActionHandlerFor<
-  'addVotingBehaviorSummaryChunk'
+  "addVotingBehaviorSummaryChunk"
 > = (get, set) => async (requestId, chunk) => {
   const { currentStreamedVotingBehavior } = get();
 
@@ -11,7 +11,7 @@ export const addVotingBehaviorSummaryChunk: ChatStoreActionHandlerFor<
     state.currentStreamedVotingBehavior = {
       ...state.currentStreamedVotingBehavior,
       requestId,
-      summary: (state.currentStreamedVotingBehavior?.summary || '') + chunk,
+      summary: (state.currentStreamedVotingBehavior?.summary || "") + chunk,
     };
   });
 };

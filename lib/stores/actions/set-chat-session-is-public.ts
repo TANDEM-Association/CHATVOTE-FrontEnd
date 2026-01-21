@@ -1,8 +1,8 @@
-import { updateChatSession } from '@/lib/firebase/firebase';
-import type { ChatStoreActionHandlerFor } from '@/lib/stores/chat-store.types';
+import { updateChatSession } from "@/lib/firebase/firebase";
+import { type ChatStoreActionHandlerFor } from "@/lib/stores/chat-store.types";
 
 export const setChatSessionIsPublic: ChatStoreActionHandlerFor<
-  'setChatSessionIsPublic'
+  "setChatSessionIsPublic"
 > = (get, set) => async (isPublic) => {
   const { chatSessionId } = get();
 

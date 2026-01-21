@@ -1,18 +1,20 @@
-import ShareChatInput from '@/components/share/share-chat-input';
-import ShareGroupedMessage from '@/components/share/share-grouped-message';
-import ShareScrollTop from '@/components/share/share-scroll-top';
-import { Button } from '@/components/ui/button';
-import { getSnapshot } from '@/lib/firebase/firebase-admin';
+import Link from "next/link";
+import { redirect } from "next/navigation";
+
+import { ArrowLeftIcon } from "lucide-react";
+
+import ShareChatInput from "@/components/share/share-chat-input";
+import ShareGroupedMessage from "@/components/share/share-grouped-message";
+import ShareScrollTop from "@/components/share/share-scroll-top";
+import { Button } from "@/components/ui/button";
+import { getSnapshot } from "@/lib/firebase/firebase-admin";
 import {
   getCurrentUser,
   getParties,
   getSystemStatus,
-} from '@/lib/firebase/firebase-server';
-import { InternalReferrers } from '@/lib/internal-referrers';
-import { cn, generateOgImageUrl } from '@/lib/utils';
-import { ArrowLeftIcon } from 'lucide-react';
-import Link from 'next/link';
-import { redirect } from 'next/navigation';
+} from "@/lib/firebase/firebase-server";
+import { InternalReferrers } from "@/lib/internal-referrers";
+import { cn, generateOgImageUrl } from "@/lib/utils";
 
 type Props = {
   searchParams: Promise<{
@@ -43,7 +45,7 @@ async function SharePage({ searchParams }: Props) {
   const { snapshot_id, ref } = await searchParams;
 
   if (!snapshot_id) {
-    redirect('/');
+    redirect("/");
   }
 
   const snapshot = await getSnapshot(snapshot_id);
@@ -59,15 +61,15 @@ async function SharePage({ searchParams }: Props) {
         <Button variant="link" asChild className="mt-4 w-fit px-0">
           <Link href="/topics">
             <ArrowLeftIcon className="size-4" />
-            Zurück zur Themenübersicht
+            Retour aux sujets
           </Link>
         </Button>
       )}
 
       <div
         className={cn(
-          'flex grow flex-col gap-6 overflow-y-auto',
-          !isFromTopics && 'mt-4'
+          "flex grow flex-col gap-6 overflow-y-auto",
+          !isFromTopics && "mt-4",
         )}
       >
         {snapshot.messages.map((message) => (
@@ -75,7 +77,7 @@ async function SharePage({ searchParams }: Props) {
             key={message.id}
             message={message}
             parties={parties.filter((p) =>
-              snapshot.party_ids.includes(p.party_id)
+              snapshot.party_ids.includes(p.party_id),
             )}
           />
         ))}

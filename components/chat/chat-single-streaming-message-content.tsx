@@ -1,5 +1,6 @@
-import { useChatStore } from '@/components/providers/chat-store-provider';
-import ChatMarkdown from './chat-markdown';
+import { useChatStore } from "@/components/providers/chat-store-provider";
+
+import ChatMarkdown from "./chat-markdown";
 
 type Props = {
   partyId: string;

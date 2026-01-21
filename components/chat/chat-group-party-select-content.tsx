@@ -1,11 +1,14 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { ResponsiveDialogFooter } from './responsive-drawer-dialog';
-import ChatGroupPartySelectSubmitButton from './chat-group-party-select-submit-button';
-import { track } from '@vercel/analytics/react';
-import PartyCards from '@/components/party-cards';
-import { toast } from 'sonner';
+import { useState } from "react";
+
+import { track } from "@vercel/analytics/react";
+import { toast } from "sonner";
+
+import PartyCards from "@/components/party-cards";
+
+import ChatGroupPartySelectSubmitButton from "./chat-group-party-select-submit-button";
+import { ResponsiveDialogFooter } from "./responsive-drawer-dialog";
 
 type Props = {
   selectedPartyIdsInStore?: string[];
@@ -21,7 +24,7 @@ function ChatGroupPartySelectContent({
   addPartiesToChat,
 }: Props) {
   const [selectedPartyIds, setSelectedPartyIds] = useState<string[]>(
-    selectedPartyIdsInStore ?? []
+    selectedPartyIdsInStore ?? [],
   );
 
   const handlePartyClicked = (partyId: string) => {
@@ -32,7 +35,7 @@ function ChatGroupPartySelectContent({
 
     if (selectedPartyIds.length >= MAX_SELECTABLE_PARTIES) {
       toast.error(
-        `Du kannst nur maximal ${MAX_SELECTABLE_PARTIES} Parteien auswählen`
+        `Vous ne pouvez sélectionner que ${MAX_SELECTABLE_PARTIES} partis maximum`,
       );
       return;
     }
@@ -43,8 +46,8 @@ function ChatGroupPartySelectContent({
   };
 
   const handleNewChat = () => {
-    track('chat_group_party_select_submit', {
-      party_ids: selectedPartyIds.join(','),
+    track("chat_group_party_select_submit", {
+      party_ids: selectedPartyIds.join(","),
     });
     onNewChat?.(selectedPartyIds);
   };

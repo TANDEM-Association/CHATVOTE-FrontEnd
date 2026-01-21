@@ -1,6 +1,5 @@
-'use client';
+"use client";
 
-import { useIsDesktop } from '@/lib/hooks/use-is-desktop';
 import {
   Dialog,
   DialogClose,
@@ -10,7 +9,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog";
 import {
   Drawer,
   DrawerClose,
@@ -20,7 +19,8 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from '@/components/ui/drawer';
+} from "@/components/ui/drawer";
+import { useIsDesktop } from "@/lib/hooks/use-is-desktop";
 
 type ResponsiveDefaultProps = {
   className?: string;
@@ -31,7 +31,7 @@ type AsChildProps = {
   asChild?: boolean;
 };
 
-type ResponsiveDialogProps = Pick<ResponsiveDefaultProps, 'children'> & {
+type ResponsiveDialogProps = Pick<ResponsiveDefaultProps, "children"> & {
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
   defaultOpen?: boolean;

@@ -1,9 +1,9 @@
-'use client';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import GoogleIcon from '@/components/icons/google-icon';
-import { useState } from 'react';
+"use client";
+import { useState } from "react";
+
+import Link from "next/link";
+
+import { FirebaseError } from "firebase/app";
 import {
   EmailAuthProvider,
   getAuth,
@@ -13,21 +13,25 @@ import {
   linkWithPopup,
   signInWithCredential,
   signInWithEmailAndPassword,
-} from 'firebase/auth';
-import { toast } from 'sonner';
-import { FirebaseError } from 'firebase/app';
-import GithubIcon from '@/components/icons/github-icon';
+} from "firebase/auth";
+import { toast } from "sonner";
+
+import { useAnonymousAuth } from "@/components/anonymous-auth";
 import {
   ResponsiveDialogDescription,
   ResponsiveDialogTitle,
-} from '@/components/chat/responsive-drawer-dialog';
-import PasswordResetForm from './password-reset-form';
-import { useAnonymousAuth } from '@/components/anonymous-auth';
-import Link from 'next/link';
-import SuccessAuthForm from './success-auth-form';
-import { getUser } from '@/lib/firebase/firebase';
+} from "@/components/chat/responsive-drawer-dialog";
+import GithubIcon from "@/components/icons/github-icon";
+import GoogleIcon from "@/components/icons/google-icon";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { getUser } from "@/lib/firebase/firebase";
 
-type AuthProvider = 'google' | 'github' | 'email';
+import PasswordResetForm from "./password-reset-form";
+import SuccessAuthForm from "./success-auth-form";
+
+type AuthProvider = "google" | "github" | "email";
 
 type Props = {
   onSuccess: () => void;
@@ -59,13 +63,13 @@ function LoginForm({ onSuccess }: Props) {
 
   const handleAuthError = (error: unknown, provider: AuthProvider) => {
     if (error instanceof FirebaseError) {
-      if (error.code === 'auth/invalid-credential') {
-        return toast.error('Die eingegebenen Daten sind ungültig.');
+      if (error.code === "auth/invalid-credential") {
+        return toast.error("Les données saisies sont invalides.");
       }
-      if (error.code === 'auth/credential-already-in-use') {
+      if (error.code === "auth/credential-already-in-use") {
         return handleCredentialAlreadyInUse(error, provider);
       }
-      if (error.code === 'auth/provider-already-linked') {
+      if (error.code === "auth/provider-already-linked") {
         return handleProviderAlreadyLinked();
       }
     }
@@ -76,16 +80,16 @@ function LoginForm({ onSuccess }: Props) {
 
   const handleCredentialAlreadyInUse = async (
     error: FirebaseError,
-    provider: AuthProvider
+    provider: AuthProvider,
   ) => {
     const auth = getAuth();
 
     let credential = null;
-    if (provider === 'google') {
+    if (provider === "google") {
       credential = GoogleAuthProvider.credentialFromError(error);
-    } else if (provider === 'github') {
+    } else if (provider === "github") {
       credential = GithubAuthProvider.credentialFromError(error);
-    } else if (provider === 'email') {
+    } else if (provider === "email") {
       return;
     }
 
@@ -117,7 +121,7 @@ function LoginForm({ onSuccess }: Props) {
       await signInWithEmailAndPassword(auth, email, password);
       await handleAuthSuccess();
     } catch (error) {
-      handleAuthError(error, 'email');
+      handleAuthError(error, "email");
     }
   };
 
@@ -135,12 +139,12 @@ function LoginForm({ onSuccess }: Props) {
       await linkWithCredential(auth.currentUser, credential);
       await handleAuthSuccess();
     } catch (error) {
-      handleAuthError(error, 'email');
+      handleAuthError(error, "email");
     }
   };
 
   const handleOAuthLogin = async (
-    provider: GoogleAuthProvider | GithubAuthProvider
+    provider: GoogleAuthProvider | GithubAuthProvider,
   ) => {
     const auth = getAuth();
 
@@ -166,7 +170,7 @@ function LoginForm({ onSuccess }: Props) {
     } catch (error) {
       handleAuthError(
         error,
-        provider instanceof GoogleAuthProvider ? 'google' : 'github'
+        provider instanceof GoogleAuthProvider ? "google" : "github",
       );
     }
   };
@@ -177,9 +181,9 @@ function LoginForm({ onSuccess }: Props) {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
-    const isRegister = formData.get('isRegister') === 'true';
-    const email = formData.get('email') as string;
-    const password = formData.get('password') as string;
+    const isRegister = formData.get("isRegister") === "true";
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
 
     setIsLoading(true);
 
@@ -194,12 +198,12 @@ function LoginForm({ onSuccess }: Props) {
 
   const showErrorReloadToast = () => {
     toast.error(
-      'Es ist ein Fehler aufgetreten. Bitte lade die Seite neu und versuche es erneut.'
+      "Une erreur s&lsquo;est produite. Veuillez recharger la page et réessayer.",
     );
   };
 
   const showSuccessToast = () => {
-    toast.success('Erfolgreich angemeldet');
+    toast.success("Connexion réussie");
   };
 
   const handleResetPassword = async () => {
@@ -223,16 +227,16 @@ function LoginForm({ onSuccess }: Props) {
       <input
         type="hidden"
         name="isRegister"
-        value={isRegister ? 'true' : 'false'}
+        value={isRegister ? "true" : "false"}
       />
       <div className="mb-4">
         <ResponsiveDialogTitle className="text-center text-2xl font-bold md:text-left">
-          {isRegister ? 'Registrieren' : 'Anmelden'}
+          {isRegister ? "S&lsquo;inscrire" : "Se connecter"}
         </ResponsiveDialogTitle>
-        <ResponsiveDialogDescription className="text-center text-sm text-muted-foreground md:text-left">
+        <ResponsiveDialogDescription className="text-muted-foreground text-center text-sm md:text-left">
           {isRegister
-            ? 'Du kannst dich bei wahl.chat registrieren um deine Chatverläufe zu speichern und mit mehreren Geräten abzurufen.'
-            : 'Du kannst dich bei wahl.chat anmelden um deine Chatverläufe zu speichern und mit mehreren Geräten abzurufen.'}
+            ? "Vous pouvez vous inscrire sur chatvote pour sauvegarder vos conversations et y accéder depuis plusieurs appareils."
+            : "Vous pouvez vous connecter sur chatvote pour sauvegarder vos conversations et y accéder depuis plusieurs appareils."}
         </ResponsiveDialogDescription>
       </div>
 
@@ -243,13 +247,13 @@ function LoginForm({ onSuccess }: Props) {
             id="email"
             name="email"
             type="email"
-            placeholder="max@mustermann.de"
+            placeholder="jean@exemple.fr"
             required
           />
         </div>
         <div className="my-4 grid gap-1">
           <div className="flex items-center">
-            <Label htmlFor="password">Passwort</Label>
+            <Label htmlFor="password">Mot de passe</Label>
             <Button
               variant="link"
               className="ml-auto inline-block h-fit p-0 text-sm underline-offset-4 hover:underline"
@@ -257,7 +261,7 @@ function LoginForm({ onSuccess }: Props) {
               size="sm"
               type="button"
             >
-              Passwort vergessen?
+              Mot de passe oublié ?
             </Button>
           </div>
           <Input
@@ -271,20 +275,20 @@ function LoginForm({ onSuccess }: Props) {
         </div>
         <div className="flex flex-col gap-2">
           <Button type="submit" className="w-full" disabled={isLoading}>
-            {isRegister ? 'Registrieren' : 'Anmelden'}
+            {isRegister ? "S&lsquo;inscrire" : "Se connecter"}
           </Button>
-          <p className="text-center text-xs text-muted-foreground">
-            Mit deinem Klick auf {isRegister ? 'Registrieren' : 'Anmelden'}{' '}
-            akzeptierst du unsere{' '}
-            <Link href="/datenschutz" target="_blank" className="underline">
-              Datenschutzerklärung
+          <p className="text-muted-foreground text-center text-xs">
+            En cliquant sur {isRegister ? "S&lsquo;inscrire" : "Se connecter"}{" "}
+            vous acceptez notre{" "}
+            <Link href="/privacy-policy" target="_blank" className="underline">
+              Politique de confidentialité
             </Link>
             .
           </p>
 
-          <div className="relative my-4 text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
-            <span className="relative z-10 bg-background px-2 text-muted-foreground">
-              Oder nutze einen der folgenden Anbieter
+          <div className="after:border-border relative my-4 text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">
+            <span className="bg-background text-muted-foreground relative z-10 px-2">
+              Ou utilisez l&lsquo;un des fournisseurs suivants
             </span>
           </div>
 
@@ -297,7 +301,7 @@ function LoginForm({ onSuccess }: Props) {
               type="button"
             >
               <GoogleIcon className="!size-3" />
-              Mit Google anmelden
+              Se connecter avec Google
             </Button>
             <Button
               variant="outline"
@@ -307,13 +311,13 @@ function LoginForm({ onSuccess }: Props) {
               onClick={handleGithubLogin}
             >
               <GithubIcon className="!size-3" />
-              Mit Github anmelden
+              Se connecter avec Github
             </Button>
           </div>
         </div>
       </div>
       <div className="mt-4 text-center text-sm">
-        {isRegister ? 'Hast du schon einen Account?' : 'Noch keinen Account?'}{' '}
+        {isRegister ? "Vous avez déjà un compte ?" : "Pas encore de compte ?"}{" "}
         <Button
           size="sm"
           type="button"
@@ -322,7 +326,7 @@ function LoginForm({ onSuccess }: Props) {
           className="p-0 underline underline-offset-4"
           disabled={isLoading}
         >
-          {isRegister ? 'Anmelden' : 'Registrieren'}
+          {isRegister ? "Se connecter" : "S&lsquo;inscrire"}
         </Button>
       </div>
     </form>

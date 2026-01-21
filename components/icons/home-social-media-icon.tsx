@@ -1,9 +1,12 @@
-import InstagramIcon from './instagram-icon';
-import LinkedInIcon from './linkedin-icon';
-import XIcon from './x-icon';
-import Link from 'next/link';
-import { MailIcon } from 'lucide-react';
-import { socialMediaConfig } from '@/lib/contact-config';
+import Link from "next/link";
+
+import { MailIcon } from "lucide-react";
+
+import { socialMediaConfig } from "@/lib/contact-config";
+
+import InstagramIcon from "./instagram-icon";
+import LinkedInIcon from "./linkedin-icon";
+import XIcon from "./x-icon";
 
 type Props = {
   type: keyof typeof socialMediaConfig;
@@ -13,16 +16,16 @@ function HomeSocialMediaIcon({ type }: Props) {
   let Icon: React.ElementType;
 
   switch (type) {
-    case 'instagram':
+    case "instagram":
       Icon = InstagramIcon;
       break;
-    case 'linkedin':
+    case "linkedin":
       Icon = LinkedInIcon;
       break;
-    case 'x':
+    case "x":
       Icon = XIcon;
       break;
-    case 'email':
+    case "email":
       Icon = MailIcon;
       break;
   }

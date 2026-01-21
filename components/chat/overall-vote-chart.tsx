@@ -1,6 +1,8 @@
-import type { Vote } from '@/lib/socket.types';
-import { useMemo } from 'react';
-import VoteChart from './vote-chart';
+import React, { useMemo } from "react";
+
+import { type Vote } from "@/lib/socket.types";
+
+import VoteChart from "./vote-chart";
 
 type Props = {
   vote: Vote;
@@ -14,8 +16,8 @@ function OverallVoteChart({ vote }: Props) {
 
     if (totalVotes === 0) {
       return [
-        'Keine gültigen Stimmen abgegeben',
-        'Es konnten keine Ergebnisse ermittelt werden',
+        "Aucun vote valide enregistré",
+        "Aucun résultat n&lsquo;a pu être déterminé",
       ];
     }
 
@@ -23,39 +25,39 @@ function OverallVoteChart({ vote }: Props) {
     let percentage: number;
 
     if (yes > no) {
-      outcome = 'angenommen';
+      outcome = "adopté";
       percentage = (yes / totalVotes) * 100;
     } else if (no > yes) {
-      outcome = 'abgelehnt';
+      outcome = "rejeté";
       percentage = (no / totalVotes) * 100;
     } else {
-      outcome = 'unentschieden';
+      outcome = "égalité";
       percentage = (no / totalVotes) * 100;
     }
 
     const resultStatement = (
-      <>
-        Antrag wurde{' '}
+      <React.Fragment>
+        Motion{" "}
         <span className="font-bold">
           {outcome.charAt(0).toUpperCase() + outcome.slice(1)}.
         </span>
-      </>
+      </React.Fragment>
     );
 
     let percentageStatement: string;
-    if (outcome === 'unentschieden') {
-      percentageStatement = `Antrag wurde unentschieden mit jeweils ${percentage.toFixed(
+    if (outcome === "égalité") {
+      percentageStatement = `Motion à égalité avec ${percentage.toFixed(
         1,
-      )}% der Stimmen.`;
+      )}% des voix chacun.`;
     } else {
-      percentageStatement = `Antrag wurde mit ${percentage.toFixed(1)}% der Stimmen ${outcome}.`;
+      percentageStatement = `Motion ${outcome} avec ${percentage.toFixed(1)}% des voix.`;
     }
 
     return [resultStatement, percentageStatement];
   }, [vote.voting_results.overall]);
 
   return (
-    <section className="flex flex-col items-center justify-center gap-4 flex-1">
+    <section className="flex flex-1 flex-col items-center justify-center gap-4">
       <VoteChart
         voteResults={vote.voting_results.overall}
         memberCount={vote.voting_results.overall.members}
@@ -63,7 +65,7 @@ function OverallVoteChart({ vote }: Props) {
 
       <div className="flex flex-col items-center justify-center text-center">
         <p>{resultStatement}</p>
-        <p className="text-xs text-muted-foreground">{percentageStatement}</p>
+        <p className="text-muted-foreground text-xs">{percentageStatement}</p>
       </div>
     </section>
   );

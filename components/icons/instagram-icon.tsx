@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils';
+import { cn } from "@/lib/utils";
 
 type Props = {
   className?: string;
@@ -10,7 +10,7 @@ function InstagramIcon({ className }: Props) {
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 132.004 132"
       xmlnsXlink="http://www.w3.org/1999/xlink"
-      className={cn('size-6', className)}
+      className={cn("size-6", className)}
     >
       <defs>
         <linearGradient id="b">
