@@ -23,8 +23,7 @@ export const chatAddUserMessage: ChatStoreActionHandlerFor<"addUserMessage"> =
     } = get();
 
     if (!socket.io?.connected) {
-      if (!fromInitialQuestion)
-        toast.error("chatvote n&lsquo;est pas connecté.");
+      if (!fromInitialQuestion) toast.error("chatvote n'est pas connecté.");
       else
         set((state) => {
           state.initialQuestionError = message;

@@ -1,20 +1,11 @@
 import { type Metadata, type Viewport } from "next";
 import { headers } from "next/headers";
 
-import { Analytics } from "@vercel/analytics/react";
-import { domAnimation, LazyMotion } from "motion/react";
-
-import { AnonymousAuthProvider } from "@/components/anonymous-auth";
-import AuthServiceWorkerProvider from "@/components/providers/auth-service-worker-provider";
-import { PartiesProvider } from "@/components/providers/parties-provider";
-import TenantProvider from "@/components/providers/tenant-provider";
-import { ThemeProvider } from "@/components/providers/theme-provider";
-import { Toaster } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
 import { TENANT_ID_HEADER } from "@/lib/constants";
 import { getTenant } from "@/lib/firebase/firebase-admin";
 import { getParties, getUser } from "@/lib/firebase/firebase-server";
-import { IS_EMBEDDED } from "@/lib/utils";
+
+import { AppProvider } from "./_providers/AppProvider";
 
 import "./globals.css";
 
@@ -118,30 +109,11 @@ export default async function RootLayout({
           }}
         />
       </head>
-      <AuthServiceWorkerProvider />
-      <TooltipProvider>
-        <AnonymousAuthProvider user={user}>
-          <TenantProvider tenant={tenant}>
-            <body>
-              <LazyMotion features={domAnimation}>
-                <ThemeProvider
-                  attribute="class"
-                  enableSystem={!IS_EMBEDDED}
-                  disableTransitionOnChange
-                >
-                  <PartiesProvider parties={parties}>
-                    {children}
-                  </PartiesProvider>
-                </ThemeProvider>
-                <Toaster expand duration={1500} position="top-right" />
-                {/* <LoginReminderToast /> */}
-                {/* TODO: implement again when problems are fixed <IframeChecker /> */}
-                <Analytics />
-              </LazyMotion>
-            </body>
-          </TenantProvider>
-        </AnonymousAuthProvider>
-      </TooltipProvider>
+      <body>
+        <AppProvider user={user} tenant={tenant} parties={parties}>
+          {children}
+        </AppProvider>
+      </body>
     </html>
   );
 }

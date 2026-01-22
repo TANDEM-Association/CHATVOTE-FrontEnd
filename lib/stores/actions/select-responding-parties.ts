@@ -1,4 +1,4 @@
-import { CHATVOTE_PARTY_ID } from "@/lib/constants";
+import { ASSISTANT_ID } from "@/lib/constants";
 import { updateChatSession } from "@/lib/firebase/firebase";
 import { type StreamingMessage } from "@/lib/socket.types";
 import { type ChatStoreActionHandlerFor } from "@/lib/stores/chat-store.types";
@@ -31,7 +31,7 @@ export const selectRespondingParties: ChatStoreActionHandlerFor<
   const { partyIds: currentPartyIds } = get();
 
   const newPartyIds = partyIds.filter(
-    (partyId) => !currentPartyIds.has(partyId) && partyId !== CHATVOTE_PARTY_ID,
+    (partyId) => !currentPartyIds.has(partyId) && partyId !== ASSISTANT_ID,
   );
 
   if (newPartyIds.length > 0) {

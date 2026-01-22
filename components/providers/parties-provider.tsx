@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useContext, useMemo, useRef } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 
 import { type PartyDetails } from "@/lib/party-details";
 
@@ -53,19 +53,19 @@ function shuffleArray<T>(array: T[]): T[] {
 }
 
 export const PartiesProvider = ({ children, parties }: Props) => {
-  const randomizedPartiesRef = useRef<PartyDetails[] | null>(null);
-  const prevPartiesRef = useRef<PartyDetails[] | null>(null);
+  // Start with server-provided order to avoid hydration mismatch
+  const [randomizedParties, setRandomizedParties] =
+    useState<PartyDetails[]>(parties);
 
-  // Compute randomized parties when parties prop changes (ref-based to avoid render issues)
-  if (prevPartiesRef.current !== parties) {
-    prevPartiesRef.current = parties;
-    randomizedPartiesRef.current = shuffleArray(parties);
-  }
+  // Shuffle only after hydration on client side
+  useEffect(() => {
+    setRandomizedParties(shuffleArray(parties));
+  }, [parties]);
 
   return (
     <PartiesContext.Provider
       value={{
-        parties: randomizedPartiesRef.current ?? undefined,
+        parties: randomizedParties,
         partyCount: parties?.length,
       }}
     >

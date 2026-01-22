@@ -6,7 +6,6 @@ import { useAnonymousAuth } from "@/components/anonymous-auth";
 import { useChatStore } from "@/components/providers/chat-store-provider";
 import { type ProposedQuestion } from "@/lib/firebase/firebase.types";
 import { type PartyDetails } from "@/lib/party-details";
-import { buildPartyImageUrl } from "@/lib/utils";
 
 import InitialSuggestionBubble from "./initial-suggestion-bubble";
 
@@ -41,12 +40,11 @@ function GroupChatEmptyView({ parties, proposedQuestions }: Props) {
             <Image
               key={party.party_id}
               alt={party.name}
-              src={buildPartyImageUrl(party.party_id)}
+              src={party.logo_url}
               width={imageSize}
               height={imageSize}
-              className="border-background absolute top-0 aspect-square rounded-full border-2 bg-slate-200 object-contain transition-transform duration-200 ease-in-out hover:z-30 hover:-translate-y-4 hover:scale-125"
+              className="border-background absolute top-0 aspect-square rounded-full border-2 bg-neutral-100 object-contain p-2 transition-transform duration-200 ease-in-out hover:z-30 hover:-translate-y-4 hover:scale-125"
               style={{
-                backgroundColor: party.background_color,
                 left: `${(index * imageSize) / 2}px`,
               }}
             />

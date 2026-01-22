@@ -1,5 +1,5 @@
 import { Separator } from "@/components/ui/separator";
-import { CHATVOTE_PARTY_ID } from "@/lib/constants";
+import { ASSISTANT_ID } from "@/lib/constants";
 import { type StreamingMessage } from "@/lib/socket.types";
 import { type MessageItem } from "@/lib/stores/chat-store.types";
 
@@ -34,19 +34,19 @@ function ChatSingleMessageActions({
 
   if (!showMessageActions) return null;
 
-  const isChatvoteMessage = partyId === CHATVOTE_PARTY_ID;
+  const isAssistantMessage = partyId === ASSISTANT_ID;
 
   const showProConButton =
     partyId &&
     !message.pro_con_perspective &&
     !isLoadingProConPerspective &&
-    !isChatvoteMessage;
+    !isAssistantMessage;
 
   const showVotingBehaviorSummaryButton =
     partyId &&
     !message.voting_behavior &&
     !isLoadingVotingBehaviorSummary &&
-    !isChatvoteMessage;
+    !isAssistantMessage;
 
   const showSeparator = showProConButton || showVotingBehaviorSummaryButton;
 

@@ -22,7 +22,7 @@ import {
 type Props = {
   className?: string;
   selectedPartyIds?: string[];
-  onPartyClicked?: (partyId: string) => void;
+  onSelectParty?: (partyId: string) => void;
   selectable?: boolean;
   gridColumns?: number;
   showChatvoteButton?: boolean;
@@ -31,7 +31,7 @@ type Props = {
 function PartyCards({
   className,
   selectedPartyIds,
-  onPartyClicked,
+  onSelectParty,
   selectable = true,
   gridColumns = 4,
   showChatvoteButton = false,
@@ -75,7 +75,7 @@ function PartyCards({
             tooltip="chatvote"
             asChild
           >
-            <Link href="/session" onClick={() => onPartyClicked?.("chatvote")}>
+            <Link href="/session" onClick={() => onSelectParty?.("chatvote")}>
               <Logo className="size-10!" />
             </Link>
           </Button>
@@ -86,7 +86,7 @@ function PartyCards({
             key={party.party_id}
             party={party}
             isSelected={selectedPartyIds?.includes(party.party_id)}
-            onPartyClicked={onPartyClicked}
+            onSelectParty={onSelectParty}
             selectable={selectable}
           />
         ))}
@@ -123,7 +123,7 @@ function PartyCards({
                 key={party.party_id}
                 party={party}
                 isSelected={selectedPartyIds?.includes(party.party_id)}
-                onPartyClicked={onPartyClicked}
+                onSelectParty={onSelectParty}
                 selectable={selectable}
               />
             ))}

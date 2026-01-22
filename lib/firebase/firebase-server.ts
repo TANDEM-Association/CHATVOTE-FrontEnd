@@ -20,7 +20,7 @@ import {
 import { type FullUser } from "@/components/anonymous-auth";
 import { CacheTags } from "@/lib/cache-tags";
 import { type ChatvoteSwiperQuestion } from "@/lib/chatvote-swiper/chatvote-swiper.types";
-import { CHATVOTE_PARTY_ID, GROUP_PARTY_ID } from "@/lib/constants";
+import { ASSISTANT_ID, GROUP_PARTY_ID } from "@/lib/constants";
 import { type PartyDetails } from "@/lib/party-details";
 import {
   type GroupedMessage,
@@ -73,14 +73,18 @@ async function getServerFirestore({
 }
 
 async function getPartiesImpl() {
-  const serverDb = await getServerFirestore({ useHeaders: false });
-  const queryRef = query(
-    collection(serverDb, "parties"),
-    orderBy("election_result_forecast_percent", "desc"),
-  );
-  const snapshot = await getDocs(queryRef);
+  try {
+    const serverDb = await getServerFirestore({ useHeaders: false });
+    const queryRef = query(
+      collection(serverDb, "parties"),
+      orderBy("election_result_forecast_percent", "desc"),
+    );
+    const snapshot = await getDocs(queryRef);
 
-  return snapshot.docs.map((doc) => doc.data()) as PartyDetails[];
+    return snapshot.docs.map((doc) => doc.data()) as PartyDetails[];
+  } catch (error) {
+    return [];
+  }
 }
 
 export const getParties = cache(getPartiesImpl, undefined, {
@@ -194,7 +198,7 @@ async function getProposedQuestionsImpl(partyIds?: string[]) {
     ? partyIds.length > 1
       ? GROUP_PARTY_ID
       : partyIds[0]
-    : CHATVOTE_PARTY_ID;
+    : ASSISTANT_ID;
 
   const queryRef = query(
     collection(serverDb, "proposed_questions", normalizedId, "questions"),
@@ -221,7 +225,7 @@ export const getProposedQuestions = cache(getProposedQuestionsImpl, undefined, {
 async function getHomeInputProposedQuestionsImpl() {
   const serverDb = await getServerFirestore({ useHeaders: false });
   const questionsRef = query(
-    collection(serverDb, "proposed_questions", CHATVOTE_PARTY_ID, "questions"),
+    collection(serverDb, "proposed_questions", ASSISTANT_ID, "questions"),
     where("location", "==", "home"),
   );
   const questionsSnapshot = await getDocs(questionsRef);
@@ -229,7 +233,7 @@ async function getHomeInputProposedQuestionsImpl() {
   return questionsSnapshot.docs.map((doc) => {
     return {
       id: doc.id,
-      partyId: CHATVOTE_PARTY_ID,
+      partyId: ASSISTANT_ID,
       ...doc.data(),
     } as ProposedQuestion;
   });
@@ -251,7 +255,7 @@ async function getSourceDocumentsImpl() {
 
   const sourcesPromises = [
     ...partiesSnapshot.docs.map((doc) => doc.id),
-    CHATVOTE_PARTY_ID,
+    ASSISTANT_ID,
   ].map(async (partyId) => {
     const sourcesRef = query(
       collection(serverDb, "sources", partyId, "source_documents"),

@@ -182,7 +182,7 @@ function HowTo() {
                 <div className="relative rounded-md">
                   <Button
                     variant="outline"
-                    className="h-8 px-2 group-data-[has-message-background]:bg-zinc-100 group-data-[has-message-background]:hover:bg-zinc-200 group-data-[has-message-background]:dark:bg-zinc-900 group-data-[has-message-background]:dark:hover:bg-zinc-800"
+                    className="h-8 px-2 group-data-has-message-background:bg-zinc-100 group-data-has-message-background:hover:bg-zinc-200 group-data-has-message-background:dark:bg-zinc-900 group-data-has-message-background:dark:hover:bg-zinc-800"
                     tooltip="Évaluer la position en Pour ou Contre"
                     type="button"
                   >

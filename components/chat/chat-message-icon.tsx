@@ -5,7 +5,7 @@ import Image from "next/image";
 import { SparklesIcon } from "lucide-react";
 
 import { useParty } from "@/components/providers/parties-provider";
-import { CHATVOTE_PARTY_ID } from "@/lib/constants";
+import { ASSISTANT_ID } from "@/lib/constants";
 import { type PartyDetails } from "@/lib/party-details";
 import { buildPartyImageUrl, cn } from "@/lib/utils";
 
@@ -37,7 +37,7 @@ export function ChatMessageIcon({ partyId, party }: Props) {
           sizes="32px"
           className="object-contain"
         />
-      ) : partyId === CHATVOTE_PARTY_ID ? (
+      ) : partyId === ASSISTANT_ID ? (
         <Logo variant="small" className="size-8 p-2" />
       ) : (
         <SparklesIcon className="size-4" />

@@ -29,7 +29,7 @@ function CreateNewChatDropdownButton() {
         <PartyCards
           gridColumns={3}
           selectable={false}
-          onPartyClicked={() => {
+          onSelectParty={() => {
             setOpen(false);
           }}
           showChatvoteButton={true}
