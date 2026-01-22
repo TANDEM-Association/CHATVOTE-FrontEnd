@@ -1,13 +1,15 @@
 export type PartyDetails = {
-  name: string;
-  candidate: string;
-  long_name: string;
-  website_url: string;
-  description: string;
   party_id: string;
-  background_color?: string;
+  name: string;
+  long_name: string;
+  candidate: string;
+  description: string;
+  website_url: string;
   election_manifesto_url: string;
-  election_result_forecast_percent: number;
+  logo_url: string;
+  candidate_image_url: string;
+  background_color?: string;
   is_already_in_parliament?: boolean;
   is_small_party?: boolean;
+  election_result_forecast_percent: number;
 };

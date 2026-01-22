@@ -15,7 +15,7 @@ export default function HomePartyCards() {
     <PartyCards
       className="mt-4"
       selectable={false}
-      onPartyClicked={handlePartyClick}
+      onSelectParty={handlePartyClick}
     />
   );
 }

@@ -15,7 +15,7 @@ function SidebarNewChatButtons() {
       gridColumns={3}
       selectable={false}
       showChatvoteButton={true}
-      onPartyClicked={handleNewChat}
+      onSelectParty={handleNewChat}
     />
   );
 }

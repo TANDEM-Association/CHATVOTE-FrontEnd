@@ -30,7 +30,7 @@ function ChatGroupPartySelect({
           <ResponsiveDialogDescription>
             {addPartiesToChat
               ? "Modifiez les partis sélectionnés."
-              : "Sélectionnez jusqu&lsquo;à sept partis avec lesquels vous souhaitez démarrer le chat."}
+              : "Sélectionnez jusqu'à sept partis avec lesquels vous souhaitez démarrer le chat."}
           </ResponsiveDialogDescription>
         </ResponsiveDialogHeader>
         <ChatGroupPartySelectContent

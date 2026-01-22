@@ -56,7 +56,7 @@ function ChatGroupPartySelectContent({
     <>
       <PartyCards
         className="px-4 pb-2 md:px-0 md:pb-0"
-        onPartyClicked={handlePartyClicked}
+        onSelectParty={handlePartyClicked}
         selectedPartyIds={selectedPartyIds}
       />
       <ResponsiveDialogFooter className="pt-2">

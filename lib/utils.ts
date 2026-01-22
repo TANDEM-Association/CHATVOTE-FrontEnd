@@ -9,6 +9,26 @@ import { type Source } from "@/lib/stores/chat-store.types";
 
 import { GROUP_PARTY_ID } from "./constants";
 
+const PRODUCTION_URL = "https://chatvote.fr";
+
+export async function getBaseUrl() {
+  try {
+    // Dynamic import to avoid "next/headers" being bundled in client code
+    const { headers } = await import("next/headers");
+    const headersList = await headers();
+    const host = headersList.get("host");
+    const protocol = headersList.get("x-forwarded-proto") ?? "http";
+
+    if (host) {
+      return `${protocol}://${host}`;
+    }
+  } catch {
+    // headers() not available (e.g., during build or client-side)
+  }
+
+  return process.env.SITE_URL ?? PRODUCTION_URL;
+}
+
 export const IS_EMBEDDED = process.env.IS_EMBEDDED === "true";
 
 export function cn(...inputs: ClassValue[]) {
@@ -122,9 +142,11 @@ export async function generateOgImageUrl(sessionType: string) {
     return;
   }
 
+  const baseUrl = await getBaseUrl();
+
   let party: PartyDetails | undefined;
   try {
-    const response = await fetch(`${process.env.SITE_URL}/api/parties`);
+    const response = await fetch(`${baseUrl}/api/parties`);
     if (!response.ok) {
       throw new Error("Failed to fetch parties");
     }
@@ -140,13 +162,11 @@ export async function generateOgImageUrl(sessionType: string) {
     return;
   }
 
-  const url = new URL(process.env.SITE_URL ?? "https://chatvote.fr");
+  const url = new URL(baseUrl);
   const imageUrl = new URL("/api/og", url);
   imageUrl.searchParams.set(
     "partyImageUrl",
-    `${process.env.SITE_URL ?? "https://chatvote.fr"}${buildPartyImageUrl(
-      party.party_id,
-    )}`,
+    `${baseUrl}${buildPartyImageUrl(party.party_id)}`,
   );
   imageUrl.searchParams.set(
     "backgroundColor",

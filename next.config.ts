@@ -16,6 +16,12 @@ const nextConfig: NextConfig = {
         port: "",
         pathname: "/images/**",
       },
+      {
+        protocol: "https",
+        hostname: "storage.googleapis.com",
+        port: "",
+        pathname: "/chat-vote-dev.firebasestorage.app/**",
+      },
     ],
   },
   webpack: (config: { resolve: { alias: { [key: string]: boolean } } }) => {

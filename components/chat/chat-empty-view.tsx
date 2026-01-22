@@ -6,7 +6,6 @@ import { useAnonymousAuth } from "@/components/anonymous-auth";
 import { useChatStore } from "@/components/providers/chat-store-provider";
 import { type ProposedQuestion } from "@/lib/firebase/firebase.types";
 import { type PartyDetails } from "@/lib/party-details";
-import { buildPartyImageUrl } from "@/lib/utils";
 
 import GroupChatEmptyView from "./group-chat-empty-view";
 import InitialSuggestionBubble from "./initial-suggestion-bubble";
@@ -40,14 +39,11 @@ function ChatEmptyView({ parties, proposedQuestions }: Props) {
 
   return (
     <div className="flex grow flex-col items-center justify-center gap-4 px-8">
-      <div
-        style={{ backgroundColor: party?.background_color }}
-        className="border-muted-foreground/20 bg-background relative flex size-28 items-center justify-center rounded-md border md:size-36"
-      >
+      <div className="relative flex size-28 items-center justify-center rounded-md border bg-neutral-100 md:size-36">
         {party ? (
           <Image
             alt={party.name}
-            src={buildPartyImageUrl(party.party_id)}
+            src={party.logo_url}
             fill
             sizes="(max-width: 768px) 40vw, 20vw"
             className="object-contain p-4"

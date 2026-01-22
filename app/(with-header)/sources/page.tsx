@@ -8,7 +8,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { CHATVOTE_PARTY_ID } from "@/lib/constants";
+import { ASSISTANT_ID } from "@/lib/constants";
 import { type SourceDocument } from "@/lib/firebase/firebase.types";
 import { getParties, getSourceDocuments } from "@/lib/firebase/firebase-server";
 import { buildPartyImageUrl } from "@/lib/utils";
@@ -40,7 +40,7 @@ async function SourcesPage() {
         <section>
           {Object.entries(sourcesByPartyId).map(([partyId, sources]) => {
             const party =
-              partyId === CHATVOTE_PARTY_ID
+              partyId === ASSISTANT_ID
                 ? undefined
                 : parties.find((party) => party.party_id === partyId);
 
@@ -50,7 +50,7 @@ async function SourcesPage() {
               <AccordionItem value={partyId} key={partyId}>
                 <AccordionTrigger>
                   <div className="flex items-center gap-4">
-                    {partyId === CHATVOTE_PARTY_ID ? (
+                    {partyId === ASSISTANT_ID ? (
                       <div className="border-border aspect-square size-8 rounded-full border object-contain p-1">
                         <Logo variant="small" className="size-full" />
                       </div>
