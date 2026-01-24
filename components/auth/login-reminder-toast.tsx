@@ -11,11 +11,8 @@ import { toast } from "sonner";
 
 import { useAnonymousAuth } from "@/components/anonymous-auth";
 import Logo from "@/components/chat/logo";
-import {
-  ResponsiveDialog,
-  ResponsiveDialogContent,
-} from "@/components/chat/responsive-drawer-dialog";
 import { Button } from "@/components/ui/button";
+import { Modal } from "@/components/ui/modal";
 import { firestoreTimestampToDate } from "@/lib/utils";
 
 import LoginForm from "./login-form";
@@ -149,18 +146,20 @@ function LoginReminderToast() {
 
   return (
     <>
-      <ResponsiveDialog open={isOpen} onOpenChange={setIsOpen}>
-        <ResponsiveDialogContent>
-          <LoginForm onSuccess={() => setIsOpen(false)} />
-        </ResponsiveDialogContent>
-      </ResponsiveDialog>
-      {surveyOpen && (
+      <Modal
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        className="w-full max-w-md p-6"
+      >
+        <LoginForm onSuccess={() => setIsOpen(false)} />
+      </Modal>
+      {surveyOpen ? (
         <FilloutPopupEmbed
           filloutId="cGozfJUor9us"
           onClose={() => setSurveyOpen(false)}
           inheritParameters
         />
-      )}
+      ) : null}
     </>
   );
 }

@@ -1,58 +1,131 @@
 "use client";
 
-import * as React from "react";
+import React from "react";
 
-import * as AccordionPrimitive from "@radix-ui/react-accordion";
 import { ChevronDown } from "lucide-react";
+import { AnimatePresence, motion } from "motion/react";
 
 import { cn } from "@/lib/utils";
 
-const Accordion = AccordionPrimitive.Root;
+type AccordionContextType = {
+  openItems: Set<string>;
+  toggleItem: (id: string) => void;
+  multiple?: boolean;
+};
 
-const AccordionItem = React.forwardRef<
-  React.ElementRef<typeof AccordionPrimitive.Item>,
-  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Item>
->(({ className, ...props }, ref) => (
-  <AccordionPrimitive.Item
-    ref={ref}
-    className={cn("border-b", className)}
-    {...props}
-  />
-));
-AccordionItem.displayName = "AccordionItem";
+export const AccordionContext =
+  React.createContext<AccordionContextType | null>(null);
 
-const AccordionTrigger = React.forwardRef<
-  React.ElementRef<typeof AccordionPrimitive.Trigger>,
-  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Trigger>
->(({ className, children, ...props }, ref) => (
-  <AccordionPrimitive.Header className="flex">
-    <AccordionPrimitive.Trigger
-      ref={ref}
-      className={cn(
-        "flex flex-1 items-center justify-between py-4 text-left text-sm font-medium transition-all hover:underline [&[data-state=open]>svg]:rotate-180",
-        className,
+type GroupProps = {
+  children: React.ReactNode;
+  multiple?: boolean;
+};
+
+export const AccordionGroup: React.FC<GroupProps> = (props) => {
+  const { children, multiple = false } = props;
+  const [openItems, setOpenItems] = React.useState<Set<string>>(new Set());
+
+  const toggleItem = (id: string) => {
+    setOpenItems((prevState) => {
+      const newOpenItems = new Set(prevState);
+
+      if (multiple === true) {
+        if (newOpenItems.has(id)) {
+          newOpenItems.delete(id);
+        } else {
+          newOpenItems.add(id);
+        }
+      } else {
+        if (newOpenItems.has(id)) {
+          newOpenItems.delete(id);
+        } else {
+          newOpenItems.clear();
+          newOpenItems.add(id);
+        }
+      }
+
+      return newOpenItems;
+    });
+  };
+
+  return (
+    <AccordionContext.Provider value={{ openItems, toggleItem, multiple }}>
+      <div className="flex w-full flex-col items-stretch justify-start gap-2">
+        {children}
+      </div>
+    </AccordionContext.Provider>
+  );
+};
+
+type ItemProps = {
+  title: string;
+  children: React.ReactNode;
+  className?: string;
+  trigger?: (props: { isOpen: boolean; toggle: () => void }) => React.ReactNode;
+};
+
+export const AccordionItem: React.FC<ItemProps> = (props) => {
+  const { title, children, className, trigger } = props;
+
+  const id = React.useId();
+  const { isOpen, toggle } = useAccordion(id);
+
+  return (
+    <div className={cn("border border-neutral-100", className)}>
+      {trigger !== undefined ? (
+        trigger({ isOpen, toggle })
+      ) : (
+        <button
+          onClick={toggle}
+          className="relative flex w-full cursor-pointer items-center justify-between px-4 py-5 text-left"
+        >
+          <span className="text-sm leading-6 font-medium text-neutral-100">
+            {title}
+          </span>
+          <ChevronDown
+            className={cn(
+              "size-6 text-neutral-100 transition-all duration-300 ease-in-out",
+              isOpen === true && "rotate-180",
+            )}
+          />
+        </button>
       )}
-      {...props}
-    >
-      {children}
-      <ChevronDown className="text-muted-foreground size-4 shrink-0 transition-transform duration-200" />
-    </AccordionPrimitive.Trigger>
-  </AccordionPrimitive.Header>
-));
-AccordionTrigger.displayName = AccordionPrimitive.Trigger.displayName;
+      <AnimatePresence>
+        {isOpen === true ? (
+          <motion.div
+            initial={{ height: 0 }}
+            animate={{ height: "auto" }}
+            exit={{ height: 0 }}
+            transition={{ duration: 0.4, type: "spring", bounce: 0 }}
+            className="overflow-hidden"
+          >
+            <div className="text-sm leading-5 font-normal text-neutral-100">
+              {children}
+            </div>
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
+    </div>
+  );
+};
 
-const AccordionContent = React.forwardRef<
-  React.ElementRef<typeof AccordionPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Content>
->(({ className, children, ...props }, ref) => (
-  <AccordionPrimitive.Content
-    ref={ref}
-    className="data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down overflow-hidden text-sm"
-    {...props}
-  >
-    <div className={cn("pt-0 pb-4", className)}>{children}</div>
-  </AccordionPrimitive.Content>
-));
-AccordionContent.displayName = AccordionPrimitive.Content.displayName;
+export function useAccordion(id: string) {
+  const context = React.useContext(AccordionContext);
 
-export { Accordion, AccordionContent, AccordionItem, AccordionTrigger };
+  const [isOpen, setIsOpen] = React.useState(false);
+
+  if (context === null) {
+    return {
+      isOpen,
+      toggle: () =>
+        setIsOpen((prevState) => {
+          return prevState === false;
+        }),
+    };
+  }
+
+  return {
+    isOpen: context.openItems.has(id),
+    toggle: () => context.toggleItem(id),
+  };
+}

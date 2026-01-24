@@ -13,6 +13,7 @@ import {
 
 export type Source = {
   source: string;
+  content_preview: string;
   page: number;
   url: string;
   source_document: string;

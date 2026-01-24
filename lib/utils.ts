@@ -9,8 +9,6 @@ import { type Source } from "@/lib/stores/chat-store.types";
 
 import { GROUP_PARTY_ID } from "./constants";
 
-const PRODUCTION_URL = "https://chatvote.fr";
-
 export async function getBaseUrl() {
   try {
     // Dynamic import to avoid "next/headers" being bundled in client code
@@ -26,7 +24,7 @@ export async function getBaseUrl() {
     // headers() not available (e.g., during build or client-side)
   }
 
-  return process.env.SITE_URL ?? PRODUCTION_URL;
+  return process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
 }
 
 export const IS_EMBEDDED = process.env.IS_EMBEDDED === "true";
@@ -225,4 +223,16 @@ export function makeFirebaseUserSerializable(
       lastSignInTime: user.metadata.lastSignInTime,
     },
   };
+}
+
+/**
+ * Converts literal escape sequences in a string to their actual characters.
+ * Handles common escape sequences: \n, \t, \r, \\
+ */
+export function unescapeString(str: string): string {
+  return str
+    .replace(/\\n/g, "\n")
+    .replace(/\\t/g, "\t")
+    .replace(/\\r/g, "\r")
+    .replace(/\\\\/g, "\\");
 }

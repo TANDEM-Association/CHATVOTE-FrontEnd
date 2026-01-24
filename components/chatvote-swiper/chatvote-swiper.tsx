@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useRouter } from "next/navigation";
 
@@ -17,6 +17,9 @@ const ChatvoteSwiper = () => {
   const finished = useChatvoteSwiperStore(
     (state) => state.thesesStack.length === 0,
   );
+  const hasHistory = useChatvoteSwiperStore(
+    (state) => Object.keys(state.history).length > 0,
+  );
   const saveSwiperHistory = useChatvoteSwiperStore(
     (state) => state.saveSwiperHistory,
   );
@@ -29,7 +32,7 @@ const ChatvoteSwiper = () => {
           "Erreur lors du calcul de vos résultats. Veuillez recharger la page.",
         );
 
-      if (!user) {
+      if (user === null) {
         errorToast();
         return;
       }
@@ -46,16 +49,13 @@ const ChatvoteSwiper = () => {
       }
     };
 
-    if (finished) {
+    // Only trigger save if finished AND there's actual history data
+    if (finished === true && hasHistory === true) {
       onFinished();
     }
-  }, [finished, router, saveSwiperHistory, user]);
+  }, [finished, hasHistory, router, saveSwiperHistory, user]);
 
-  const swipingCards = useMemo(() => {
-    return <SwipingCards />;
-  }, []);
-
-  if (isLoading) {
+  if (isLoading === true) {
     return (
       <div className="mx-auto mt-8 flex min-h-[calc(100vh-var(--header-height)-var(--footer-height))] w-full grow flex-col items-center justify-center gap-2">
         <LoadingSpinner />
@@ -64,7 +64,7 @@ const ChatvoteSwiper = () => {
     );
   }
 
-  return swipingCards;
+  return <SwipingCards />;
 };
 
 export default ChatvoteSwiper;

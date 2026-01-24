@@ -13,6 +13,12 @@ type BorderTrailProps = {
   style?: React.CSSProperties;
 };
 
+const BASE_TRANSITION: Transition = {
+  repeat: Number.POSITIVE_INFINITY,
+  duration: 5,
+  ease: "linear",
+};
+
 export function BorderTrail({
   className,
   size = 60,
@@ -21,14 +27,8 @@ export function BorderTrail({
   onAnimationComplete,
   style,
 }: BorderTrailProps) {
-  const BASE_TRANSITION = {
-    repeat: Number.POSITIVE_INFINITY,
-    duration: 5,
-    ease: "linear",
-  };
-
   return (
-    <div className="pointer-events-none absolute inset-0 rounded-[inherit] border border-transparent [mask-image:linear-gradient(transparent,transparent),linear-gradient(#000,#000)] [mask-composite:intersect] [mask-clip:padding-box,border-box]">
+    <div className="pointer-events-none absolute inset-0 rounded-[inherit] border border-transparent mask-[linear-gradient(transparent,transparent),linear-gradient(#000,#000)] mask-intersect [mask-clip:padding-box,border-box]">
       <motion.div
         className={cn("absolute aspect-square bg-zinc-500", className)}
         style={{

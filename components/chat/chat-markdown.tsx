@@ -2,7 +2,7 @@
 
 import { Markdown } from "@/components/markdown";
 import { type Source } from "@/lib/stores/chat-store.types";
-import { buildPdfUrl } from "@/lib/utils";
+import { buildPdfUrl, unescapeString } from "@/lib/utils";
 
 type Props = {
   message: {
@@ -46,11 +46,11 @@ function ChatMarkdown({ message }: Props) {
       return null;
     }
 
-    return `${source.source} - Seite: ${source.page}`;
+    return `${source.source} - Page: ${source.page}`;
   };
 
   const getReferenceName = (number: number) => {
-    if (!message.sources) {
+    if (message.sources === undefined) {
       return null;
     }
 
@@ -66,13 +66,15 @@ function ChatMarkdown({ message }: Props) {
     return `${number + 1}`;
   };
 
+  const normalizedContent = unescapeString(message.content ?? "");
+
   return (
     <Markdown
       onReferenceClick={onReferenceClick}
       getReferenceTooltip={getReferenceTooltip}
       getReferenceName={getReferenceName}
     >
-      {message.content ?? ""}
+      {normalizedContent}
     </Markdown>
   );
 }

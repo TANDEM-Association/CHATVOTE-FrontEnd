@@ -15,6 +15,7 @@ import { type GroupedMessage } from "@/lib/stores/chat-store.types";
 import ChatEmptyView from "./chat-empty-view";
 import ChatGroupedMessages from "./chat-grouped-messages";
 import ChatMessagesScrollView from "./chat-messages-scroll-view";
+import ChatPartyHeader from "./chat-party-header";
 import { INITIAL_MESSAGE_ID } from "./chat-single-user-message";
 import CurrentStreamingMessages from "./current-streaming-messages";
 
@@ -99,9 +100,12 @@ function ChatMessagesView({
 
   return (
     <ChatMessagesScrollView>
-      <div className="flex flex-col gap-6 px-3 py-4 md:px-[35px]">
+      {/* Sticky party header when there are messages */}
+      {normalizedMessages.length > 0 && <ChatPartyHeader parties={parties} />}
+
+      <div className="flex flex-col gap-6 px-3 py-4 md:px-9">
         {normalizedMessages.length === 0 && (
-          <div className="mt-12 flex h-full grow justify-center md:mt-24">
+          <div className="mt-12 flex h-full grow justify-center">
             <ChatEmptyView
               parties={parties}
               proposedQuestions={proposedQuestions}

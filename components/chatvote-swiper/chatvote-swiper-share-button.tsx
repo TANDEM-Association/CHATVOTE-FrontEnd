@@ -1,45 +1,41 @@
 "use client";
 
+import React, { useState } from "react";
+
 import { ShareIcon } from "lucide-react";
 
-import {
-  ResponsiveDialog,
-  ResponsiveDialogContent,
-  ResponsiveDialogDescription,
-  ResponsiveDialogHeader,
-  ResponsiveDialogTitle,
-  ResponsiveDialogTrigger,
-} from "@/components/chat/responsive-drawer-dialog";
 import { Button } from "@/components/ui/button";
-import {} from "@/components/ui/tooltip";
+import { Modal } from "@/components/ui/modal";
 
 import ChatvoteSwiperShareLinkInputForm from "./chatvote-swiper-share-input-form";
 
 const ChatvoteSwiperShareButton = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
-    <ResponsiveDialog>
-      <ResponsiveDialogTrigger asChild>
-        <Button variant="secondary">
-          <ShareIcon />
-          Partager
-        </Button>
-      </ResponsiveDialogTrigger>
+    <React.Fragment>
+      <Button variant="secondary" onClick={() => setIsOpen(true)}>
+        <ShareIcon />
+        Partager
+      </Button>
 
-      <ResponsiveDialogContent className="sm:max-w-md">
-        <ResponsiveDialogHeader>
-          <ResponsiveDialogTitle>
+      <Modal
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        className="w-full max-w-md p-6"
+      >
+        <div className="mb-4">
+          <h2 className="text-lg font-semibold">
             Partager le résultat du Swiper
-          </ResponsiveDialogTitle>
-          <ResponsiveDialogDescription>
+          </h2>
+          <p className="text-muted-foreground text-sm">
             Toute personne disposant de ce lien pourra voir ce résultat.
-          </ResponsiveDialogDescription>
-        </ResponsiveDialogHeader>
-
-        <div className="p-4 md:p-0">
-          <ChatvoteSwiperShareLinkInputForm />
+          </p>
         </div>
-      </ResponsiveDialogContent>
-    </ResponsiveDialog>
+
+        <ChatvoteSwiperShareLinkInputForm />
+      </Modal>
+    </React.Fragment>
   );
 };
 

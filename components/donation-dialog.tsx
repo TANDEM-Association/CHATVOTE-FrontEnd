@@ -1,32 +1,30 @@
-import {
-  ResponsiveDialog,
-  ResponsiveDialogContent,
-  ResponsiveDialogDescription,
-  ResponsiveDialogTitle,
-  ResponsiveDialogTrigger,
-} from "./chat/responsive-drawer-dialog";
+"use client";
+
+import React, { useState } from "react";
+
+import { Modal } from "./ui/modal";
 import DonationForm from "./donation-form";
-import VisuallyHidden from "./visually-hidden";
 
 type Props = {
   children: React.ReactNode;
 };
 
-function DonationDialog({ children }: Props) {
+const DonationDialog = ({ children }: Props) => {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
-    <ResponsiveDialog>
-      <ResponsiveDialogTrigger asChild>{children}</ResponsiveDialogTrigger>
-      <ResponsiveDialogContent>
-        <VisuallyHidden>
-          <ResponsiveDialogTitle>Faire un don</ResponsiveDialogTitle>
-          <ResponsiveDialogDescription>
-            Maintenez chatvote en vie grâce à votre don !
-          </ResponsiveDialogDescription>
-        </VisuallyHidden>
+    <React.Fragment>
+      <div onClick={() => setIsOpen(true)}>{children}</div>
+
+      <Modal
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        className="w-full max-w-lg p-6"
+      >
         <DonationForm />
-      </ResponsiveDialogContent>
-    </ResponsiveDialog>
+      </Modal>
+    </React.Fragment>
   );
-}
+};
 
 export default DonationDialog;

@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 
 import { Analytics } from "@vercel/analytics/react";
@@ -10,40 +12,41 @@ import {
 import AuthServiceWorkerProvider from "@/components/providers/auth-service-worker-provider";
 import { PartiesProvider } from "@/components/providers/parties-provider";
 import TenantProvider from "@/components/providers/tenant-provider";
-import { ThemeProvider } from "@/components/providers/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { type Device } from "@/lib/device";
 import { type Tenant } from "@/lib/firebase/firebase.types";
 import { type PartyDetails } from "@/lib/party-details";
-import { IS_EMBEDDED } from "@/lib/utils";
 
 type AppProviderProps = {
   children: React.ReactNode;
   user: FullUser | null;
   tenant: Tenant | undefined;
+  device: Device;
   parties: PartyDetails[];
 };
+
+type AppContextValue = {
+  device: Device;
+};
+
+const AppContext = React.createContext<AppContextValue | null>(null);
 
 export const AppProvider: React.FC<AppProviderProps> = ({
   children,
   user,
   tenant,
+  device,
   parties,
 }) => {
   return (
-    <React.Fragment>
+    <AppContext.Provider value={{ device }}>
       <AuthServiceWorkerProvider />
       <TooltipProvider>
         <AnonymousAuthProvider user={user}>
           <TenantProvider tenant={tenant}>
             <LazyMotion features={domAnimation}>
-              <ThemeProvider
-                attribute="class"
-                enableSystem={!IS_EMBEDDED}
-                disableTransitionOnChange
-              >
-                <PartiesProvider parties={parties}>{children}</PartiesProvider>
-              </ThemeProvider>
+              <PartiesProvider parties={parties}>{children}</PartiesProvider>
               <Toaster expand duration={1500} position="top-right" />
               {/* <LoginReminderToast /> */}
               {/* TODO: implement again when problems are fixed <IframeChecker /> */}
@@ -52,6 +55,15 @@ export const AppProvider: React.FC<AppProviderProps> = ({
           </TenantProvider>
         </AnonymousAuthProvider>
       </TooltipProvider>
-    </React.Fragment>
+    </AppContext.Provider>
   );
 };
+
+export function useAppContext() {
+  const context = React.useContext(AppContext);
+
+  if (context === null) {
+    throw new Error("useApp must be used within an AppProvider");
+  }
+  return context;
+}

@@ -26,7 +26,7 @@ const SwipingCards = () => {
   return (
     <div className="flex flex-col md:gap-4">
       <Progress value={progress} className="my-4 h-2 w-full" />
-      <div className="relative mx-auto flex h-[200px] w-full max-w-80 items-center justify-center [@media(min-height:600px)]:aspect-square [@media(min-height:650px)]:h-auto">
+      <div className="relative mx-auto flex h-52 w-full max-w-80 items-center justify-center [@media(min-height:600px)]:aspect-square [@media(min-height:650px)]:h-auto">
         {currentThesesStack.map((card, index) => (
           <ThesisCard
             key={card.id}

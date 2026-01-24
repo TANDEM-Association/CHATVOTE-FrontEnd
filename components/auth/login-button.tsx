@@ -1,43 +1,26 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 
 import { useAnonymousAuth } from "@/components/anonymous-auth";
-import {
-  ResponsiveDialog,
-  ResponsiveDialogContent,
-  ResponsiveDialogTrigger,
-} from "@/components/chat/responsive-drawer-dialog";
+import { Modal } from "@/components/ui/modal";
 import { getUserDetailsFromUser, type UserDetails } from "@/lib/utils";
 
 import LoginForm from "./login-form";
 import UserDialog from "./user-dialog";
 
 type Props = {
-  userDialogAsChild?: boolean;
   noUserChildren?: React.ReactNode;
   userChildren?: React.ReactNode;
   userDetails?: UserDetails;
 };
 
-function LoginButton({
-  noUserChildren,
-  userChildren,
-  userDetails,
-  userDialogAsChild,
-}: Props) {
+const LoginButton = ({ noUserChildren, userChildren, userDetails }: Props) => {
   const { user } = useAnonymousAuth();
   const [isOpen, setIsOpen] = useState(false);
 
   const handleSuccess = () => {
     setIsOpen(false);
-
-    // hacky fix since the sidebar collides with the drawer's pointer events settings
-    setTimeout(() => {
-      if (document) {
-        document.body.style.pointerEvents = "auto";
-      }
-    }, 500);
   };
 
   const clientUserDetails = user ? getUserDetailsFromUser(user) : undefined;
@@ -54,27 +37,25 @@ function LoginButton({
     }
 
     return (
-      <UserDialog
-        details={userDetails ?? clientUserDetails}
-        asChild={userDialogAsChild}
-      >
+      <UserDialog details={userDetails ?? clientUserDetails}>
         {userChildren}
       </UserDialog>
     );
   }
 
   return (
-    <>
-      <ResponsiveDialog open={isOpen} onOpenChange={setIsOpen}>
-        <ResponsiveDialogTrigger asChild>
-          {noUserChildren}
-        </ResponsiveDialogTrigger>
-        <ResponsiveDialogContent>
-          <LoginForm onSuccess={handleSuccess} />
-        </ResponsiveDialogContent>
-      </ResponsiveDialog>
-    </>
+    <React.Fragment>
+      <div onClick={() => setIsOpen(true)}>{noUserChildren}</div>
+
+      <Modal
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        className="w-full max-w-md p-6"
+      >
+        <LoginForm onSuccess={handleSuccess} />
+      </Modal>
+    </React.Fragment>
   );
-}
+};
 
 export default LoginButton;

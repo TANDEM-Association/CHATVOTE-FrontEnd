@@ -3,7 +3,7 @@ import Link from "next/link";
 import { RefreshCcwIcon } from "lucide-react";
 
 import ChatGroupPartySelect from "@/components/chat/chat-group-party-select";
-import { Accordion } from "@/components/ui/accordion";
+import { AccordionGroup } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { type PartiesScoreResult } from "@/lib/chatvote-swiper/chatvote-swiper.types";
 import { type PartyDetails } from "@/lib/party-details";
@@ -31,17 +31,21 @@ const ChatvoteSwiperResult = ({
   );
 
   return (
-    <div className="relative mx-auto mt-4 flex w-full flex-col gap-4">
+    <div className="relative mx-auto mt-4 flex size-full flex-col items-center justify-start gap-4">
       <div className="flex flex-col">
         <h1 className="text-lg font-bold">Résultats du Swiper</h1>
-        <p className="text-muted-foreground text-sm">
-          Ce résultat ne sert que de première orientation. Questionnez-le de
-          manière critique et consultez vous-même les programmes électoraux -
-          notre chat de comparaison peut vous aider :{" "}
+        <div className="text-muted-foreground flex flex-col gap-1 text-sm">
+          <p>
+            Ce résultat ne sert que de première orientation. Questionnez-le de
+            manière critique et consultez vous-même les programmes électoraux -
+            notre chat de comparaison peut vous aider :
+          </p>
           <ChatGroupPartySelect>
-            <span className="underline">Chat de comparaison</span>
+            <span className="cursor-pointer underline">
+              Chat de comparaison
+            </span>
           </ChatGroupPartySelect>
-        </p>
+        </div>
       </div>
 
       <ChatvoteSwiperSurveyLoginCard
@@ -49,11 +53,11 @@ const ChatvoteSwiperResult = ({
         userDetails={userDetails}
       />
 
-      <Accordion type="single" collapsible className="flex flex-col gap-2">
+      <AccordionGroup multiple={true}>
         {sortedScores.map(([party, score]) => {
           const partyDetails = parties.find((p) => p.party_id === party);
 
-          if (!partyDetails) {
+          if (partyDetails === undefined) {
             return null;
           }
 
@@ -65,8 +69,8 @@ const ChatvoteSwiperResult = ({
             />
           );
         })}
-      </Accordion>
-      <div className="bg-background/20 sticky inset-x-0 bottom-0 z-10 backdrop-blur-sm">
+      </AccordionGroup>
+      <div className="bg-background/20 inset-x-0 bottom-0 backdrop-blur-sm">
         <div className="mt-2 mb-4 grid grid-cols-2 gap-2">
           <Button asChild>
             <Link href="/swiper">

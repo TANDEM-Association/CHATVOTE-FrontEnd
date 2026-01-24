@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
       return new Response("Bad Request: Invalid tag", { status: 400 });
     }
 
-    revalidateTag(tag);
+    revalidateTag(tag, { expire: 60 * 60 * 24 });
     return new Response("Revalidation successful", { status: 200 });
   } catch (error) {
     console.error("Revalidation error:", error);

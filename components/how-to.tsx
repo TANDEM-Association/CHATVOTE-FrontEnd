@@ -12,12 +12,7 @@ import {
 import ChatActionButtonHighlight from "./chat/chat-action-button-highlight";
 import { MAX_SELECTABLE_PARTIES } from "./chat/chat-group-party-select-content";
 import ProConIcon from "./chat/pro-con-icon";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "./ui/accordion";
+import { AccordionGroup, AccordionItem } from "./ui/accordion";
 import { Button } from "./ui/button";
 
 function HowTo() {
@@ -47,7 +42,7 @@ function HowTo() {
   };
 
   return (
-    <Accordion type="single" collapsible asChild>
+    <AccordionGroup>
       <article>
         <section>
           <p>
@@ -92,11 +87,9 @@ function HowTo() {
         </section>
 
         <section className="mt-6">
-          <AccordionItem value="questions">
-            <AccordionTrigger className="font-bold">
-              Quelles questions puis-je poser ?
-            </AccordionTrigger>
-            <AccordionContent>
+          <AccordionItem title="Questions">
+            <div className="font-bold">Quelles questions puis-je poser ?</div>
+            <div>
               En principe, vous pouvez poser toutes les questions que vous avez
               sur les programmes des partis ou leurs positions. De plus, vous
               pouvez également poser des questions sur des sujets généraux comme
@@ -150,14 +143,14 @@ function HowTo() {
                   </li>
                 ))}
               </ul>
-            </AccordionContent>
+            </div>
           </AccordionItem>
 
-          <AccordionItem value="number-parties">
-            <AccordionTrigger className="font-bold">
+          <AccordionItem title="number-parties">
+            <div className="font-bold">
               Avec combien de partis puis-je discuter ?
-            </AccordionTrigger>
-            <AccordionContent>
+            </div>
+            <div>
               Vous pouvez démarrer le chat avec jusqu&lsquo;à{" "}
               <span className="font-bold">{MAX_SELECTABLE_PARTIES} partis</span>{" "}
               simultanément, mais vous avez la possibilité d&lsquo;ajouter
@@ -170,14 +163,12 @@ function HowTo() {
                 <PlusIcon className="bg-primary text-primary-foreground size-4 rounded-full p-1" />
               </span>{" "}
               au-dessus du champ de texte.
-            </AccordionContent>
+            </div>
           </AccordionItem>
 
-          <AccordionItem value="position">
-            <AccordionTrigger className="font-bold">
-              Évaluer la position
-            </AccordionTrigger>
-            <AccordionContent>
+          <AccordionItem title="position">
+            <div className="font-bold">Évaluer la position</div>
+            <div>
               <div className="my-2 flex items-center justify-center">
                 <div className="relative rounded-md">
                   <Button
@@ -201,14 +192,12 @@ function HowTo() {
                 Nous utilisons des informations et sources actuelles
                 d&lsquo;Internet fournies par Perplexity.ai.
               </p>
-            </AccordionContent>
+            </div>
           </AccordionItem>
 
-          <AccordionItem value="voting-behavior-analyze">
-            <AccordionTrigger className="font-bold">
-              Analyser le comportement de vote
-            </AccordionTrigger>
-            <AccordionContent>
+          <AccordionItem title="voting-behavior-analyze">
+            <div className="font-bold">Analyser le comportement de vote</div>
+            <div>
               <div className="my-2 flex items-center justify-center">
                 <div className="relative rounded-md">
                   <Button
@@ -231,14 +220,12 @@ function HowTo() {
                 vous pouvez voir des informations détaillées sur les votes du
                 parti.
               </p>
-            </AccordionContent>
+            </div>
           </AccordionItem>
 
-          <AccordionItem value="data">
-            <AccordionTrigger className="font-bold">
-              Quelles données sont utilisées ?
-            </AccordionTrigger>
-            <AccordionContent>
+          <AccordionItem title="data">
+            <div className="font-bold">Quelles données sont utilisées ?</div>
+            <div>
               Pour fournir des réponses fondées et neutres,{" "}
               <span className="font-bold underline">chatvote</span> utilise une
               variété de sources de données :
@@ -282,13 +269,13 @@ function HowTo() {
                 ici
               </Link>
               .
-            </AccordionContent>
+            </div>
           </AccordionItem>
-          <AccordionItem value="guidelines">
-            <AccordionTrigger className="font-bold">
+          <AccordionItem title="guidelines">
+            <div className="font-bold">
               Quelles directives chatvote suit-il dans ses réponses ?
-            </AccordionTrigger>
-            <AccordionContent>
+            </div>
+            <div>
               Les directives suivantes s&lsquo;appliquent aux réponses dans les
               chats :
               <ol className="list-outside list-decimal py-4 pl-4 [&_li]:pt-1">
@@ -315,13 +302,13 @@ function HowTo() {
                   </div>
                 </li>
               </ol>
-            </AccordionContent>
+            </div>
           </AccordionItem>
-          <AccordionItem value="party-selection">
-            <AccordionTrigger className="font-bold">
+          <AccordionItem title="party-selection">
+            <div className="font-bold">
               Selon quels critères les partis sont-ils sélectionnés ?
-            </AccordionTrigger>
-            <AccordionContent>
+            </div>
+            <div>
               La sélection initiale des partis a été effectuée et s&lsquo;est
               basée sur la publication de leurs programmes électoraux. Nous
               voulons maintenant ajouter progressivement les partis manquants et
@@ -334,11 +321,11 @@ function HowTo() {
                 info@chatvote.fr
               </a>
               , et nous l&lsquo;ajouterons dès que possible.
-            </AccordionContent>
+            </div>
           </AccordionItem>
         </section>
       </article>
-    </Accordion>
+    </AccordionGroup>
   );
 }
 

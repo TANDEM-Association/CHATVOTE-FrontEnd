@@ -1,17 +1,16 @@
 "use client";
 
-import { use, useState } from "react";
+import { useState } from "react";
 
 import Link from "next/link";
 
 import { CircleXIcon, EllipsisIcon } from "lucide-react";
 
 import PartyCard from "@/components/party-card";
-import { PartiesContext } from "@/components/providers/parties-provider";
+import { useParties } from "@/components/providers/parties-provider";
 import { cn } from "@/lib/utils";
 
 import Logo from "./chat/logo";
-import LoadingPartyCards from "./home/loading-party-cards";
 import { Button } from "./ui/button";
 import {
   Collapsible,
@@ -36,26 +35,20 @@ function PartyCards({
   gridColumns = 4,
   showChatvoteButton = false,
 }: Props) {
-  const context = use(PartiesContext);
-  const smallParties = context?.parties?.filter((p) => p.is_small_party);
-  const largeParties = context?.parties?.filter((p) => !p.is_small_party);
+  const parties = useParties();
+
+  const smallParties = parties.filter((party) => {
+    return party.is_small_party === true;
+  });
+  const largeParties = parties.filter((party) => {
+    return party.is_small_party === false;
+  });
 
   const defaultShowMore = !!smallParties?.find((p) =>
     selectedPartyIds?.includes(p.party_id),
   );
 
   const [showMore, setShowMore] = useState(defaultShowMore);
-
-  if (!context?.parties) {
-    return (
-      <LoadingPartyCards
-        // TODO: make more dynamic
-        partyCount={gridColumns === 3 ? 9 : 8}
-        className={className}
-        gridColumns={gridColumns}
-      />
-    );
-  }
 
   return (
     <Collapsible open={showMore} onOpenChange={setShowMore} asChild>

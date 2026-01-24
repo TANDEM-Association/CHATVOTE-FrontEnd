@@ -1,12 +1,10 @@
+"use client";
+
+import React, { useState } from "react";
+
+import { Modal } from "@/components/ui/modal";
+
 import ChatGroupPartySelectContent from "./chat-group-party-select-content";
-import {
-  ResponsiveDialog,
-  ResponsiveDialogContent,
-  ResponsiveDialogDescription,
-  ResponsiveDialogHeader,
-  ResponsiveDialogTitle,
-  ResponsiveDialogTrigger,
-} from "./responsive-drawer-dialog";
 
 type Props = {
   children: React.ReactNode;
@@ -15,32 +13,44 @@ type Props = {
   addPartiesToChat?: boolean;
 };
 
-function ChatGroupPartySelect({
+const ChatGroupPartySelect = ({
   children,
   onNewChat,
   selectedPartyIdsInStore,
   addPartiesToChat,
-}: Props) {
+}: Props) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleNewChat = (partyIds: string[]) => {
+    setIsOpen(false);
+    onNewChat?.(partyIds);
+  };
+
   return (
-    <ResponsiveDialog>
-      <ResponsiveDialogTrigger asChild>{children}</ResponsiveDialogTrigger>
-      <ResponsiveDialogContent>
-        <ResponsiveDialogHeader className="text-left">
-          <ResponsiveDialogTitle>Sélection des partis</ResponsiveDialogTitle>
-          <ResponsiveDialogDescription>
+    <React.Fragment>
+      <div onClick={() => setIsOpen(true)}>{children}</div>
+
+      <Modal
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        className="w-full max-w-lg p-6"
+      >
+        <div className="mb-4 text-left">
+          <h2 className="text-lg font-semibold">Sélection des partis</h2>
+          <p className="text-muted-foreground text-sm">
             {addPartiesToChat
               ? "Modifiez les partis sélectionnés."
               : "Sélectionnez jusqu'à sept partis avec lesquels vous souhaitez démarrer le chat."}
-          </ResponsiveDialogDescription>
-        </ResponsiveDialogHeader>
+          </p>
+        </div>
         <ChatGroupPartySelectContent
           selectedPartyIdsInStore={selectedPartyIdsInStore}
-          onNewChat={onNewChat}
+          onNewChat={handleNewChat}
           addPartiesToChat={addPartiesToChat}
         />
-      </ResponsiveDialogContent>
-    </ResponsiveDialog>
+      </Modal>
+    </React.Fragment>
   );
-}
+};
 
 export default ChatGroupPartySelect;

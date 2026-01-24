@@ -80,22 +80,26 @@ const NonMemoizedMarkdown = ({
   }
 
   const components: Partial<Components> = {
-    code: ({ inline, className, children, ...props }) => {
+    code: ({ className, children, node, ...props }) => {
       const match = /language-(\w+)/.exec(className || "");
-      return !inline && match ? (
-        <pre
-          {...props}
-          className={`${className} mt-2 w-[80dvw] overflow-x-scroll rounded-lg bg-zinc-100 p-3 text-sm md:max-w-[500px] dark:bg-zinc-800`}
-        >
-          <code className={match[1]}>{children}</code>
+      const isInline =
+        node?.position?.start.line === node?.position?.end.line && !match;
+
+      if (isInline === true) {
+        return (
+          <code
+            className={`${className ?? ""} rounded-md bg-zinc-100 px-1 py-0.5 text-sm dark:bg-zinc-800`}
+            {...props}
+          >
+            {children}
+          </code>
+        );
+      }
+
+      return (
+        <pre className="mt-2 w-[80dvw] overflow-x-scroll rounded-lg bg-zinc-100 p-3 text-sm md:max-w-[500px] dark:bg-zinc-800">
+          <code className={match?.[1] ?? className}>{children}</code>
         </pre>
-      ) : (
-        <code
-          className={`${className} rounded-md bg-zinc-100 px-1 py-0.5 text-sm dark:bg-zinc-800`}
-          {...props}
-        >
-          {children}
-        </code>
       );
     },
     ol: ({ children, ...props }) => {
@@ -132,12 +136,13 @@ const NonMemoizedMarkdown = ({
     p: ({ children, ...props }) => {
       return checkAndBuildReference("p", { children, ...props });
     },
-    a: ({ children, ...props }) => {
+    a: ({ children, href, ...props }) => {
       return (
         <Link
           className="text-blue-500 hover:underline"
           target="_blank"
           rel="noreferrer"
+          href={href ?? "#"}
           {...props}
         >
           {children}
