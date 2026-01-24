@@ -1,9 +1,7 @@
 import AnonymousUserChatStoreUpdater from "@/components/auth/anonymous-user-chat-store-updater";
-import ChatHeader from "@/components/chat/chat-header";
-import ChatSidebar from "@/components/chat/sidebar/chat-sidebar";
 import { ChatStoreProvider } from "@/components/providers/chat-store-provider";
 import SocketProvider from "@/components/providers/socket-provider";
-import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 
 type Props = {
   children: React.ReactNode;
@@ -14,13 +12,7 @@ async function Layout({ children }: Props) {
     <ChatStoreProvider>
       <AnonymousUserChatStoreUpdater />
       <SocketProvider>
-        <SidebarProvider defaultOpen={true}>
-          <ChatSidebar />
-          <SidebarInset className="flex h-dvh flex-col overflow-hidden">
-            <ChatHeader />
-            {children}
-          </SidebarInset>
-        </SidebarProvider>
+        <SidebarProvider defaultOpen={false}>{children}</SidebarProvider>
       </SocketProvider>
     </ChatStoreProvider>
   );

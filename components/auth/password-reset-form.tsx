@@ -3,10 +3,6 @@ import { useState } from "react";
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 import { toast } from "sonner";
 
-import {
-  ResponsiveDialogDescription,
-  ResponsiveDialogTitle,
-} from "@/components/chat/responsive-drawer-dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -15,7 +11,7 @@ type Props = {
   onChangeView: () => void;
 };
 
-function PasswordResetForm({ onChangeView }: Props) {
+const PasswordResetForm = ({ onChangeView }: Props) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -32,15 +28,15 @@ function PasswordResetForm({ onChangeView }: Props) {
   };
 
   return (
-    <form className="flex flex-col p-4 md:p-0" onSubmit={handleSubmit}>
+    <form className="flex flex-col" onSubmit={handleSubmit}>
       <div className="mb-4">
-        <ResponsiveDialogTitle className="text-center text-2xl font-bold md:text-left">
+        <h2 className="text-center text-2xl font-bold md:text-left">
           Mot de passe oublié ?
-        </ResponsiveDialogTitle>
-        <ResponsiveDialogDescription className="text-muted-foreground text-center text-sm md:text-left">
+        </h2>
+        <p className="text-muted-foreground text-center text-sm md:text-left">
           Entrez votre e-mail et nous vous enverrons un lien pour réinitialiser
           votre mot de passe.
-        </ResponsiveDialogDescription>
+        </p>
       </div>
 
       <div className="flex flex-col gap-4">
@@ -72,6 +68,6 @@ function PasswordResetForm({ onChangeView }: Props) {
       </div>
     </form>
   );
-}
+};
 
 export default PasswordResetForm;

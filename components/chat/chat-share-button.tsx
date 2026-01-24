@@ -1,9 +1,12 @@
 "use client";
 
+import React, { useState } from "react";
+
 import { ShareIcon } from "lucide-react";
 
 import { useChatStore } from "@/components/providers/chat-store-provider";
 import { Button } from "@/components/ui/button";
+import { Modal } from "@/components/ui/modal";
 import {
   Tooltip,
   TooltipContent,
@@ -11,52 +14,51 @@ import {
 } from "@/components/ui/tooltip";
 
 import ChatShareLinkInputForm from "./chat-share-link-input-form";
-import {
-  ResponsiveDialog,
-  ResponsiveDialogContent,
-  ResponsiveDialogDescription,
-  ResponsiveDialogHeader,
-  ResponsiveDialogTitle,
-  ResponsiveDialogTrigger,
-} from "./responsive-drawer-dialog";
 
-function ChatShareButton() {
+const ChatShareButton = () => {
+  const [isOpen, setIsOpen] = useState(false);
   const sharePrivateSession = useChatStore(
     (state) => state.messages.length > 0,
   );
 
   return (
-    <ResponsiveDialog>
+    <React.Fragment>
       <Tooltip>
         <TooltipTrigger asChild>
-          <ResponsiveDialogTrigger asChild>
-            <Button variant="ghost" size="icon" className="size-8">
-              <ShareIcon />
-            </Button>
-          </ResponsiveDialogTrigger>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="size-8"
+            onClick={() => setIsOpen(true)}
+          >
+            <ShareIcon />
+          </Button>
         </TooltipTrigger>
         <TooltipContent>Partager la session de chat</TooltipContent>
       </Tooltip>
-      <ResponsiveDialogContent className="sm:max-w-md">
-        <ResponsiveDialogHeader>
-          <ResponsiveDialogTitle>
+
+      <Modal
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        className="w-full max-w-md p-6"
+      >
+        <div className="mb-4">
+          <h2 className="text-lg font-semibold">
             {sharePrivateSession
               ? "Partager la session de chat"
               : "Partager chatvote"}
-          </ResponsiveDialogTitle>
-          <ResponsiveDialogDescription>
+          </h2>
+          <p className="text-muted-foreground text-sm">
             {sharePrivateSession
               ? "Toute personne disposant de ce lien peut voir cette session de chat."
               : "Partagez chatvote avec vos amis et votre famille."}
-          </ResponsiveDialogDescription>
-        </ResponsiveDialogHeader>
-
-        <div className="p-4 md:p-0">
-          <ChatShareLinkInputForm sharePrivateSession={sharePrivateSession} />
+          </p>
         </div>
-      </ResponsiveDialogContent>
-    </ResponsiveDialog>
+
+        <ChatShareLinkInputForm sharePrivateSession={sharePrivateSession} />
+      </Modal>
+    </React.Fragment>
   );
-}
+};
 
 export default ChatShareButton;

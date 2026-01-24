@@ -14,7 +14,7 @@ function ChatMessagesScrollView({ children }: Props) {
 
   return (
     <div
-      className="grow overflow-x-hidden overflow-y-scroll"
+      className="min-h-0 flex-1 overflow-x-hidden overflow-y-auto overscroll-contain lg:mx-auto lg:w-282"
       id={SCROLL_CONTAINER_ID}
     >
       {children}

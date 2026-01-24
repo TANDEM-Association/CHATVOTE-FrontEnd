@@ -7,7 +7,7 @@ import { SparklesIcon } from "lucide-react";
 import { useParty } from "@/components/providers/parties-provider";
 import { ASSISTANT_ID } from "@/lib/constants";
 import { type PartyDetails } from "@/lib/party-details";
-import { buildPartyImageUrl, cn } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 
 import Logo from "./logo";
 
@@ -23,19 +23,19 @@ export function ChatMessageIcon({ partyId, party }: Props) {
 
   return (
     <div
-      style={{ backgroundColor: normalizedParty?.background_color }}
       className={cn(
-        "ring-border relative flex size-8 shrink-0 items-center justify-center overflow-hidden rounded-full ring-1",
+        "ring-border relative flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-full bg-white ring-1 ring-neutral-400",
         party && "dark:bg-slate-200",
       )}
     >
       {normalizedParty ? (
         <Image
-          src={buildPartyImageUrl(normalizedParty?.party_id ?? "")}
-          alt={normalizedParty?.name ?? "Keine Partei ausgewählt"}
-          fill
-          sizes="32px"
-          className="object-contain"
+          src={normalizedParty.logo_url}
+          alt={normalizedParty.name}
+          sizes="100vw"
+          width={0}
+          height={0}
+          className="size-full object-contain p-1"
         />
       ) : partyId === ASSISTANT_ID ? (
         <Logo variant="small" className="size-8 p-2" />

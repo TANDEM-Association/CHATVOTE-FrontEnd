@@ -1,8 +1,8 @@
 "use client";
 
 import { Moon, Sun } from "lucide-react";
-import { useTheme } from "next-themes";
 
+import { useAppContext } from "@/app/_providers/AppProvider";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -10,7 +10,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useIsDesktop } from "@/lib/hooks/use-is-desktop";
+import { useTheme } from "@/lib/hooks/useTheme";
 
 type Props = {
   align?: "start" | "end" | "center";
@@ -18,7 +18,8 @@ type Props = {
 
 export function ThemeModeToggle({ align }: Props) {
   const { setTheme } = useTheme();
-  const isDesktop = useIsDesktop();
+  const { device } = useAppContext();
+  const isDesktop = device === "desktop" || device === "tablet";
 
   const normalizedAlign = align ?? (isDesktop ? "start" : "center");
 
@@ -33,13 +34,13 @@ export function ThemeModeToggle({ align }: Props) {
       </DropdownMenuTrigger>
       <DropdownMenuContent align={normalizedAlign}>
         <DropdownMenuItem onClick={() => setTheme("light")}>
-          Hell
+          Clair
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme("dark")}>
-          Dunkel
+          Sombre
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme("system")}>
-          System
+          Système
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

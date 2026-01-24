@@ -5,8 +5,8 @@ import { useLayoutEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
 import { MinusIcon, PlusIcon, ShieldAlert } from "lucide-react";
-import { type PDFDocumentProxy } from "pdfjs-dist";
 import { Document, Page, pdfjs } from "react-pdf";
+import { type DocumentCallback } from "react-pdf/dist/esm/shared/types.js";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { FixedSizeList as List } from "react-window";
 
@@ -21,14 +21,27 @@ import {
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/TextLayer.css";
 
-pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-  "pdfjs-dist/build/pdf.worker.min.mjs",
-  import.meta.url,
-).toString();
+pdfjs.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.mjs";
+
+function getProxiedPdfUrl(url: string | null): string | null {
+  if (url === null) {
+    return null;
+  }
+
+  if (
+    url.includes("firebasestorage.app") ||
+    url.includes("storage.googleapis.com")
+  ) {
+    return `/api/pdf-proxy?url=${encodeURIComponent(url)}`;
+  }
+
+  return url;
+}
 
 function PDFView() {
   const searchParams = useSearchParams();
-  const pdfPath = searchParams.get("pdf");
+  const rawPdfPath = searchParams.get("pdf");
+  const pdfPath = getProxiedPdfUrl(rawPdfPath);
   const page = searchParams.get("page");
 
   const [numPages, setNumPages] = useState<number>(0);
@@ -52,7 +65,8 @@ function PDFView() {
     }
   };
 
-  const onDocumentLoadSuccess = ({ numPages }: PDFDocumentProxy): void => {
+  const onDocumentLoadSuccess = (pdf: DocumentCallback): void => {
+    const { numPages } = pdf;
     setNumPages(numPages);
 
     if (page) {
@@ -201,7 +215,7 @@ function PDFView() {
                 <MinusIcon className="size-4" />
               </Button>
             </TooltipTrigger>
-            <TooltipContent align="end">-10%</TooltipContent>
+            <TooltipContent>-10%</TooltipContent>
           </Tooltip>
 
           <div className="flex flex-col items-center text-center">
@@ -222,7 +236,7 @@ function PDFView() {
                 <PlusIcon className="size-4" />
               </Button>
             </TooltipTrigger>
-            <TooltipContent align="end">+10%</TooltipContent>
+            <TooltipContent>+10%</TooltipContent>
           </Tooltip>
         </div>
       </div>

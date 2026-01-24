@@ -1,8 +1,11 @@
-import { useMemo } from "react";
+"use client";
+
+import React, { useMemo, useState } from "react";
 
 import { BookMarkedIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { Modal } from "@/components/ui/modal";
 import {
   Tooltip,
   TooltipContent,
@@ -12,14 +15,6 @@ import { type Source } from "@/lib/stores/chat-store.types";
 import { buildPdfUrl, cn, prettyDate } from "@/lib/utils";
 
 import { ChatMessageIcon } from "./chat-message-icon";
-import {
-  ResponsiveDialog,
-  ResponsiveDialogContent,
-  ResponsiveDialogDescription,
-  ResponsiveDialogHeader,
-  ResponsiveDialogTitle,
-  ResponsiveDialogTrigger,
-} from "./responsive-drawer-dialog";
 
 type Props = {
   sources: Source[];
@@ -28,7 +23,9 @@ type Props = {
 
 type SourceWithIndex = Source & { index: number };
 
-function SourcesButton({ sources, messageContent }: Props) {
+const SourcesButton = ({ sources, messageContent }: Props) => {
+  const [isOpen, setIsOpen] = useState(false);
+
   const buildSourceKey = (source: Source, index: number) =>
     `${source.source}-${source.page}-${index}`;
 
@@ -39,7 +36,9 @@ function SourcesButton({ sources, messageContent }: Props) {
     const numbers = matches?.flatMap((match) => {
       const numbers = match.match(/^\[(\d+(?:\s*,\s*\d+)*)\]$/);
 
-      if (!numbers) return [];
+      if (!numbers) {
+        return [];
+      }
       const numbersArray = numbers[1].split(",");
       return numbersArray.map((number) => Number.parseInt(number));
     });
@@ -71,38 +70,46 @@ function SourcesButton({ sources, messageContent }: Props) {
   }
 
   return (
-    <ResponsiveDialog>
+    <React.Fragment>
       <Tooltip>
         <TooltipTrigger asChild>
-          <ResponsiveDialogTrigger asChild>
-            <Button
-              variant="outline"
-              className="h-8 px-2 text-xs group-data-[has-message-background]:bg-zinc-100 group-data-[has-message-background]:hover:bg-zinc-200 group-data-[has-message-background]:dark:bg-zinc-900 group-data-[has-message-background]:dark:hover:bg-zinc-800"
-            >
-              <BookMarkedIcon />
-              Sources
-            </Button>
-          </ResponsiveDialogTrigger>
+          <Button
+            variant="outline"
+            className="h-8 px-2 text-xs group-data-has-message-background:bg-zinc-100 group-data-has-message-background:hover:bg-zinc-200 group-data-has-message-background:dark:bg-zinc-900 group-data-has-message-background:dark:hover:bg-zinc-800"
+            onClick={() => setIsOpen(true)}
+          >
+            <BookMarkedIcon />
+            Sources
+          </Button>
         </TooltipTrigger>
         <TooltipContent>Sources</TooltipContent>
       </Tooltip>
-      <ResponsiveDialogContent className="flex max-h-[95dvh] flex-col">
-        <ResponsiveDialogHeader>
-          <ResponsiveDialogTitle>Sources</ResponsiveDialogTitle>
-          <ResponsiveDialogDescription>
+
+      <Modal
+        isOpen={isOpen}
+        onClose={() => {
+          setIsOpen(false);
+        }}
+        className="flex max-h-[85dvh] w-full max-w-lg flex-col p-6"
+      >
+        <div className="mb-4">
+          <h2 className="text-lg font-semibold">Sources</h2>
+          <p className="text-muted-foreground text-sm">
             Cliquez sur une source pour l&lsquo;ouvrir dans une nouvelle
             fenêtre.
-          </ResponsiveDialogDescription>
-        </ResponsiveDialogHeader>
+          </p>
+        </div>
 
-        <div className={cn("flex grow flex-col overflow-y-auto p-4 md:p-0")}>
-          {sourcesReferenced.length > 0 && (
+        <div className={cn("flex grow flex-col overflow-y-auto")}>
+          {sourcesReferenced.length > 0 ? (
             <p className="text-sm font-bold">Référencé dans le texte :</p>
-          )}
-          {sourcesReferenced.map((source, index) => (
-            <SourceItem key={buildSourceKey(source, index)} source={source} />
-          ))}
-          {sourcesNotReferenced.length > 0 && (
+          ) : null}
+          {sourcesReferenced.map((source, index) => {
+            return (
+              <SourceItem key={buildSourceKey(source, index)} source={source} />
+            );
+          })}
+          {sourcesNotReferenced.length > 0 ? (
             <p
               className={cn(
                 "text-sm font-bold",
@@ -111,15 +118,17 @@ function SourcesButton({ sources, messageContent }: Props) {
             >
               Analysé en plus :
             </p>
-          )}
-          {sourcesNotReferenced.map((source, index) => (
-            <SourceItem key={buildSourceKey(source, index)} source={source} />
-          ))}
+          ) : null}
+          {sourcesNotReferenced.map((source, index) => {
+            return (
+              <SourceItem key={buildSourceKey(source, index)} source={source} />
+            );
+          })}
         </div>
-      </ResponsiveDialogContent>
-    </ResponsiveDialog>
+      </Modal>
+    </React.Fragment>
   );
-}
+};
 
 function SourceItem({ source }: { source: SourceWithIndex }) {
   const onSourceClick = (source: Source) => {
@@ -129,7 +138,7 @@ function SourceItem({ source }: { source: SourceWithIndex }) {
 
   return (
     <button
-      className="hover:bg-muted/50 flex flex-row items-center justify-between gap-2 rounded-md p-2 transition-colors"
+      className="hover:bg-muted/50 flex cursor-pointer flex-row items-center justify-between gap-2 rounded-md p-2 transition-colors"
       onClick={() => onSourceClick(source)}
       type="button"
     >
@@ -138,7 +147,7 @@ function SourceItem({ source }: { source: SourceWithIndex }) {
           <div className="bg-muted inline-flex size-5 items-center justify-center rounded-full text-xs">
             {source.index + 1}
           </div>{" "}
-          <p className="grow truncate text-start">{source.source}</p>
+          <p className="grow truncate text-start">{source.content_preview}</p>
         </div>
         {source.document_publish_date && (
           <span className="text-muted-foreground text-left text-xs">
@@ -150,9 +159,11 @@ function SourceItem({ source }: { source: SourceWithIndex }) {
         )}
       </div>
       <p className="bg-muted text-muted-foreground flex h-8 items-center justify-center rounded-md px-2 text-xs whitespace-nowrap">
-        S. {source.page}
+        Page {source.page}
       </p>
-      {source.party_id && <ChatMessageIcon partyId={source.party_id} />}
+      {source.party_id !== undefined ? (
+        <ChatMessageIcon partyId={source.party_id} />
+      ) : null}
     </button>
   );
 }

@@ -5,8 +5,8 @@ import { unstable_cache as cache } from "next/cache";
 import { credential } from "firebase-admin";
 import {
   type App as FirebaseApp,
-  getApp,
-  initializeApp,
+  getApps,
+  initializeApp as initializeAdminApp,
 } from "firebase-admin/app";
 import { getFirestore, Timestamp } from "firebase-admin/firestore";
 
@@ -24,12 +24,12 @@ import {
 } from "./firebase.types";
 import { getCurrentUser } from "./firebase-server";
 
-let app: FirebaseApp;
+function initializeApp(): FirebaseApp {
+  const existingApps = getApps();
 
-try {
-  app = getApp();
-} catch (error) {
-  console.info("Initializing Firebase Admin App", error);
+  if (existingApps.length > 0) {
+    return existingApps[0];
+  }
 
   const {
     NEXT_PUBLIC_FIREBASE_PROJECT_ID,
@@ -45,7 +45,7 @@ try {
     throw new Error("Missing Firebase environment variables.");
   }
 
-  app = initializeApp({
+  return initializeAdminApp({
     credential: credential.cert({
       projectId: NEXT_PUBLIC_FIREBASE_PROJECT_ID,
       clientEmail: FIREBASE_CLIENT_EMAIL,
@@ -53,6 +53,8 @@ try {
     }),
   });
 }
+
+const app = initializeApp();
 
 const db = getFirestore(app);
 

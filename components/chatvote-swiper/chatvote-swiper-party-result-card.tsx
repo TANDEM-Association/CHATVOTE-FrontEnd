@@ -1,13 +1,11 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 
-import { CheckIcon, MessageSquareIcon, XIcon } from "lucide-react";
+import { CheckIcon, ChevronDown, MessageSquareIcon, XIcon } from "lucide-react";
 
-import {
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+import { AccordionItem } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -23,7 +21,7 @@ import {
   type ThesesScoreResult,
 } from "@/lib/chatvote-swiper/chatvote-swiper.types";
 import { type PartyDetails } from "@/lib/party-details";
-import { buildPartyImageUrl, cn } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 
 const CHATVOTE_SWIPER_PARTY_IDS = [
   "afd",
@@ -57,94 +55,107 @@ const ChatvoteSwiperPartyResultCard = ({ party, score }: Props) => {
 
   return (
     <AccordionItem
-      className="border-border relative flex w-full flex-col overflow-hidden rounded-md border"
-      value={party.party_id}
-    >
-      <AccordionTrigger className="relative flex w-full flex-row items-center p-4">
-        <div
-          className="bg-primary/5 absolute top-0 left-0 h-full"
-          style={{
-            width: `${score.score}%`,
-          }}
-        />
-        <div className="z-10 flex grow flex-row items-center gap-4">
+      className="relative flex size-full flex-col rounded-md"
+      title={party.name}
+      trigger={({ isOpen, toggle }) => (
+        <button
+          onClick={toggle}
+          className="relative flex w-full cursor-pointer flex-row items-center p-4"
+        >
           <div
-            className="flex aspect-square size-[40px] items-center justify-center rounded-full"
+            className="bg-primary/5 absolute top-0 left-0 h-full"
             style={{
-              backgroundColor: party.background_color,
+              width: `${score.score}%`,
             }}
-          >
-            <Image
-              src={buildPartyImageUrl(party.party_id)}
-              alt={party.name}
-              width={30}
-              height={30}
-            />
+          />
+          <div className="z-10 flex grow flex-row items-center gap-4">
+            <div className="flex aspect-square size-10 items-center justify-center rounded-sm border bg-neutral-100 p-1">
+              <Image
+                src={party.logo_url}
+                alt={party.name}
+                width={0}
+                height={0}
+                className="size-full object-contain"
+                sizes="100vw"
+              />
+            </div>
+            <p className="text-foreground font-medium">{party.name}</p>
           </div>
-          <p className="text-foreground font-medium">{party.name}</p>
-        </div>
-        <h2 className="z-10 mr-2 text-xl font-bold no-underline">
-          {prettyScore}%
-        </h2>
-      </AccordionTrigger>
+          <h2 className="z-10 mr-2 text-xl font-bold no-underline">
+            {prettyScore}%
+          </h2>
+          <ChevronDown
+            className={cn(
+              "text-muted-foreground z-10 size-5 shrink-0 transition-transform duration-300",
+              isOpen === true && "rotate-180",
+            )}
+          />
+        </button>
+      )}
+    >
+      <Separator />
 
-      <AccordionContent>
-        <Separator />
-
-        <div className="flex flex-col gap-2 p-4">
-          <h2 className="font-bold">Consensus entre {party.name} et vous :</h2>
+      <div className="flex flex-col gap-2 p-4">
+        <h2 className="font-bold">Consensus entre {party.name} et vous :</h2>
+        <p className="text-muted-foreground text-sm">
+          {party.name} est d&lsquo;accord avec vous sur{" "}
+          <span className="font-bold">
+            {consensusTheses.length} sur {sortedTheses.length}
+          </span>{" "}
+          questions.
+        </p>
+        <div className="border-border bg-muted flex w-fit flex-row items-center justify-start gap-2 rounded-md border p-2">
+          <p className="w-8 text-center text-xl">💡</p>
           <p className="text-muted-foreground text-sm">
-            {party.name} est d&lsquo;accord avec vous sur{" "}
-            <span className="font-bold">
-              {consensusTheses.length} sur {sortedTheses.length}
-            </span>{" "}
-            questions.
+            Cliquez sur une question pour plus d&lsquo;informations.
           </p>
-          <div className="border-border bg-muted flex w-fit flex-row items-center justify-start gap-2 rounded-md border p-2">
-            <p className="w-8 text-center text-xl">💡</p>
-            <p className="text-muted-foreground text-sm">
-              Cliquez sur une question pour plus d&lsquo;informations.
-            </p>
-          </div>
         </div>
+      </div>
 
-        <div className="grid gap-2">
-          <Table>
-            <TableHeader className="bg-muted">
-              <TableRow>
-                <TableHead>Question</TableHead>
-                <TableHead className="min-w-[100px] text-right">
-                  D&lsquo;accord
-                </TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              <span className="mx-4 mt-4 block w-fit rounded-md bg-green-500/10 px-2 py-1 text-xs text-green-500">
-                Consensus
-              </span>
+      <div className="grid gap-2">
+        <Table>
+          <TableHeader className="bg-muted">
+            <TableRow>
+              <TableHead>Question</TableHead>
+              <TableHead className="min-w-[100px] text-right">
+                D&lsquo;accord
+              </TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            <TableRow>
+              <TableCell colSpan={2} className="p-0">
+                <span className="m-4 block w-fit rounded-md bg-green-500/10 px-2 py-1 text-xs text-green-500">
+                  Consensus
+                </span>
+              </TableCell>
+            </TableRow>
 
-              {consensusTheses.map((thesis) => (
-                <ThesisRow key={thesis.thesis.id} thesis={thesis} />
-              ))}
+            {consensusTheses.map((thesis) => (
+              <ThesisRow key={thesis.thesis.id} thesis={thesis} />
+            ))}
 
-              <span className="mx-4 mt-4 block w-fit rounded-md bg-red-500/10 px-2 py-1 text-xs text-red-500">
-                Pas de consensus
-              </span>
+            <TableRow>
+              <TableCell colSpan={2} className="p-0">
+                <span className="m-4 block w-fit rounded-md bg-red-500/10 px-2 py-1 text-xs text-red-500">
+                  Pas de consensus
+                </span>
+              </TableCell>
+            </TableRow>
 
-              {notConsensusTheses.map((thesis) => (
-                <ThesisRow key={thesis.thesis.id} thesis={thesis} />
-              ))}
-            </TableBody>
-          </Table>
+            {notConsensusTheses.map((thesis) => (
+              <ThesisRow key={thesis.thesis.id} thesis={thesis} />
+            ))}
+          </TableBody>
+        </Table>
 
-          <Button variant="secondary" className="mx-4" asChild>
-            <Link href={chatLink}>
-              <MessageSquareIcon />
-              Aller au chat
-            </Link>
-          </Button>
-        </div>
-      </AccordionContent>
+        <Button variant="secondary" className="mx-4 mb-4" asChild>
+          <Link href={chatLink}>
+            <MessageSquareIcon />
+            Aller au chat
+          </Link>
+        </Button>
+      </div>
     </AccordionItem>
   );
 };

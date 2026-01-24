@@ -81,7 +81,10 @@ function ChatVotingBehaviorDetailView({
 
                   <div className="grid grid-cols-2 gap-2 md:grid-cols-5">
                     {vote.links.map((link, index) => (
-                      <Tooltip key={link.url}>
+                      <Tooltip
+                        key={link.url}
+                        position={index === 0 ? "bottom-left" : "bottom-center"}
+                      >
                         <TooltipTrigger asChild>
                           <Link
                             key={link.url}
@@ -95,9 +98,7 @@ function ChatVotingBehaviorDetailView({
                             </p>
                           </Link>
                         </TooltipTrigger>
-                        <TooltipContent
-                          align={index === 0 ? "start" : "center"}
-                        >
+                        <TooltipContent>
                           <p className="max-w-[300px] text-sm">{link.title}</p>
                         </TooltipContent>
                       </Tooltip>

@@ -130,7 +130,8 @@ function ThesisCard({
   const content = (
     <>
       <h1 className="text-muted-foreground text-xs">{card.topic}</h1>
-      <p className="font-semibold">{card.question}</p>
+      <p className="font-semibold">{card.statement}</p>
+      <p className="text-muted-foreground mt-2 text-sm">{card.question}</p>
     </>
   );
 

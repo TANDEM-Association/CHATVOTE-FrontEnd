@@ -334,7 +334,11 @@ export async function getChatvoteSwiperThesesImpl() {
   const queryRef = query(collection(serverDb, "chatvote_swiper_theses"));
   const snapshot = await getDocs(queryRef);
 
-  return snapshot.docs.map((doc) => doc.data()) as ChatvoteSwiperQuestion[];
+  const data = snapshot.docs.map((doc) =>
+    doc.data(),
+  ) as ChatvoteSwiperQuestion[];
+
+  return data;
 }
 
 export const getChatvoteSwiperTheses = cache(

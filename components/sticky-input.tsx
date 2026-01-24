@@ -52,7 +52,7 @@ function StickyInput({ isLoading, onSubmit, quickReplies, className }: Props) {
     <div
       ref={ref}
       className={cn(
-        "sticky bottom-[-1px] z-40 -mx-2 pb-4 transition-all duration-300 ease-out md:pb-2",
+        "sticky -bottom-px -mx-2 pb-4 transition-all duration-300 ease-out md:pb-2",
         !isSticky && "mx-0",
         className,
       )}
@@ -60,29 +60,30 @@ function StickyInput({ isLoading, onSubmit, quickReplies, className }: Props) {
       <form
         onSubmit={handleSubmit}
         className={cn(
-          "border-input bg-chat-input relative mx-auto grid w-full max-w-xl overflow-hidden rounded-[20px] border shadow-2xl transition-shadow duration-300 ease-out focus-within:border-zinc-300 md:shadow-none dark:focus-within:border-zinc-700",
+          "border-input bg-chat-input relative mx-auto grid w-full max-w-xl overflow-hidden rounded-2xl border shadow-2xl transition-shadow duration-300 ease-out focus-within:border-zinc-300 md:shadow-none dark:focus-within:border-zinc-700",
           !isSticky && "shadow-none",
         )}
       >
         {isLoading && <MessageLoadingBorderTrail />}
 
-        <div className="flex gap-1 overflow-x-auto px-2 pt-2 whitespace-nowrap [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          {quickReplies?.map((reply) => {
-            return (
-              <button
-                key={reply}
-                className={cn(
-                  "bg-muted enabled:hover:bg-muted/70 shrink-0 rounded-full px-2 py-1 transition-colors disabled:cursor-not-allowed disabled:opacity-50",
-                )}
-                type="button"
-                onClick={() => handleQuickReplyClick(reply)}
-              >
-                <p className="line-clamp-1 text-xs">{reply}</p>
-              </button>
-            );
-          })}
-        </div>
-
+        {typeof quickReplies !== "undefined" && quickReplies.length > 0 ? (
+          <div className="flex gap-1 overflow-x-auto px-2 pt-2 whitespace-nowrap [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {quickReplies?.map((reply) => {
+              return (
+                <button
+                  key={reply}
+                  className={cn(
+                    "bg-muted enabled:hover:bg-muted/70 shrink-0 rounded-full px-2 py-1 transition-colors disabled:cursor-not-allowed disabled:opacity-50",
+                  )}
+                  type="button"
+                  onClick={() => handleQuickReplyClick(reply)}
+                >
+                  <p className="line-clamp-1 text-xs">{reply}</p>
+                </button>
+              );
+            })}
+          </div>
+        ) : null}
         <Logo
           variant="small"
           className="border-border absolute bottom-2 left-2 size-8 translate-y-0 rounded-full border p-1"

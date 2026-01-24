@@ -19,15 +19,15 @@ async function ChatvoteSwiperResultsPage({ params }: Props) {
   const { resultId } = await params;
 
   const user = await getCurrentUser();
-  const history = await getChatvoteSwiperHistory(resultId).catch(() => {
+  const swiperResult = await getChatvoteSwiperHistory(resultId).catch(() => {
     redirect("/swiper");
   });
 
-  if (!history) {
+  if (Object.keys(swiperResult.history).length === 0) {
     notFound();
   }
 
-  const scores = await chatvoteSwiperCalculateScore(history.history);
+  const scores = await chatvoteSwiperCalculateScore(swiperResult.history);
   const parties = await getParties();
   const userDetails = user ? getUserDetailsFromUser(user) : undefined;
 

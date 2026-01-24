@@ -17,10 +17,6 @@ import {
 import { toast } from "sonner";
 
 import { useAnonymousAuth } from "@/components/anonymous-auth";
-import {
-  ResponsiveDialogDescription,
-  ResponsiveDialogTitle,
-} from "@/components/chat/responsive-drawer-dialog";
 import GithubIcon from "@/components/icons/github-icon";
 import GoogleIcon from "@/components/icons/google-icon";
 import { Button } from "@/components/ui/button";
@@ -223,21 +219,21 @@ function LoginForm({ onSuccess }: Props) {
   }
 
   return (
-    <form className="flex flex-col p-4 md:p-0" onSubmit={handleSubmit}>
+    <form className="flex flex-col" onSubmit={handleSubmit}>
       <input
         type="hidden"
         name="isRegister"
         value={isRegister ? "true" : "false"}
       />
       <div className="mb-4">
-        <ResponsiveDialogTitle className="text-center text-2xl font-bold md:text-left">
-          {isRegister ? "S&lsquo;inscrire" : "Se connecter"}
-        </ResponsiveDialogTitle>
-        <ResponsiveDialogDescription className="text-muted-foreground text-center text-sm md:text-left">
+        <h2 className="text-center text-2xl font-bold md:text-left">
+          {isRegister ? "S'inscrire" : "Se connecter"}
+        </h2>
+        <p className="text-muted-foreground text-center text-sm md:text-left">
           {isRegister
             ? "Vous pouvez vous inscrire sur chatvote pour sauvegarder vos conversations et y accéder depuis plusieurs appareils."
             : "Vous pouvez vous connecter sur chatvote pour sauvegarder vos conversations et y accéder depuis plusieurs appareils."}
-        </ResponsiveDialogDescription>
+        </p>
       </div>
 
       <div className="flex flex-col">
@@ -275,11 +271,11 @@ function LoginForm({ onSuccess }: Props) {
         </div>
         <div className="flex flex-col gap-2">
           <Button type="submit" className="w-full" disabled={isLoading}>
-            {isRegister ? "S&lsquo;inscrire" : "Se connecter"}
+            {isRegister ? "S'inscrire" : "Se connecter"}
           </Button>
           <p className="text-muted-foreground text-center text-xs">
-            En cliquant sur {isRegister ? "S&lsquo;inscrire" : "Se connecter"}{" "}
-            vous acceptez notre{" "}
+            En cliquant sur {isRegister ? "S'inscrire" : "Se connecter"} vous
+            acceptez notre{" "}
             <Link href="/privacy-policy" target="_blank" className="underline">
               Politique de confidentialité
             </Link>
@@ -300,7 +296,7 @@ function LoginForm({ onSuccess }: Props) {
               onClick={handleGoogleLogin}
               type="button"
             >
-              <GoogleIcon className="!size-3" />
+              <GoogleIcon className="size-3!" />
               Se connecter avec Google
             </Button>
             <Button
@@ -310,7 +306,7 @@ function LoginForm({ onSuccess }: Props) {
               type="button"
               onClick={handleGithubLogin}
             >
-              <GithubIcon className="!size-3" />
+              <GithubIcon className="size-3!" />
               Se connecter avec Github
             </Button>
           </div>
@@ -326,7 +322,7 @@ function LoginForm({ onSuccess }: Props) {
           className="p-0 underline underline-offset-4"
           disabled={isLoading}
         >
-          {isRegister ? "Se connecter" : "S&lsquo;inscrire"}
+          {isRegister ? "Se connecter" : "S'inscrire"}
         </Button>
       </div>
     </form>

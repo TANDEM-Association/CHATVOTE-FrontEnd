@@ -1,35 +1,38 @@
+"use client";
+
+import React, { useState } from "react";
+
 import Link from "next/link";
 
 import { MailIcon, MessageSquareHeart } from "lucide-react";
 
-import {
-  ResponsiveDialog,
-  ResponsiveDialogContent,
-  ResponsiveDialogDescription,
-  ResponsiveDialogHeader,
-  ResponsiveDialogTitle,
-  ResponsiveDialogTrigger,
-} from "./chat/responsive-drawer-dialog";
 import { Button } from "./ui/button";
+import { Modal } from "./ui/modal";
 
 type Props = {
   children: React.ReactNode;
 };
 
-function FeedbackDialog({ children }: Props) {
+const FeedbackDialog = ({ children }: Props) => {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
-    <ResponsiveDialog>
-      <ResponsiveDialogTrigger asChild>{children}</ResponsiveDialogTrigger>
+    <React.Fragment>
+      <div onClick={() => setIsOpen(true)}>{children}</div>
 
-      <ResponsiveDialogContent>
-        <ResponsiveDialogHeader>
-          <ResponsiveDialogTitle>Feedback !</ResponsiveDialogTitle>
-          <ResponsiveDialogDescription>
+      <Modal
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        className="w-full max-w-md p-6"
+      >
+        <div className="mb-4">
+          <h2 className="text-lg font-semibold">Feedback !</h2>
+          <p className="text-muted-foreground text-sm">
             Nous sommes heureux de recevoir vos retours sur chatvote.
-          </ResponsiveDialogDescription>
-        </ResponsiveDialogHeader>
+          </p>
+        </div>
 
-        <div className="flex w-full flex-col gap-2 p-4 md:p-0">
+        <div className="flex w-full flex-col gap-2">
           <Button asChild variant="outline">
             <Link href="mailto:info@chatvote.fr">
               <MailIcon />
@@ -46,9 +49,9 @@ function FeedbackDialog({ children }: Props) {
             </Link>
           </Button>
         </div>
-      </ResponsiveDialogContent>
-    </ResponsiveDialog>
+      </Modal>
+    </React.Fragment>
   );
-}
+};
 
 export default FeedbackDialog;

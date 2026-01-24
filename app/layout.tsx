@@ -1,13 +1,26 @@
-import { type Metadata, type Viewport } from "next";
+import { type Metadata } from "next";
+import { Merriweather, Merriweather_Sans } from "next/font/google";
 import { headers } from "next/headers";
 
 import { TENANT_ID_HEADER } from "@/lib/constants";
+import { detectDevice } from "@/lib/device";
 import { getTenant } from "@/lib/firebase/firebase-admin";
 import { getParties, getUser } from "@/lib/firebase/firebase-server";
+import { getTheme } from "@/lib/theme/getTheme";
 
 import { AppProvider } from "./_providers/AppProvider";
 
 import "./globals.css";
+
+const merriweatherSans = Merriweather_Sans({
+  variable: "--font-merriweather-sans",
+  subsets: ["latin"],
+});
+
+const merriweather = Merriweather({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://chatvote.fr"),
@@ -65,52 +78,34 @@ export const metadata: Metadata = {
   },
 };
 
-export const viewport: Viewport = {
-  maximumScale: 1, // Disable auto-zoom on mobile Safari
-};
-
-const LIGHT_THEME_COLOR = "hsl(0 0% 100%)";
-const DARK_THEME_COLOR = "hsl(240deg 10% 3.92%)";
-const THEME_COLOR_SCRIPT = `\
-(function() {
-  var html = document.documentElement;
-  var meta = document.querySelector('meta[name="theme-color"]');
-  if (!meta) {
-    meta = document.createElement('meta');
-    meta.setAttribute('name', 'theme-color');
-    document.head.appendChild(meta);
-  }
-  function updateThemeColor() {
-    var isDark = html.classList.contains('dark');
-    meta.setAttribute('content', isDark ? '${DARK_THEME_COLOR}' : '${LIGHT_THEME_COLOR}');
-  }
-  var observer = new MutationObserver(updateThemeColor);
-  observer.observe(html, { attributes: true, attributeFilter: ['class'] });
-  updateThemeColor();
-})();`;
-
 export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const requestHeaders = await headers();
+  const device = detectDevice(requestHeaders);
+  const theme = getTheme(requestHeaders);
+
   const parties = await getParties();
-  const headersList = await headers();
-  const tenantId = headersList.get(TENANT_ID_HEADER);
+  const tenantId = requestHeaders.get(TENANT_ID_HEADER);
   const tenant = await getTenant(tenantId);
   const user = await getUser();
 
   return (
-    <html lang="fr" suppressHydrationWarning>
+    <html lang="fr" data-theme={theme}>
       <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: THEME_COLOR_SCRIPT,
-          }}
-        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
-      <body>
-        <AppProvider user={user} tenant={tenant} parties={parties}>
+      <body
+        className={`${merriweatherSans.variable} ${merriweather.variable} bg-neutral-950 text-neutral-100 antialiased`}
+      >
+        <AppProvider
+          device={device}
+          user={user}
+          tenant={tenant}
+          parties={parties}
+        >
           {children}
         </AppProvider>
       </body>

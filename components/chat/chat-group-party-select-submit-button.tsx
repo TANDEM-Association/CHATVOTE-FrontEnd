@@ -4,19 +4,17 @@ import { useRouter } from "next/navigation";
 
 import { Button } from "../ui/button";
 
-import { ResponsiveDialogClose } from "./responsive-drawer-dialog";
-
 type Props = {
   selectedPartyIds: string[];
   onSubmit: () => void;
   addPartiesToChat?: boolean;
 };
 
-function ChatGroupPartySelectSubmitButton({
+const ChatGroupPartySelectSubmitButton = ({
   selectedPartyIds,
   onSubmit,
   addPartiesToChat,
-}: Props) {
+}: Props) => {
   const router = useRouter();
 
   const navigateUrl = useMemo(() => {
@@ -30,22 +28,22 @@ function ChatGroupPartySelectSubmitButton({
 
   const handleSubmit = () => {
     onSubmit();
-    if (!addPartiesToChat) router.push(navigateUrl);
+    if (!addPartiesToChat) {
+      router.push(navigateUrl);
+    }
   };
 
   useEffect(() => {
-    if (!addPartiesToChat) router.prefetch(navigateUrl);
+    if (!addPartiesToChat) {
+      router.prefetch(navigateUrl);
+    }
   }, [addPartiesToChat, navigateUrl, router]);
 
   return (
-    <ResponsiveDialogClose asChild>
-      <Button className="w-full" onClick={handleSubmit}>
-        {addPartiesToChat
-          ? "Modifier les partis"
-          : "Démarrer le chat comparatif"}
-      </Button>
-    </ResponsiveDialogClose>
+    <Button className="w-full" onClick={handleSubmit}>
+      {addPartiesToChat ? "Modifier les partis" : "Démarrer le chat comparatif"}
+    </Button>
   );
-}
+};
 
 export default ChatGroupPartySelectSubmitButton;

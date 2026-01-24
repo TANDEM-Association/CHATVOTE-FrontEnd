@@ -3,6 +3,7 @@ import { forwardRef, useImperativeHandle, useMemo, useState } from "react";
 import { track } from "@vercel/analytics/react";
 import { ScrollTextIcon } from "lucide-react";
 
+import { useAppContext } from "@/app/_providers/AppProvider";
 import { Button } from "@/components/ui/button";
 import {
   Drawer,
@@ -12,10 +13,8 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { useIsDesktop } from "@/lib/hooks/use-is-desktop";
 import { type VotingBehavior } from "@/lib/stores/chat-store.types";
 
-import { DialogDescription, DialogTitle } from "../ui/dialog";
 import VisuallyHidden from "../visually-hidden";
 
 import ChatVotingBehaviorDetailView from "./chat-voting-behavior-detail-view";
@@ -35,12 +34,13 @@ const ChatVotingBehaviorDetailButton = forwardRef<
 >(({ votingBehavior, partyId }: Props, ref) => {
   const [isOpen, setIsOpen] = useState(false);
   const [voteId, setVoteId] = useState<string | null>(null);
-  const isDesktop = useIsDesktop();
+  const { device } = useAppContext();
+  const isDesktop = device === "desktop" || device === "tablet";
 
   const triggerButton = (
     <Button
       variant="outline"
-      className="h-8 px-2 text-xs group-data-[has-message-background]:bg-zinc-100 group-data-[has-message-background]:hover:bg-zinc-200 group-data-[has-message-background]:dark:bg-zinc-900 group-data-[has-message-background]:dark:hover:bg-zinc-800"
+      className="h-8 px-2 text-xs group-data-has-message-background:bg-zinc-100 group-data-has-message-background:hover:bg-zinc-200 group-data-has-message-background:dark:bg-zinc-900 group-data-has-message-background:dark:hover:bg-zinc-800"
     >
       <ScrollTextIcon />
       Afficher les votes
@@ -90,13 +90,13 @@ const ChatVotingBehaviorDetailButton = forwardRef<
     return (
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
         <SheetTrigger asChild>{triggerButton}</SheetTrigger>
-        <SheetContent className="w-[90vw] !max-w-[700px] p-0">
+        <SheetContent className="w-[90vw] max-w-[700px]! p-0">
           <VisuallyHidden>
-            <DialogTitle>Comportement de vote</DialogTitle>
-            <DialogDescription>
+            <h2>Comportement de vote</h2>
+            <p>
               Ce message contient des informations supplémentaires sur le
               comportement de vote du parti.
-            </DialogDescription>
+            </p>
           </VisuallyHidden>
 
           <ChatVotingBehaviorDetailView

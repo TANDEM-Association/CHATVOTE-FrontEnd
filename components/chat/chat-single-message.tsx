@@ -63,20 +63,22 @@ function ChatSingleMessage({
         id={message.id}
         className={cn(
           "relative flex flex-col gap-4 transition-all duration-200 ease-out",
-          shouldHaveBackground && "group bg-zinc-100 dark:bg-zinc-900",
-          !isGroupChat &&
-            shouldHaveBackground &&
-            "border-muted rounded-lg border p-3 md:p-4",
+          shouldHaveBackground
+            ? "group bg-zinc-100 dark:bg-zinc-900"
+            : undefined,
+          isGroupChat === false && shouldHaveBackground === true
+            ? "border-muted rounded-lg border p-3 md:p-4"
+            : undefined,
         )}
         data-has-message-background={Boolean(shouldHaveBackground)}
       >
         <div className={cn("flex items-start justify-start gap-3 md:gap-4")}>
-          {showAssistantIcon && (
+          {showAssistantIcon === true ? (
             <ChatMessageIcon partyId={partyId} party={party} />
-          )}
+          ) : null}
           <div className="flex flex-col gap-2">
             {content}
-            {isLastMessage && <SurveyBanner />}
+            {isLastMessage === true ? <SurveyBanner /> : null}
             <ChatSingleMessageActions
               isLastMessage={isLastMessage}
               message={message}
@@ -91,7 +93,9 @@ function ChatSingleMessage({
           message={message}
           isGroupChat={isGroupChat}
         />
-        {isLoadingAnyAction && !isGroupChat && <MessageLoadingBorderTrail />}
+        {isLoadingAnyAction === true && isGroupChat === false ? (
+          <MessageLoadingBorderTrail />
+        ) : null}
       </article>
     );
   }

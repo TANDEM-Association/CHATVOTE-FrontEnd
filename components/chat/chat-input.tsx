@@ -54,8 +54,8 @@ function ChatInput() {
     <form
       onSubmit={handleSubmit}
       className={cn(
-        "border-input bg-chat-input relative w-full overflow-hidden rounded-[30px] border transition-colors focus-within:border-zinc-300 dark:focus-within:border-zinc-700",
-        quickReplies?.length > 0 && "rounded-[20px]",
+        "border-input bg-chat-input relative w-full overflow-hidden rounded-4xl border transition-colors focus-within:border-zinc-300 dark:focus-within:border-zinc-700",
+        quickReplies?.length > 0 && "rounded-2xl",
       )}
     >
       {quickReplies.length > 0 && (
@@ -85,7 +85,7 @@ function ChatInput() {
       {loading && <MessageLoadingBorderTrail />}
 
       <input
-        className="bg-chat-input placeholder:text-muted-foreground w-full py-3 pr-11 pl-4 text-[16px] focus-visible:ring-0 focus-visible:outline-none disabled:cursor-not-allowed"
+        className="bg-chat-input placeholder:text-muted-foreground w-full py-3 pr-11 pl-4 text-base focus-visible:ring-0 focus-visible:outline-none disabled:cursor-not-allowed"
         placeholder="Écrivez un message..."
         onChange={handleChange}
         value={input}

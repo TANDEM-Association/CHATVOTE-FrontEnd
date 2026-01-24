@@ -1,20 +1,20 @@
-import { HelpCircleIcon } from "lucide-react";
+import React from "react";
+
+import Link from "next/link";
+
+import { HelpCircleIcon, HomeIcon } from "lucide-react";
 
 import HowToDialog from "@/components/how-to-dialog";
 import { Button } from "@/components/ui/button";
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { IS_EMBEDDED } from "@/lib/utils";
 
 import ChatEmbedHeader from "./chat-embed-header";
-import ChatHeaderTitleDescription from "./chat-header-title-description";
 import ChatShareButton from "./chat-share-button";
 import CreateNewChatDropdownButton from "./create-new-chat-dropdown-button";
+import Logo from "./logo";
 import SocketDisconnectedBanner from "./socket-disconnected-banner";
+import { ThemeModeToggle } from "./theme-mode-toggle";
 
 async function ChatHeader() {
   if (IS_EMBEDDED) {
@@ -22,17 +22,29 @@ async function ChatHeader() {
   }
 
   return (
-    <>
-      <header className="min-h-chat-header border-b-muted bg-background relative z-10 flex w-full items-center gap-1 border-b px-4">
-        <div className="flex min-w-0 grow items-center gap-2 overflow-x-hidden">
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <SidebarTrigger />
-            </TooltipTrigger>
-            <TooltipContent>Menü öffnen</TooltipContent>
-          </Tooltip>
-          <ChatHeaderTitleDescription />
+    <React.Fragment>
+      <header className="border-b-muted bg-background sticky top-0 z-10 flex h-12 w-full shrink-0 items-center justify-between gap-1 border-b px-4">
+        {/* Left side - Logo, Home, Theme, Sidebar Toggle */}
+        <div className="flex items-center gap-1">
+          <Link href="/" className="mr-2 flex items-center">
+            <Logo variant="small" className="size-6" />
+          </Link>
+          <ThemeModeToggle />
+          <Button
+            variant="ghost"
+            size="icon"
+            asChild
+            className="size-8"
+            tooltip="Page d'accueil"
+          >
+            <Link href="/">
+              <HomeIcon className="size-4" />
+            </Link>
+          </Button>
+          <SidebarTrigger />
         </div>
+
+        {/* Right side - Help, Share, New Chat */}
         <div className="flex items-center gap-1">
           <HowToDialog>
             <Button variant="ghost" size="icon" className="size-8">
@@ -45,7 +57,7 @@ async function ChatHeader() {
       </header>
 
       <SocketDisconnectedBanner />
-    </>
+    </React.Fragment>
   );
 }
 

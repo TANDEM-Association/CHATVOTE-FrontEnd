@@ -4,13 +4,11 @@ import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { type PartyDetails } from "@/lib/party-details";
 
 type PartiesContextType = {
-  parties?: PartyDetails[];
+  parties: PartyDetails[];
   partyCount: number;
 };
 
-export const PartiesContext = createContext<PartiesContextType | undefined>(
-  undefined,
-);
+export const PartiesContext = createContext<PartiesContextType | null>(null);
 
 export type Props = {
   children: React.ReactNode;
@@ -19,13 +17,15 @@ export type Props = {
 
 export const useParties = (partyIds?: string[]) => {
   const context = useContext(PartiesContext);
-  if (!context) {
+  if (context === null) {
     throw new Error("useParties must be used within a PartiesProvider");
   }
 
   const parties = useMemo(() => {
-    if (partyIds) {
-      return context.parties?.filter((p) => partyIds.includes(p.party_id));
+    if (partyIds !== undefined) {
+      return context.parties?.filter((party) =>
+        partyIds.includes(party.party_id),
+      );
     }
     return context.parties;
   }, [context.parties, partyIds]);
@@ -66,7 +66,7 @@ export const PartiesProvider = ({ children, parties }: Props) => {
     <PartiesContext.Provider
       value={{
         parties: randomizedParties,
-        partyCount: parties?.length,
+        partyCount: parties.length,
       }}
     >
       {children}

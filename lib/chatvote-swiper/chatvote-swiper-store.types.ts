@@ -7,6 +7,7 @@ import { type SwipeType } from "./chatvote-swiper.types";
 export type Thesis = {
   id: string;
   topic: string;
+  statement: string;
   question: string;
 };
 

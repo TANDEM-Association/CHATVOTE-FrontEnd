@@ -1,3 +1,7 @@
+"use client";
+
+import React, { useState } from "react";
+
 import {
   AlertCircleIcon,
   AlertTriangleIcon,
@@ -5,17 +9,11 @@ import {
   GitBranch,
 } from "lucide-react";
 
-import {
-  ResponsiveDialog,
-  ResponsiveDialogContent,
-  ResponsiveDialogHeader,
-  ResponsiveDialogTitle,
-  ResponsiveDialogTrigger,
-} from "@/components/chat/responsive-drawer-dialog";
+import { Modal } from "@/components/ui/modal";
 
-function AiDisclaimerContent() {
+const AiDisclaimerContent = () => {
   return (
-    <div className="text-foreground px-4 pb-4 text-sm md:px-0 md:pb-0">
+    <div className="text-foreground text-sm">
       <p>
         Les réponses sur chatvote sont générées par une{" "}
         <span className="font-semibold">intelligence artificielle</span>. Elles
@@ -76,25 +74,35 @@ function AiDisclaimerContent() {
       </p>
     </div>
   );
-}
+};
 
-function AiDisclaimer() {
+const AiDisclaimer = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
-    <ResponsiveDialog>
+    <React.Fragment>
       <p className="text-muted-foreground my-2 text-center text-xs">
         chatvote peut faire des erreurs.{" "}
-        <ResponsiveDialogTrigger className="font-semibold underline">
+        <button
+          className="font-semibold underline"
+          onClick={() => setIsOpen(true)}
+        >
           En savoir plus ici.
-        </ResponsiveDialogTrigger>
+        </button>
       </p>
-      <ResponsiveDialogContent>
-        <ResponsiveDialogHeader>
-          <ResponsiveDialogTitle>Avis IA</ResponsiveDialogTitle>
-        </ResponsiveDialogHeader>
+
+      <Modal
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        className="w-full max-w-lg p-6"
+      >
+        <div className="mb-4">
+          <h2 className="text-lg font-semibold">Avis IA</h2>
+        </div>
         <AiDisclaimerContent />
-      </ResponsiveDialogContent>
-    </ResponsiveDialog>
+      </Modal>
+    </React.Fragment>
   );
-}
+};
 
 export default AiDisclaimer;

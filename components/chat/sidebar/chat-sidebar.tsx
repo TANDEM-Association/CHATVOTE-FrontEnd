@@ -2,31 +2,21 @@ import { Suspense } from "react";
 
 import Link from "next/link";
 
-import {
-  HeartHandshakeIcon,
-  HomeIcon,
-  MessageCircleIcon,
-  UserIcon,
-} from "lucide-react";
+import { HeartHandshakeIcon, MessageCircleIcon, UserIcon } from "lucide-react";
 
 import LoginButton from "@/components/auth/login-button";
-import Logo from "@/components/chat/logo";
-import { ThemeModeToggle } from "@/components/chat/theme-mode-toggle";
 import DonationDialog from "@/components/donation-dialog";
 import FeedbackDialog from "@/components/feedback-dialog";
 import LoadingSpinner from "@/components/loading-spinner";
-import { Button } from "@/components/ui/button";
 import {
   Sidebar,
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
-  SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarRail,
 } from "@/components/ui/sidebar";
 import { getCurrentUser } from "@/lib/firebase/firebase-server";
 import { getUserDetailsFromUser } from "@/lib/utils";
@@ -46,25 +36,6 @@ async function ChatSidebar() {
       mobileVisuallyHiddenTitle="chatvote"
       mobileVisuallyHiddenDescription="Démarrez un nouveau chat ou sélectionnez une conversation précédente."
     >
-      <SidebarHeader className="h-chat-header border-b-muted flex flex-row items-center justify-between border-b pr-2 pl-4">
-        <Link href="/" className="flex items-center gap-4">
-          <Logo variant="small" className="size-6" />
-        </Link>
-        <div className="flex flex-row items-center gap-1">
-          <ThemeModeToggle />
-          <Button
-            variant="ghost"
-            size="icon"
-            asChild
-            className="size-8"
-            tooltip="Page d&lsquo;accueil"
-          >
-            <Link href="/">
-              <HomeIcon className="size-4" />
-            </Link>
-          </Button>
-        </div>
-      </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>
@@ -87,7 +58,6 @@ async function ChatSidebar() {
               <SidebarMenuItem>
                 <LoginButton
                   userDetails={userDetails}
-                  userDialogAsChild
                   noUserChildren={
                     <SidebarMenuButton>
                       <UserIcon className="size-4" />
@@ -164,7 +134,6 @@ async function ChatSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarRail />
     </Sidebar>
   );
 }
