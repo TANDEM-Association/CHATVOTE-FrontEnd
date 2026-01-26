@@ -2,10 +2,10 @@
 
 import { useMemo } from "react";
 
+import Image from "next/image";
+
 import { MailCheckIcon } from "lucide-react";
 import { toast } from "sonner";
-
-import Logo from "@/components/chat/logo";
 
 import { type FullUser, useAnonymousAuth } from "../anonymous-auth";
 import { Button } from "../ui/button";
@@ -54,7 +54,14 @@ function KeepUpToDateTeaserCard({ initialUser }: Props) {
   return (
     <div className="border-border bg-muted relative mt-4 flex flex-col gap-2 overflow-hidden rounded-md border p-4">
       <div className="flex items-center gap-4">
-        <Logo variant="small" className="size-6" />
+        <Image
+          src="/images/logos/chatvote.svg"
+          alt="chatvote"
+          width={0}
+          height={0}
+          sizes="100vw"
+          className="size-6"
+        />
         <div className="flex flex-col">
           <h1 className="text-base font-bold">Les programmes électoraux !</h1>
           <p className="text-muted-foreground text-sm">

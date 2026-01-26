@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 
 import { FilloutPopupEmbed } from "@fillout/react";
@@ -10,7 +11,6 @@ import { UserIcon, XIcon } from "lucide-react";
 import { toast } from "sonner";
 
 import { useAnonymousAuth } from "@/components/anonymous-auth";
-import Logo from "@/components/chat/logo";
 import { Button } from "@/components/ui/button";
 import { Modal } from "@/components/ui/modal";
 import { firestoreTimestampToDate } from "@/lib/utils";
@@ -99,7 +99,14 @@ function LoginReminderToast() {
           </div>
 
           <div className="flex items-center gap-4">
-            <Logo variant="small" className="size-6" />
+            <Image
+              src="/images/logos/chatvote.svg"
+              alt="chatvote"
+              width={0}
+              height={0}
+              sizes="100vw"
+              className="size-6"
+            />
             <div className="flex flex-col">
               <h1 className="text-base font-bold">
                 Les programmes électoraux !

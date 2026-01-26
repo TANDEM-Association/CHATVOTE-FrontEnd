@@ -1,15 +1,22 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import { PRESS_LINK } from "@/lib/contact-config";
 
-import Logo from "./chat/logo";
 import { ThemeModeToggle } from "./chat/theme-mode-toggle";
 import FeedbackDialog from "./feedback-dialog";
 
 function Footer() {
   return (
     <footer className="h-footer text-muted-foreground flex w-full flex-col items-center justify-center gap-4 border-t p-4 text-xs md:flex-row">
-      <Logo className="size-5" variant="small" />
+      <Image
+        src="/images/logos/chatvote.svg"
+        alt="chatvote"
+        width={0}
+        height={0}
+        sizes="100vw"
+        className="size-5"
+      />
 
       <section className="flex grow flex-wrap items-center justify-center gap-2 underline md:justify-end">
         <Link href="/how-to">Guide</Link>

@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import Logo from "@/components/chat/logo";
 import { AccordionGroup, AccordionItem } from "@/components/ui/accordion";
 import { ASSISTANT_ID } from "@/lib/constants";
 import { type SourceDocument } from "@/lib/firebase/firebase.types";
@@ -46,7 +45,14 @@ async function SourcesPage() {
                 <div className="flex items-center gap-4">
                   {partyId === ASSISTANT_ID ? (
                     <div className="border-border aspect-square size-8 rounded-full border object-contain p-1">
-                      <Logo variant="small" className="size-full" />
+                      <Image
+                        src="/images/logos/chatvote.svg"
+                        alt="chatvote"
+                        width={0}
+                        height={0}
+                        sizes="100vw"
+                        className="size-full"
+                      />
                     </div>
                   ) : (
                     <Image

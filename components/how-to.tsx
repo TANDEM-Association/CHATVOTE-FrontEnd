@@ -317,8 +317,8 @@ function HowTo() {
               <br />
               Si vous manquez un parti, n&lsquo;hésitez pas à nous envoyer un
               e-mail avec son programme en PDF en pièce jointe à{" "}
-              <a href="mailto:info@chatvote.fr" className="underline">
-                info@chatvote.fr
+              <a href="mailto:info@chatvote.org" className="underline">
+                info@chatvote.org
               </a>
               , et nous l&lsquo;ajouterons dès que possible.
             </div>

@@ -9,8 +9,6 @@ import { ASSISTANT_ID } from "@/lib/constants";
 import { type PartyDetails } from "@/lib/party-details";
 import { cn } from "@/lib/utils";
 
-import Logo from "./logo";
-
 type Props = {
   partyId?: string;
   party?: PartyDetails;
@@ -38,7 +36,14 @@ export function ChatMessageIcon({ partyId, party }: Props) {
           className="size-full object-contain p-1"
         />
       ) : partyId === ASSISTANT_ID ? (
-        <Logo variant="small" className="size-8 p-2" />
+        <Image
+          src="/images/logos/chatvote.svg"
+          alt="chatvote"
+          width={0}
+          height={0}
+          sizes="100vw"
+          className="size-8 p-2"
+        />
       ) : (
         <SparklesIcon className="size-4" />
       )}

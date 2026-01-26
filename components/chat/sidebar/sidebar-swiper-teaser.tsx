@@ -1,15 +1,22 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import { ArrowRightIcon } from "lucide-react";
 
-import Logo from "@/components/chat/logo";
 import { Button } from "@/components/ui/button";
 
 function SidebarSwiperTeaser() {
   return (
     <div className="border-border bg-muted mt-4 flex flex-col items-center justify-center overflow-hidden rounded-md border p-4 text-center">
       <div className="flex items-center justify-center gap-2">
-        <Logo className="w-6" variant="small" />
+        <Image
+          src="/images/logos/chatvote.svg"
+          alt="chatvote"
+          width={0}
+          height={0}
+          sizes="100vw"
+          className="w-6 rounded-md"
+        />
         <p className="text-lg font-bold italic">Swiper</p>
       </div>
 

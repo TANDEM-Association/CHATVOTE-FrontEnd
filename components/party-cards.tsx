@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 
+import Image from "next/image";
 import Link from "next/link";
 
 import { CircleXIcon, EllipsisIcon } from "lucide-react";
@@ -10,7 +11,6 @@ import PartyCard from "@/components/party-card";
 import { useParties } from "@/components/providers/parties-provider";
 import { cn } from "@/lib/utils";
 
-import Logo from "./chat/logo";
 import { Button } from "./ui/button";
 import {
   Collapsible,
@@ -69,7 +69,14 @@ function PartyCards({
             asChild
           >
             <Link href="/session" onClick={() => onSelectParty?.("chatvote")}>
-              <Logo className="size-10!" />
+              <Image
+                src="/images/logos/chatvote.svg"
+                alt="chatvote"
+                width={0}
+                height={0}
+                sizes="100vw"
+                className="size-10"
+              />
             </Link>
           </Button>
         ) : null}

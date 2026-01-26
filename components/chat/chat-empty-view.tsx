@@ -9,7 +9,6 @@ import { type PartyDetails } from "@/lib/party-details";
 
 import GroupChatEmptyView from "./group-chat-empty-view";
 import InitialSuggestionBubble from "./initial-suggestion-bubble";
-import Logo from "./logo";
 
 type Props = {
   parties?: PartyDetails[];
@@ -49,7 +48,14 @@ function ChatEmptyView({ parties, proposedQuestions }: Props) {
             className="object-contain p-4"
           />
         ) : (
-          <Logo className="size-full p-4" />
+          <Image
+            src="/images/logos/chatvote.svg"
+            alt="chatvote"
+            width={0}
+            height={0}
+            sizes="100vw"
+            className="size-full p-4"
+          />
         )}
       </div>
       {party ? (

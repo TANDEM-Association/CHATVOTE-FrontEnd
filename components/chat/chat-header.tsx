@@ -1,5 +1,6 @@
 import React from "react";
 
+import Image from "next/image";
 import Link from "next/link";
 
 import { HelpCircleIcon, HomeIcon } from "lucide-react";
@@ -12,7 +13,6 @@ import { IS_EMBEDDED } from "@/lib/utils";
 import ChatEmbedHeader from "./chat-embed-header";
 import ChatShareButton from "./chat-share-button";
 import CreateNewChatDropdownButton from "./create-new-chat-dropdown-button";
-import Logo from "./logo";
 import SocketDisconnectedBanner from "./socket-disconnected-banner";
 import { ThemeModeToggle } from "./theme-mode-toggle";
 
@@ -27,7 +27,14 @@ async function ChatHeader() {
         {/* Left side - Logo, Home, Theme, Sidebar Toggle */}
         <div className="flex items-center gap-1">
           <Link href="/" className="mr-2 flex items-center">
-            <Logo variant="small" className="size-6" />
+            <Image
+              src="/images/logos/chatvote.svg"
+              alt="chatvote"
+              width={0}
+              height={0}
+              sizes="100vw"
+              className="size-6"
+            />
           </Link>
           <ThemeModeToggle />
           <Button

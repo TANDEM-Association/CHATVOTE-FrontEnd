@@ -2,11 +2,12 @@
 
 import { useEffect, useRef, useState } from "react";
 
+import Image from "next/image";
+
 import { ArrowUp } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
-import Logo from "./chat/logo";
 import MessageLoadingBorderTrail from "./chat/message-loading-border-trail";
 import { Button } from "./ui/button";
 
@@ -84,8 +85,12 @@ function StickyInput({ isLoading, onSubmit, quickReplies, className }: Props) {
             })}
           </div>
         ) : null}
-        <Logo
-          variant="small"
+        <Image
+          src="/images/logos/chatvote.svg"
+          alt="chatvote"
+          width={0}
+          height={0}
+          sizes="100vw"
           className="border-border absolute bottom-2 left-2 size-8 translate-y-0 rounded-full border p-1"
         />
         <input

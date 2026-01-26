@@ -11,7 +11,7 @@ const LegalNotices = () => {
 France
 
 ## Contact
-**E-Mail:** info@chatvote.fr
+**E-Mail:** info@chatvote.org
   `;
 
   return (

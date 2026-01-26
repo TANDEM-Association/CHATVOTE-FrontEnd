@@ -49,8 +49,8 @@ const IframeChecker = () => {
         <p className="text-muted-foreground text-sm">
           Pour utiliser chatvote dans un iFrame, veuillez nous contacter à
           l&lsquo;adresse e-mail{" "}
-          <Link className="underline" href="mailto:info@chatvote.fr">
-            info@chatvote.fr
+          <Link className="underline" href="mailto:info@chatvote.org">
+            info@chatvote.org
           </Link>
           .
         </p>
@@ -61,7 +61,7 @@ const IframeChecker = () => {
           Fermer
         </Button>
         <Button asChild>
-          <Link href="mailto:info@chatvote.fr">Contactez-nous</Link>
+          <Link href="mailto:info@chatvote.org">Contactez-nous</Link>
         </Button>
       </div>
     </Modal>

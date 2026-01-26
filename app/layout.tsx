@@ -23,7 +23,7 @@ const merriweather = Merriweather({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://chatvote.fr"),
+  metadataBase: new URL("https://app.chatvote.org"),
   title: {
     default: "chatvote - Comprendre la politique de manière interactive",
     template: "%s | chatvote",
@@ -31,6 +31,38 @@ export const metadata: Metadata = {
   description:
     "Comprenez les objectifs et positions des partis politiques français. Discutez avec les programmes des partis sur chatvote, posez vos questions sur vos sujets et obtenez une analyse critique des positions politiques.",
   applicationName: "chatvote",
+  icons: {
+    icon: [
+      {
+        url: "/images/icons/favicon.svg",
+        type: "image/svg+xml",
+      },
+      {
+        url: "/images/icons/favicon-96x96.png?v=2",
+        sizes: "96x96",
+        type: "image/png",
+        media: "(prefers-color-scheme: light)",
+      },
+      {
+        url: "/images/icons/favicon-192x192.png?v=2",
+        sizes: "192x192",
+        type: "image/png",
+      },
+      {
+        url: "/images/icons/favicon-512x512.png?v=2",
+        sizes: "512x512",
+        type: "image/png",
+      },
+    ],
+    apple: "/images/icons/apple-touch-icon.png",
+    other: [
+      {
+        rel: "shortcut icon",
+        url: "/images/icons/favicon.ico",
+      },
+    ],
+  },
+  manifest: "/manifest.json",
   keywords: [
     "Chatvote",
     "Chat politique",
@@ -62,7 +94,7 @@ export const metadata: Metadata = {
     description:
       "Comprenez les objectifs et positions des partis politiques français. Discutez avec les programmes des partis sur chatvote, posez vos questions sur vos sujets et obtenez une analyse critique des positions politiques.",
     images: ["/images/logo.webp"],
-    url: "https://chatvote.fr",
+    url: "https://app.chatvote.org",
     siteName: "chatvote",
     locale: "fr-FR",
     type: "website",

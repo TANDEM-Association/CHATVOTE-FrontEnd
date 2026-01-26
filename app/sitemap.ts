@@ -4,27 +4,27 @@ import { type PartyDetails } from "@/lib/party-details";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const pages = [
-    "https://chatvote.fr/icon.svg",
-    "https://chatvote.fr/manifest.json",
-    "https://chatvote.fr/pdf/view",
-    "https://chatvote.fr/apple-icon.png",
-    "https://chatvote.fr/donate",
-    "https://chatvote.fr/about-us",
-    "https://chatvote.fr/icon.png",
-    "https://chatvote.fr/privacy-policy",
-    "https://chatvote.fr/legal-notice",
-    "https://chatvote.fr/sources",
-    "https://chatvote.fr/how-to",
-    "https://chatvote.fr",
-    "https://chatvote.fr/swiper",
+    "https://app.chatvote.org/icon.svg",
+    "https://app.chatvote.org/manifest.json",
+    "https://app.chatvote.org/pdf/view",
+    "https://app.chatvote.org/apple-icon.png",
+    "https://app.chatvote.org/donate",
+    "https://app.chatvote.org/about-us",
+    "https://app.chatvote.org/icon.png",
+    "https://app.chatvote.org/privacy-policy",
+    "https://app.chatvote.org/legal-notice",
+    "https://app.chatvote.org/sources",
+    "https://app.chatvote.org/how-to",
+    "https://app.chatvote.org",
+    "https://app.chatvote.org/swiper",
   ];
 
-  const parties = await fetch("https://chatvote.fr/api/parties").then(
+  const parties = await fetch("https://app.chatvote.org/api/parties").then(
     (res) => res.json() as Promise<PartyDetails[]>,
   );
 
   const partyPages = parties.map((party) => ({
-    url: `https://chatvote.fr/session?party_id=${party.party_id}`,
+    url: `https://app.chatvote.org/session?party_id=${party.party_id}`,
     lastModified: new Date().toISOString(),
   }));
 

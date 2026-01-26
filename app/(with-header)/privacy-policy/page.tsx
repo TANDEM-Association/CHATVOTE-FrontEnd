@@ -55,9 +55,7 @@ function PrivacyPolicy() {
         <li>Retour d&lsquo;information</li>
         <li>Marketing</li>
         <li>Profils avec informations relatives aux utilisateurs</li>
-        <li>
-          Mise à disposition de notre offre en ligne et convivialité
-        </li>
+        <li>Mise à disposition de notre offre en ligne et convivialité</li>
         <li>Infrastructure informatique</li>
         <li>Relations publiques</li>
         <li>Promotion des ventes</li>
@@ -70,8 +68,8 @@ function PrivacyPolicy() {
         Vous trouverez ci-dessous un aperçu des bases juridiques du RGPD sur
         lesquelles nous traitons les données personnelles. Veuillez noter
         qu&lsquo;en plus des dispositions du RGPD, des réglementations
-        nationales en matière de protection des données peuvent s&lsquo;appliquer
-        dans votre pays ou le nôtre.
+        nationales en matière de protection des données peuvent
+        s&lsquo;appliquer dans votre pays ou le nôtre.
       </p>
       <ul>
         <li>
@@ -95,8 +93,8 @@ function PrivacyPolicy() {
           à laquelle le responsable du traitement est soumis.
         </li>
         <li>
-          <strong>Intérêts légitimes (Art. 6 par. 1 p. 1 let. f) RGPD)</strong> -
-          Le traitement est nécessaire aux fins des intérêts légitimes
+          <strong>Intérêts légitimes (Art. 6 par. 1 p. 1 let. f) RGPD)</strong>{" "}
+          - Le traitement est nécessaire aux fins des intérêts légitimes
           poursuivis par le responsable du traitement ou par un tiers, à moins
           que ne prévalent les intérêts ou les libertés et droits fondamentaux
           de la personne concernée qui exigent une protection des données
@@ -130,9 +128,9 @@ function PrivacyPolicy() {
         indépendantes ou personnes. Les destinataires de ces données peuvent
         être, par exemple, des prestataires de services chargés de tâches
         informatiques ou des fournisseurs de services et de contenus intégrés
-        dans un site web. Dans ces cas, nous respectons les exigences légales
-        et concluons notamment des contrats ou accords correspondants servant à
-        la protection de vos données avec les destinataires de vos données.
+        dans un site web. Dans ces cas, nous respectons les exigences légales et
+        concluons notamment des contrats ou accords correspondants servant à la
+        protection de vos données avec les destinataires de vos données.
       </p>
 
       <h2 id="international-transfers">Transferts internationaux de données</h2>
@@ -142,8 +140,8 @@ function PrivacyPolicy() {
         l&lsquo;Union européenne (UE), de l&lsquo;Espace économique européen
         (EEE)) ou si le traitement a lieu dans le cadre de l&lsquo;utilisation
         de services de tiers ou de la divulgation ou du transfert de données à
-        d&lsquo;autres personnes, organismes ou entreprises, cela ne se fait
-        que conformément aux exigences légales.
+        d&lsquo;autres personnes, organismes ou entreprises, cela ne se fait que
+        conformément aux exigences légales.
       </p>
 
       <h2 id="storage">
@@ -154,8 +152,8 @@ function PrivacyPolicy() {
         aux dispositions légales dès que les consentements sous-jacents sont
         révoqués ou qu&lsquo;il n&lsquo;existe plus d&lsquo;autres bases
         juridiques pour le traitement. Cela concerne les cas où la finalité
-        initiale du traitement cesse de s&lsquo;appliquer ou les données ne
-        sont plus nécessaires.
+        initiale du traitement cesse de s&lsquo;appliquer ou les données ne sont
+        plus nécessaires.
       </p>
 
       <h2 id="rights">Droits des personnes concernées</h2>
@@ -168,8 +166,8 @@ function PrivacyPolicy() {
           <strong>Droit d&lsquo;accès :</strong> Vous avez le droit de demander
           la confirmation que des données vous concernant sont traitées et
           d&lsquo;obtenir des informations sur ces données ainsi que des
-          informations complémentaires et une copie des données conformément
-          aux exigences légales.
+          informations complémentaires et une copie des données conformément aux
+          exigences légales.
         </li>
         <li>
           <strong>Droit de rectification :</strong> Vous avez le droit de
@@ -194,8 +192,8 @@ function PrivacyPolicy() {
           machine.
         </li>
         <li>
-          <strong>Droit d&lsquo;opposition :</strong> Vous avez le droit de
-          vous opposer à tout moment, pour des raisons tenant à votre situation
+          <strong>Droit d&lsquo;opposition :</strong> Vous avez le droit de vous
+          opposer à tout moment, pour des raisons tenant à votre situation
           particulière, au traitement des données vous concernant.
         </li>
         <li>
@@ -210,8 +208,8 @@ function PrivacyPolicy() {
           Vous avez le droit d&lsquo;introduire une réclamation auprès
           d&lsquo;une autorité de contrôle, en particulier dans l&lsquo;État
           membre de votre résidence habituelle, de votre lieu de travail ou du
-          lieu de l&lsquo;infraction présumée, si vous estimez que le
-          traitement des données personnelles vous concernant viole le RGPD.
+          lieu de l&lsquo;infraction présumée, si vous estimez que le traitement
+          des données personnelles vous concernant viole le RGPD.
         </li>
       </ul>
 
@@ -224,9 +222,7 @@ function PrivacyPolicy() {
         panier dans une boutique en ligne, les contenus consultés ou les
         fonctions utilisées d&lsquo;une offre en ligne.
       </p>
-      <p>
-        Nous utilisons des cookies aux fins suivantes :
-      </p>
+      <p>Nous utilisons des cookies aux fins suivantes :</p>
       <ul>
         <li>
           Cookies strictement nécessaires (également appelés cookies essentiels
@@ -238,11 +234,11 @@ function PrivacyPolicy() {
 
       <h2 id="contact">Contact</h2>
       <p>
-        Pour toute question concernant la protection de vos données, vous
-        pouvez nous contacter à l&lsquo;adresse suivante :
+        Pour toute question concernant la protection de vos données, vous pouvez
+        nous contacter à l&lsquo;adresse suivante :
       </p>
       <p>
-        <strong>E-mail :</strong> info@chatvote.fr
+        <strong>E-mail :</strong> info@chatvote.org
       </p>
 
       <h2 id="changes">Modifications de cette politique</h2>

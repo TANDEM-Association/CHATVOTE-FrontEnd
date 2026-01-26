@@ -1,8 +1,8 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import { ArrowRightIcon } from "lucide-react";
 
-import Logo from "@/components/chat/logo";
 import { Button } from "@/components/ui/button";
 
 import ChatvoteSwiperTeaserVector from "./chatvote-swiper-teaser-vector";
@@ -11,7 +11,14 @@ const SwiperTeaserCard = () => {
   return (
     <div className="border-border bg-muted relative h-[250px] overflow-hidden rounded-md border p-6 text-center md:col-span-2 md:h-[174px] md:text-left">
       <div className="flex items-center justify-center gap-2 md:justify-normal">
-        <Logo className="w-6" variant="small" />
+        <Image
+          src="/images/logos/chatvote.svg"
+          alt="chatvote"
+          width={0}
+          height={0}
+          sizes="100vw"
+          className="w-6 rounded-md"
+        />
         <p className="text-lg font-bold italic">Swiper</p>
       </div>
 

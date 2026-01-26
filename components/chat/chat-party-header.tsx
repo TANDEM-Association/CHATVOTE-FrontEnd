@@ -4,8 +4,6 @@ import Image from "next/image";
 
 import { type PartyDetails } from "@/lib/party-details";
 
-import Logo from "./logo";
-
 type Props = {
   parties?: PartyDetails[];
 };
@@ -30,7 +28,14 @@ const ChatPartyHeader = ({ parties }: Props) => {
               className="object-contain p-4"
             />
           ) : (
-            <Logo className="size-full p-4" />
+            <Image
+              src="/images/logos/chatvote.svg"
+              alt="chatvote"
+              width={0}
+              height={0}
+              sizes="100vw"
+              className="size-full p-4"
+            />
           )}
         </div>
       </div>

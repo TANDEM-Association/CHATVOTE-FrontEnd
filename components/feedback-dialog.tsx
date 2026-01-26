@@ -34,7 +34,7 @@ const FeedbackDialog = ({ children }: Props) => {
 
         <div className="flex w-full flex-col gap-2">
           <Button asChild variant="outline">
-            <Link href="mailto:info@chatvote.fr">
+            <Link href="mailto:info@chatvote.org">
               <MailIcon />
               Écrivez-nous un e-mail
             </Link>

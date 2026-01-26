@@ -1,11 +1,11 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 
 import { useChatStore } from "@/components/providers/chat-store-provider";
 import { useParties } from "@/components/providers/parties-provider";
 
-import Logo from "./logo";
 import PartyDetailPopover from "./party-detail-popover";
 
 type Props = {
@@ -20,7 +20,14 @@ function ChatHeaderTitleDescription({ showPartyPopover = true }: Props) {
     <div className="flex min-w-0 grow items-center gap-2">
       <div className="flex min-w-0 flex-col">
         <Link href="/">
-          <Logo variant="large" className="w-24" />
+          <Image
+            src="/images/logos/chatvote.svg"
+            alt="chatvote"
+            width={0}
+            height={0}
+            sizes="100vw"
+            className="w-24"
+          />
         </Link>
       </div>
       {showPartyPopover && parties && parties?.length > 0 && (

@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
   const tenantId = request.nextUrl.searchParams.get("tenant_id");
   const partyIds = request.nextUrl.searchParams.getAll("party_id");
 
-  const url = new URL("https://embed.chatvote.fr", request.url);
+  const url = new URL("https://embed.chatvote.org", request.url);
 
   if (tenantId === SPECIAL_TENANT_ID) {
     track("embed", {

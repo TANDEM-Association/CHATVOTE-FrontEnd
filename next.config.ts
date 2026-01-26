@@ -6,13 +6,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "chatvote.fr",
-        port: "",
-        pathname: "/images/**",
-      },
-      {
-        protocol: "https",
-        hostname: "dev.chatvote.fr",
+        hostname: "app.chatvote.org",
         port: "",
         pathname: "/images/**",
       },
