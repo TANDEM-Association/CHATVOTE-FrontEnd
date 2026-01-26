@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 import {
   ArrowUp,
   ChevronDown,
@@ -6,7 +8,6 @@ import {
 } from "lucide-react";
 
 import { useAppContext } from "@/app/_providers/AppProvider";
-import Logo from "@/components/chat/logo";
 import MessageLoadingBorderTrail from "@/components/chat/message-loading-border-trail";
 import { useChatvoteSwiperStore } from "@/components/providers/chatvote-swiper-store-provider";
 import { Button } from "@/components/ui/button";
@@ -125,8 +126,12 @@ const ChatvoteSwiperInput = ({
           : null}
       </div>
 
-      <Logo
-        variant="small"
+      <Image
+        src="/images/logos/chatvote.svg"
+        alt="chatvote"
+        width={0}
+        height={0}
+        sizes="100vw"
         className="border-border absolute bottom-2 left-2 size-8 translate-y-0 rounded-full border p-1"
       />
       <input
