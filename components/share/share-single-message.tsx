@@ -1,16 +1,14 @@
 import ChatMarkdown from "@/components/chat/chat-markdown";
 import { ChatMessageIcon } from "@/components/chat/chat-message-icon";
 import SourcesButton from "@/components/chat/sources-button";
-import { type PartyDetails } from "@/lib/party-details";
 import { type MessageItem } from "@/lib/stores/chat-store.types";
 import { cn } from "@/lib/utils";
 
 type Props = {
   message: MessageItem;
-  party?: PartyDetails;
 };
 
-function ShareSingleMessage({ message, party }: Props) {
+function ShareSingleMessage({ message }: Props) {
   if (message.role === "user") {
     return (
       <article className="flex flex-col items-end justify-end gap-1">
@@ -29,7 +27,7 @@ function ShareSingleMessage({ message, party }: Props) {
       )}
     >
       <div className={cn("flex items-start justify-start gap-3 md:gap-4")}>
-        <ChatMessageIcon partyId={message.party_id} party={party} />
+        <ChatMessageIcon />
         <div className="flex flex-col gap-4">
           <ChatMarkdown message={message} />
 

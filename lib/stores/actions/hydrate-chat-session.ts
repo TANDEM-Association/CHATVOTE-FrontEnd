@@ -16,6 +16,7 @@ export const hydrateChatSession: ChatStoreActionHandlerFor<
     initialQuestion,
     userId,
     tenant,
+    municipalityCode,
   }) => {
     const {
       chatSessionId: currentChatSessionId,
@@ -30,6 +31,9 @@ export const hydrateChatSession: ChatStoreActionHandlerFor<
       chatSessionId !== currentChatSessionId ||
       !areSetsEqual(partyIds, currentPartyIds);
 
+    // Determine scope based on municipality code presence
+    const scope = municipalityCode !== undefined ? "local" : "national";
+
     set((state) => {
       const sessionId = changedPage ? chatSessionId : state.chatSessionId;
       const preliminarySessionId =
@@ -43,6 +47,8 @@ export const hydrateChatSession: ChatStoreActionHandlerFor<
       state.pendingInitialQuestion = initialQuestion;
       state.userId = userId;
       state.tenant = tenant;
+      state.scope = scope;
+      state.municipalityCode = municipalityCode;
     });
 
     if (initialQuestion && typeof window !== "undefined") {

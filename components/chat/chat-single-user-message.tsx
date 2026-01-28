@@ -26,9 +26,7 @@ function ChatSingleUserMessage({ message, isLastMessage }: Props) {
 
   const handleResendMessage = () => {
     if (!user) {
-      toast.error(
-        "Veuillez recharger la page pour renvoyer un message.",
-      );
+      toast.error("Veuillez recharger la page pour renvoyer un message.");
       return;
     }
 

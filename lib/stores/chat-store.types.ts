@@ -5,6 +5,7 @@ import type ChatSocket from "@/lib/chat-socket";
 import { type ChatSession, type Tenant } from "@/lib/firebase/firebase.types";
 import { type PartyDetails } from "@/lib/party-details";
 import {
+  type ChatScope,
   type LLMSize,
   type PartyResponseChunkReadyPayload,
   type StreamingMessage,
@@ -111,6 +112,8 @@ export type ChatStoreState = {
     messagesLengthAtSharing: number;
   };
   tenant?: Tenant;
+  scope: ChatScope;
+  municipalityCode?: string;
 };
 
 export type ChatStoreActions = {
@@ -132,6 +135,7 @@ export type ChatStoreActions = {
     initialQuestion,
     userId,
     tenant,
+    municipalityCode,
   }: {
     chatSession?: ChatSession;
     messages?: GroupedMessage[];
@@ -140,6 +144,7 @@ export type ChatStoreActions = {
     initialQuestion?: string;
     userId: string;
     tenant?: Tenant;
+    municipalityCode?: string;
   }) => void;
   generateProConPerspective: (
     partyId: string,
@@ -200,6 +205,11 @@ export type ChatStoreActions = {
   ) => void;
   setPartyIds: (partyIds: string[]) => void;
   getLLMSize: () => LLMSize;
+  resetStreamingMessage: (
+    sessionId: string,
+    partyId: string,
+    reason: string,
+  ) => void;
 };
 
 export type ChatStore = ChatStoreState & ChatStoreActions;

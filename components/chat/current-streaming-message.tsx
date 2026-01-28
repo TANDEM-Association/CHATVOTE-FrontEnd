@@ -19,7 +19,7 @@ function CurrentStreamingMessage({ partyId }: Props) {
 
   return (
     <article id={messageId} className={cn("flex flex-row gap-3 md:gap-4")}>
-      <ChatMessageIcon partyId={partyId} />
+      <ChatMessageIcon />
       <div className="flex flex-col gap-2">
         <div className="flex flex-col gap-4">
           <ChatSingleStreamingMessageContent partyId={partyId} />

@@ -13,6 +13,7 @@ import {
   type QuickRepliesAndTitleReadyPayload,
   type RespondingPartiesSelectedPayload,
   type SourcesReadyPayload,
+  type StreamResetPayload,
   type VotingBehaviorCompletePayload,
   type VotingBehaviorResultPayload,
   type VotingBehaviorSummaryChunkPayload,
@@ -64,6 +65,9 @@ function SocketProvider({ children }: Props) {
   );
   const completeVotingBehavior = useChatStore(
     (state) => state.completeVotingBehavior,
+  );
+  const resetStreamingMessage = useChatStore(
+    (state) => state.resetStreamingMessage,
   );
 
   useEffect(() => {
@@ -147,6 +151,10 @@ function SocketProvider({ children }: Props) {
       completeVotingBehavior(data.request_id, data.votes, data.message);
     }
 
+    function onStreamReset(data: StreamResetPayload) {
+      resetStreamingMessage(data.session_id, data.party_id, data.reason);
+    }
+
     chatSocket.on("connect", onConnect);
     chatSocket.on("disconnect", onDisconnect);
     chatSocket.on("responding_parties_selected", onRespondingPartiesSelected);
@@ -162,6 +170,7 @@ function SocketProvider({ children }: Props) {
     );
     chatSocket.on("voting_behavior_result", onVotingBehaviorResult);
     chatSocket.on("voting_behavior_complete", onVotingBehaviorComplete);
+    chatSocket.on("stream_reset", onStreamReset);
 
     return () => {
       chatSocket.off("connect", onConnect);
@@ -185,6 +194,7 @@ function SocketProvider({ children }: Props) {
       );
       chatSocket.off("voting_behavior_result", onVotingBehaviorResult);
       chatSocket.off("voting_behavior_complete", onVotingBehaviorComplete);
+      chatSocket.off("stream_reset", onStreamReset);
     };
   }, [
     selectRespondingParties,
@@ -199,6 +209,7 @@ function SocketProvider({ children }: Props) {
     addVotingBehaviorSummaryChunk,
     addVotingBehaviorResult,
     completeVotingBehavior,
+    resetStreamingMessage,
   ]);
 
   return <>{children}</>;

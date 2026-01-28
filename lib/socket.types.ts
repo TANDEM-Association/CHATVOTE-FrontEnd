@@ -59,6 +59,8 @@ export type StreamingMessage = {
 
 export type LLMSize = "small" | "large";
 
+export type ChatScope = "local" | "national";
+
 export type ChatSessionInitPayload = {
   session_id: string;
   party_ids: string[];
@@ -66,6 +68,8 @@ export type ChatSessionInitPayload = {
   current_title: string;
   chat_response_llm_size: LLMSize;
   last_quick_replies: string[];
+  scope: ChatScope;
+  municipality_code?: string;
 };
 
 export type ChatSessionInitializedPayload = {
@@ -154,4 +158,10 @@ export type GenerateVotingBehaviorSummaryPayload = {
   last_assistant_message: string;
   summary_llm_size: LLMSize;
   user_is_logged_in: boolean;
+};
+
+export type StreamResetPayload = {
+  session_id: string;
+  party_id: string;
+  reason: string;
 };

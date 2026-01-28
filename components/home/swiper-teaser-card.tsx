@@ -3,8 +3,6 @@ import Link from "next/link";
 
 import { ArrowRightIcon } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
-
 import ChatvoteSwiperTeaserVector from "./chatvote-swiper-teaser-vector";
 
 const SwiperTeaserCard = () => {
@@ -26,12 +24,13 @@ const SwiperTeaserCard = () => {
         Trouvez maintenant le parti qui vous correspond.
       </p>
 
-      <Button className="relative z-10 mt-2" asChild>
-        <Link href="/swiper">
-          Chatvote Swiper
-          <ArrowRightIcon className="size-4" />
-        </Link>
-      </Button>
+      <Link
+        href="/swiper"
+        className="mt-2 flex shrink-0 flex-row items-center justify-start gap-1 text-sm font-medium"
+      >
+        <span> Chatvote Swiper</span>
+        <ArrowRightIcon className="size-4" />
+      </Link>
 
       <div className="absolute inset-x-0 bottom-[-36px] mx-auto w-[90%] max-w-[285px] md:absolute md:top-0 md:right-0 md:bottom-auto md:left-auto md:mx-0 md:w-1/3 md:scale-125 md:rotate-12">
         <ChatvoteSwiperTeaserVector />

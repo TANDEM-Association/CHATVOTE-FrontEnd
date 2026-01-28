@@ -23,7 +23,8 @@ function ChatVotingBehaviorSubmittingParties({ vote }: Props) {
   return (
     <>
       <p className="pt-4 pb-2 text-sm font-bold">
-        {vote.submitting_parties.length > 1 ? "Partis" : "Parti"} soumissionnaire
+        {vote.submitting_parties.length > 1 ? "Partis" : "Parti"}{" "}
+        soumissionnaire
         {vote.submitting_parties.length > 1 ? "s" : ""}
       </p>
 

@@ -27,6 +27,7 @@ type Props = {
   allParties?: PartyDetails[];
   proposedQuestions?: ProposedQuestion[];
   initialQuestion?: string;
+  municipalityCode?: string;
 };
 
 function ChatMessagesView({
@@ -37,6 +38,7 @@ function ChatMessagesView({
   allParties,
   proposedQuestions,
   initialQuestion,
+  municipalityCode,
 }: Props) {
   const hasFetched = useRef(false);
   const storeMessages = useChatStore((state) => state.messages);
@@ -59,6 +61,7 @@ function ChatMessagesView({
       initialQuestion,
       userId: user.uid,
       tenant,
+      municipalityCode,
     });
 
     hasFetched.current = true;
@@ -71,6 +74,7 @@ function ChatMessagesView({
     parties,
     initialQuestion,
     tenant,
+    municipalityCode,
   ]);
 
   const normalizedMessages = useMemo(() => {

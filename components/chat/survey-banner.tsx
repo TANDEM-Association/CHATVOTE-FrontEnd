@@ -93,7 +93,7 @@ const SurveyBanner = () => {
   }
 
   return (
-    <div className="bg-muted flex flex-col gap-2 rounded-lg p-4 group-data-[has-message-background]:mx-4 group-data-[has-message-background]:mb-4 group-data-[has-message-background]:bg-zinc-200 group-data-[has-message-background]:dark:bg-zinc-800">
+    <div className="bg-muted flex flex-col gap-2 rounded-lg p-4 group-data-has-message-background:mx-4 group-data-has-message-background:mb-4 group-data-has-message-background:bg-zinc-200 group-data-has-message-background:dark:bg-zinc-800">
       <div className="flex items-center justify-between">
         <h2 className="text-sm font-bold">
           👆🏼 Aidez-nous à améliorer chatvote !

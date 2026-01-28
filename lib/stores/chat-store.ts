@@ -20,6 +20,7 @@ import { initializedChatSession } from "./actions/initialized-chat-session";
 import { loadChatSession } from "./actions/load-chat-session";
 import { mergeStreamingChunkPayloadForMessage } from "./actions/merge-streaming-chunk-payload-for-message";
 import { newChat } from "./actions/new-chat";
+import { resetStreamingMessage } from "./actions/reset-streaming-message";
 import { selectRespondingParties } from "./actions/select-responding-parties";
 import { setChatSessionId } from "./actions/set-chat-session-id";
 import { setChatSessionIsPublic } from "./actions/set-chat-session-is-public";
@@ -64,6 +65,8 @@ const defaultState: ChatStoreState = {
   socket: {},
   currentStreamingMessages: undefined,
   tenant: undefined,
+  scope: "national",
+  municipalityCode: undefined,
 };
 
 export function createChatStore(initialState?: Partial<ChatStore>) {
@@ -109,6 +112,7 @@ export function createChatStore(initialState?: Partial<ChatStore>) {
         completeVotingBehavior: completeVotingBehavior(get, set),
         setPartyIds: setPartyIds(get, set),
         getLLMSize: () => get().tenant?.llm_size ?? DEFAULT_LLM_SIZE,
+        resetStreamingMessage: resetStreamingMessage(get, set),
       })),
     ),
   );

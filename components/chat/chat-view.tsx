@@ -18,9 +18,15 @@ type Props = {
   sessionId?: string;
   partyIds?: string[];
   initialQuestion?: string;
+  municipalityCode?: string;
 };
 
-async function ChatView({ sessionId, partyIds, initialQuestion }: Props) {
+async function ChatView({
+  sessionId,
+  partyIds,
+  initialQuestion,
+  municipalityCode,
+}: Props) {
   const systemStatus = await getSystemStatus();
   const user = await getCurrentUser();
 
@@ -46,10 +52,11 @@ async function ChatView({ sessionId, partyIds, initialQuestion }: Props) {
             chatSessionId={sessionId}
             partyIds={partyIds}
             initialQuestion={initialQuestion}
+            municipalityCode={municipalityCode}
           />
         </Suspense>
 
-        <div className="bg-background relative mx-auto w-full max-w-192 shrink-0 px-3 md:px-4">
+        <div className="bg-background relative mx-auto w-full max-w-192 shrink-0 p-3 md:p-4">
           <ChatScrollDownIndicator />
           <ChatDynamicChatInput
             initialSystemStatus={systemStatus}

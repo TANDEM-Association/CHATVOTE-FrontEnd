@@ -161,9 +161,7 @@ function SourceItem({ source }: { source: SourceWithIndex }) {
       <p className="bg-muted text-muted-foreground flex h-8 items-center justify-center rounded-md px-2 text-xs whitespace-nowrap">
         Page {source.page}
       </p>
-      {source.party_id !== undefined ? (
-        <ChatMessageIcon partyId={source.party_id} />
-      ) : null}
+      {source.party_id !== undefined ? <ChatMessageIcon /> : null}
     </button>
   );
 }

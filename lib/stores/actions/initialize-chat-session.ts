@@ -12,6 +12,8 @@ export const initializeChatSession: ChatStoreActionHandlerFor<
     partyIds,
     localPreliminaryChatSessionId,
     getLLMSize,
+    scope,
+    municipalityCode,
   } = get();
 
   if (!socket.io?.connected) {
@@ -45,5 +47,7 @@ export const initializeChatSession: ChatStoreActionHandlerFor<
     last_quick_replies: lastQuickReplies ?? [],
     current_title: currentChatTitle ?? [...partyIds].join(", ") ?? "no-title",
     chat_response_llm_size: getLLMSize(),
+    scope,
+    municipality_code: municipalityCode,
   });
 };

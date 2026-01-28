@@ -14,6 +14,7 @@ import {
   type QuickRepliesAndTitleReadyPayload,
   type RespondingPartiesSelectedPayload,
   type SourcesReadyPayload,
+  type StreamResetPayload,
   type VotingBehaviorCompletePayload,
   type VotingBehaviorResultPayload,
   type VotingBehaviorSummaryChunkPayload,
@@ -36,6 +37,7 @@ type ChatSocketListenerEvent = {
     data: VotingBehaviorSummaryChunkPayload,
   ) => void;
   voting_behavior_complete: (data: VotingBehaviorCompletePayload) => void;
+  stream_reset: (data: StreamResetPayload) => void;
 };
 
 type ChatSocketSenderEvent = {

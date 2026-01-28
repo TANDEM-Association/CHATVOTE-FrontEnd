@@ -1,5 +1,4 @@
 import { useChatStore } from "@/components/providers/chat-store-provider";
-import { type PartyDetails } from "@/lib/party-details";
 import { type MessageItem } from "@/lib/stores/chat-store.types";
 import { cn } from "@/lib/utils";
 
@@ -15,7 +14,6 @@ import SurveyBanner from "./survey-banner";
 type Props = {
   message: MessageItem;
   partyId?: string;
-  party?: PartyDetails;
   isLastMessage?: boolean;
   showAssistantIcon?: boolean;
   showMessageActions?: boolean;
@@ -25,7 +23,6 @@ type Props = {
 function ChatSingleMessage({
   message,
   partyId,
-  party,
   isLastMessage,
   showAssistantIcon = true,
   showMessageActions = true,
@@ -73,9 +70,7 @@ function ChatSingleMessage({
         data-has-message-background={Boolean(shouldHaveBackground)}
       >
         <div className={cn("flex items-start justify-start gap-3 md:gap-4")}>
-          {showAssistantIcon === true ? (
-            <ChatMessageIcon partyId={partyId} party={party} />
-          ) : null}
+          {showAssistantIcon === true ? <ChatMessageIcon /> : null}
           <div className="flex flex-col gap-2">
             {content}
             {isLastMessage === true ? <SurveyBanner /> : null}

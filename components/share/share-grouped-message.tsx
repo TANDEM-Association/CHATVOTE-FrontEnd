@@ -50,11 +50,11 @@ function ShareGroupedMessage({ message, parties }: Props) {
       plugins={[AutoHeight()]}
     >
       <CarouselContent>
-        {messagePartiesDict?.map(({ message, party }) => {
+        {messagePartiesDict?.map(({ message }) => {
           return (
             <CarouselItem key={message.id}>
               <div className="p-4">
-                <ShareSingleMessage message={message} party={party} />
+                <ShareSingleMessage message={message} />
               </div>
             </CarouselItem>
           );

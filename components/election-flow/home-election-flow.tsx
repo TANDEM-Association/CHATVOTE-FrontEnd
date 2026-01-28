@@ -1,0 +1,419 @@
+"use client";
+
+import React, { useCallback, useState } from "react";
+
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+
+import { track } from "@vercel/analytics/react";
+import {
+  ArrowLeftIcon,
+  GlobeIcon,
+  Loader2Icon,
+  MapPinIcon,
+  MessageCircleIcon,
+} from "lucide-react";
+import { toast } from "sonner";
+
+import {
+  type Candidate,
+  type Municipality,
+} from "@/lib/election/election.types";
+import { getCandidatesByMunicipality } from "@/lib/election/election-firebase-server";
+import { getParties } from "@/lib/firebase/firebase-server";
+import { type PartyDetails } from "@/lib/party-details";
+import { cn } from "@/lib/utils";
+
+import { BorderTrail } from "../ui/border-trail";
+import { Button } from "../ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+
+import MunicipalitySearch from "./municipality-search";
+
+// Button with animated border trail on hover
+type ChatButtonProps = {
+  onClick: () => void;
+  children: React.ReactNode;
+  className?: string;
+};
+
+const ChatButton = ({ onClick, children, className }: ChatButtonProps) => {
+  return (
+    <Button
+      onClick={onClick}
+      className={cn(
+        "group relative overflow-hidden rounded-full border border-neutral-950 transition-all duration-300 ease-in-out hover:border-transparent dark:border-neutral-100",
+        className,
+      )}
+      size="lg"
+    >
+      <BorderTrail
+        className="opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        size={60}
+        contentRadius={24}
+        transition={{
+          repeat: Number.POSITIVE_INFINITY,
+          duration: 2,
+          ease: "linear",
+        }}
+        style={{
+          boxShadow:
+            "0px 0px 60px 30px rgb(147 51 234), 0 0 100px 60px rgb(59 130 246), 0 0 140px 90px rgb(236 72 153)",
+        }}
+      />
+      {children}
+    </Button>
+  );
+};
+
+type Props = {
+  className?: string;
+};
+
+type Scope = "local" | "national";
+type FlowStep = "scope" | "municipality" | "parties";
+
+const MAX_PARTIES_DISPLAY = 6;
+
+const HomeElectionFlow = ({ className }: Props) => {
+  const router = useRouter();
+
+  // Flow state
+  const [scope, setScope] = useState<Scope | null>(null);
+  const [currentStep, setCurrentStep] = useState<FlowStep>("scope");
+  const [selectedMunicipality, setSelectedMunicipality] =
+    useState<Municipality | null>(null);
+
+  // Data state
+  const [candidates, setCandidates] = useState<Candidate[]>([]);
+  const [isLoadingCandidates, setIsLoadingCandidates] = useState(false);
+  const [parties, setParties] = useState<PartyDetails[]>([]);
+  const [isLoadingParties, setIsLoadingParties] = useState(false);
+
+  // Handle scope selection
+  const handleScopeChange = useCallback(async (value: Scope) => {
+    setScope(value);
+
+    if (value === "national") {
+      // National scope - load parties and stay on scope step
+      setCurrentStep("scope");
+      setIsLoadingParties(true);
+      try {
+        const partiesData = await getParties();
+        setParties(partiesData.slice(0, MAX_PARTIES_DISPLAY));
+      } catch (_) {
+        toast.error("Erreur lors du chargement des partis");
+        setParties([]);
+      } finally {
+        setIsLoadingParties(false);
+      }
+    } else {
+      // Local scope - go to municipality search
+      setCurrentStep("municipality");
+    }
+
+    // Reset state
+    setSelectedMunicipality(null);
+    setCandidates([]);
+  }, []);
+
+  // Handle municipality selection
+  const handleSelectMunicipality = useCallback(
+    async (municipality: Municipality) => {
+      setSelectedMunicipality(municipality);
+      setCurrentStep("parties");
+
+      // Load candidates for this municipality
+      setIsLoadingCandidates(true);
+
+      try {
+        const candidatesData = await getCandidatesByMunicipality(
+          municipality.code,
+        );
+        setCandidates(candidatesData);
+      } catch (error) {
+        console.error("Error loading candidates:", error);
+        toast.error("Erreur lors du chargement des candidats");
+        setCandidates([]);
+      } finally {
+        setIsLoadingCandidates(false);
+      }
+    },
+    [],
+  );
+
+  // Handle municipality clear
+  const handleClearMunicipality = useCallback(() => {
+    setSelectedMunicipality(null);
+    setCandidates([]);
+    setCurrentStep("municipality");
+  }, []);
+
+  // Handle back navigation
+  const handleBack = useCallback(() => {
+    if (currentStep === "parties") {
+      setCurrentStep("municipality");
+      setSelectedMunicipality(null);
+      setCandidates([]);
+    } else if (currentStep === "municipality") {
+      setCurrentStep("scope");
+      setScope(null);
+    }
+  }, [currentStep]);
+
+  // Navigate to chat
+  const handleStartChat = useCallback(
+    (municipalityCode?: string) => {
+      track("election_flow_chat_started", {
+        scope: scope ?? "unknown",
+        municipality_code: municipalityCode ?? null,
+      });
+
+      if (municipalityCode !== undefined) {
+        router.push(`/session?municipality_code=${municipalityCode}`);
+      } else {
+        router.push("/session");
+      }
+    },
+    [router, scope],
+  );
+
+  // Get step number for progress indicator (always out of 3)
+  const getStepNumber = (): number => {
+    if (currentStep === "scope") {
+      // National shows step 2 when selected, local stays at step 1 until next
+      return scope === "national" ? 2 : 1;
+    }
+
+    if (currentStep === "municipality") {
+      return 2;
+    }
+
+    if (currentStep === "parties") {
+      return 3;
+    }
+
+    return 1;
+  };
+
+  const stepNumber = getStepNumber();
+
+  return (
+    <div className={cn("w-full space-y-6", className)}>
+      {/* Progress indicator */}
+      <div className="flex h-10 items-center justify-between">
+        <div className="flex items-center gap-2">
+          {currentStep === "municipality" || currentStep === "parties" ? (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleBack}
+              className="mr-2 pl-0!"
+            >
+              <ArrowLeftIcon className="mr-1 size-4" />
+              Retour
+            </Button>
+          ) : null}
+        </div>
+        <div className="text-muted-foreground text-sm">
+          Étape {stepNumber} sur 3
+        </div>
+      </div>
+
+      {/* Step 1: Scope selection */}
+      {currentStep === "scope" ? (
+        <div className="space-y-4">
+          <div className="flex items-center gap-2">
+            <GlobeIcon className="size-5" />
+            <h2 className="text-lg font-semibold">
+              À quel niveau souhaitez-vous explorer ?
+            </h2>
+          </div>
+
+          <Select
+            value={scope ?? undefined}
+            onValueChange={(value) => handleScopeChange(value as Scope)}
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Choisissez un niveau..." />
+            </SelectTrigger>
+            <SelectContent className="border-border overflow-hidden rounded-md border bg-neutral-200 shadow-lg data-[side=bottom]:translate-y-px dark:bg-neutral-950">
+              <SelectItem
+                value="local"
+                className="cursor-pointer rounded-md px-3 py-2 transition-all duration-300 ease-in-out hover:bg-neutral-700"
+              >
+                <div className="flex items-center gap-2">
+                  <MapPinIcon className="size-4" />
+                  <span>Local (commune)</span>
+                </div>
+              </SelectItem>
+              <SelectItem
+                value="national"
+                className="cursor-pointer rounded-md px-3 py-2 transition-all duration-300 ease-in-out hover:bg-neutral-700"
+              >
+                <div className="flex items-center gap-2">
+                  <GlobeIcon className="size-4" />
+                  <span>National</span>
+                </div>
+              </SelectItem>
+            </SelectContent>
+          </Select>
+
+          {/* National scope: show parties and chat button */}
+          {scope === "national" ? (
+            <div className="flex flex-col items-center justify-center space-y-6 pt-4">
+              {isLoadingParties ? (
+                <div className="flex flex-col items-center justify-center py-8">
+                  <Loader2Icon className="text-primary size-8 animate-spin" />
+                  <p className="text-muted-foreground mt-3 text-sm">
+                    Chargement des partis...
+                  </p>
+                </div>
+              ) : parties.length > 0 ? (
+                <div className="flex flex-wrap justify-center gap-1">
+                  {parties.map((party) => (
+                    <Tooltip key={party.party_id}>
+                      <TooltipTrigger asChild>
+                        <div className="flex cursor-pointer flex-col items-center gap-2">
+                          <div className="rounded-full bg-white p-0.5 shadow-lg">
+                            <Image
+                              src={party.logo_url}
+                              alt={party.name}
+                              width={72}
+                              height={72}
+                              className="size-8 rounded-full object-contain"
+                            />
+                          </div>
+                        </div>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p className="font-semibold">{party.name}</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  ))}
+                </div>
+              ) : null}
+
+              <p className="text-muted-foreground text-sm">
+                Posez vos questions sur les candidats et partis au niveau
+                national.
+              </p>
+              <ChatButton onClick={() => handleStartChat()}>
+                <MessageCircleIcon className="mr-2 size-5" />
+                Discuter avec l&apos;IA
+              </ChatButton>
+            </div>
+          ) : null}
+        </div>
+      ) : null}
+
+      {/* Step 2: Municipality search (local scope only) */}
+      {currentStep === "municipality" ? (
+        <MunicipalitySearch
+          selectedMunicipality={selectedMunicipality}
+          onSelectMunicipality={handleSelectMunicipality}
+          onClearSelection={handleClearMunicipality}
+        />
+      ) : null}
+
+      {/* Step 3: Candidates list (local scope only) */}
+      {currentStep === "parties" ? (
+        isLoadingCandidates ? (
+          <div className="flex flex-col items-center justify-center py-12">
+            <Loader2Icon className="text-primary size-8 animate-spin" />
+            <p className="text-muted-foreground mt-3 text-sm">
+              Chargement des candidats...
+            </p>
+          </div>
+        ) : selectedMunicipality !== null ? (
+          <div className="flex flex-col space-y-4">
+            <div className="flex items-center gap-2">
+              <MapPinIcon className="size-5" />
+              <h2 className="text-lg font-semibold">
+                Candidats à {selectedMunicipality.nom}
+              </h2>
+            </div>
+
+            {candidates.length > 0 ? (
+              <React.Fragment>
+                {/* Circular avatars in a row */}
+                <div className="flex flex-wrap justify-center gap-1">
+                  {candidates.map((candidate) => (
+                    <Tooltip key={candidate.candidate_id}>
+                      <TooltipTrigger asChild>
+                        <div className="flex cursor-pointer flex-col items-center gap-2 rounded-full border">
+                          <div className="rounded-full p-0.5 shadow-lg">
+                            {candidate.photo_url !== null &&
+                            candidate.photo_url !== "" ? (
+                              <Image
+                                src={candidate.photo_url}
+                                alt={`${candidate.first_name} ${candidate.last_name}`}
+                                width={72}
+                                height={72}
+                                className="size-18 rounded-full object-cover"
+                              />
+                            ) : (
+                              <div className="bg-muted flex size-8 items-center justify-center rounded-full">
+                                <span className="text-muted-foreground text-sm font-semibold">
+                                  {candidate.first_name[0]}
+                                  {candidate.last_name[0]}
+                                </span>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p className="font-semibold">
+                          {candidate.first_name} {candidate.last_name}
+                        </p>
+                        {candidate.party_ids.length > 0 ? (
+                          <p className="text-muted-foreground text-xs">
+                            {candidate.party_ids
+                              .map((id) => id.toUpperCase())
+                              .join(", ")}
+                          </p>
+                        ) : null}
+                      </TooltipContent>
+                    </Tooltip>
+                  ))}
+                </div>
+
+                <ChatButton
+                  onClick={() => handleStartChat(selectedMunicipality.code)}
+                  className="w-fit self-center"
+                >
+                  <MessageCircleIcon className="mr-2 size-5" />
+                  Discuter avec l&apos;IA sur {selectedMunicipality.nom}
+                </ChatButton>
+              </React.Fragment>
+            ) : (
+              <div className="py-8 text-center">
+                <p className="text-muted-foreground">
+                  Aucun candidat enregistré pour cette commune.
+                </p>
+                <Button
+                  onClick={() => handleStartChat(selectedMunicipality.code)}
+                  className="mt-4"
+                  variant="outline"
+                >
+                  <MessageCircleIcon className="mr-2 size-4" />
+                  Discuter quand même
+                </Button>
+              </div>
+            )}
+          </div>
+        ) : null
+      ) : null}
+    </div>
+  );
+};
+
+export default HomeElectionFlow;
