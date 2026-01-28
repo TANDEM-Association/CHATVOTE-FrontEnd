@@ -9,6 +9,7 @@ type Props = {
     session_id?: string;
     party_id: string[] | string | undefined;
     q?: string;
+    municipality_code?: string;
   }>;
 };
 
@@ -39,7 +40,7 @@ export async function generateMetadata({
 }
 
 async function Page({ searchParams }: Props) {
-  const { party_id, q, session_id } = await searchParams;
+  const { party_id, q, session_id, municipality_code } = await searchParams;
   const parties = await getParties();
 
   if (session_id) {
@@ -56,7 +57,13 @@ async function Page({ searchParams }: Props) {
     parties.some((p) => p.party_id === id),
   );
 
-  return <ChatView partyIds={normalizedPartyIds} initialQuestion={q} />;
+  return (
+    <ChatView
+      partyIds={normalizedPartyIds}
+      initialQuestion={q}
+      municipalityCode={municipality_code}
+    />
+  );
 }
 
 export default Page;

@@ -72,3 +72,12 @@ html, body {
 .animate-scroll:hover {
   animation-play-state: paused;
 }
+
+@keyframes border-trail {
+  0% {
+    offset-distance: 0%;
+  }
+  100% {
+    offset-distance: 100%;
+  }
+}

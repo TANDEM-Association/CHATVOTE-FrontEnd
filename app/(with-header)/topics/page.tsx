@@ -49,7 +49,9 @@ async function TopicsPage() {
         ))}
       </div>
 
-      <h1 className="mt-4 text-2xl font-bold">Questions sur les sujets populaires</h1>
+      <h1 className="mt-4 text-2xl font-bold">
+        Questions sur les sujets populaires
+      </h1>
       <p className="text-muted-foreground text-sm">
         Retrouvez ici les questions sur les sujets populaires des partis.
         Cliquez sur une question pour voir les détails.
