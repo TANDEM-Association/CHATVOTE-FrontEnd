@@ -3,6 +3,7 @@
 import React, { useCallback, useState } from "react";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import { track } from "@vercel/analytics/react";
@@ -12,6 +13,7 @@ import {
   Loader2Icon,
   MapPinIcon,
   MessageCircleIcon,
+  UserPen,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -33,7 +35,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 import MunicipalitySearch from "./municipality-search";
 
@@ -233,7 +234,7 @@ const HomeElectionFlow = ({ className }: Props) => {
           <div className="flex items-center gap-2">
             <GlobeIcon className="size-5" />
             <h2 className="text-lg font-semibold">
-              À quel niveau souhaitez-vous explorer ?
+              Je dialogue avec les candidats et les partis
             </h2>
           </div>
 
@@ -242,7 +243,7 @@ const HomeElectionFlow = ({ className }: Props) => {
             onValueChange={(value) => handleScopeChange(value as Scope)}
           >
             <SelectTrigger className="w-full">
-              <SelectValue placeholder="Choisissez un niveau..." />
+              <SelectValue placeholder="Niveau local ou national ?" />
             </SelectTrigger>
             <SelectContent className="border-border overflow-hidden rounded-md border bg-neutral-200 shadow-lg data-[side=bottom]:translate-y-px dark:bg-neutral-950">
               <SelectItem
@@ -251,7 +252,7 @@ const HomeElectionFlow = ({ className }: Props) => {
               >
                 <div className="flex items-center gap-2">
                   <MapPinIcon className="size-4" />
-                  <span>Local (commune)</span>
+                  <span>Communal ou intercommunal</span>
                 </div>
               </SelectItem>
               <SelectItem
@@ -268,7 +269,7 @@ const HomeElectionFlow = ({ className }: Props) => {
 
           {/* National scope: show parties and chat button */}
           {scope === "national" ? (
-            <div className="flex flex-col items-center justify-center space-y-6 pt-4">
+            <div className="flex flex-col space-y-6 pt-4">
               {isLoadingParties ? (
                 <div className="flex flex-col items-center justify-center py-8">
                   <Loader2Icon className="text-primary size-8 animate-spin" />
@@ -277,26 +278,23 @@ const HomeElectionFlow = ({ className }: Props) => {
                   </p>
                 </div>
               ) : parties.length > 0 ? (
-                <div className="flex flex-wrap justify-center gap-1">
+                <div className="flex flex-row items-center justify-center gap-2">
                   {parties.map((party) => (
-                    <Tooltip key={party.party_id}>
-                      <TooltipTrigger asChild>
-                        <div className="flex cursor-pointer flex-col items-center gap-2">
-                          <div className="rounded-full bg-white p-0.5 shadow-lg">
-                            <Image
-                              src={party.logo_url}
-                              alt={party.name}
-                              width={72}
-                              height={72}
-                              className="size-8 rounded-full object-contain"
-                            />
-                          </div>
-                        </div>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p className="font-semibold">{party.name}</p>
-                      </TooltipContent>
-                    </Tooltip>
+                    <div
+                      key={party.party_id}
+                      className="flex flex-col items-center gap-2"
+                    >
+                      <div className="rounded-md bg-white p-2 shadow-lg">
+                        <Image
+                          src={party.logo_url}
+                          alt={party.name}
+                          width={0}
+                          height={0}
+                          sizes="100vw"
+                          className="size-16 rounded-full object-contain"
+                        />
+                      </div>
+                    </div>
                   ))}
                 </div>
               ) : null}
@@ -343,46 +341,72 @@ const HomeElectionFlow = ({ className }: Props) => {
 
             {candidates.length > 0 ? (
               <React.Fragment>
-                {/* Circular avatars in a row */}
-                <div className="flex flex-wrap justify-center gap-1">
+                {/* Candidates list */}
+                <div className="flex flex-col gap-3">
                   {candidates.map((candidate) => (
-                    <Tooltip key={candidate.candidate_id}>
-                      <TooltipTrigger asChild>
-                        <div className="flex cursor-pointer flex-col items-center gap-2 rounded-full border">
-                          <div className="rounded-full p-0.5 shadow-lg">
-                            {candidate.photo_url !== null &&
-                            candidate.photo_url !== "" ? (
-                              <Image
-                                src={candidate.photo_url}
-                                alt={`${candidate.first_name} ${candidate.last_name}`}
-                                width={72}
-                                height={72}
-                                className="size-18 rounded-full object-cover"
-                              />
-                            ) : (
-                              <div className="bg-muted flex size-8 items-center justify-center rounded-full">
-                                <span className="text-muted-foreground text-sm font-semibold">
-                                  {candidate.first_name[0]}
-                                  {candidate.last_name[0]}
-                                </span>
-                              </div>
-                            )}
+                    <div
+                      key={candidate.candidate_id}
+                      className="flex cursor-pointer items-center gap-4 overflow-hidden rounded-lg border border-neutral-700 p-4 transition-colors hover:bg-neutral-900"
+                    >
+                      <div className="shrink-0 rounded-full">
+                        {candidate.photo_url !== null &&
+                        candidate.photo_url !== "" ? (
+                          <Image
+                            src={candidate.photo_url}
+                            alt={`${candidate.first_name} ${candidate.last_name}`}
+                            width={72}
+                            height={72}
+                            className="size-10 rounded-full object-cover"
+                          />
+                        ) : (
+                          <UserPen className="size-10" strokeWidth={1} />
+                        )}
+                      </div>
+                      <div className="flex min-w-0 flex-1 flex-row gap-8">
+                        <div className="flex shrink-0 flex-col gap-1 whitespace-nowrap">
+                          <div className="flex items-baseline gap-2 text-sm">
+                            <span className="text-neutral-400">Prénom :</span>
+                            <span className="font-medium">
+                              {candidate.first_name}
+                            </span>
+                          </div>
+                          <div className="flex items-baseline gap-2 text-sm">
+                            <span className="text-neutral-400">Nom :</span>
+                            <span className="font-medium">
+                              {candidate.last_name}
+                            </span>
                           </div>
                         </div>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p className="font-semibold">
-                          {candidate.first_name} {candidate.last_name}
-                        </p>
-                        {candidate.party_ids.length > 0 ? (
-                          <p className="text-muted-foreground text-xs">
-                            {candidate.party_ids
-                              .map((id) => id.toUpperCase())
-                              .join(", ")}
-                          </p>
-                        ) : null}
-                      </TooltipContent>
-                    </Tooltip>
+                        <div className="flex min-w-0 flex-col gap-1 text-sm">
+                          <div className="flex items-baseline gap-2">
+                            <span className="shrink-0 text-neutral-400">
+                              {candidate.party_ids.length > 1
+                                ? "Partis :"
+                                : "Parti :"}
+                            </span>
+                            <span className="truncate font-medium">
+                              {candidate.party_ids
+                                .map((party) => party.toUpperCase())
+                                .join(", ")}
+                            </span>
+                          </div>
+                          {candidate.website_url !== null && (
+                            <div className="flex min-w-0 items-baseline gap-2">
+                              <span className="shrink-0 text-neutral-400">
+                                Site internet :
+                              </span>
+                              <Link
+                                href={candidate.website_url}
+                                target="_blank"
+                                className="truncate font-medium underline hover:text-neutral-300"
+                              >
+                                {candidate.website_url}
+                              </Link>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
                   ))}
                 </div>
 

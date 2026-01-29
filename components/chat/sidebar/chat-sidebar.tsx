@@ -24,7 +24,6 @@ import { getUserDetailsFromUser } from "@/lib/utils";
 import ChatSidebarGroupSelect from "./chat-sidebar-group-select";
 import SidebarHistorySr from "./sidebar-history-sr";
 import SidebarNewChatButtons from "./sidebar-new-chat-buttons";
-import SidebarSwiperTeaser from "./sidebar-swiper-teaser";
 
 async function ChatSidebar() {
   const user = await getCurrentUser();
@@ -37,11 +36,6 @@ async function ChatSidebar() {
       mobileVisuallyHiddenDescription="Démarrez un nouveau chat ou sélectionnez une conversation précédente."
     >
       <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupContent>
-            <SidebarSwiperTeaser />
-          </SidebarGroupContent>
-        </SidebarGroup>
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarGroupLabel>Nouveau chat</SidebarGroupLabel>

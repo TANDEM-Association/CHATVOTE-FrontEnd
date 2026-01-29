@@ -4,7 +4,6 @@ import Link from "next/link";
 import { getCurrentUser } from "@/lib/firebase/firebase-server";
 import { getUserDetailsFromUser, IS_EMBEDDED } from "@/lib/utils";
 
-import ChatvoteSwiperTeaserTag from "./chatvote-swiper/chatvote-swiper-teaser-tag";
 import MobileNavbar from "./navbar/mobile-navbar";
 import NavBar from "./navbar/navbar";
 import EmbedOpenWebsiteButton from "./embed-open-website-button";
@@ -15,15 +14,15 @@ async function Header() {
 
   return (
     <header className="border-border bg-background sticky top-0 z-30 border-b px-4 py-2 md:px-0">
-      <div className="relative mx-auto flex max-w-xl items-center justify-between gap-2 md:flex-row">
-        <Link href="/">
+      <div className="relative mx-auto flex max-w-xl items-center justify-start gap-2 md:flex-row">
+        <Link href="/" className="shrink-0">
           <Image
             src="/images/logos/chatvote.svg"
             alt="chatvote"
             width={0}
             height={0}
             sizes="100vw"
-            className="size-12 rounded-md md:size-16"
+            className="size-8 rounded-md md:size-12"
           />
         </Link>
 
@@ -31,9 +30,7 @@ async function Header() {
           <div className="absolute inset-0 flex items-center justify-center md:hidden">
             <EmbedOpenWebsiteButton />
           </div>
-        ) : (
-          <ChatvoteSwiperTeaserTag />
-        )}
+        ) : null}
 
         <MobileNavbar userDetails={userDetails} />
         <NavBar className="hidden md:flex" />

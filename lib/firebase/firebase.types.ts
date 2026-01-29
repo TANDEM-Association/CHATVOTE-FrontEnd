@@ -2,8 +2,6 @@ import { type Topic } from "@/components/topics/topics.data";
 import { type LLMSize } from "@/lib/socket.types";
 import { type GroupedMessage } from "@/lib/stores/chat-store.types";
 
-import { type ChatvoteSwiperResultHistory } from "../chatvote-swiper/chatvote-swiper.types";
-
 export type ChatSession = {
   id: string;
   user_id: string;
@@ -62,11 +60,4 @@ export type ExampleQuestionShareableChatSession = {
 
 export type LlmSystemStatus = {
   is_at_rate_limit: boolean;
-};
-
-export type FirebaseChatvoteSwiperResult = {
-  id: string;
-  user_id: string;
-  created_at: Date;
-  history: ChatvoteSwiperResultHistory;
 };

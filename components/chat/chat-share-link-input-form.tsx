@@ -10,10 +10,8 @@ import {
   FacebookShareButton,
   LinkedinIcon,
   LinkedinShareButton,
-  TwitterShareButton,
   WhatsappIcon,
   WhatsappShareButton,
-  XIcon,
 } from "react-share";
 
 import { useChatStore } from "@/components/providers/chat-store-provider";
@@ -101,14 +99,6 @@ function ChatShareLinkInputForm({ sharePrivateSession }: Props) {
         >
           <WhatsappIcon size={30} borderRadius={10} />
         </WhatsappShareButton>
-        <TwitterShareButton
-          url={link}
-          title={sessionTitle}
-          hashtags={["Chatvote", "Elections", "Politique"]}
-          via="chatvote_fr"
-        >
-          <XIcon size={30} borderRadius={10} />
-        </TwitterShareButton>
         <LinkedinShareButton url={link} title={sessionTitle}>
           <LinkedinIcon size={30} borderRadius={10} />
         </LinkedinShareButton>

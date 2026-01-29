@@ -1,7 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import {
-  addDoc,
   arrayUnion,
   collection,
   doc,
@@ -12,7 +11,6 @@ import {
   onSnapshot,
   orderBy,
   query,
-  serverTimestamp,
   setDoc,
   Timestamp,
   updateDoc,
@@ -20,8 +18,6 @@ import {
 } from "firebase/firestore";
 
 import { type ChatvoteUser } from "@/components/anonymous-auth";
-import { type ChatvoteSwiperResultHistory } from "@/lib/chatvote-swiper/chatvote-swiper.types";
-import { type SwiperMessage } from "@/lib/chatvote-swiper/chatvote-swiper-store.types";
 import {
   type GroupedMessage,
   type MessageFeedback,
@@ -340,27 +336,4 @@ export async function userAllowNewsletter(uid: string, allowed: boolean) {
     },
     { merge: true },
   );
-}
-
-export async function saveChatvoteSwiperHistory(
-  userId: string,
-  history: ChatvoteSwiperResultHistory,
-  chatMessages: Record<string, SwiperMessage[]>,
-) {
-  const collectionRef = collection(db, "chatvote_swiper_results");
-
-  const docRef = await addDoc(collectionRef, {
-    user_id: userId,
-    created_at: serverTimestamp(),
-    history,
-    chat_messages: chatMessages,
-  });
-
-  return docRef.id;
-}
-
-export async function setChatvoteSwiperResultToPublic(resultId: string) {
-  await updateDoc(doc(db, "chatvote_swiper_results", resultId), {
-    is_public: true,
-  });
 }

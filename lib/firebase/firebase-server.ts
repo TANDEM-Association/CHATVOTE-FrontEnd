@@ -19,7 +19,6 @@ import {
 
 import { type FullUser } from "@/components/anonymous-auth";
 import { CacheTags } from "@/lib/cache-tags";
-import { type ChatvoteSwiperQuestion } from "@/lib/chatvote-swiper/chatvote-swiper.types";
 import { ASSISTANT_ID, GROUP_PARTY_ID } from "@/lib/constants";
 import { type PartyDetails } from "@/lib/party-details";
 import {
@@ -34,7 +33,6 @@ import {
 import {
   type ChatSession,
   type ExampleQuestionShareableChatSession,
-  type FirebaseChatvoteSwiperResult,
   type LlmSystemStatus,
   type ProposedQuestion,
   type SourceDocument,
@@ -319,36 +317,6 @@ export async function getSystemStatus() {
     is_at_rate_limit: snapshot.data()?.is_at_rate_limit ?? false,
   } as LlmSystemStatus;
 }
-
-export async function getChatvoteSwiperHistory(resultId: string) {
-  const serverDb = await getServerFirestore();
-
-  const docRef = doc(serverDb, "chatvote_swiper_results", resultId);
-  const snapshot = await getDoc(docRef);
-
-  return snapshot.data() as FirebaseChatvoteSwiperResult;
-}
-
-export async function getChatvoteSwiperThesesImpl() {
-  const serverDb = await getServerFirestore({ useHeaders: false });
-  const queryRef = query(collection(serverDb, "chatvote_swiper_theses"));
-  const snapshot = await getDocs(queryRef);
-
-  const data = snapshot.docs.map((doc) =>
-    doc.data(),
-  ) as ChatvoteSwiperQuestion[];
-
-  return data;
-}
-
-export const getChatvoteSwiperTheses = cache(
-  getChatvoteSwiperThesesImpl,
-  undefined,
-  {
-    revalidate: 60 * 60 * 24,
-    tags: [CacheTags.CHATVOTE_SWIPER_THESES],
-  },
-);
 
 export async function getUser() {
   try {

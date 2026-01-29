@@ -45,11 +45,19 @@ const LoginButton = ({ noUserChildren, userChildren, userDetails }: Props) => {
 
   return (
     <React.Fragment>
-      <div onClick={() => setIsOpen(true)}>{noUserChildren}</div>
+      <div
+        onClick={() => {
+          setIsOpen(true);
+        }}
+      >
+        {noUserChildren}
+      </div>
 
       <Modal
         isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
+        onClose={() => {
+          setIsOpen(false);
+        }}
         className="w-full max-w-md p-6"
       >
         <LoginForm onSuccess={handleSuccess} />

@@ -6,7 +6,6 @@ import { socialMediaConfig } from "@/lib/contact-config";
 
 import InstagramIcon from "./instagram-icon";
 import LinkedInIcon from "./linkedin-icon";
-import XIcon from "./x-icon";
 
 type Props = {
   type: keyof typeof socialMediaConfig;
@@ -21,9 +20,6 @@ function HomeSocialMediaIcon({ type }: Props) {
       break;
     case "linkedin":
       Icon = LinkedInIcon;
-      break;
-    case "x":
-      Icon = XIcon;
       break;
     case "email":
       Icon = MailIcon;

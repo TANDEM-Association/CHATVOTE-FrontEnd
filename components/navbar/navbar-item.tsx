@@ -28,7 +28,7 @@ function NavbarItem({ details, mobileClose }: Props) {
       href={href}
       target={external ? "_blank" : undefined}
       className={cn(
-        "relative flex items-center gap-1 rounded-md p-2 text-sm",
+        "relative flex items-center gap-1 rounded-md p-3 text-sm",
         isActive
           ? "text-primary font-medium"
           : "text-primary/50 hover:text-primary/70",

@@ -296,8 +296,10 @@ function LoginForm({ onSuccess }: Props) {
               onClick={handleGoogleLogin}
               type="button"
             >
-              <GoogleIcon className="size-3!" />
-              Se connecter avec Google
+              <div className="flex items-center gap-2">
+                <GoogleIcon className="size-3!" />
+                <span>Google</span>
+              </div>
             </Button>
             <Button
               variant="outline"
@@ -306,8 +308,10 @@ function LoginForm({ onSuccess }: Props) {
               type="button"
               onClick={handleGithubLogin}
             >
-              <GithubIcon className="size-3!" />
-              Se connecter avec Github
+              <div className="flex items-center gap-2">
+                <GithubIcon className="size-3!" />
+                <span>Github</span>
+              </div>
             </Button>
           </div>
         </div>

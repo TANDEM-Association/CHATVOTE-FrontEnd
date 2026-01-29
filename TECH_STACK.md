@@ -12,7 +12,7 @@
 - **Styling system**: Tailwind CSS 3.4 with `@tailwindcss/typography` and `tailwindcss-animate`; global styles in `app/globals.css`.
 - **Component primitives**: Radix UI packages (accordion, dialog, select, tooltip, etc.) plus Lucide icons.
 - **Motion**: `motion` (Framer Motion v12 API) for animations and `LazyMotion` setup in `app/layout.tsx`.
-- **Media & rendering**: Embla + Swiper carousels; Recharts for data viz; `react-markdown` with `remark-gfm` for rich text; `react-pdf` for PDF rendering.
+- **Media & rendering**: Embla carousel; Recharts for data viz; `react-markdown` with `remark-gfm` for rich text; `react-pdf` for PDF rendering.
 - **Theming**: `next-themes` based light/dark toggle with CSS variables defined in Tailwind theme.
 
 ## State & Data Flow

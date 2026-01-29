@@ -1,4 +1,4 @@
-import { SparklesIcon } from "lucide-react";
+import React from "react";
 
 import LoginButton from "@/components/auth/login-button";
 import UserAvatar from "@/components/auth/user-avatar";
@@ -22,12 +22,6 @@ export default async function NavBar({ className }: Props) {
       href: "/",
     },
     {
-      label: "Chatvote Swiper",
-      href: "/swiper",
-      highlight: true,
-      icon: <SparklesIcon className="size-3" />,
-    },
-    {
       label: "Guide",
       href: "/how-to",
     },
@@ -39,30 +33,34 @@ export default async function NavBar({ className }: Props) {
   return (
     <nav
       className={cn(
-        "flex flex-col items-center justify-center gap-2 md:flex-row",
+        "flex flex-col items-center justify-between md:w-full md:flex-row",
         className,
       )}
     >
-      {!IS_EMBEDDED ? (
-        <>
-          {tabs.map((tab) => (
-            <NavbarItem key={tab.href} details={tab} />
-          ))}
-        </>
-      ) : (
-        <EmbedOpenWebsiteButton />
-      )}
+      <div className="flex w-full items-center">
+        {!IS_EMBEDDED ? (
+          <React.Fragment>
+            {tabs.map((tab) => {
+              return <NavbarItem key={tab.href} details={tab} />;
+            })}
+          </React.Fragment>
+        ) : (
+          <EmbedOpenWebsiteButton />
+        )}
+      </div>
 
-      <Separator orientation="vertical" className="hidden h-8 md:block" />
-      <LoginButton
-        userDetails={userDetails}
-        noUserChildren={
-          <Button variant="default" size="sm">
-            Se connecter
-          </Button>
-        }
-        userChildren={<UserAvatar details={userDetails} />}
-      />
+      <div className="flex w-full items-center justify-end">
+        <Separator orientation="vertical" className="hidden h-8 md:block" />
+        <LoginButton
+          userDetails={userDetails}
+          noUserChildren={
+            <Button variant="default" size="sm">
+              Se connecter
+            </Button>
+          }
+          userChildren={<UserAvatar details={userDetails} />}
+        />
+      </div>
     </nav>
   );
 }

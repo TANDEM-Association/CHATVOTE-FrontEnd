@@ -1,5 +1,3 @@
-import { SparklesIcon } from "lucide-react";
-
 import LoginButton from "@/components/auth/login-button";
 import UserAvatar from "@/components/auth/user-avatar";
 import { Button } from "@/components/ui/button";
@@ -23,12 +21,6 @@ function MobileNavbarItems({ userDetails, mobileClose }: Props) {
     {
       label: "Guide",
       href: "/how-to",
-    },
-    {
-      label: "Chatvote Swiper",
-      href: "/swiper",
-      highlight: true,
-      icon: <SparklesIcon className="size-3" />,
     },
     {
       label: "Soutenez-nous",
