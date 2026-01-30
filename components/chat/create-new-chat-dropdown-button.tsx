@@ -5,11 +5,13 @@ import {
   DropdownMenuContent,
 } from '@/components/ui/dropdown-menu';
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import CreateNewChatDropdownButtonTrigger from './create-new-chat-dropdown-button-trigger';
 import PartyCards from '../party-cards';
 
 function CreateNewChatDropdownButton() {
   const [open, setOpen] = useState(false);
+  const t = useTranslations('chat');
 
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
@@ -18,9 +20,9 @@ function CreateNewChatDropdownButton() {
       />
       <DropdownMenuContent align="end" className="p-3 w-[80vw] max-w-[300px]">
         <div className="mb-2 flex flex-col">
-          <h2 className="text-lg font-bold">Neuer Chat</h2>
+          <h2 className="text-lg font-bold">{t('new-chat-title')}</h2>
           <p className="text-sm text-muted-foreground">
-            Erstelle einen neuen Chat.
+            {t('new-chat-description')}
           </p>
         </div>
         <PartyCards

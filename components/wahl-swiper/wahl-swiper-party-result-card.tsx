@@ -4,6 +4,7 @@ import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
 import { CheckIcon, MessageSquareIcon, XIcon } from 'lucide-react';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import {
   AccordionContent,
   AccordionItem,
@@ -39,6 +40,7 @@ type Props = {
 };
 
 function WahlSwiperPartyResultCard({ party, score }: Props) {
+  const t = useTranslations('swiper');
   const prettyScore = score.score.toFixed(1);
 
   const chatLink = `/session?party_id=${party.party_id}`;
@@ -90,18 +92,20 @@ function WahlSwiperPartyResultCard({ party, score }: Props) {
         <Separator />
 
         <div className="flex flex-col gap-2 p-4">
-          <h2 className="font-bold">Konsens zwischen {party.name} und dir:</h2>
+          <h2 className="font-bold">
+            {t('party-result-consensus-title', { partyName: party.name })}
+          </h2>
           <p className="text-sm text-muted-foreground">
-            {party.name} stimmt mit dir in{' '}
-            <span className="font-bold">
-              {consensusTheses.length} von {sortedTheses.length}
-            </span>{' '}
-            Fragen überein.
+            {t('party-result-consensus-description', {
+              partyName: party.name,
+              consensus: consensusTheses.length,
+              total: sortedTheses.length,
+            })}
           </p>
           <div className="flex w-fit flex-row items-center justify-start gap-2 rounded-md border border-border bg-muted p-2">
             <p className="w-8 text-center text-xl">💡</p>
             <p className="text-sm text-muted-foreground">
-              Klicke auf eine Frage für weitere Informationen.
+              {t('party-result-click-hint')}
             </p>
           </div>
         </div>
@@ -170,7 +174,7 @@ const ThesisRow = ({ thesis }: { thesis: ThesesScoreResult[number] }) => {
           className={cn(
             'flex flex-row items-center justify-center rounded-full p-2 w-fit aspect-square',
             agree && 'text-green-500 bg-green-500/10',
-            !agree && 'text-red-500 bg-red-500/10'
+            !agree && 'text-red-500 bg-red-500/10',
           )}
         >
           {agree ? (

@@ -4,6 +4,7 @@ import type { VariantProps } from 'class-variance-authority';
 import { Check, Copy } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
+import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { track } from '@vercel/analytics/react';
@@ -26,11 +27,12 @@ function CopyButton({
   loading,
 }: Props) {
   const [isCopied, setIsCopied] = useState(false);
+  const t = useTranslations('chat');
 
   const handleCopyMessage = () => {
     navigator.clipboard.writeText(text);
     setIsCopied(true);
-    toast.success('Text in die Zwischenablage kopiert');
+    toast.success(t('copy-success'));
 
     track('message_copied', {
       message: text,
@@ -47,7 +49,7 @@ function CopyButton({
       size={size}
       className={cn(
         'group-data-[has-message-background]:hover:bg-zinc-200 group-data-[has-message-background]:dark:hover:bg-zinc-800',
-        className
+        className,
       )}
       tooltip={tooltip}
       onClick={handleCopyMessage}

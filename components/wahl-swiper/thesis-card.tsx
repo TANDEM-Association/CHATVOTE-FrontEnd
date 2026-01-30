@@ -1,3 +1,4 @@
+'use client';
 import { cn } from '@/lib/utils';
 import {
   motion,
@@ -104,14 +105,14 @@ function ThesisCard({
             opacity: 0,
             scale: 0.9,
           },
-          { duration: 0.2, ease: 'easeOut' }
+          { duration: 0.2, ease: 'easeOut' },
         );
       };
 
       await animatedRemoveCard();
       removeCard(direction);
     },
-    [x, y, scope, animate, removeCard]
+    [x, y, scope, animate, removeCard],
   );
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
@@ -127,7 +128,7 @@ function ThesisCard({
 
   const classNames = cn(
     'absolute inset-0 flex cursor-grab flex-col justify-center rounded-2xl',
-    'bg-zinc-50 dark:bg-zinc-900 gap-2'
+    'bg-zinc-50 dark:bg-zinc-900 gap-2',
   );
 
   const content = (
@@ -186,7 +187,7 @@ function ThesisCard({
       <div
         className={cn(
           commonClassNames,
-          'inset-1 w-auto h-auto shadow-none rounded-[13px] p-4'
+          'inset-1 w-auto h-auto shadow-none rounded-[13px] p-4',
         )}
         tabIndex={-1}
       >

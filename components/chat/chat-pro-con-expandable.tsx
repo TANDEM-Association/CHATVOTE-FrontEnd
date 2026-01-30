@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { buildProConPerspectiveSeparatorId } from '@/lib/scroll-constants';
 import {
   chatViewScrollToProConPerspectiveContainer,
@@ -33,9 +34,10 @@ type Props = {
 };
 
 function ChatProConExpandable({ message, isGroupChat }: Props) {
+  const t = useTranslations('chat.pro-con');
   const [isExpanded, setIsExpanded] = useState(false);
   const isLoadingProConPerspective = useChatStore(
-    (state) => state.loading.proConPerspective === message.id
+    (state) => state.loading.proConPerspective === message.id,
   );
   const [prevIsLoadingProConPerspective, setPrevIsLoadingProConPerspective] =
     useState(isLoadingProConPerspective);
@@ -85,13 +87,7 @@ function ChatProConExpandable({ message, isGroupChat }: Props) {
 
           <AnimatedMessageSequence
             className="text-muted-foreground"
-            messages={[
-              'Thema verstehen...',
-              'Machbarkeit analysieren...',
-              'Kurzfristige Effekte identifizieren...',
-              'Langfristige Effekte identifizieren...',
-              'Analyse abschließen...',
-            ]}
+            messages={t.raw('loading-messages')}
           />
         </div>
         {emblaReinitComponent}
@@ -154,18 +150,19 @@ function ChatProConExpandable({ message, isGroupChat }: Props) {
         <div
           className={cn(
             'flex flex-row items-center justify-between mt-0',
-            isExpanded && 'mt-4'
+            isExpanded && 'mt-4',
           )}
         >
           {!isExpanded ? (
             <p className="text-xs text-muted-foreground">
-              Diese Nachricht enthält eine{' '}
-              <span className="font-bold">eingeordnete Position</span>.
+              {t.rich('collapsed-text', {
+                bold: (chunks) => <span className="font-bold">{chunks}</span>,
+              })}
             </p>
           ) : (
             <span className="flex flex-row items-center gap-2 text-xs text-muted-foreground">
               <ArrowUpDown className="size-4" />
-              Scrolle für mehr
+              {t('expanded-text')}
             </span>
           )}
           <Tooltip>
@@ -177,7 +174,7 @@ function ChatProConExpandable({ message, isGroupChat }: Props) {
               </TooltipTrigger>
             </CollapsibleTrigger>
             <TooltipContent>
-              {isExpanded ? 'Verbergen' : 'Anzeigen'}
+              {isExpanded ? t('tooltip-hide') : t('tooltip-show')}
             </TooltipContent>
           </Tooltip>
         </div>

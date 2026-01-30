@@ -10,8 +10,10 @@ import { useAnonymousAuth } from '@/components/anonymous-auth';
 import { Timestamp } from 'firebase/firestore';
 import { SURVEY_BANNER_MIN_MESSAGE_COUNT } from '@/lib/stores/chat-store';
 import { track } from '@vercel/analytics/react';
+import { useTranslations } from 'next-intl';
 
 function SurveyBanner() {
+  const t = useTranslations('chat');
   const sessionId = useChatStore((state) => state.chatSessionId);
   const [open, setOpen] = useState(false);
   const { user, updateUser, loading } = useAnonymousAuth();
@@ -19,7 +21,7 @@ function SurveyBanner() {
     (state) =>
       state.messages.length >= SURVEY_BANNER_MIN_MESSAGE_COUNT &&
       !loading &&
-      !user?.survey_status?.state
+      !user?.survey_status?.state,
   );
   const [optimisticShowSurveyBanner, setOptimisticShowSurveyBanner] =
     useState(showSurveyBanner);
@@ -81,9 +83,7 @@ function SurveyBanner() {
   return (
     <div className="flex flex-col gap-2 rounded-lg bg-muted p-4 group-data-[has-message-background]:mx-4 group-data-[has-message-background]:mb-4 group-data-[has-message-background]:bg-zinc-200 group-data-[has-message-background]:dark:bg-zinc-800">
       <div className="flex items-center justify-between">
-        <h2 className="text-sm font-bold">
-          👆🏼 Hilf uns, wahl.chat zu verbessern!
-        </h2>
+        <h2 className="text-sm font-bold">{t('survey-banner-title')}</h2>
 
         <Button
           size="icon"
@@ -95,12 +95,11 @@ function SurveyBanner() {
         </Button>
       </div>
       <p className="text-sm text-muted-foreground">
-        Wir würden uns sehr freuen, wenn du uns dein Feedback zu diesem Chat und
-        unserer Plattform teilst.
+        {t('survey-banner-description')}
       </p>
       <Button size="sm" variant="default" onClick={() => setOpen(true)}>
         <MessageCircleHeartIcon />
-        Umfrage starten
+        {t('survey-banner-button')}
       </Button>
       {open && (
         <FilloutPopupEmbed

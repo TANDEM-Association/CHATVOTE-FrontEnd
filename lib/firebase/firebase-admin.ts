@@ -1,11 +1,13 @@
 'use server';
 
 import {
-  initializeApp,
-  getApp,
+  cert,
+  getApps,
+  getApp as getAdminApp,
+  initializeApp as initializeAdminApp,
   type App as FirebaseApp,
 } from 'firebase-admin/app';
-import { credential } from 'firebase-admin';
+import { firebaseEmulatorConfig } from './firebase-emulator-config';
 import { getFirestore, Timestamp } from 'firebase-admin/firestore';
 import type { ShareableChatSessionSnapshot, Tenant } from './firebase.types';
 import { GROUP_PARTY_ID } from '@/lib/constants';
@@ -18,37 +20,34 @@ import type {
 } from '@/lib/stores/chat-store.types';
 import { getCurrentUser } from './firebase-server';
 
-let app: FirebaseApp;
+let admin: FirebaseApp;
+if (getApps().length === 0) {
+  console.log('Initializing Firebase Admin App');
 
-try {
-  app = getApp();
-} catch (error) {
-  console.log('Initializing Firebase Admin App', error);
-
-  const {
-    NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-    FIREBASE_CLIENT_EMAIL,
-    FIREBASE_PRIVATE_KEY,
-  } = process.env;
-
-  if (
-    !NEXT_PUBLIC_FIREBASE_PROJECT_ID ||
-    !FIREBASE_CLIENT_EMAIL ||
-    !FIREBASE_PRIVATE_KEY
-  ) {
-    throw new Error('Missing Firebase environment variables.');
+  if (firebaseEmulatorConfig.useEmulator === 'true') {
+    process.env.FIREBASE_AUTH_EMULATOR_HOST =
+      firebaseEmulatorConfig.firebaseAuthEmulatorHost;
+    process.env.FIRESTORE_EMULATOR_HOST =
+      firebaseEmulatorConfig.firestoreEmulatorHost;
+    console.info(
+      `[firebase-admin] Using emulators. Auth at ${process.env.FIREBASE_AUTH_EMULATOR_HOST}, Firestore at ${process.env.FIRESTORE_EMULATOR_HOST}`,
+    );
+    admin = initializeAdminApp({ projectId: firebaseEmulatorConfig.projectId });
+  } else {
+    const adminConfig = {
+      credential: cert({
+        projectId: process.env.FIREBASE_ADMIN_PROJECT_ID,
+        clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+        privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+      }),
+    };
+    admin = initializeAdminApp(adminConfig);
   }
-
-  app = initializeApp({
-    credential: credential.cert({
-      projectId: NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-      clientEmail: FIREBASE_CLIENT_EMAIL,
-      privateKey: FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'),
-    }),
-  });
+} else {
+  admin = getAdminApp();
 }
 
-const db = getFirestore(app);
+const db = getFirestore(admin);
 
 export async function createShareableSession(sessionId: string) {
   const sessionRef = db.collection('chat_sessions').doc(sessionId);

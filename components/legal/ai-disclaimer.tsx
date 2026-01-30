@@ -11,83 +11,91 @@ import {
   ResponsiveDialogTitle,
   ResponsiveDialogTrigger,
 } from '@/components/chat/responsive-drawer-dialog';
+import { useTranslations } from 'next-intl';
 
 function AiDisclaimerContent() {
+  const t = useTranslations('ai-disclaimer');
+
   return (
     <div className="px-4 pb-4 md:px-0 md:pb-0 text-sm text-foreground">
       <p>
-        Die Antworten auf wahl.chat werden von einer{' '}
-        <span className="font-semibold">künstlichen Intelligenz</span>{' '}
-        generiert. Sie basieren auf Informationen, die aus{' '}
-        <span className="font-semibold">öffentlich zugänglichen Partei-</span>{' '}
-        und <span className="font-semibold">Wahlprogrammen</span> extrahiert
-        wurden. Während wahl.chat bestrebt ist, genaue Informationen über
-        Parteipositionen und -werte zu liefern, gilt:
+        {t.rich('introduction', {
+          ai: (chunks) => <span className="font-semibold">{chunks}</span>,
+          public: (chunks) => <span className="font-semibold">{chunks}</span>,
+          programs: (chunks) => <span className="font-semibold">{chunks}</span>,
+        })}
       </p>
 
       <ul className="flex list-inside flex-col gap-4 py-4 *:flex *:items-center *:gap-2">
         <li>
           <CpuIcon className="mr-2 size-6 shrink-0" />
           <span className="inline-block">
-            Die{' '}
-            <span className="font-semibold">Verarbeitung und Generierung</span>{' '}
-            aller Inhalte erfolgt{' '}
-            <span className="font-semibold">automatisiert.</span>
+            {t.rich('point1', {
+              processing: (chunks) => (
+                <span className="font-semibold">{chunks}</span>
+              ),
+              auto: (chunks) => <span className="font-semibold">{chunks}</span>,
+            })}
           </span>
         </li>
         <li>
           <AlertCircleIcon className="mr-2 size-6 shrink-0" />
           <span className="inline-block">
-            Die Antworten sind{' '}
-            <span className="font-semibold">
-              nicht als offizielle Parteiaussagen
-            </span>{' '}
-            zu verstehen.
+            {t.rich('point2', {
+              not: (chunks) => <span className="font-semibold">{chunks}</span>,
+            })}
           </span>
         </li>
         <li>
           <GitBranch className="mr-2 size-6 shrink-0" />
           <span className="inline-block">
-            <span className="font-semibold">
-              Komplexe politische Positionen
-            </span>{' '}
-            können eventuell nicht in allen Nuancen erfasst werden.
+            {t.rich('point3', {
+              complex: (chunks) => (
+                <span className="font-semibold">{chunks}</span>
+              ),
+            })}
           </span>
         </li>
         <li>
           <AlertTriangleIcon className="mr-2 size-6 shrink-0" />
           <span className="inline-block">
-            <span className="font-semibold">Ungenauigkeiten</span> oder{' '}
-            <span className="font-semibold">Fehlinterpretationen</span> können
-            gelegentlich auftreten.
+            {t.rich('point4', {
+              inaccuracies: (chunks) => (
+                <span className="font-semibold">{chunks}</span>
+              ),
+              misinterpretations: (chunks) => (
+                <span className="font-semibold">{chunks}</span>
+              ),
+            })}
           </span>
         </li>
       </ul>
 
       <p>
-        Dieser KI-Chat dient als{' '}
-        <span className="font-semibold">Bildungswerkzeug</span>, um verschiedene
-        politische Positionen kennenzulernen. Für{' '}
-        <span className="font-semibold">verbindliche Informationen</span> nutzen
-        Sie bitte die{' '}
-        <span className="font-semibold">offiziellen Parteiquellen</span>.
+        {t.rich('conclusion', {
+          tool: (chunks) => <span className="font-semibold">{chunks}</span>,
+          binding: (chunks) => <span className="font-semibold">{chunks}</span>,
+          official: (chunks) => <span className="font-semibold">{chunks}</span>,
+        })}
       </p>
     </div>
   );
 }
 
 function AiDisclaimer() {
+  const t = useTranslations('ai-disclaimer');
+
   return (
     <ResponsiveDialog>
       <p className="my-2 text-center text-xs text-muted-foreground">
-        wahl.chat kann Fehler machen.{' '}
+        {t('disclaimer')}{' '}
         <ResponsiveDialogTrigger className="font-semibold underline">
-          Erfahre hier mehr.
+          {t('learn-more')}
         </ResponsiveDialogTrigger>
       </p>
       <ResponsiveDialogContent>
         <ResponsiveDialogHeader>
-          <ResponsiveDialogTitle>KI Hinweis</ResponsiveDialogTitle>
+          <ResponsiveDialogTitle>{t('title')}</ResponsiveDialogTitle>
         </ResponsiveDialogHeader>
         <AiDisclaimerContent />
       </ResponsiveDialogContent>

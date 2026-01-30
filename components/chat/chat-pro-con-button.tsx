@@ -1,4 +1,3 @@
-'use client';
 import { useChatStore } from '@/components/providers/chat-store-provider';
 import { Button } from '@/components/ui/button';
 import ProConIcon from './pro-con-icon';
@@ -15,10 +14,10 @@ type Props = {
 
 function ChatProConButton({ partyId, message, isLastMessage }: Props) {
   const generateProConPerspective = useChatStore(
-    (state) => state.generateProConPerspective
+    (state) => state.generateProConPerspective,
   );
   const clickedProConButton = useChatStore(
-    (state) => state.clickedProConButton
+    (state) => state.clickedProConButton,
   );
 
   const handleGenerateProConPerspective = async () => {

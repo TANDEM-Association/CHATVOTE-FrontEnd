@@ -1,4 +1,8 @@
-import { initializeApp } from 'firebase/app';
+// SPDX-FileCopyrightText: 2025 2025 wahl.chat
+//
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+//
+import { initializeApp, getApp, getApps } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import {
   getFirestore,
@@ -19,6 +23,8 @@ import {
   serverTimestamp,
 } from 'firebase/firestore';
 import { firebaseConfig } from './firebase-config';
+import { connectEmulators } from './firebase-emulator';
+import { firebaseEmulatorConfig } from './firebase-emulator-config';
 import type {
   GroupedMessage,
   MessageFeedback,
@@ -31,10 +37,18 @@ import type { WahlChatUser } from '@/components/anonymous-auth';
 import type { WahlSwiperResultHistory } from '@/lib/wahl-swiper/wahl-swiper.types';
 import type { SwiperMessage } from '@/lib/wahl-swiper/wahl-swiper-store.types';
 
-const app = initializeApp(firebaseConfig);
-
-export const auth = getAuth(app);
-const db = getFirestore(app);
+let defaultApp = null;
+if (getApps().length === 0) {
+  defaultApp = initializeApp(firebaseConfig);
+  if (firebaseEmulatorConfig.useEmulator === 'true') {
+    connectEmulators(getFirestore(defaultApp), getAuth(defaultApp), 'client');
+  }
+} else {
+  console.info(`Nb client Apps:${getApps().length}`);
+  defaultApp = getApp();
+}
+export const auth = getAuth(defaultApp);
+const db = getFirestore(defaultApp);
 
 export async function createChatSession(
   userId: string,

@@ -1,5 +1,5 @@
 'use client';
-
+import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/button';
 import {
   ResponsiveDialog,
@@ -13,6 +13,7 @@ import {
 import { useEffect, useState } from 'react';
 
 function WahlSwiperExperimentalDisclaimer() {
+  const t = useTranslations('swiper');
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -23,29 +24,25 @@ function WahlSwiperExperimentalDisclaimer() {
     <ResponsiveDialog open={open} onOpenChange={setOpen}>
       <ResponsiveDialogContent>
         <ResponsiveDialogHeader>
-          <ResponsiveDialogTitle>⚠️ Disclaimer</ResponsiveDialogTitle>
+          <ResponsiveDialogTitle>{t('disclaimer-title')}</ResponsiveDialogTitle>
           <ResponsiveDialogDescription>
-            Experimentelles Feature
+            {t('disclaimer-subtitle')}
           </ResponsiveDialogDescription>
         </ResponsiveDialogHeader>
         <p className="px-4 text-sm md:px-0">
-          Ihr habt euch eine Art Wahl-O-Mat gewünscht – hier ist ein erster
-          Versuch, euer Feedback umzusetzen.
+          {t('disclaimer-intro')}
           <span className="my-2 block rounded-md border border-border bg-muted p-4 font-semibold">
-            Wir möchten ausdrücklich betonen, dass dies lediglich ein erster
-            Entwurf ist und keine offizielle Wahlempfehlung darstellt.
+            {t('disclaimer-warning')}
           </span>
-          Dein Feedback hilft uns, zur nächsten Wahl eine finale Version zu
-          entwickeln, die bestehende Probleme löst.
+          {t('disclaimer-feedback')}
           <span className="mt-2 block font-semibold">
-            Vielen Dank für euer Verständnis 🙏 - wir freuen uns auf eure
-            Rückmeldungen! 🤗
+            {t('disclaimer-thanks')}
           </span>
         </p>
 
         <ResponsiveDialogFooter>
           <ResponsiveDialogClose asChild>
-            <Button className="w-full">Los geht&apos;s!</Button>
+            <Button className="w-full">{t('lets-go')}</Button>
           </ResponsiveDialogClose>
         </ResponsiveDialogFooter>
       </ResponsiveDialogContent>

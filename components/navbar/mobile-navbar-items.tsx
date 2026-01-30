@@ -1,5 +1,6 @@
 import { cn, type UserDetails } from '@/lib/utils';
 import type { NavbarItemDetails } from './navbar-item';
+import { useTranslations } from 'next-intl';
 import NavbarItem from './navbar-item';
 import { Separator } from '@/components/ui/separator';
 import LoginButton from '@/components/auth/login-button';
@@ -13,27 +14,29 @@ type Props = {
 };
 
 function MobileNavbarItems({ userDetails, mobileClose }: Props) {
+  const t = useTranslations('nav');
+
   const tabs: NavbarItemDetails[] = [
     {
-      label: 'Startseite',
+      label: t('home'),
       href: '/',
     },
     {
-      label: 'Anleitung',
+      label: t('how-to'),
       href: '/how-to',
     },
     {
-      label: 'Wahl Swiper',
+      label: t('wahl-swiper'),
       href: '/swiper',
       highlight: true,
       icon: <SparklesIcon className="size-3" />,
     },
     {
-      label: 'Unterstütze uns',
+      label: t('donate'),
       href: '/donate',
     },
     {
-      label: 'Über uns',
+      label: t('about-us'),
       href: '/about-us',
     },
   ];
@@ -41,7 +44,7 @@ function MobileNavbarItems({ userDetails, mobileClose }: Props) {
   return (
     <nav
       className={cn(
-        'flex flex-col md:flex-row items-center justify-center gap-2'
+        'flex flex-col md:flex-row items-center justify-center gap-2',
       )}
     >
       {tabs.map((tab) => (
@@ -53,7 +56,7 @@ function MobileNavbarItems({ userDetails, mobileClose }: Props) {
         userDetails={userDetails}
         noUserChildren={
           <Button variant="default" size="sm">
-            Anmelden
+            {t('login')}
           </Button>
         }
         userChildren={<UserAvatar details={userDetails} />}

@@ -1,3 +1,4 @@
+'use client';
 import type { Vote } from '@/lib/socket.types';
 import { useMemo } from 'react';
 import VoteChart from './vote-chart';

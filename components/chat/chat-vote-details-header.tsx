@@ -1,3 +1,5 @@
+'use client';
+
 import { useMemo } from 'react';
 import type { Vote } from '@/lib/socket.types';
 import useCarouselCurrentIndex from '@/lib/hooks/use-carousel-current-index';

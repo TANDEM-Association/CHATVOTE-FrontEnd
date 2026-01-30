@@ -1,3 +1,4 @@
+'use client';
 import type { Vote } from '@/lib/socket.types';
 import { useParties } from '../providers/parties-provider';
 import { useMemo } from 'react';

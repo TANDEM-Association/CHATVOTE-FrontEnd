@@ -24,10 +24,10 @@ function ChatSingleMessageActions({
   partyId,
 }: Props) {
   const isLoadingProConPerspective = useChatStore(
-    (state) => state.loading.proConPerspective === message.id
+    (state) => state.loading.proConPerspective === message.id,
   );
   const isLoadingVotingBehaviorSummary = useChatStore(
-    (state) => state.loading.votingBehaviorSummary === message.id
+    (state) => state.loading.votingBehaviorSummary === message.id,
   );
 
   if (!showMessageActions) return null;

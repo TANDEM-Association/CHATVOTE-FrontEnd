@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
+import { useTranslations } from 'next-intl';
 import { useAnonymousAuth } from '@/components/anonymous-auth';
 import { copySharedChatSession } from '@/lib/firebase/firebase-admin';
 import DynamicRateLimitStickyInput from '@/components/dynamic-rate-limit-sticky-input';
@@ -23,11 +24,10 @@ function ShareChatInput({
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const { user } = useAnonymousAuth();
+  const t = useTranslations('chat');
 
   const errorToast = () => {
-    toast.error(
-      'Es ist ein Fehler aufgetreten. Bitte versuche es erneut oder lade die Seite neu.'
-    );
+    toast.error(t('error-general-reload'));
   };
 
   const handleStartChat = async (message: string) => {

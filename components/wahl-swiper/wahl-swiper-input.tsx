@@ -1,7 +1,7 @@
 import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
 import MessageLoadingBorderTrail from '@/components/chat/message-loading-border-trail';
 import Logo from '@/components/chat/logo';
-import { Button } from '@/components/ui/button';
 import {
   ArrowUp,
   ChevronDown,
@@ -11,6 +11,7 @@ import {
 import { useWahlSwiperStore } from '@/components/providers/wahl-swiper-store-provider';
 import { useIsDesktop } from '@/lib/hooks/use-is-desktop';
 import { SWIPER_DEFAULT_QUICK_REPLIES } from '@/lib/wahl-swiper/wahl-swiper-store';
+import { useTranslations } from 'next-intl';
 
 type Props = {
   isSticky: boolean;
@@ -23,6 +24,7 @@ function WahlSwiperInput({
   handleToggleExpand,
   handleNewMessage,
 }: Props) {
+  const t = useTranslations('swiper');
   const setInput = useWahlSwiperStore((state) => state.setSwiperInput);
   const input = useWahlSwiperStore((state) => {
     const currentThesis = state.getCurrentThesis();
@@ -69,7 +71,7 @@ function WahlSwiperInput({
       onSubmit={handleSubmit}
       className={cn(
         'relative shadow-2xl transition-shadow duration-300 max-w-xl mx-auto w-full grid overflow-hidden rounded-[20px] border border-input dark:focus-within:border-zinc-700 focus-within:border-zinc-300 bg-chat-input ease-out md:shadow-none min-h-[82px]',
-        !isSticky && 'shadow-none'
+        !isSticky && 'shadow-none',
       )}
     >
       {isLoadingMessage && <MessageLoadingBorderTrail />}
@@ -78,7 +80,7 @@ function WahlSwiperInput({
         {showExpandToggle && (
           <button
             className={cn(
-              'shrink-0 rounded-full bg-primary py-1 px-2 text-primary-foreground flex items-center gap-1'
+              'shrink-0 rounded-full bg-primary py-1 px-2 text-primary-foreground flex items-center gap-1',
             )}
             type="button"
             onClick={handleToggleExpand}
@@ -95,7 +97,7 @@ function WahlSwiperInput({
               <MessageCircleMoreIcon className="size-3" />
             )}
             <span className="text-xs">
-              Chat {chatIsExpanded ? 'schließen' : 'öffnen'}
+              {chatIsExpanded ? t('chat-close') : t('chat-open')}
             </span>
           </button>
         )}
@@ -104,7 +106,7 @@ function WahlSwiperInput({
             <button
               key={reply}
               className={cn(
-                'shrink-0 rounded-full bg-muted px-2 py-1 transition-colors enabled:hover:bg-muted/70 disabled:cursor-not-allowed disabled:opacity-50'
+                'shrink-0 rounded-full bg-muted px-2 py-1 transition-colors enabled:hover:bg-muted/70 disabled:cursor-not-allowed disabled:opacity-50',
               )}
               type="button"
               disabled={isLoadingMessage}
@@ -132,7 +134,7 @@ function WahlSwiperInput({
       <Button
         type="submit"
         className={cn(
-          'absolute right-2 bottom-2 translate-y-0 flex size-8 items-center justify-center rounded-full bg-foreground text-background transition-colors hover:bg-foreground/80 disabled:bg-foreground/20 disabled:text-muted'
+          'absolute right-2 bottom-2 translate-y-0 flex size-8 items-center justify-center rounded-full bg-foreground text-background transition-colors hover:bg-foreground/80 disabled:bg-foreground/20 disabled:text-muted',
         )}
         disabled={!input.length || isLoadingMessage}
       >

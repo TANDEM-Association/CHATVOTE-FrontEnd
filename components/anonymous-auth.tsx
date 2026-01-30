@@ -73,7 +73,7 @@ export function AnonymousAuthProvider({
         createSession();
       }
     });
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   async function fetchUser(uid: string) {
     const user = await getUser(uid);
@@ -108,7 +108,7 @@ export function AnonymousAuthProvider({
             ...currUser,
             ...user,
           }
-        : null
+        : null,
     );
 
     if (user) await fetchUser(user.uid);
@@ -120,9 +120,7 @@ export function AnonymousAuthProvider({
     } catch (error) {
       console.error(error);
 
-      toast.error(
-        'Es ist ein Fehler aufgetreten. Bitte lade die Seite erneut.'
-      );
+      toast.error('An error occurred. Please reload the page.');
     }
   }
 

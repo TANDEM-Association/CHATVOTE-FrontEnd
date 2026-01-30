@@ -1,5 +1,3 @@
-'use client';
-
 import { useAnonymousAuth } from '@/components/anonymous-auth';
 import { useChatStore } from '@/components/providers/chat-store-provider';
 import type { PartyDetails } from '@/lib/party-details';
@@ -9,6 +7,7 @@ import GroupChatEmptyView from './group-chat-empty-view';
 import type { ProposedQuestion } from '@/lib/firebase/firebase.types';
 import { buildPartyImageUrl } from '@/lib/utils';
 import Logo from './logo';
+import { useTranslations } from 'next-intl';
 
 type Props = {
   parties?: PartyDetails[];
@@ -18,6 +17,7 @@ type Props = {
 function ChatEmptyView({ parties, proposedQuestions }: Props) {
   const { user } = useAnonymousAuth();
   const addUserMessage = useChatStore((state) => state.addUserMessage);
+  const t = useTranslations('chat');
 
   function handleSuggestionClick(suggestion: string) {
     if (!user?.uid) return;
@@ -56,15 +56,13 @@ function ChatEmptyView({ parties, proposedQuestions }: Props) {
       </div>
       {party ? (
         <p className="text-center">
-          Stelle dem Wahlprogramm der Partei{' '}
-          <span className="font-semibold">{party.name}</span> deine Fragen und
-          vergleiche ihre Antworten mit denen anderer Parteien.
+          {t('empty-single-party-instruction', {
+            partyName: party.name,
+          })}
         </p>
       ) : (
         <p className="text-center">
-          Stelle Fragen zu allen Themen rund um die{' '}
-          <span className="font-semibold">Bundestagswahl 2025</span> oder frage
-          die Parteien direkt zu ihren Positionen im Wahlprogramm.
+          {t('empty-general-instruction')}
         </p>
       )}
       <div className="flex max-w-xl flex-wrap justify-center gap-2">

@@ -1,5 +1,3 @@
-'use client';
-
 import { ShareIcon } from 'lucide-react';
 import { useChatStore } from '@/components/providers/chat-store-provider';
 import { Button } from '@/components/ui/button';
@@ -17,11 +15,13 @@ import {
   ResponsiveDialogTitle,
   ResponsiveDialogTrigger,
 } from './responsive-drawer-dialog';
+import { useTranslations } from 'next-intl';
 
 function ChatShareButton() {
   const sharePrivateSession = useChatStore(
-    (state) => state.messages.length > 0
+    (state) => state.messages.length > 0,
   );
+  const t = useTranslations('chat');
 
   return (
     <ResponsiveDialog>
@@ -33,17 +33,17 @@ function ChatShareButton() {
             </Button>
           </ResponsiveDialogTrigger>
         </TooltipTrigger>
-        <TooltipContent>Chat Session teilen</TooltipContent>
+        <TooltipContent>{t('share-session-title')}</TooltipContent>
       </Tooltip>
       <ResponsiveDialogContent className="sm:max-w-md">
         <ResponsiveDialogHeader>
           <ResponsiveDialogTitle>
-            {sharePrivateSession ? 'Chat Session teilen' : 'wahl.chat teilen'}
+            {sharePrivateSession ? t('share-session-title') : t('share-app-title')}
           </ResponsiveDialogTitle>
           <ResponsiveDialogDescription>
             {sharePrivateSession
-              ? 'Jeder, der diesen Link hat, kann diese Chat Session sehen.'
-              : 'Teile wahl.chat mit Freunden und Familie.'}
+              ? t('share-session-description')
+              : t('share-app-description')}
           </ResponsiveDialogDescription>
         </ResponsiveDialogHeader>
 

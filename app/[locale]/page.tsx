@@ -14,8 +14,10 @@ import HowToCard from '@/components/home/how-to-card';
 import HomePartyCards from '@/components/home/home-party-cards';
 import { IS_EMBEDDED } from '@/lib/utils';
 import SwiperTeaserCard from '@/components/home/swiper-teaser-card';
+import { getTranslations } from 'next-intl/server';
 
 export default async function Home() {
+  const t = await getTranslations('home');
   const wahlChatQuestions = await getHomeInputProposedQuestions();
   const systemStatus = await getSystemStatus();
   const user = await getUser();
@@ -27,7 +29,7 @@ export default async function Home() {
       <div className="mt-4 flex w-full flex-row items-center justify-center gap-2">
         <MousePointerClickIcon />
         <h1 className="text-center text-sm font-semibold">
-          Wähle eine Partei und stelle der KI deine Fragen
+          {t('select-party-title')}
         </h1>
       </div>
 
@@ -40,7 +42,7 @@ export default async function Home() {
             variant="secondary"
           >
             <GitCompareIcon />
-            Wähle mehrere Parteien zum Vergleichen
+            {t('compare-parties-button')}
           </Button>
         </ChatGroupPartySelect>
       </div>

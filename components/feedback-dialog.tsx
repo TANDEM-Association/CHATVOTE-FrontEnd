@@ -1,3 +1,4 @@
+import { getTranslations } from 'next-intl/server';
 import Link from 'next/link';
 import {
   ResponsiveDialog,
@@ -13,16 +14,17 @@ type Props = {
   children: React.ReactNode;
 };
 
-function FeedbackDialog({ children }: Props) {
+async function FeedbackDialog({ children }: Props) {
+  const t = await getTranslations('feedback');
   return (
     <ResponsiveDialog>
       <ResponsiveDialogTrigger asChild>{children}</ResponsiveDialogTrigger>
 
       <ResponsiveDialogContent>
         <ResponsiveDialogHeader>
-          <ResponsiveDialogTitle>Feedback!</ResponsiveDialogTitle>
+          <ResponsiveDialogTitle>{t('title')}</ResponsiveDialogTitle>
           <ResponsiveDialogDescription>
-            Wir freuen uns über Feedback zu wahl.chat.
+            {t('description')}
           </ResponsiveDialogDescription>
         </ResponsiveDialogHeader>
 
@@ -30,7 +32,7 @@ function FeedbackDialog({ children }: Props) {
           <Button asChild variant="outline">
             <Link href="mailto:info@wahl.chat">
               <MailIcon />
-              Schreibe uns eine E-Mail
+              {t('email-button')}
             </Link>
           </Button>
           <Button asChild variant="outline">
@@ -39,7 +41,7 @@ function FeedbackDialog({ children }: Props) {
               target="_blank"
             >
               <MessageSquareHeart />
-              Fülle unser Feedback-Formular aus
+              {t('form-button')}
             </Link>
           </Button>
         </div>

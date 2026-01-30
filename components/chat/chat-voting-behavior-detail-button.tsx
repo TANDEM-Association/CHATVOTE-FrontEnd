@@ -1,3 +1,4 @@
+'use client';
 import type { VotingBehavior } from '@/lib/stores/chat-store.types';
 import { Button } from '@/components/ui/button';
 import { ScrollTextIcon } from 'lucide-react';
@@ -15,6 +16,7 @@ import { forwardRef, useImperativeHandle, useMemo, useState } from 'react';
 import VisuallyHidden from '../visually-hidden';
 import { DialogDescription, DialogTitle } from '../ui/dialog';
 import { track } from '@vercel/analytics/react';
+import { useTranslations } from 'next-intl';
 
 type Props = {
   votingBehavior: VotingBehavior;
@@ -29,6 +31,7 @@ const ChatVotingBehaviorDetailButton = forwardRef<
   ChatVotingBehaviorDetailButtonRef,
   Props
 >(({ votingBehavior, partyId }: Props, ref) => {
+  const t = useTranslations('chat.voting-behavior');
   const [isOpen, setIsOpen] = useState(false);
   const [voteId, setVoteId] = useState<string | null>(null);
   const isDesktop = useIsDesktop();
@@ -39,7 +42,7 @@ const ChatVotingBehaviorDetailButton = forwardRef<
       className="h-8 px-2 text-xs group-data-[has-message-background]:bg-zinc-100 group-data-[has-message-background]:hover:bg-zinc-200 group-data-[has-message-background]:dark:bg-zinc-900 group-data-[has-message-background]:dark:hover:bg-zinc-800"
     >
       <ScrollTextIcon />
-      Abstimmungen anzeigen
+      {t('show-votes-button')}
     </Button>
   );
 
@@ -58,13 +61,13 @@ const ChatVotingBehaviorDetailButton = forwardRef<
     const uniqueNumbers = [...new Set(numbers)];
 
     return uniqueNumbers.filter((number) =>
-      votingBehavior.votes.some((vote) => vote.id === number.toString())
+      votingBehavior.votes.some((vote) => vote.id === number.toString()),
     );
   }, [votingBehavior.summary, votingBehavior.votes]);
 
   const votes = useMemo(() => {
     return votingBehavior.votes.filter((vote) =>
-      voteIdsReferenced.includes(Number(vote.id))
+      voteIdsReferenced.includes(Number(vote.id)),
     );
   }, [voteIdsReferenced, votingBehavior.votes]);
 
@@ -88,11 +91,8 @@ const ChatVotingBehaviorDetailButton = forwardRef<
         <SheetTrigger asChild>{triggerButton}</SheetTrigger>
         <SheetContent className="w-[90vw] !max-w-[700px] p-0">
           <VisuallyHidden>
-            <DialogTitle>Wahlverhalten</DialogTitle>
-            <DialogDescription>
-              Diese Nachricht enthält weitere Informationen zum Wahlverhalten
-              der Partei.
-            </DialogDescription>
+            <DialogTitle>{t('detail-title')}</DialogTitle>
+            <DialogDescription>{t('detail-description')}</DialogDescription>
           </VisuallyHidden>
 
           <ChatVotingBehaviorDetailView
@@ -110,11 +110,8 @@ const ChatVotingBehaviorDetailButton = forwardRef<
       <DrawerTrigger asChild>{triggerButton}</DrawerTrigger>
       <DrawerContent className="h-[95dvh]">
         <VisuallyHidden>
-          <DrawerTitle>Wahlverhalten</DrawerTitle>
-          <DrawerDescription>
-            Diese Nachricht enthält weitere Informationen zum Wahlverhalten der
-            Partei.
-          </DrawerDescription>
+          <DrawerTitle>{t('detail-title')}</DrawerTitle>
+          <DrawerDescription>{t('detail-description')}</DrawerDescription>
         </VisuallyHidden>
 
         <ChatVotingBehaviorDetailView

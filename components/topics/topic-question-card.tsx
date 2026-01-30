@@ -1,3 +1,4 @@
+'use client';
 import { useMemo } from 'react';
 import TopicTag from './topic-tag';
 import type { Topic } from './topics.data';

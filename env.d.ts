@@ -1,6 +1,11 @@
 type TruthyKinda = 'true' | 'false';
 
+type Messages = typeof import('./messages/en.json');
+
 declare global {
+  // Type-safe translations from next-intl
+  interface IntlMessages extends Messages {}
+
   namespace NodeJS {
     interface ProcessEnv {
       SITE_URL: string;

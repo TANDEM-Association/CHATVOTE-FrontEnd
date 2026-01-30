@@ -7,6 +7,7 @@ import Image from 'next/image';
 import type { PartyDetails } from '@/lib/party-details';
 import type { ProposedQuestion } from '@/lib/firebase/firebase.types';
 import { buildPartyImageUrl } from '@/lib/utils';
+import { useTranslations } from 'next-intl';
 
 type Props = {
   parties: PartyDetails[];
@@ -16,6 +17,7 @@ type Props = {
 function GroupChatEmptyView({ parties, proposedQuestions }: Props) {
   const { user } = useAnonymousAuth();
   const addUserMessage = useChatStore((state) => state.addUserMessage);
+  const t = useTranslations('chat');
 
   function handleSuggestionClick(suggestion: string) {
     if (!user?.uid) return;
@@ -51,7 +53,7 @@ function GroupChatEmptyView({ parties, proposedQuestions }: Props) {
           ))}
         </div>
         <p className="text-center">
-          Starte deinen Vergleichschat mit folgenden Parteien:
+          {t('empty-group-instruction')}
           <br />
           {parties?.map((party, index) => (
             <span key={party.party_id} className="font-semibold">

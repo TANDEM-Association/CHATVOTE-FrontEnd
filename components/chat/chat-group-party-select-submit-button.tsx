@@ -1,7 +1,9 @@
+'use client';
 import { useEffect, useMemo } from 'react';
 import { Button } from '../ui/button';
 import { ResponsiveDialogClose } from './responsive-drawer-dialog';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 
 type Props = {
   selectedPartyIds: string[];
@@ -14,6 +16,7 @@ function ChatGroupPartySelectSubmitButton({
   onSubmit,
   addPartiesToChat,
 }: Props) {
+  const t = useTranslations('chat');
   const router = useRouter();
 
   const navigateUrl = useMemo(() => {
@@ -37,7 +40,7 @@ function ChatGroupPartySelectSubmitButton({
   return (
     <ResponsiveDialogClose asChild>
       <Button className="w-full" onClick={handleSubmit}>
-        {addPartiesToChat ? 'Parteien ändern' : 'Vergleichschat starten'}
+        {addPartiesToChat ? t('change-parties') : t('start-comparison-chat')}
       </Button>
     </ResponsiveDialogClose>
   );

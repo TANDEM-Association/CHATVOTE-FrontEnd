@@ -1,5 +1,4 @@
 'use client';
-
 import { useMemo, useState } from 'react';
 import TopicTag from './topic-tag';
 import TopicQuestionCard from './topic-question-card';
@@ -35,7 +34,7 @@ function TopicsFilterableList({
 
   const topics = useMemo(() => {
     return (Object.keys(TOPIC_TITLES) as Topic[]).sort((a, b) =>
-      a.localeCompare(b)
+      a.localeCompare(b),
     );
   }, []);
 

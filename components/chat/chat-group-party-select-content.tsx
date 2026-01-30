@@ -6,6 +6,7 @@ import ChatGroupPartySelectSubmitButton from './chat-group-party-select-submit-b
 import { track } from '@vercel/analytics/react';
 import PartyCards from '@/components/party-cards';
 import { toast } from 'sonner';
+import { useTranslations } from 'next-intl';
 
 type Props = {
   selectedPartyIdsInStore?: string[];
@@ -20,8 +21,9 @@ function ChatGroupPartySelectContent({
   onNewChat,
   addPartiesToChat,
 }: Props) {
+  const t = useTranslations('chat');
   const [selectedPartyIds, setSelectedPartyIds] = useState<string[]>(
-    selectedPartyIdsInStore ?? []
+    selectedPartyIdsInStore ?? [],
   );
 
   const handlePartyClicked = (partyId: string) => {
@@ -31,9 +33,7 @@ function ChatGroupPartySelectContent({
     }
 
     if (selectedPartyIds.length >= MAX_SELECTABLE_PARTIES) {
-      toast.error(
-        `Du kannst nur maximal ${MAX_SELECTABLE_PARTIES} Parteien auswählen`
-      );
+      toast.error(t('max-parties-error', { max: MAX_SELECTABLE_PARTIES }));
       return;
     }
 

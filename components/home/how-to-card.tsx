@@ -1,23 +1,25 @@
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 
 import { BookMarkedIcon } from 'lucide-react';
 import { Button } from '../ui/button';
 
 function HowToCard() {
+  const t = useTranslations('home');
+
   return (
     <div className="flex flex-col overflow-hidden rounded-md border border-border md:col-span-2 md:order-last">
       <div className="flex flex-col p-4">
         <h2 className="font-bold">
-          Wie funktioniert <span className="underline">wahl.chat</span>?
+          {t.rich('how-to-card-title', { underline: (chunks) => <span className="underline">{chunks}</span> })}
         </h2>
         <p className="mb-4 text-sm text-muted-foreground">
-          Lerne, was du mit <span className="underline">wahl.chat</span> alles
-          machen kannst und welche Funktionen du nutzen kannst.
+          {t.rich('how-to-card-description', { underline: (chunks) => <span className="underline">{chunks}</span> })}
         </p>
         <Button asChild variant="secondary">
           <Link href="/how-to">
             <BookMarkedIcon />
-            Anleitung
+            {t('how-to-card-button')}
           </Link>
         </Button>
       </div>

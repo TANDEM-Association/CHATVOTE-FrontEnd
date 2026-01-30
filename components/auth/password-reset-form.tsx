@@ -1,3 +1,5 @@
+'use client';
+
 import {
   ResponsiveDialogDescription,
   ResponsiveDialogTitle,
@@ -8,12 +10,14 @@ import { Button } from '@/components/ui/button';
 import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
 import { useState } from 'react';
 import { toast } from 'sonner';
+import { useTranslations } from 'next-intl';
 
 type Props = {
   onChangeView: () => void;
 };
 
 function PasswordResetForm({ onChangeView }: Props) {
+  const t = useTranslations('auth');
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -24,7 +28,7 @@ function PasswordResetForm({ onChangeView }: Props) {
     const auth = getAuth();
     await sendPasswordResetEmail(auth, email);
     setIsLoading(false);
-    toast.success('E-Mail zum Zurücksetzen des Passworts wurde gesendet.');
+    toast.success(t('password-reset-email-sent'));
 
     onChangeView();
   };
@@ -33,31 +37,30 @@ function PasswordResetForm({ onChangeView }: Props) {
     <form className="flex flex-col p-4 md:p-0" onSubmit={handleSubmit}>
       <div className="mb-4">
         <ResponsiveDialogTitle className="text-center text-2xl font-bold md:text-left">
-          Passwort vergessen?
+          {t('forgot-password-title')}
         </ResponsiveDialogTitle>
         <ResponsiveDialogDescription className="text-center text-sm text-muted-foreground md:text-left">
-          Gib deine Email ein und wir senden dir einen Link zum Zurücksetzen
-          deines Passworts.
+          {t('forgot-password-description')}
         </ResponsiveDialogDescription>
       </div>
 
       <div className="flex flex-col gap-4">
         <div className="mt-4 grid gap-1">
-          <Label htmlFor="email">Email</Label>
+          <Label htmlFor="email">{t('email')}</Label>
           <Input
             id="email"
             name="email"
             type="email"
-            placeholder="max@mustermann.de"
+            placeholder={t('email-placeholder')}
             required
           />
         </div>
         <Button type="submit" className="w-full" disabled={isLoading}>
-          Link senden
+          {t('send-link')}
         </Button>
       </div>
       <div className="mt-4 text-center text-sm">
-        Hast du schon einen Account?{' '}
+        {t('already-have-account')}{' '}
         <Button
           size="sm"
           type="button"
@@ -65,7 +68,7 @@ function PasswordResetForm({ onChangeView }: Props) {
           onClick={onChangeView}
           className="p-0 underline underline-offset-4"
         >
-          Anmelden
+          {t('login')}
         </Button>
       </div>
     </form>

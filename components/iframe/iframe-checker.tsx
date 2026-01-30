@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useTenant } from '../providers/tenant-provider';
+import { useTranslations } from 'next-intl';
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -15,6 +16,7 @@ import { Button } from '../ui/button';
 import Link from 'next/link';
 
 function IframeChecker() {
+  const t = useTranslations('common');
   const tenant = useTenant();
   const [showAlert, setShowAlert] = useState<boolean>(false);
 
@@ -35,22 +37,19 @@ function IframeChecker() {
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>
-            Berechtigung zur Einbindung benötigt
+            {t('iframe-title')}
           </AlertDialogTitle>
           <AlertDialogDescription>
-            Um wahl.chat in einem iFrame zu verwenden, nimm bitte Kontakt zu uns
-            über die E-Mail-Adresse{' '}
-            <Link className="underline" href="mailto:info@wahl.chat">
-              info@wahl.chat
-            </Link>{' '}
-            auf.
+            {t.rich('iframe-description', {
+              email: (chunks) => <Link className="underline" href="mailto:info@wahl.chat">{chunks}</Link>
+            })}
           </AlertDialogDescription>
         </AlertDialogHeader>
 
         <AlertDialogFooter>
-          <AlertDialogCancel>Schließen</AlertDialogCancel>
+          <AlertDialogCancel>{t('iframe-close')}</AlertDialogCancel>
           <Button>
-            <Link href="mailto:info@wahl.chat">Kontaktiere uns</Link>
+            <Link href="mailto:info@wahl.chat">{t('iframe-contact')}</Link>
           </Button>
         </AlertDialogFooter>
       </AlertDialogContent>

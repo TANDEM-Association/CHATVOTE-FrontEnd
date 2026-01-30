@@ -1,6 +1,7 @@
 'use client';
 
 import { formatAmountForDisplay } from '@/lib/stripe/stripe-helpers';
+import { useTranslations } from 'next-intl';
 import {
   CardContent,
   CardDescription,
@@ -21,6 +22,7 @@ import { EqualIcon } from 'lucide-react';
 import { track } from '@vercel/analytics/react';
 
 function DonationForm() {
+  const t = useTranslations('donation');
   const [amount, setAmount] = useState(50);
   const [customAmount, setCustomAmount] = useState(false);
 
@@ -52,20 +54,22 @@ function DonationForm() {
     <form action={handleDonate}>
       <CardHeader>
         <CardTitle className="text-center text-2xl">
-          Halte{' '}
-          <Link className="underline" href="/">
-            wahl.chat
-          </Link>{' '}
-          mit deiner Spende am Leben!
+          {t.rich('form-title', {
+            link: (chunks) => (
+              <Link className="underline" href="/">
+                {chunks}
+              </Link>
+            ),
+          })}
         </CardTitle>
         <CardDescription className="text-center">
-          Wir finanzieren{' '}
-          <Link className="underline" href="/">
-            wahl.chat
-          </Link>{' '}
-          derzeit noch vollständig aus eigener Tasche. Deine Spende hilft uns,
-          dieses Projekt weiter zu betreiben und die Kosten für Server und KI zu
-          decken.
+          {t.rich('form-description', {
+            link: (chunks) => (
+              <Link className="underline" href="/">
+                {chunks}
+              </Link>
+            ),
+          })}
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -94,7 +98,7 @@ function DonationForm() {
               </h1>
             )}
             <p className="text-center text-sm text-muted-foreground">
-              einmalige Spende
+              {t('one-time-donation')}
             </p>
           </div>
           <EqualIcon className="text-3xl" />
@@ -103,7 +107,7 @@ function DonationForm() {
               <NumberFlow value={amount * 50} />
             </h1>
             <p className="text-center text-sm text-muted-foreground">
-              Menschen informiert
+              {t('people-informed')}
             </p>
           </div>
         </div>
@@ -116,7 +120,7 @@ function DonationForm() {
               type="button"
               className={cn(
                 amount === currAmount &&
-                  'bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground/90'
+                  'bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground/90',
               )}
               onClick={() => handleSetAmount(currAmount)}
             >
@@ -128,11 +132,11 @@ function DonationForm() {
             variant="outline"
             className={cn(
               customAmount &&
-                'bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground/90'
+                'bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground/90',
             )}
             onClick={() => setCustomAmount(true)}
           >
-            Andere
+            {t('other')}
           </Button>
         </div>
 
