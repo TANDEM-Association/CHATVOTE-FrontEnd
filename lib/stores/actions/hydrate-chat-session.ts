@@ -10,7 +10,7 @@ export const hydrateChatSession: ChatStoreActionHandlerFor<
   (get, set) =>
   async ({
     chatSession,
-    chatSessionId,
+    chatId,
     messages,
     preSelectedPartyIds,
     initialQuestion,
@@ -19,7 +19,7 @@ export const hydrateChatSession: ChatStoreActionHandlerFor<
     municipalityCode,
   }) => {
     const {
-      chatSessionId: currentChatSessionId,
+      chatId: currentChatId,
       partyIds: currentPartyIds,
       loadChatSession,
       initializeChatSession,
@@ -28,20 +28,19 @@ export const hydrateChatSession: ChatStoreActionHandlerFor<
     const partyIds = new Set(preSelectedPartyIds ?? []);
 
     const changedPage =
-      chatSessionId !== currentChatSessionId ||
-      !areSetsEqual(partyIds, currentPartyIds);
+      chatId !== currentChatId || !areSetsEqual(partyIds, currentPartyIds);
 
     // Determine scope based on municipality code presence
     const scope = municipalityCode !== undefined ? "local" : "national";
 
     set((state) => {
-      const sessionId = changedPage ? chatSessionId : state.chatSessionId;
+      const sessionId = changedPage ? chatId : state.chatId;
       const preliminarySessionId =
-        (changedPage ? sessionId : state.localPreliminaryChatSessionId) ??
+        (changedPage ? sessionId : state.localPreliminaryChatId) ??
         generateUuid();
 
-      state.chatSessionId = sessionId;
-      state.localPreliminaryChatSessionId = preliminarySessionId;
+      state.chatId = sessionId;
+      state.localPreliminaryChatId = preliminarySessionId;
       state.partyIds = partyIds;
       state.initialQuestionError = undefined;
       state.pendingInitialQuestion = initialQuestion;
@@ -63,7 +62,7 @@ export const hydrateChatSession: ChatStoreActionHandlerFor<
 
         return {
           messages,
-          chatSessionId: chatSession.id,
+          chatId: chatSession.id,
           currentQuickReplies: lastMessage
             ? (lastMessage.quick_replies ?? [])
             : [],
@@ -89,9 +88,9 @@ export const hydrateChatSession: ChatStoreActionHandlerFor<
       });
 
       chatViewScrollToBottom();
-    } else if (chatSessionId && changedPage) {
+    } else if (chatId && changedPage) {
       await toast
-        .promise(loadChatSession(chatSessionId), {
+        .promise(loadChatSession(chatId), {
           loading: "Loading chat session...",
           success: "Chat session loaded!",
           error: "Failed to load chat session",

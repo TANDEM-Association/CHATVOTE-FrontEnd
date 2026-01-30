@@ -72,10 +72,10 @@ export type MessageFeedback = {
 export type ChatStoreState = {
   userId?: string;
   isAnonymous?: boolean;
-  chatSessionId?: string;
+  chatId?: string;
   // We set this when we start the chat session, then also initialize the chat session on the server. When sending messages, the
-  // preliminary chat session id should be the same as the chat session id.
-  localPreliminaryChatSessionId?: string;
+  // preliminary chat id should be the same as the chat id.
+  localPreliminaryChatId?: string;
   partyIds: Set<string>;
   preSelectedParties?: PartyDetails[];
   messages: GroupedMessage[];
@@ -125,13 +125,13 @@ export type ChatStoreActions = {
     message: string,
     fromInitialQuestion?: boolean,
   ) => void;
-  setChatSessionId: (chatSessionId: string) => void;
+  setChatId: (chatId: string) => void;
   newChat: () => void;
-  loadChatSession: (chatSessionId: string) => Promise<void>;
+  loadChatSession: (chatId: string) => Promise<void>;
   hydrateChatSession: ({
     chatSession,
     messages,
-    chatSessionId,
+    chatId,
     preSelectedPartyIds,
     initialQuestion,
     userId,
@@ -140,7 +140,7 @@ export type ChatStoreActions = {
   }: {
     chatSession?: ChatSession;
     messages?: GroupedMessage[];
-    chatSessionId?: string;
+    chatId?: string;
     preSelectedPartyIds?: string[];
     initialQuestion?: string;
     userId: string;

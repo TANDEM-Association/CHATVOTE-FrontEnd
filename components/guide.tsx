@@ -37,10 +37,10 @@ const generalQuestions = [
 ];
 
 function buildQuestionLink(question: string) {
-  return `/session?q=${question}`;
+  return `/chat?q=${question}`;
 }
 
-function HowTo() {
+function Guide() {
   return (
     <article>
       <section>
@@ -321,4 +321,4 @@ function HowTo() {
   );
 }
 
-export default HowTo;
+export default Guide;

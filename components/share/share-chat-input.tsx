@@ -49,7 +49,7 @@ function ShareChatInput({
         q: message,
       });
 
-      router.push(`/session/${session_id}?${searchParams.toString()}`, {
+      router.push(`/chat/${session_id}?${searchParams.toString()}`, {
         scroll: false,
       });
     } catch (error) {

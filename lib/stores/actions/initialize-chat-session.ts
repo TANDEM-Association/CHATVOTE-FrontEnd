@@ -5,12 +5,12 @@ export const initializeChatSession: ChatStoreActionHandlerFor<
   "initializeChatSession"
 > = (get, set) => async () => {
   const {
-    chatSessionId,
+    chatId,
     socket,
     messages,
     currentChatTitle,
     partyIds,
-    localPreliminaryChatSessionId,
+    localPreliminaryChatId,
     getLLMSize,
     scope,
     municipalityCode,
@@ -20,9 +20,9 @@ export const initializeChatSession: ChatStoreActionHandlerFor<
     return;
   }
 
-  if (!chatSessionId && !localPreliminaryChatSessionId) {
+  if (!chatId && !localPreliminaryChatId) {
     set({
-      localPreliminaryChatSessionId: generateUuid(),
+      localPreliminaryChatId: generateUuid(),
     });
   }
 
@@ -40,8 +40,7 @@ export const initializeChatSession: ChatStoreActionHandlerFor<
   )?.quick_replies;
 
   socket.io.initializeChatSession({
-    session_id:
-      chatSessionId ?? get().localPreliminaryChatSessionId ?? generateUuid(),
+    session_id: chatId ?? get().localPreliminaryChatId ?? generateUuid(),
     party_ids: [...partyIds],
     chat_history: chatHistory,
     last_quick_replies: lastQuickReplies ?? [],

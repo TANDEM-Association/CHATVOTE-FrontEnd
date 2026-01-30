@@ -18,9 +18,9 @@ export const Footer: React.FC = () => {
       />
 
       <section className="flex grow flex-wrap items-center justify-center gap-2 underline md:justify-end">
-        <Link href="/how-to">Guide</Link>
+        <Link href="/guide">Guide</Link>
         <Link href="/donate">Faire un don</Link>
-        <Link href="/about-us">À propos</Link>
+        <Link href="/about">À propos</Link>
         <Link href="/sources">Sources</Link>
         <Link href={PRESS_LINK} target="_blank">
           Presse

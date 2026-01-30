@@ -37,7 +37,7 @@ function HomeInput({
     track("home_input_used", {
       question,
     });
-    router.push(`/session?q=${question}`);
+    router.push(`/chat?q=${question}`);
   };
 
   return (

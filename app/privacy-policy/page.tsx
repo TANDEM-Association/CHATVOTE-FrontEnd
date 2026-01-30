@@ -1,6 +1,8 @@
+import { type NextPage } from "next";
+
 import { PageLayout } from "@/components/layout/page-layout";
 
-function PrivacyPolicy() {
+const PrivacyPolicyPage: NextPage = () => {
   return (
     <PageLayout>
       <section className="prose-sm dark:prose-invert md:prose my-8 max-w-full overflow-x-hidden">
@@ -264,6 +266,6 @@ function PrivacyPolicy() {
       </section>
     </PageLayout>
   );
-}
+};
 
-export default PrivacyPolicy;
+export default PrivacyPolicyPage;

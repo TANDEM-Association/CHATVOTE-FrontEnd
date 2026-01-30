@@ -12,16 +12,13 @@ import {
 import ChatMessagesView from "./chat-messages-view";
 
 type Props = {
-  chatSessionId?: string;
+  chatId?: string;
   partyIds?: string[];
   initialQuestion?: string;
   municipalityCode?: string;
 };
 
-async function getChatSessionServer(
-  chatSessionId: string,
-  partyIds?: string[],
-) {
+async function getChatSessionServer(chatId: string, partyIds?: string[]) {
   const auth = await getAuth();
 
   if (!auth.session) {
@@ -29,7 +26,7 @@ async function getChatSessionServer(
   }
 
   try {
-    const session = await getChatSession(chatSessionId);
+    const session = await getChatSession(chatId);
 
     if (!session) {
       throw new Error("Chat session not found");
@@ -42,23 +39,21 @@ async function getChatSessionServer(
     const searchParams = new URLSearchParams();
     partyIds?.forEach((partyId) => searchParams.append("party_id", partyId));
 
-    redirect(`/session?${searchParams.toString()}`);
+    redirect(`/chat?${searchParams.toString()}`);
   }
 }
 
 async function ChatViewSsr({
-  chatSessionId,
+  chatId,
   partyIds,
   initialQuestion,
   municipalityCode,
 }: Props) {
-  const chatSession = chatSessionId
-    ? await getChatSessionServer(chatSessionId, partyIds)
+  const chatSession = chatId
+    ? await getChatSessionServer(chatId, partyIds)
     : undefined;
 
-  const messages = chatSessionId
-    ? await getChatSessionMessages(chatSessionId)
-    : undefined;
+  const messages = chatId ? await getChatSessionMessages(chatId) : undefined;
 
   const normalizedPartyIds = chatSession?.party_ids ?? partyIds;
 
@@ -72,7 +67,7 @@ async function ChatViewSsr({
 
   return (
     <ChatMessagesView
-      sessionId={chatSessionId}
+      chatId={chatId}
       chatSession={chatSession}
       parties={parties}
       allParties={allParties}

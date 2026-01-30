@@ -59,7 +59,7 @@ const CandidateList = ({
 
     // Navigate to chat with selected party IDs
     const partyParams = partyIds.map((id) => `party_id=${id}`).join("&");
-    router.push(`/session?${partyParams}`);
+    router.push(`/chat?${partyParams}`);
   };
 
   if (candidates.length === 0) {

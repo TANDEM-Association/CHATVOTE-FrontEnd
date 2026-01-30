@@ -2,23 +2,18 @@
 "use client";
 import { UserIcon } from "lucide-react";
 
-import { useAnonymousAuth } from "@/components/anonymous-auth";
-import { getUserDetailsFromUser, type UserDetails } from "@/lib/utils";
+import { type User } from "@/lib/types/auth";
 
-type Props = {
-  details?: UserDetails;
+type UserAvatarProps = {
+  user: User | null;
 };
 
-function UserAvatar({ details }: Props) {
-  const { user } = useAnonymousAuth();
-
-  const userDetails = user ? getUserDetailsFromUser(user) : details;
-
+export const UserAvatar: React.FC<UserAvatarProps> = ({ user }) => {
   return (
     <div className="border-border hover:bg-muted flex aspect-square size-9 items-center justify-center rounded-full border">
-      {userDetails?.photoURL ? (
+      {user?.photoURL ? (
         <img
-          src={userDetails.photoURL}
+          src={user.photoURL}
           alt="User avatar"
           className="size-full rounded-full object-cover"
         />
@@ -27,6 +22,4 @@ function UserAvatar({ details }: Props) {
       )}
     </div>
   );
-}
-
-export default UserAvatar;
+};

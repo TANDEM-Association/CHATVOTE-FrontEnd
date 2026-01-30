@@ -7,10 +7,10 @@ import { type ChatStoreActionHandlerFor } from "@/lib/stores/chat-store.types";
 export const updateQuickRepliesAndTitleForCurrentStreamingMessage: ChatStoreActionHandlerFor<
   "updateQuickRepliesAndTitleForCurrentStreamingMessage"
 > = (get, set) => async (sessionId, quickReplies, title) => {
-  const { chatSessionId, messages } = get();
+  const { chatId, messages } = get();
 
-  if (!chatSessionId) return;
-  if (chatSessionId !== sessionId) {
+  if (!chatId) return;
+  if (chatId !== sessionId) {
     await updateTitleOfMessage(sessionId, title);
 
     return;
@@ -25,7 +25,7 @@ export const updateQuickRepliesAndTitleForCurrentStreamingMessage: ChatStoreActi
   });
 
   await Promise.all([
-    updateQuickRepliesOfMessage(chatSessionId, lastMessage.id, quickReplies),
-    updateTitleOfMessage(chatSessionId, title),
+    updateQuickRepliesOfMessage(chatId, lastMessage.id, quickReplies),
+    updateTitleOfMessage(chatId, title),
   ]);
 };

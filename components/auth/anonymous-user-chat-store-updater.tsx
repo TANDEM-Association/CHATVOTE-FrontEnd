@@ -6,14 +6,14 @@ import { useAnonymousAuth } from "@/components/anonymous-auth";
 import { useChatStore } from "@/components/providers/chat-store-provider";
 
 function AnonymousUserChatStoreUpdater() {
-  const { user } = useAnonymousAuth();
+  const { session } = useAnonymousAuth();
   const setIsAnonymous = useChatStore((state) => state.setIsAnonymous);
 
   useEffect(() => {
-    if (user) {
-      setIsAnonymous(user.isAnonymous);
+    if (session) {
+      setIsAnonymous(session.isAnonymous);
     }
-  }, [user, setIsAnonymous]);
+  }, [session, setIsAnonymous]);
 
   return null;
 }

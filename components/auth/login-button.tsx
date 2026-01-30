@@ -2,45 +2,37 @@
 
 import React, { useState } from "react";
 
-import { useAnonymousAuth } from "@/components/anonymous-auth";
+import { type User } from "@/components/anonymous-auth";
 import { Modal } from "@/components/ui/modal";
-import { getUserDetailsFromUser, type UserDetails } from "@/lib/utils";
 
 import LoginForm from "./login-form";
 import UserDialog from "./user-dialog";
 
-type Props = {
+type LoginButtonProps = {
   noUserChildren?: React.ReactNode;
   userChildren?: React.ReactNode;
-  userDetails?: UserDetails;
+  isAuthenticated: boolean;
+  user?: User | null;
 };
 
-const LoginButton = ({ noUserChildren, userChildren, userDetails }: Props) => {
-  const { user } = useAnonymousAuth();
+const LoginButton = ({
+  noUserChildren,
+  userChildren,
+  isAuthenticated,
+  user,
+}: LoginButtonProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleSuccess = () => {
     setIsOpen(false);
   };
 
-  const clientUserDetails = user ? getUserDetailsFromUser(user) : undefined;
-
-  const hasUser = clientUserDetails
-    ? !clientUserDetails.isAnonymous
-    : userDetails
-      ? !userDetails.isAnonymous
-      : false;
-
-  if (hasUser && !isOpen) {
+  if (isAuthenticated && !isOpen) {
     if (!userChildren) {
       return null;
     }
 
-    return (
-      <UserDialog details={userDetails ?? clientUserDetails}>
-        {userChildren}
-      </UserDialog>
-    );
+    return <UserDialog user={user ?? null}>{userChildren}</UserDialog>;
   }
 
   return (

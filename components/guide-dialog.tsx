@@ -3,13 +3,13 @@
 import React, { useState } from "react";
 
 import { Modal } from "./ui/modal";
-import HowTo from "./how-to";
+import Guide from "./guide";
 
 type Props = {
   children: React.ReactNode;
 };
 
-const HowToDialog = ({ children }: Props) => {
+const GuideDialog = ({ children }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -31,11 +31,11 @@ const HowToDialog = ({ children }: Props) => {
         </div>
 
         <div className="grow overflow-y-auto">
-          <HowTo />
+          <Guide />
         </div>
       </Modal>
     </React.Fragment>
   );
 };
 
-export default HowToDialog;
+export default GuideDialog;

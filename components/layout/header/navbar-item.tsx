@@ -13,12 +13,12 @@ export type NavbarItemDetails = {
   icon?: React.ReactNode;
 };
 
-type Props = {
+type NavbarItemProps = {
   details: NavbarItemDetails;
-  mobileClose?: () => void;
+  onClose?: () => void;
 };
 
-function NavbarItem({ details, mobileClose }: Props) {
+export const NavbarItem: React.FC<NavbarItemProps> = ({ details, onClose }) => {
   const { label, href, external, highlight } = details;
   const pathname = usePathname();
   const isActive = href === "/" ? pathname === href : pathname.startsWith(href);
@@ -35,7 +35,7 @@ function NavbarItem({ details, mobileClose }: Props) {
         highlight &&
           "border-none text-indigo-900 hover:text-indigo-900 dark:text-indigo-100 dark:hover:text-indigo-50",
       )}
-      onClick={mobileClose}
+      onClick={onClose}
     >
       {highlight && (
         <span className="relative mr-1 flex size-2">
@@ -53,6 +53,4 @@ function NavbarItem({ details, mobileClose }: Props) {
       )}
     </Link>
   );
-}
-
-export default NavbarItem;
+};

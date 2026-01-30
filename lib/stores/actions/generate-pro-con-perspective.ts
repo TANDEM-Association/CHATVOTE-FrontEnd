@@ -12,9 +12,9 @@ export const generateProConPerspective: ChatStoreActionHandlerFor<
 > =
   (get, set) =>
   async (partyId: string, message: MessageItem | StreamingMessage) => {
-    const { chatSessionId, messages, socket } = get();
+    const { chatId, messages, socket } = get();
 
-    if (!chatSessionId) return;
+    if (!chatId) return;
 
     if (!socket.io?.connected) {
       toast.error("Socket is not connected");

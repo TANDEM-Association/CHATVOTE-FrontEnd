@@ -1,9 +1,11 @@
 "use client";
 
+import { type NextPage } from "next";
+
 import DonationForm from "@/components/donation-form";
 
-function DonatePage() {
+const DonatePage: NextPage = () => {
   return <DonationForm />;
-}
+};
 
 export default DonatePage;

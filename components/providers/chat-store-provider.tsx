@@ -4,7 +4,7 @@ import { createContext, type ReactNode, useContext, useRef } from "react";
 
 import { useStore } from "zustand";
 
-import { useChatSessionParam } from "@/lib/hooks/use-chat-session-param";
+import { useChatParam } from "@/lib/hooks/use-chat-param";
 import { createChatStore } from "@/lib/stores/chat-store";
 import { type ChatStore } from "@/lib/stores/chat-store.types";
 
@@ -19,12 +19,12 @@ type Props = {
 };
 
 export const ChatStoreProvider = ({ children }: Props) => {
-  const sessionId = useChatSessionParam();
+  const chatId = useChatParam();
 
   const storeRef = useRef<ChatStoreApi>(null);
   if (!storeRef.current) {
     storeRef.current = createChatStore({
-      chatSessionId: sessionId,
+      chatId,
     });
   }
 

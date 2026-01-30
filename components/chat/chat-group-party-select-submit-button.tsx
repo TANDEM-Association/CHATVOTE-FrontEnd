@@ -23,7 +23,7 @@ const ChatGroupPartySelectSubmitButton = ({
       searchParams.append("party_id", partyId);
     });
 
-    return `/session?${searchParams.toString()}`;
+    return `/chat?${searchParams.toString()}`;
   }, [selectedPartyIds]);
 
   const handleSubmit = () => {

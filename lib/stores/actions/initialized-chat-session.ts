@@ -6,8 +6,8 @@ export const initializedChatSession: ChatStoreActionHandlerFor<
   const { pendingInitialQuestion, addUserMessage, userId } = get();
 
   set((state) => {
-    state.chatSessionId = sessionId;
-    state.localPreliminaryChatSessionId = sessionId;
+    state.chatId = sessionId;
+    state.localPreliminaryChatId = sessionId;
     state.loading.initializingChatSocketSession = false;
   });
 

@@ -1,17 +1,9 @@
+import { type NextPage } from "next";
 import { redirect } from "next/navigation";
 
 import ChatView from "@/components/chat/chat-view";
 import { getParties } from "@/lib/firebase/firebase-server";
 import { generateOgImageUrl } from "@/lib/utils";
-
-type Props = {
-  searchParams: Promise<{
-    session_id?: string;
-    party_id: string[] | string | undefined;
-    q?: string;
-    municipality_code?: string;
-  }>;
-};
 
 export async function generateMetadata({
   searchParams,
@@ -39,12 +31,20 @@ export async function generateMetadata({
   };
 }
 
-async function Page({ searchParams }: Props) {
-  const { party_id, q, session_id, municipality_code } = await searchParams;
+type ChatPageProps = {
+  searchParams: Promise<{
+    chat_id?: string;
+    party_id: string[] | string | undefined;
+    q?: string;
+    municipality_code?: string;
+  }>;
+};
+const ChatPage: NextPage<ChatPageProps> = async ({ searchParams }) => {
+  const { party_id, q, chat_id, municipality_code } = await searchParams;
   const parties = await getParties();
 
-  if (session_id) {
-    redirect(`/session/${session_id}`);
+  if (chat_id) {
+    redirect(`/chat/${chat_id}`);
   }
 
   let normalizedPartyIds = Array.isArray(party_id)
@@ -64,6 +64,6 @@ async function Page({ searchParams }: Props) {
       municipalityCode={municipality_code}
     />
   );
-}
+};
 
-export default Page;
+export default ChatPage;

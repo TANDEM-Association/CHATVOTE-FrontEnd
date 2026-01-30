@@ -64,10 +64,7 @@ function PartyCard({
           />
         </React.Fragment>
       ) : (
-        <Link
-          href={`/session?party_id=${id}`}
-          onClick={() => onSelectParty?.(id)}
-        >
+        <Link href={`/chat?party_id=${id}`} onClick={() => onSelectParty?.(id)}>
           <Image
             alt={name}
             src={party.logo_url}

@@ -1,3 +1,4 @@
+import { type NextPage } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
@@ -17,14 +18,14 @@ import {
 import { InternalReferrers } from "@/lib/internal-referrers";
 import { cn, generateOgImageUrl } from "@/lib/utils";
 
-type Props = {
+type SharePageProps = {
   searchParams: Promise<{
     snapshot_id: string;
     ref?: InternalReferrers;
   }>;
 };
 
-export async function generateMetadata({ searchParams }: Props) {
+export async function generateMetadata({ searchParams }: SharePageProps) {
   const { snapshot_id } = await searchParams;
 
   const snapshot = await getSnapshot(snapshot_id);
@@ -42,7 +43,7 @@ export async function generateMetadata({ searchParams }: Props) {
   };
 }
 
-async function SharePage({ searchParams }: Props) {
+const SharePage: NextPage<SharePageProps> = async ({ searchParams }) => {
   const { snapshot_id, ref } = await searchParams;
 
   if (!snapshot_id) {
@@ -92,11 +93,13 @@ async function SharePage({ searchParams }: Props) {
               : []
           }
           initialSystemStatus={systemStatus}
-          hasValidServerUser={auth.session !== null && !auth.session.isAnonymous}
+          hasValidServerUser={
+            auth.session !== null && !auth.session.isAnonymous
+          }
         />
       </div>
     </PageLayout>
   );
-}
+};
 
 export default SharePage;

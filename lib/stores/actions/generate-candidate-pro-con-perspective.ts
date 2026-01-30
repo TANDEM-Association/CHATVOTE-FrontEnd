@@ -12,9 +12,9 @@ export const generateCandidateProConPerspective: ChatStoreActionHandlerFor<
 > =
   (get, set) =>
   async (candidateId: string, message: MessageItem | StreamingMessage) => {
-    const { chatSessionId, messages, socket } = get();
+    const { chatId, messages, socket } = get();
 
-    if (!chatSessionId) {
+    if (!chatId) {
       return;
     }
 

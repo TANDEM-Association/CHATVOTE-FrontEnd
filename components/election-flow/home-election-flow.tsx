@@ -181,9 +181,9 @@ const HomeElectionFlow = ({ className }: Props) => {
       });
 
       if (municipalityCode !== undefined) {
-        router.push(`/session?municipality_code=${municipalityCode}`);
+        router.push(`/chat?municipality_code=${municipalityCode}`);
       } else {
-        router.push("/session");
+        router.push("/chat");
       }
     },
     [router, scope],
@@ -253,9 +253,9 @@ const HomeElectionFlow = ({ className }: Props) => {
       {/* Step 1: Scope selection */}
       {currentStep === "scope" ? (
         <div className="space-y-4">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 max-md:justify-center">
             <GlobeIcon className="size-5" />
-            <h2 className="text-lg font-semibold">
+            <h2 className="text-sm font-semibold">
               Je dialogue avec les candidats et les partis
             </h2>
           </div>

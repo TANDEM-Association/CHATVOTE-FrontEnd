@@ -4,9 +4,9 @@ import { type ChatStoreActionHandlerFor } from "@/lib/stores/chat-store.types";
 export const completeVotingBehavior: ChatStoreActionHandlerFor<
   "completeVotingBehavior"
 > = (get, set) => async (requestId, votes, completeMessage) => {
-  const { currentStreamedVotingBehavior, chatSessionId } = get();
+  const { currentStreamedVotingBehavior, chatId } = get();
 
-  if (!chatSessionId) return;
+  if (!chatId) return;
 
   if (currentStreamedVotingBehavior?.requestId !== requestId) return;
 
@@ -35,7 +35,7 @@ export const completeVotingBehavior: ChatStoreActionHandlerFor<
   });
 
   await addVotingBehaviorToMessage(
-    chatSessionId,
+    chatId,
     messages[indexOfGroupedMessage].id,
     requestId,
     votingBehavior,

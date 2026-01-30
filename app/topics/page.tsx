@@ -1,3 +1,4 @@
+import { type NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -12,7 +13,7 @@ import {
 } from "@/lib/firebase/firebase-server";
 import { buildPartyImageUrl } from "@/lib/utils";
 
-async function TopicsPage() {
+const TopicsPage: NextPage = async () => {
   const exampleQuestionsShareableChatSessions =
     await getExampleQuestionsShareableChatSession();
   const allParties = await getParties();
@@ -65,6 +66,6 @@ async function TopicsPage() {
       />
     </PageLayout>
   );
-}
+};
 
 export default TopicsPage;

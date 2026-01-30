@@ -4,7 +4,6 @@ import { twMerge } from "tailwind-merge";
 
 import { type PartyDetails } from "@/lib/party-details";
 import { type Source } from "@/lib/stores/chat-store.types";
-import { type User } from "@/lib/types/auth";
 
 import { GROUP_PARTY_ID } from "./constants";
 
@@ -175,40 +174,6 @@ export async function generateOgImageUrl(sessionType: string) {
 
 export function buildPartyImageUrl(partyId: string) {
   return `/images/${partyId}.webp`;
-}
-
-export type UserDetails = {
-  photoURL?: string;
-  displayName?: string;
-  email?: string;
-  isAnonymous: boolean;
-};
-
-export function getUserDetailsFromUser(user?: User): UserDetails {
-  const details: UserDetails = {
-    isAnonymous: true,
-  };
-
-  if (!user) {
-    return details;
-  }
-
-  details.isAnonymous =
-    user.providerData.length === 0 ||
-    user.providerData.every((p) => p.providerId === "anonymous");
-
-  user.providerData.forEach((provider) => {
-    details.photoURL ??= provider.photoURL ?? undefined;
-    details.displayName ??= provider.displayName ?? undefined;
-    details.email ??= provider.email ?? undefined;
-  });
-
-  // Fallback to user-level data if provider data is empty
-  details.photoURL ??= user.photoURL ?? undefined;
-  details.displayName ??= user.displayName ?? undefined;
-  details.email ??= user.email ?? undefined;
-
-  return details;
 }
 
 /**

@@ -12,11 +12,11 @@ import { generateUuid } from "@/lib/utils";
 export const completeStreamingMessage: ChatStoreActionHandlerFor<
   "completeStreamingMessage"
 > = (get, set) => async (sessionId, partyId, completeMessage) => {
-  const { currentStreamingMessages, chatSessionId } = get();
+  const { currentStreamingMessages, chatId } = get();
 
-  if (!chatSessionId) return;
+  if (!chatId) return;
   // TODO: somehow store the message in firebase without knowing the current grouped message id
-  if (chatSessionId !== sessionId) return;
+  if (chatId !== sessionId) return;
 
   const currentStreamingMessage = currentStreamingMessages?.messages[partyId];
 
@@ -75,7 +75,7 @@ export const completeStreamingMessage: ChatStoreActionHandlerFor<
   }
 
   await addMessageToGroupedMessageOfChatSession(
-    chatSessionId,
+    chatId,
     safeGroupedMessageId,
     buildNewMessage(currentStreamingMessage, completeMessage),
   );

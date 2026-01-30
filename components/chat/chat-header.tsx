@@ -5,7 +5,7 @@ import Link from "next/link";
 
 import { HelpCircleIcon, HomeIcon } from "lucide-react";
 
-import HowToDialog from "@/components/how-to-dialog";
+import HowToDialog from "@/components/guide-dialog";
 import { Button } from "@/components/ui/button";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { IS_EMBEDDED } from "@/lib/utils";

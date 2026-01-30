@@ -1,19 +1,21 @@
 import React from "react";
 
+import { type NextPage } from "next";
+
 import { GitCompareIcon, MousePointerClickIcon } from "lucide-react";
 
 import ChatGroupPartySelect from "@/components/chat/chat-group-party-select";
 import { HomeElectionFlow } from "@/components/election-flow";
 import ContactCard from "@/components/home/contact-card";
+import GuideCard from "@/components/home/guide-card";
 import HomePartyCards from "@/components/home/home-party-cards";
-import HowToCard from "@/components/home/how-to-card";
 import KnownFrom from "@/components/home/known-from";
 import SupportUsCard from "@/components/home/support-us-card";
 import { PageLayout } from "@/components/layout/page-layout";
 import { Button } from "@/components/ui/button";
 import { IS_EMBEDDED } from "@/lib/utils";
 
-export default function Home() {
+const HomePage: NextPage = () => {
   return (
     <PageLayout>
       <div className="mt-4 flex w-full flex-row items-center justify-center gap-2">
@@ -42,16 +44,18 @@ export default function Home() {
         <React.Fragment>
           <section className="mt-10 grid w-full grid-cols-1 flex-wrap gap-2 md:grid-cols-2 md:gap-2">
             <SupportUsCard />
-            <HowToCard />
+            <GuideCard />
             <ContactCard />
           </section>
           <KnownFrom />
         </React.Fragment>
       ) : (
         <section className="mt-4">
-          <HowToCard />
+          <GuideCard />
         </section>
       )}
     </PageLayout>
   );
-}
+};
+
+export default HomePage;

@@ -1,7 +1,9 @@
+import { type NextPage } from "next";
+
 import { PageLayout } from "@/components/layout/page-layout";
 import { Markdown } from "@/components/markdown";
 
-const LegalNotices = () => {
+const LegalNoticesPage: NextPage = () => {
   const markdown = `
 # Mentions légales
         
@@ -24,4 +26,4 @@ France
   );
 };
 
-export default LegalNotices;
+export default LegalNoticesPage;

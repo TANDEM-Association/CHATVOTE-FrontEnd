@@ -1,7 +1,7 @@
 import { HelpCircleIcon } from "lucide-react";
 
 import EmbedOpenWebsiteButton from "@/components/embed-open-website-button";
-import HowToDialog from "@/components/how-to-dialog";
+import GuideDialog from "@/components/guide-dialog";
 import { Button } from "@/components/ui/button";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import {
@@ -25,11 +25,11 @@ function ChatEmbedHeader() {
           </Tooltip>
         </div>
         <div className="flex items-center gap-1">
-          <HowToDialog>
+          <GuideDialog>
             <Button variant="ghost" size="icon" className="size-8">
               <HelpCircleIcon />
             </Button>
-          </HowToDialog>
+          </GuideDialog>
           <EmbedOpenWebsiteButton />
         </div>
       </header>

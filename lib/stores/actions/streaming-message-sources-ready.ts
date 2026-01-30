@@ -3,9 +3,9 @@ import { generateUuid } from "@/lib/utils";
 
 export const streamingMessageSourcesReady: ChatStoreActionHandlerFor<
   "streamingMessageSourcesReady"
-> = (get, set) => (sessionId, partyId, sources) =>
+> = (get, set) => (chatId, partyId, sources) =>
   set((state) => {
-    if (state.chatSessionId !== sessionId) return;
+    if (state.chatId !== chatId) return;
 
     if (!state.currentStreamingMessages) return;
 

@@ -18,7 +18,7 @@ function ChatDynamicChatInput({
   initialSystemStatus,
   hasValidServerUser,
 }: Props) {
-  const { user } = useAnonymousAuth();
+  const { session } = useAnonymousAuth();
   const [isAtRateLimit, setIsAtRateLimit] = useState(
     initialSystemStatus.is_at_rate_limit,
   );
@@ -31,7 +31,7 @@ function ChatDynamicChatInput({
     return unsubscribe;
   }, []);
 
-  const isPriorityUser = user ? !user.isAnonymous : false;
+  const isPriorityUser = session ? !session.isAnonymous : false;
   const canAccessChatInput =
     isPriorityUser || !isAtRateLimit || hasValidServerUser;
 

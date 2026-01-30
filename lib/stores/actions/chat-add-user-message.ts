@@ -14,8 +14,8 @@ export const chatAddUserMessage: ChatStoreActionHandlerFor<"addUserMessage"> =
   async (userId: string, message: string, fromInitialQuestion?: boolean) => {
     const {
       isAnonymous,
-      chatSessionId,
-      localPreliminaryChatSessionId,
+      chatId,
+      localPreliminaryChatId,
       socket,
       partyIds,
       initializeChatSession,
@@ -32,14 +32,13 @@ export const chatAddUserMessage: ChatStoreActionHandlerFor<"addUserMessage"> =
       return;
     }
 
-    if (chatSessionId !== localPreliminaryChatSessionId) {
+    if (chatId !== localPreliminaryChatId) {
       initializeChatSession();
     }
 
     chatViewScrollToBottom();
 
-    const safeSessionId =
-      get().chatSessionId ?? get().localPreliminaryChatSessionId;
+    const safeSessionId = get().chatId ?? get().localPreliminaryChatId;
 
     if (!safeSessionId) {
       toast.error("Chat Session out of sync");
@@ -92,8 +91,8 @@ export const chatAddUserMessage: ChatStoreActionHandlerFor<"addUserMessage"> =
         if (typeof window !== "undefined") {
           const url = new URL(window.location.href);
 
-          if (url.pathname === "/session") {
-            url.searchParams.set("session_id", safeSessionId);
+          if (url.pathname === "/chat") {
+            url.searchParams.set("chat_id", safeSessionId);
             window.history.replaceState({}, "", url);
           }
         }

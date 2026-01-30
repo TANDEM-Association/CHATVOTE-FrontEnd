@@ -1,13 +1,14 @@
 "use client";
 
+import { type NextPage } from "next";
 import dynamic from "next/dynamic";
 
 const PDFView = dynamic(() => import("@/components/pdf-view"), {
   ssr: false,
 });
 
-function Page() {
+const PDFViewPage: NextPage = () => {
   return <PDFView />;
-}
+};
 
-export default Page;
+export default PDFViewPage;

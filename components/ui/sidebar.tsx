@@ -23,7 +23,6 @@ import { cn } from "@/lib/utils";
 import VisuallyHidden from "../visually-hidden";
 
 const SIDEBAR_WIDTH = "16rem";
-const SIDEBAR_WIDTH_MOBILE = "18rem";
 const SIDEBAR_WIDTH_ICON = "3rem";
 const SIDEBAR_KEYBOARD_SHORTCUT = "b";
 
@@ -192,7 +191,7 @@ const Sidebar = React.forwardRef<
       return (
         <div
           className={cn(
-            "bg-sidebar text-sidebar-foreground flex h-full w-95 flex-col",
+            "bg-background text-foreground flex h-full w-95 flex-col",
             className,
           )}
           ref={ref}
@@ -213,15 +212,17 @@ const Sidebar = React.forwardRef<
           <SheetContent
             data-sidebar="sidebar"
             data-mobile="true"
-            className="bg-sidebar text-sidebar-foreground w-95 p-0 [&>button]:hidden"
+            className="bg-background text-foreground p-0"
             style={
               {
-                "--sidebar-width": SIDEBAR_WIDTH_MOBILE,
+                "--sidebar-width": "100%",
               } as React.CSSProperties
             }
             side={side}
+            fullWidth
+            closeButtonPosition="drag-handle"
           >
-            <div className="flex size-full flex-col">{children}</div>
+            <div className="relative flex size-full flex-col">{children}</div>
           </SheetContent>
         </Sheet>
       );
@@ -233,7 +234,7 @@ const Sidebar = React.forwardRef<
       <div
         ref={ref}
         className={cn(
-          "bg-sidebar border-sidebar-border fixed top-12 bottom-0 z-50 hidden w-95 flex-col border-r transition-transform duration-200 ease-linear md:flex",
+          "bg-background border-border fixed top-12 bottom-0 z-50 hidden w-95 flex-col border-r transition-transform duration-200 ease-linear md:flex",
           state === "expanded" ? "translate-x-0" : "-translate-x-full",
           side === "left" ? "left-0" : "right-0",
           className,
@@ -246,7 +247,7 @@ const Sidebar = React.forwardRef<
       >
         <div
           data-sidebar="sidebar"
-          className="bg-sidebar flex size-full flex-col overflow-hidden"
+          className="bg-background flex size-full flex-col overflow-hidden"
         >
           {children}
         </div>

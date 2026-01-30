@@ -8,7 +8,7 @@ export const resetStreamingMessage: ChatStoreActionHandlerFor<
   toast.info(`Stream reset: ${reason}`);
 
   set((state) => {
-    if (state.chatSessionId !== sessionId) {
+    if (state.chatId !== sessionId) {
       return;
     }
 

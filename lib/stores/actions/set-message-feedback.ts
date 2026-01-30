@@ -4,8 +4,8 @@ import { type ChatStoreActionHandlerFor } from "@/lib/stores/chat-store.types";
 export const setMessageFeedback: ChatStoreActionHandlerFor<
   "setMessageFeedback"
 > = (get, set) => async (messageId, feedback) => {
-  const { chatSessionId, messages } = get();
-  if (!chatSessionId) return;
+  const { chatId, messages } = get();
+  if (!chatId) return;
 
   const indexOfGroupedMessage = messages.findIndex((message) =>
     message.messages.some((m) => m.id === messageId),
@@ -27,10 +27,5 @@ export const setMessageFeedback: ChatStoreActionHandlerFor<
 
   const groupedMessageId = messages[indexOfGroupedMessage].id;
 
-  await updateMessageFeedback(
-    chatSessionId,
-    groupedMessageId,
-    messageId,
-    feedback,
-  );
+  await updateMessageFeedback(chatId, groupedMessageId, messageId, feedback);
 };

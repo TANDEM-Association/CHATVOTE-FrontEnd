@@ -3,7 +3,7 @@ import { type ChatStoreActionHandlerFor } from "@/lib/stores/chat-store.types";
 export const newChat: ChatStoreActionHandlerFor<"newChat"> =
   (get, set) => () => {
     set({
-      chatSessionId: undefined,
+      chatId: undefined,
       messages: [],
       input: "",
       error: undefined,

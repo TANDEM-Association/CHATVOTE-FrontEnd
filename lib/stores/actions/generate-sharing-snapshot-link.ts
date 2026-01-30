@@ -4,9 +4,9 @@ import { type ChatStoreActionHandlerFor } from "@/lib/stores/chat-store.types";
 export const generateSharingSnapshotLink: ChatStoreActionHandlerFor<
   "generateSharingSnapshotLink"
 > = (get, set) => async () => {
-  const { chatSessionId, sharingSnapshot, messages } = get();
+  const { chatId, sharingSnapshot, messages } = get();
 
-  if (!chatSessionId) return;
+  if (!chatId) return;
 
   if (
     sharingSnapshot &&
@@ -20,7 +20,7 @@ export const generateSharingSnapshotLink: ChatStoreActionHandlerFor<
   });
 
   const { snapshot_id, messages_length_at_sharing } =
-    await createShareableSession(chatSessionId);
+    await createShareableSession(chatId);
 
   set((state) => {
     state.sharingSnapshot = {

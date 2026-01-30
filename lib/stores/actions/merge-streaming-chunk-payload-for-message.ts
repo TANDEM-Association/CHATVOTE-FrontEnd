@@ -6,7 +6,7 @@ export const mergeStreamingChunkPayloadForMessage: ChatStoreActionHandlerFor<
 > = (get, set) => (sessionId, partyId, chunkPayload) => {
   set((state) => {
     if (!state.currentStreamingMessages) return;
-    if (state.chatSessionId !== sessionId) return;
+    if (state.chatId !== sessionId) return;
 
     const currentStreamingMessage =
       state.currentStreamingMessages?.messages[partyId];

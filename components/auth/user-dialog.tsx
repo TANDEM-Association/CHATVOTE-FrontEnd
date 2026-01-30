@@ -5,21 +5,19 @@ import React, { useState } from "react";
 import { getAuth, signOut } from "firebase/auth";
 import { LogOutIcon } from "lucide-react";
 
-import { useAnonymousAuth } from "@/components/anonymous-auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Modal } from "@/components/ui/modal";
-import { type UserDetails } from "@/lib/utils";
+import { type User } from "@/lib/types/auth";
 
-type Props = {
+type UserDialogProps = {
   children: React.ReactNode;
-  details?: UserDetails;
+  user: User | null;
 };
 
-const UserDialog = ({ children, details }: Props) => {
+const UserDialog: React.FC<UserDialogProps> = ({ children, user }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { user } = useAnonymousAuth();
   const [isLoading, setIsLoading] = useState(false);
 
   const handleLogout = async () => {
@@ -47,14 +45,14 @@ const UserDialog = ({ children, details }: Props) => {
         </div>
 
         <section className="flex flex-col gap-4">
-          {details?.displayName ? (
+          {user?.displayName ? (
             <div className="flex flex-col gap-2">
               <Label htmlFor="displayName">Name</Label>
               <Input
                 disabled
                 id="displayName"
                 type="text"
-                value={details.displayName}
+                value={user.displayName}
               />
             </div>
           ) : null}

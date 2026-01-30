@@ -88,6 +88,7 @@ function ChatInputRateLimit() {
           propres questions.
         </p>
         <LoginButton
+          isAuthenticated={false}
           noUserChildren={
             <Button size="sm" className="mt-2">
               Se connecter

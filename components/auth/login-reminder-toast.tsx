@@ -6,14 +6,12 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 
 import { FilloutPopupEmbed } from "@fillout/react";
-import { Timestamp } from "firebase/firestore";
 import { UserIcon, XIcon } from "lucide-react";
 import { toast } from "sonner";
 
 import { useAnonymousAuth } from "@/components/anonymous-auth";
 import { Button } from "@/components/ui/button";
 import { Modal } from "@/components/ui/modal";
-import { firestoreTimestampToDate } from "@/lib/utils";
 
 import LoginForm from "./login-form";
 
@@ -24,23 +22,21 @@ const LOGIN_REMINDER_TOAST_ID = "login-reminder-toast";
 function LoginReminderToast() {
   const [isOpen, setIsOpen] = useState(false);
   const [surveyOpen, setSurveyOpen] = useState(false);
-  const { user, updateUser } = useAnonymousAuth();
+  const { session, user, updateUser } = useAnonymousAuth();
   const shownThisRender = useRef(false);
   const pathname = usePathname();
 
   useEffect(() => {
     if (
-      !user?.isAnonymous ||
+      !session?.isAnonymous ||
       shownThisRender.current ||
       pathname === "/" ||
-      user.keep_up_to_date_email
+      user?.keep_up_to_date_email
     ) {
       return;
     }
 
-    const clickedAway = firestoreTimestampToDate(
-      user.clicked_away_login_reminder,
-    );
+    const clickedAway = user?.clicked_away_login_reminder;
 
     if (clickedAway) {
       const now = Date.now();
@@ -55,7 +51,7 @@ function LoginReminderToast() {
     // Calculate when to show the login reminder toast:
     // - If user account is older than 5 minutes, show after 2 second
     // - If user account is newer than 5 minutes, show after 2 minute
-    const creationTime = user.metadata.creationTime
+    const creationTime = user?.metadata.creationTime
       ? new Date(user.metadata.creationTime).getTime()
       : Date.now();
     const now = Date.now();
@@ -63,7 +59,7 @@ function LoginReminderToast() {
     const timeout = timeSinceCreation > 5 * 60 * 1000 ? 2000 : 60 * 1000;
 
     const handleClickedAway = () => {
-      updateUser({ clicked_away_login_reminder: Timestamp.now() });
+      updateUser({ clicked_away_login_reminder: new Date() });
     };
 
     const handleLoginClick = () => {
@@ -143,7 +139,7 @@ function LoginReminderToast() {
 
     return () => clearTimeout(timer);
   }, [
-    user?.isAnonymous,
+    session?.isAnonymous,
     user?.metadata.creationTime,
     updateUser,
     user?.clicked_away_login_reminder,

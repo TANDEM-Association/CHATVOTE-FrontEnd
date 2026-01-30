@@ -23,21 +23,26 @@ export async function proxy(request: NextRequest) {
     });
   }
 
-  const isOld = request.nextUrl.pathname.startsWith("/chat");
+  const isOldSessionPath = request.nextUrl.pathname.startsWith("/session");
 
-  if (isOld) {
-    if (request.nextUrl.pathname === "/chat") {
-      return NextResponse.redirect(new URL(`/`, request.url));
+  if (isOldSessionPath) {
+    if (request.nextUrl.pathname === "/session") {
+      // Redirect /session to /chat with query params preserved
+      const url = new URL("/chat", request.url);
+      for (const [key, value] of request.nextUrl.searchParams.entries()) {
+        url.searchParams.append(key, value);
+      }
+      return NextResponse.redirect(url);
     }
 
     const secondPart = request.nextUrl.pathname.split("/")[2];
 
-    const newPath = `/session?party_id=${secondPart}`;
+    const newPath = `/chat/${secondPart}`;
 
     return NextResponse.redirect(new URL(newPath, request.url));
   }
 }
 
 export const config = {
-  matcher: ["/", "/chat/:path*", "/session/:path*"],
+  matcher: ["/", "/session/:path*", "/chat/:path*"],
 };

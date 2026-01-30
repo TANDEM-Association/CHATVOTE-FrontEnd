@@ -1,7 +1,4 @@
-import {
-  getAuth,
-  getUsersChatSessions,
-} from "@/lib/firebase/firebase-server";
+import { getAuth, getUsersChatSessions } from "@/lib/firebase/firebase-server";
 
 import SidebarHistory from "./sidebar-history";
 

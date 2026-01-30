@@ -20,7 +20,7 @@ function SupportUsCard() {
             </Button>
           </DonationDialog>
           <Button variant="secondary" className="w-full" asChild>
-            <Link href="/about-us">
+            <Link href="/about">
               <UsersRoundIcon />À propos
             </Link>
           </Button>

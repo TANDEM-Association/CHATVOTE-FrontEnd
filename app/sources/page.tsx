@@ -1,3 +1,4 @@
+import { type NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -8,7 +9,7 @@ import { type SourceDocument } from "@/lib/firebase/firebase.types";
 import { getParties, getSourceDocuments } from "@/lib/firebase/firebase-server";
 import { buildPartyImageUrl } from "@/lib/utils";
 
-async function SourcesPage() {
+const SourcesPage: NextPage = async () => {
   const sources = await getSourceDocuments();
   const parties = await getParties();
 
@@ -91,6 +92,6 @@ async function SourcesPage() {
       </article>
     </PageLayout>
   );
-}
+};
 
 export default SourcesPage;

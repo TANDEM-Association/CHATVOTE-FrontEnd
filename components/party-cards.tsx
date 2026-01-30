@@ -68,7 +68,7 @@ function PartyCards({
             tooltip="chatvote"
             asChild
           >
-            <Link href="/session" onClick={() => onSelectParty?.("chatvote")}>
+            <Link href="/chat" onClick={() => onSelectParty?.("chatvote")}>
               <Image
                 src="/images/logos/chatvote.svg"
                 alt="chatvote"
@@ -76,6 +76,7 @@ function PartyCards({
                 height={0}
                 sizes="100vw"
                 className="size-10"
+                loading="eager"
               />
             </Link>
           </Button>

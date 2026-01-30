@@ -4,11 +4,11 @@ import { type ChatStoreActionHandlerFor } from "@/lib/stores/chat-store.types";
 export const setChatSessionIsPublic: ChatStoreActionHandlerFor<
   "setChatSessionIsPublic"
 > = (get, set) => async (isPublic) => {
-  const { chatSessionId } = get();
+  const { chatId } = get();
 
-  if (!chatSessionId) return;
+  if (!chatId) return;
 
-  await updateChatSession(chatSessionId, {
+  await updateChatSession(chatId, {
     is_public: isPublic,
   });
 

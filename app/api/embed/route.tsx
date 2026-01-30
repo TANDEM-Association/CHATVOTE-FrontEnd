@@ -21,7 +21,7 @@ export async function GET(request: NextRequest) {
   }
 
   if (partyIds.length > 0) {
-    url.pathname = "/session";
+    url.pathname = "/chat";
   }
 
   partyIds.forEach((partyId) => {

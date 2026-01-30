@@ -12,7 +12,13 @@ import { createPortal } from "react-dom";
 
 import { cva, type VariantProps } from "class-variance-authority";
 import { X } from "lucide-react";
-import { AnimatePresence, motion } from "motion/react";
+import {
+  AnimatePresence,
+  motion,
+  type PanInfo,
+  useMotionValue,
+  useTransform,
+} from "motion/react";
 
 import { useLockScroll } from "@/lib/hooks/useLockScroll";
 import { cn } from "@/lib/utils";
@@ -191,29 +197,47 @@ const SheetOverlay = React.forwardRef<HTMLDivElement, SheetOverlayProps>(
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        transition={{ duration: 0.3 }}
+        transition={{
+          type: "tween",
+          duration: 0.2,
+          ease: "easeOut",
+        }}
       />
     );
   },
 );
 SheetOverlay.displayName = "SheetOverlay";
 
-const sheetVariants = cva(
-  "bg-background fixed z-50 gap-4 p-6 shadow-lg transition ease-in-out",
-  {
-    variants: {
-      side: {
-        top: "inset-x-0 top-0 border-b",
-        bottom: "inset-x-0 bottom-0 border-t",
-        left: "inset-y-0 left-0 h-full w-3/4 border-r sm:max-w-sm",
-        right: "inset-y-0 right-0 h-full w-3/4 border-l sm:max-w-sm",
-      },
+const sheetVariants = cva("bg-background fixed z-50 gap-4 p-6 shadow-lg", {
+  variants: {
+    side: {
+      top: "inset-x-0 top-0 border-b",
+      bottom: "inset-x-0 bottom-0 border-t",
+      left: "inset-y-0 left-0 h-full w-3/4 border-r sm:max-w-sm",
+      right: "inset-y-0 right-0 h-full w-3/4 border-l sm:max-w-sm",
     },
-    defaultVariants: {
-      side: "right",
+    fullWidth: {
+      true: "",
+      false: "",
     },
   },
-);
+  compoundVariants: [
+    {
+      side: "left",
+      fullWidth: true,
+      className: "w-full border-r-0 sm:max-w-none",
+    },
+    {
+      side: "right",
+      fullWidth: true,
+      className: "w-full border-l-0 sm:max-w-none",
+    },
+  ],
+  defaultVariants: {
+    side: "right",
+    fullWidth: false,
+  },
+});
 
 const slideVariants = {
   top: {
@@ -242,36 +266,114 @@ interface SheetContentProps extends VariantProps<typeof sheetVariants> {
   className?: string;
   children?: React.ReactNode;
   style?: React.CSSProperties;
+  closeButtonPosition?: "top-right" | "drag-handle" | "hidden";
 }
 
+const DRAG_CLOSE_THRESHOLD = 100;
+
 const SheetContent = React.forwardRef<HTMLDivElement, SheetContentProps>(
-  ({ side = "right", className, children, style }, ref) => {
-    const { open } = useSheetContext();
+  (
+    {
+      side = "right",
+      fullWidth = false,
+      className,
+      children,
+      style,
+      closeButtonPosition = "top-right",
+    },
+    ref,
+  ) => {
+    const { open, onOpenChange } = useSheetContext();
     const sideValue = side ?? "right";
     const variants = slideVariants[sideValue];
+    const isLeftSide = sideValue === "left";
+
+    const dragX = useMotionValue(0);
+    const handleOpacity = useTransform(
+      dragX,
+      isLeftSide ? [-50, 0, 50] : [-50, 0, 50],
+      isLeftSide ? [0.5, 1, 1] : [1, 1, 0.5],
+    );
 
     useLockScroll({ isLocked: open });
 
+    const handleDragEnd = (_: unknown, info: PanInfo) => {
+      const threshold = DRAG_CLOSE_THRESHOLD;
+      const shouldClose = isLeftSide
+        ? info.offset.x < -threshold || info.velocity.x < -500
+        : info.offset.x > threshold || info.velocity.x > 500;
+
+      if (shouldClose) {
+        onOpenChange(false);
+      }
+    };
+
+    const renderCloseButton = () => {
+      if (closeButtonPosition === "hidden") {
+        return null;
+      }
+
+      if (closeButtonPosition === "drag-handle") {
+        return (
+          <motion.div
+            className={cn(
+              "fixed top-1/2 z-60 flex -translate-y-1/2 cursor-grab touch-none items-center active:cursor-grabbing",
+              isLeftSide ? "right-0" : "left-0",
+            )}
+            style={{ opacity: handleOpacity }}
+            drag="x"
+            dragConstraints={{ left: 0, right: 0 }}
+            dragElastic={0.15}
+            onDragEnd={handleDragEnd}
+            onDrag={(_, info) => {
+              dragX.set(info.offset.x);
+            }}
+          >
+            <div
+              className={cn(
+                "flex h-20 w-6 items-center justify-center bg-neutral-100 shadow-md dark:bg-neutral-950",
+                "border-neutral-950 dark:border-neutral-100",
+                isLeftSide
+                  ? "rounded-l-2xl border-t border-b border-l"
+                  : "rounded-r-2xl border-t border-r border-b",
+              )}
+            >
+              <div className="h-10 w-1 rounded-full bg-neutral-400 dark:bg-neutral-600" />
+            </div>
+          </motion.div>
+        );
+      }
+
+      return (
+        <SheetClose className="ring-offset-background focus:ring-ring absolute top-4 right-4 rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:pointer-events-none">
+          <X className="size-4" />
+          <span className="sr-only">Fermer</span>
+        </SheetClose>
+      );
+    };
+
     return (
       <SheetPortal>
-        <AnimatePresence>
+        <AnimatePresence mode="wait">
           {open === true ? (
             <React.Fragment>
               <SheetOverlay />
               <motion.div
                 ref={ref}
-                className={cn(sheetVariants({ side }), className)}
+                className={cn(sheetVariants({ side, fullWidth }), className)}
                 style={style}
                 initial={variants.initial}
                 animate={variants.animate}
                 exit={variants.exit}
-                transition={{ duration: 0.3, ease: [0.32, 0.72, 0, 1] }}
+                transition={{
+                  type: "spring",
+                  damping: 30,
+                  stiffness: 300,
+                  mass: 0.8,
+                }}
               >
                 {children}
-                <SheetClose className="ring-offset-background focus:ring-ring absolute top-4 right-4 rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:pointer-events-none">
-                  <X className="size-4" />
-                  <span className="sr-only">Close</span>
-                </SheetClose>
+                {renderCloseButton()}
               </motion.div>
             </React.Fragment>
           ) : null}

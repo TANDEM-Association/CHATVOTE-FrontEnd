@@ -9,9 +9,9 @@ export const completeCandidateProConPerspective: ChatStoreActionHandlerFor<
 > =
   (get, set) =>
   async (requestId: string, candidateId: string, message: MessageItem) => {
-    const { chatSessionId, messages } = get();
+    const { chatId, messages } = get();
 
-    if (!chatSessionId) {
+    if (!chatId) {
       return;
     }
 
@@ -38,7 +38,7 @@ export const completeCandidateProConPerspective: ChatStoreActionHandlerFor<
     });
 
     await addProConPerspectiveToMessage(
-      chatSessionId,
+      chatId,
       messages[indexOfProConPerspectiveGroupedMessage].id,
       requestId,
       message,

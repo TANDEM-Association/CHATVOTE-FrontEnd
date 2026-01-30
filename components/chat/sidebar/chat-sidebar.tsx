@@ -19,7 +19,6 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { getAuth } from "@/lib/firebase/firebase-server";
-import { getUserDetailsFromUser } from "@/lib/utils";
 
 import ChatSidebarGroupSelect from "./chat-sidebar-group-select";
 import SidebarHistorySr from "./sidebar-history-sr";
@@ -27,8 +26,7 @@ import SidebarNewChatButtons from "./sidebar-new-chat-buttons";
 
 async function ChatSidebar() {
   const auth = await getAuth();
-
-  const userDetails = auth.user ? getUserDetailsFromUser(auth.user) : undefined;
+  const isAuthenticated = auth.session !== null && !auth.session.isAnonymous;
 
   return (
     <Sidebar
@@ -51,7 +49,8 @@ async function ChatSidebar() {
             <SidebarMenu>
               <SidebarMenuItem>
                 <LoginButton
-                  userDetails={userDetails}
+                  isAuthenticated={isAuthenticated}
+                  user={auth.user}
                   noUserChildren={
                     <SidebarMenuButton>
                       <UserIcon className="size-4" />
@@ -101,12 +100,12 @@ async function ChatSidebar() {
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <Link href="/about-us">À propos de chatvote</Link>
+                  <Link href="/about">À propos de chatvote</Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <Link href="/how-to">Comment fonctionne chatvote ?</Link>
+                  <Link href="/guide">Comment fonctionne chatvote ?</Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>

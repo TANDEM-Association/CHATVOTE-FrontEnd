@@ -6,9 +6,9 @@ import { generateUuid } from "@/lib/utils";
 
 export const selectRespondingParties: ChatStoreActionHandlerFor<
   "selectRespondingParties"
-> = (get, set) => async (sessionId, partyIds) => {
+> = (get, set) => async (chatId, partyIds) => {
   set((state) => {
-    if (state.chatSessionId !== sessionId) return;
+    if (state.chatId !== chatId) return;
 
     if (!state.currentStreamingMessages) return;
 
@@ -35,7 +35,7 @@ export const selectRespondingParties: ChatStoreActionHandlerFor<
   );
 
   if (newPartyIds.length > 0) {
-    await updateChatSession(sessionId, {
+    await updateChatSession(chatId, {
       party_ids: [...currentPartyIds, ...newPartyIds],
     });
 

@@ -4,9 +4,9 @@ import { type ChatStoreActionHandlerFor } from "@/lib/stores/chat-store.types";
 export const completeProConPerspective: ChatStoreActionHandlerFor<
   "completeProConPerspective"
 > = (get, set) => async (requestId, message) => {
-  const { chatSessionId, messages } = get();
+  const { chatId, messages } = get();
 
-  if (!chatSessionId) return;
+  if (!chatId) return;
 
   const indexOfProConPerspectiveGroupedMessage = messages.findIndex((m) =>
     m.messages.find((m) => m.id === requestId),
@@ -27,7 +27,7 @@ export const completeProConPerspective: ChatStoreActionHandlerFor<
   });
 
   await addProConPerspectiveToMessage(
-    chatSessionId,
+    chatId,
     messages[indexOfProConPerspectiveGroupedMessage].id,
     requestId,
     message,

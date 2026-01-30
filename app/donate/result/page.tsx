@@ -1,5 +1,6 @@
 import React from "react";
 
+import { type NextPage } from "next";
 import Link from "next/link";
 
 import { CircleCheckIcon, FrownIcon } from "lucide-react";
@@ -43,11 +44,15 @@ async function validateStripeSession(sessionId: string): Promise<boolean> {
   }
 }
 
-async function Page({
+type DonateResultPageProps = {
+  searchParams: Promise<{ session_id: string }>;
+};
+
+const DonateResultPage: NextPage<DonateResultPageProps> = async ({
   searchParams,
 }: {
   searchParams: Promise<{ session_id: string }>;
-}) {
+}) => {
   const actualSearchParams = await searchParams;
 
   if (!actualSearchParams.session_id) {
@@ -81,7 +86,7 @@ async function Page({
       </CardFooter>
     </React.Fragment>
   );
-}
+};
 
 function PaymentFailed() {
   return (
@@ -104,4 +109,4 @@ function PaymentFailed() {
   );
 }
 
-export default Page;
+export default DonateResultPage;

@@ -24,7 +24,7 @@ import { mergeStreamingChunkPayloadForMessage } from "./actions/merge-streaming-
 import { newChat } from "./actions/new-chat";
 import { resetStreamingMessage } from "./actions/reset-streaming-message";
 import { selectRespondingParties } from "./actions/select-responding-parties";
-import { setChatSessionId } from "./actions/set-chat-session-id";
+import { setChatId } from "./actions/set-chat-id";
 import { setChatSessionIsPublic } from "./actions/set-chat-session-is-public";
 import { setInput } from "./actions/set-input";
 import { setMessageFeedback } from "./actions/set-message-feedback";
@@ -44,8 +44,8 @@ export const SURVEY_BANNER_MIN_MESSAGE_COUNT = 8;
 const defaultState: ChatStoreState = {
   userId: undefined,
   isAnonymous: true,
-  chatSessionId: undefined,
-  localPreliminaryChatSessionId: undefined,
+  chatId: undefined,
+  localPreliminaryChatId: undefined,
   partyIds: new Set(),
   messages: [],
   input: "",
@@ -80,7 +80,7 @@ export function createChatStore(initialState?: Partial<ChatStore>) {
         setIsAnonymous: (isAnonymous: boolean) => set({ isAnonymous }),
         setInput: setInput(get, set),
         addUserMessage: chatAddUserMessage(get, set),
-        setChatSessionId: setChatSessionId(get, set),
+        setChatId: setChatId(get, set),
         newChat: newChat(get, set),
         selectRespondingParties: selectRespondingParties(get, set),
         loadChatSession: loadChatSession(get, set),

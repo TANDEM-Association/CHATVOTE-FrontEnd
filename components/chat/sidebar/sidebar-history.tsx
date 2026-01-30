@@ -26,7 +26,7 @@ type Props = {
 function SidebarHistory({ history: initialHistory }: Props) {
   const { user } = useAnonymousAuth();
   const [history, setHistory] = useState<ChatSession[]>(initialHistory ?? []);
-  const chatSessionId = useChatStore((state) => state.chatSessionId);
+  const chatId = useChatStore((state) => state.chatId);
   const { setOpenMobile } = useSidebar();
 
   useEffect(() => {
@@ -56,9 +56,9 @@ function SidebarHistory({ history: initialHistory }: Props) {
               <SidebarMenuItem key={item.id}>
                 <SidebarMenuButton
                   asChild
-                  className={cn(chatSessionId === item.id && "bg-muted")}
+                  className={cn(chatId === item.id && "bg-muted")}
                 >
-                  <Link href={`/session/${item.id}`} onClick={handleClick}>
+                  <Link href={`/chat/${item.id}`} onClick={handleClick}>
                     <span className="w-full truncate">
                       {item.title ||
                         item.party_ids?.join(",") ||

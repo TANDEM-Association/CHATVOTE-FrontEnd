@@ -13,7 +13,7 @@ Frontend of the leading political information chatbot for the French elections.
 #### Links
 
 Application URL: https://chatvote.fr/ </br>
-About page: https://chatvote.fr/about-us </br>
+About page: https://chatvote.fr/about </br>
 Press: https://chatvote.notion.site </br>
 
 #### Our goal in a nutshell

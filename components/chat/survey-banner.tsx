@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 
 import { FilloutPopupEmbed } from "@fillout/react";
 import { track } from "@vercel/analytics/react";
-import { Timestamp } from "firebase/firestore";
 import { MessageCircleHeartIcon, XIcon } from "lucide-react";
 
 import { useAnonymousAuth } from "@/components/anonymous-auth";
@@ -15,7 +14,7 @@ import { SURVEY_BANNER_MIN_MESSAGE_COUNT } from "@/lib/stores/chat-store";
 import "@fillout/react/style.css";
 
 const SurveyBanner = () => {
-  const sessionId = useChatStore((state) => state.chatSessionId);
+  const sessionId = useChatStore((state) => state.chatId);
   const [open, setOpen] = useState(false);
   const { user, updateUser, loading } = useAnonymousAuth();
   const showSurveyBanner = useChatStore(
@@ -45,7 +44,7 @@ const SurveyBanner = () => {
     updateUser({
       survey_status: {
         state: "opened",
-        timestamp: Timestamp.now(),
+        timestamp: new Date(),
       },
     });
   };
@@ -59,7 +58,7 @@ const SurveyBanner = () => {
     updateUser({
       survey_status: {
         state: "closed",
-        timestamp: Timestamp.now(),
+        timestamp: new Date(),
       },
     });
   };

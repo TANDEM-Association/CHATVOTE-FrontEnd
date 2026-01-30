@@ -369,4 +369,3 @@ export async function getSystemStatus() {
     is_at_rate_limit: snapshot.data()?.is_at_rate_limit ?? false,
   } as LlmSystemStatus;
 }
-

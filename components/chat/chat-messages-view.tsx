@@ -20,7 +20,7 @@ import { INITIAL_MESSAGE_ID } from "./chat-single-user-message";
 import CurrentStreamingMessages from "./current-streaming-messages";
 
 type Props = {
-  sessionId?: string;
+  chatId?: string;
   chatSession?: ChatSession;
   messages?: GroupedMessage[];
   parties?: PartyDetails[];
@@ -31,7 +31,7 @@ type Props = {
 };
 
 function ChatMessagesView({
-  sessionId,
+  chatId,
   chatSession,
   messages,
   parties,
@@ -55,7 +55,7 @@ function ChatMessagesView({
 
     hydrateChatSession({
       chatSession,
-      chatSessionId: sessionId,
+      chatId,
       messages,
       preSelectedPartyIds: parties?.map((party) => party.party_id),
       initialQuestion,
@@ -66,7 +66,7 @@ function ChatMessagesView({
 
     hasFetched.current = true;
   }, [
-    sessionId,
+    chatId,
     user?.uid,
     chatSession,
     hydrateChatSession,

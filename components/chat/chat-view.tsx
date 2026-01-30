@@ -2,10 +2,7 @@ import React, { Suspense } from "react";
 
 import AiDisclaimer from "@/components/legal/ai-disclaimer";
 import LoadingSpinner from "@/components/loading-spinner";
-import {
-  getAuth,
-  getSystemStatus,
-} from "@/lib/firebase/firebase-server";
+import { getAuth, getSystemStatus } from "@/lib/firebase/firebase-server";
 
 import ChatSidebar from "./sidebar/chat-sidebar";
 import ChatDynamicChatInput from "./chat-dynamic-chat-input";
@@ -49,7 +46,7 @@ async function ChatView({
           }
         >
           <ChatViewSsr
-            chatSessionId={sessionId}
+            chatId={sessionId}
             partyIds={partyIds}
             initialQuestion={initialQuestion}
             municipalityCode={municipalityCode}
@@ -60,7 +57,9 @@ async function ChatView({
           <ChatScrollDownIndicator />
           <ChatDynamicChatInput
             initialSystemStatus={systemStatus}
-            hasValidServerUser={auth.session !== null && !auth.session.isAnonymous}
+            hasValidServerUser={
+              auth.session !== null && !auth.session.isAnonymous
+            }
           />
           <AiDisclaimer />
         </div>

@@ -5,16 +5,16 @@ import {
 import { type ChatStoreActionHandlerFor } from "@/lib/stores/chat-store.types";
 
 export const loadChatSession: ChatStoreActionHandlerFor<"loadChatSession"> =
-  (get, set) => async (chatSessionId) => {
+  (get, set) => async (chatId) => {
     set((state) => {
       state.loading.chatSession = true;
       state.error = undefined;
-      state.chatSessionId = chatSessionId;
+      state.chatId = chatId;
     });
 
     try {
-      const session = await getChatSession(chatSessionId);
-      const messages = await getChatSessionMessages(chatSessionId);
+      const session = await getChatSession(chatId);
+      const messages = await getChatSessionMessages(chatId);
 
       return set((state) => ({
         messages,
