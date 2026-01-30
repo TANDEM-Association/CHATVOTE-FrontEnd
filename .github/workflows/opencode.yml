@@ -35,11 +35,12 @@ jobs:
               repo: context.repo.repo,
               username: context.payload.comment.user.login
             });
+            console.log(`User: ${context.payload.comment.user.login}, Permission: ${permission}`);
             return permission;
           result-encoding: string
 
       - name: Run opencode
-        if: steps.check-permissions.outputs.result == 'admin' || steps.check-permissions.outputs.result == 'maintain'
+        if: contains(fromJSON('["admin", "maintain", "write"]'), steps.check-permissions.outputs.result)
         uses: anomalyco/opencode/github@latest
         env:
           GOOGLE_GENERATIVE_AI_API_KEY: ${{ secrets.GOOGLE_GENERATIVE_AI_API_KEY }}
