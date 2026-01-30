@@ -90,6 +90,20 @@ export type ProConPerspectiveRequestPayload = {
   last_user_message: string;
 };
 
+export type CandidateProConPerspectiveRequestPayload = {
+  request_id: string;
+  candidate_id: string;
+  last_assistant_message: string;
+  last_user_message: string;
+};
+
+export type CandidateProConPerspectiveReadyPayload = {
+  request_id: string;
+  candidate_id: string;
+  message: MessageItem;
+  status: string;
+};
+
 export type RespondingPartiesSelectedPayload = {
   session_id: string;
   party_ids: string[];

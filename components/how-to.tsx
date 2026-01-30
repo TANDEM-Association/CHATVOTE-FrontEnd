@@ -42,51 +42,49 @@ function HowTo() {
   };
 
   return (
-    <AccordionGroup>
-      <article>
-        <section>
-          <p>
-            <span className="font-bold underline">chatvote</span> est un outil
-            IA interactif qui vous aide à vous informer sur les positions et les
-            projets des partis. Vous pouvez poser des questions à
-            l&lsquo;assistant IA sur différents sujets politiques, et il vous
-            fournira des réponses neutres basées sur les{" "}
-            <span className="font-bold">
-              programmes et autres publications des partis.
-            </span>
-            .
-          </p>
+    <article>
+      <section>
+        <p>
+          <span className="font-bold underline">chatvote</span> est un outil IA
+          interactif qui vous aide à vous informer sur les positions et les
+          projets des partis. Vous pouvez poser des questions à
+          l&lsquo;assistant IA sur différents sujets politiques, et il vous
+          fournira des réponses neutres basées sur les{" "}
+          <span className="font-bold">
+            programmes et autres publications des partis.
+          </span>
+          .
+        </p>
 
-          <p className="mt-4 text-sm font-semibold">
-            Le processus est simple :
-          </p>
+        <p className="mt-4 text-sm font-semibold">Le processus est simple :</p>
 
-          <ul className="[&_li]:mt-4 [&_li]:text-sm">
-            <li className="relative pl-10">
-              <MessageCircleQuestionIcon className="absolute top-0 left-0" />
-              Vous posez une question
-            </li>
-            <li className="relative pl-10">
-              <TextSearchIcon className="absolute top-0 left-0" />
-              <span className="font-bold underline">chatvote</span> recherche
-              dans les documents pertinents comme les programmes pour trouver
-              les informations appropriées.
-            </li>
-            <li className="relative pl-10">
-              <MessageCircleReplyIcon className="absolute top-0 left-0" />
-              Les informations pertinentes sont ensuite utilisées pour générer
-              une réponse compréhensible et neutre.
-            </li>
-            <li className="relative pl-10">
-              <WaypointsIcon className="absolute top-0 left-0" />
-              Vous pouvez ensuite faire évaluer la position du parti en cliquant
-              sur le bouton sous la réponse. Ou faire analyser la réponse sur la
-              base du comportement de vote du parti.
-            </li>
-          </ul>
-        </section>
+        <ul className="[&_li]:mt-4 [&_li]:text-sm">
+          <li className="relative pl-10">
+            <MessageCircleQuestionIcon className="absolute top-0 left-0" />
+            Vous posez une question
+          </li>
+          <li className="relative pl-10">
+            <TextSearchIcon className="absolute top-0 left-0" />
+            <span className="font-bold underline">chatvote</span> recherche dans
+            les documents pertinents comme les programmes pour trouver les
+            informations appropriées.
+          </li>
+          <li className="relative pl-10">
+            <MessageCircleReplyIcon className="absolute top-0 left-0" />
+            Les informations pertinentes sont ensuite utilisées pour générer une
+            réponse compréhensible et neutre.
+          </li>
+          <li className="relative pl-10">
+            <WaypointsIcon className="absolute top-0 left-0" />
+            Vous pouvez ensuite faire évaluer la position du parti en cliquant
+            sur le bouton sous la réponse. Ou faire analyser la réponse sur la
+            base du comportement de vote du parti.
+          </li>
+        </ul>
+      </section>
 
-        <section className="mt-6">
+      <section className="mt-6">
+        <AccordionGroup>
           <AccordionItem title="Questions">
             <div className="font-bold">Quelles questions puis-je poser ?</div>
             <div>
@@ -195,31 +193,28 @@ function HowTo() {
             </div>
           </AccordionItem>
 
-          <AccordionItem title="voting-behavior-analyze">
-            <div className="font-bold">Analyser le comportement de vote</div>
-            <div>
-              <div className="my-2 flex items-center justify-center">
-                <div className="relative rounded-md">
-                  <Button
-                    variant="outline"
-                    className="h-8 px-2 group-data-[has-message-background]:bg-zinc-100 group-data-[has-message-background]:hover:bg-zinc-200 group-data-[has-message-background]:dark:bg-zinc-900 group-data-[has-message-background]:dark:hover:bg-zinc-800"
-                    tooltip="Analyser le comportement de vote du parti"
-                  >
-                    <VoteIcon />
-                    <span className="text-xs">Comportement de vote</span>
-                  </Button>
+          <AccordionItem title="Analyser le comportement de vote">
+            <p>
+              Lorsque vous cliquez sur ce bouton sous l&lsquo;un des messages,
+              le comportement de vote passé du parti est analysé. De plus, en
+              cliquant sur{" "}
+              <span className="italic">&quot;Afficher les votes&quot;</span>{" "}
+              vous pouvez voir des informations détaillées sur les votes du
+              parti.
+            </p>
+            <div className="my-2 flex items-center justify-center">
+              <div className="relative rounded-md">
+                <Button
+                  variant="outline"
+                  className="h-8 px-2 group-data-has-message-background:bg-zinc-100 group-data-has-message-background:hover:bg-zinc-200 group-data-has-message-background:dark:bg-zinc-900 group-data-has-message-background:dark:hover:bg-zinc-800"
+                  tooltip="Analyser le comportement de vote du parti"
+                >
+                  <VoteIcon />
+                  <span className="text-xs">Comportement de vote</span>
+                </Button>
 
-                  <ChatActionButtonHighlight showHighlight />
-                </div>
+                <ChatActionButtonHighlight showHighlight />
               </div>
-              <p>
-                Lorsque vous cliquez sur ce bouton sous l&lsquo;un des messages,
-                le comportement de vote passé du parti est analysé. De plus, en
-                cliquant sur{" "}
-                <span className="italic">&quot;Afficher les votes&quot;</span>{" "}
-                vous pouvez voir des informations détaillées sur les votes du
-                parti.
-              </p>
             </div>
           </AccordionItem>
 
@@ -323,9 +318,9 @@ function HowTo() {
               , et nous l&lsquo;ajouterons dès que possible.
             </div>
           </AccordionItem>
-        </section>
-      </article>
-    </AccordionGroup>
+        </AccordionGroup>
+      </section>
+    </article>
   );
 }
 

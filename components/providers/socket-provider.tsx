@@ -6,6 +6,7 @@ import { io } from "socket.io-client";
 
 import ChatSocket from "@/lib/chat-socket";
 import {
+  type CandidateProConPerspectiveReadyPayload,
   type ChatSessionInitializedPayload,
   type PartyResponseChunkReadyPayload,
   type PartyResponseCompletePayload,
@@ -53,6 +54,9 @@ function SocketProvider({ children }: Props) {
   );
   const completeProConPerspective = useChatStore(
     (state) => state.completeProConPerspective,
+  );
+  const completeCandidateProConPerspective = useChatStore(
+    (state) => state.completeCandidateProConPerspective,
   );
   const initializedChatSession = useChatStore(
     (state) => state.initializedChatSession,
@@ -129,6 +133,16 @@ function SocketProvider({ children }: Props) {
       completeProConPerspective(data.request_id, data.message);
     }
 
+    function onCandidateProConPerspectiveReady(
+      data: CandidateProConPerspectiveReadyPayload,
+    ) {
+      completeCandidateProConPerspective(
+        data.request_id,
+        data.candidate_id,
+        data.message,
+      );
+    }
+
     function onChatSessionInitialized(data: ChatSessionInitializedPayload) {
       initializedChatSession(data.session_id);
     }
@@ -165,6 +179,10 @@ function SocketProvider({ children }: Props) {
     chatSocket.on("quick_replies_and_title_ready", onQuickRepliesAndTitleReady);
     chatSocket.on("pro_con_perspective_complete", onProConPerspectiveReady);
     chatSocket.on(
+      "candidate_pro_con_perspective_complete",
+      onCandidateProConPerspectiveReady,
+    );
+    chatSocket.on(
       "voting_behavior_summary_chunk",
       onVotingBehaviorSummaryChunk,
     );
@@ -189,6 +207,10 @@ function SocketProvider({ children }: Props) {
       );
       chatSocket.off("pro_con_perspective_complete", onProConPerspectiveReady);
       chatSocket.off(
+        "candidate_pro_con_perspective_complete",
+        onCandidateProConPerspectiveReady,
+      );
+      chatSocket.off(
         "voting_behavior_summary_chunk",
         onVotingBehaviorSummaryChunk,
       );
@@ -205,6 +227,7 @@ function SocketProvider({ children }: Props) {
     completeStreamingMessage,
     streamingMessageSourcesReady,
     completeProConPerspective,
+    completeCandidateProConPerspective,
     initializedChatSession,
     addVotingBehaviorSummaryChunk,
     addVotingBehaviorResult,

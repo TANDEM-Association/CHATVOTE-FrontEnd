@@ -16,6 +16,7 @@ type Props = {
   isLastMessage?: boolean;
   showMessageActions?: boolean;
   partyId?: string;
+  candidateId?: string;
   isGroupChat?: boolean;
 };
 
@@ -24,6 +25,7 @@ function ChatSingleMessageActions({
   message,
   showMessageActions,
   partyId,
+  candidateId,
 }: Props) {
   const isLoadingProConPerspective = useChatStore(
     (state) => state.loading.proConPerspective === message.id,
@@ -37,7 +39,7 @@ function ChatSingleMessageActions({
   const isAssistantMessage = partyId === ASSISTANT_ID;
 
   const showProConButton =
-    partyId &&
+    (partyId || candidateId) &&
     !message.pro_con_perspective &&
     !isLoadingProConPerspective &&
     !isAssistantMessage;
@@ -59,6 +61,7 @@ function ChatSingleMessageActions({
       {showProConButton && (
         <ChatProConButton
           partyId={partyId}
+          candidateId={candidateId}
           message={message}
           isLastMessage={isLastMessage}
         />

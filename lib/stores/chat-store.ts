@@ -8,9 +8,11 @@ import { addVotingBehaviorResult } from "./actions/add-voting-behavior-result";
 import { addVotingBehaviorSummaryChunk } from "./actions/add-voting-behavior-summary-chunk";
 import { cancelStreamingMessages } from "./actions/cancel-streaming-messages";
 import { chatAddUserMessage } from "./actions/chat-add-user-message";
+import { completeCandidateProConPerspective } from "./actions/complete-candidate-pro-con-perspective";
 import { completeProConPerspective } from "./actions/complete-pro-con-perspective";
 import { completeStreamingMessage } from "./actions/complete-streaming-message";
 import { completeVotingBehavior } from "./actions/complete-voting-behavior";
+import { generateCandidateProConPerspective } from "./actions/generate-candidate-pro-con-perspective";
 import { generateProConPerspective } from "./actions/generate-pro-con-perspective";
 import { generateSharingSnapshotLink } from "./actions/generate-sharing-snapshot-link";
 import { generateVotingBehaviorSummary } from "./actions/generate-voting-behavior-summary";
@@ -84,6 +86,14 @@ export function createChatStore(initialState?: Partial<ChatStore>) {
         loadChatSession: loadChatSession(get, set),
         hydrateChatSession: hydrateChatSession(get, set),
         generateProConPerspective: generateProConPerspective(get, set),
+        generateCandidateProConPerspective: generateCandidateProConPerspective(
+          get,
+          set,
+        ),
+        completeCandidateProConPerspective: completeCandidateProConPerspective(
+          get,
+          set,
+        ),
         setChatSessionIsPublic: setChatSessionIsPublic(get, set),
         setMessageFeedback: setMessageFeedback(get, set),
         setPreSelectedParties: setPreSelectedParties(get, set),

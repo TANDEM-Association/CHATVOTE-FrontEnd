@@ -4,6 +4,8 @@ import { socket } from "@/components/providers/socket-provider";
 
 import {
   type AddUserMessagePayload,
+  type CandidateProConPerspectiveReadyPayload,
+  type CandidateProConPerspectiveRequestPayload,
   type ChatSessionInitializedPayload,
   type ChatSessionInitPayload,
   type GenerateVotingBehaviorSummaryPayload,
@@ -31,6 +33,9 @@ type ChatSocketListenerEvent = {
     data: QuickRepliesAndTitleReadyPayload,
   ) => void;
   pro_con_perspective_complete: (data: ProConPerspectiveReadyPayload) => void;
+  candidate_pro_con_perspective_complete: (
+    data: CandidateProConPerspectiveReadyPayload,
+  ) => void;
   responding_parties_selected: (data: RespondingPartiesSelectedPayload) => void;
   voting_behavior_result: (data: VotingBehaviorResultPayload) => void;
   voting_behavior_summary_chunk: (
@@ -44,6 +49,7 @@ type ChatSocketSenderEvent = {
   chat_session_init: ChatSessionInitPayload;
   chat_answer_request: AddUserMessagePayload;
   pro_con_perspective_request: ProConPerspectiveRequestPayload;
+  candidate_pro_con_perspective_request: CandidateProConPerspectiveRequestPayload;
   voting_behavior_request: GenerateVotingBehaviorSummaryPayload;
 };
 
@@ -85,6 +91,12 @@ class ChatSocket {
 
   public generateProConPerspective(data: ProConPerspectiveRequestPayload) {
     this.emit("pro_con_perspective_request", data);
+  }
+
+  public generateCandidateProConPerspective(
+    data: CandidateProConPerspectiveRequestPayload,
+  ) {
+    this.emit("candidate_pro_con_perspective_request", data);
   }
 
   public generateVotingBehaviorSummary(

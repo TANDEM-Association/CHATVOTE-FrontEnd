@@ -40,7 +40,10 @@ const ChatGroupPartySelectSubmitButton = ({
   }, [addPartiesToChat, navigateUrl, router]);
 
   return (
-    <Button className="w-full" onClick={handleSubmit}>
+    <Button
+      className="mx-auto w-55 rounded-md border border-neutral-950 dark:border-neutral-100"
+      onClick={handleSubmit}
+    >
       {addPartiesToChat ? "Modifier les partis" : "Démarrer le chat comparatif"}
     </Button>
   );

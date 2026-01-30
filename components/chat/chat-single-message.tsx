@@ -14,6 +14,7 @@ import SurveyBanner from "./survey-banner";
 type Props = {
   message: MessageItem;
   partyId?: string;
+  candidateId?: string;
   isLastMessage?: boolean;
   showAssistantIcon?: boolean;
   showMessageActions?: boolean;
@@ -23,6 +24,7 @@ type Props = {
 function ChatSingleMessage({
   message,
   partyId,
+  candidateId,
   isLastMessage,
   showAssistantIcon = true,
   showMessageActions = true,
@@ -78,6 +80,7 @@ function ChatSingleMessage({
               isLastMessage={isLastMessage}
               message={message}
               partyId={partyId}
+              candidateId={candidateId}
               showMessageActions={showMessageActions}
               isGroupChat={isGroupChat}
             />

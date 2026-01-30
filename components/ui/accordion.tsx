@@ -50,7 +50,7 @@ export const AccordionGroup: React.FC<GroupProps> = (props) => {
 
   return (
     <AccordionContext.Provider value={{ openItems, toggleItem, multiple }}>
-      <div className="flex w-full flex-col items-stretch justify-start gap-2">
+      <div className="flex w-full flex-col items-stretch justify-start">
         {children}
       </div>
     </AccordionContext.Provider>
@@ -71,7 +71,12 @@ export const AccordionItem: React.FC<ItemProps> = (props) => {
   const { isOpen, toggle } = useAccordion(id);
 
   return (
-    <div className={cn("border border-neutral-100", className)}>
+    <div
+      className={cn(
+        "border-y border-neutral-100 not-last:border-b-0 first:border-b-0",
+        className,
+      )}
+    >
       {trigger !== undefined ? (
         trigger({ isOpen, toggle })
       ) : (
@@ -99,7 +104,7 @@ export const AccordionItem: React.FC<ItemProps> = (props) => {
             transition={{ duration: 0.4, type: "spring", bounce: 0 }}
             className="overflow-hidden"
           >
-            <div className="text-sm leading-5 font-normal text-neutral-100">
+            <div className="p-4 pt-0 text-sm leading-5 font-normal text-neutral-100">
               {children}
             </div>
           </motion.div>

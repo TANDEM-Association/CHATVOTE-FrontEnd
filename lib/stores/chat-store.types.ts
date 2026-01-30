@@ -36,6 +36,7 @@ export type MessageItem = {
   content: string;
   sources: Source[];
   party_id?: string;
+  candidate_id?: string;
   role: "assistant" | "user";
   pro_con_perspective?: MessageItem;
   feedback?: MessageFeedback;
@@ -150,6 +151,15 @@ export type ChatStoreActions = {
     partyId: string,
     message: MessageItem | StreamingMessage,
   ) => Promise<void>;
+  generateCandidateProConPerspective: (
+    candidateId: string,
+    message: MessageItem | StreamingMessage,
+  ) => Promise<void>;
+  completeCandidateProConPerspective: (
+    requestId: string,
+    candidateId: string,
+    message: MessageItem,
+  ) => void;
   setChatSessionIsPublic: (isPublic: boolean) => Promise<void>;
   setMessageFeedback: (messageId: string, feedback: MessageFeedback) => void;
   setPreSelectedParties: (parties: PartyDetails[]) => void;
