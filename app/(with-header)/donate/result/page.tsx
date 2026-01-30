@@ -3,7 +3,6 @@ import React from "react";
 import Link from "next/link";
 
 import { CircleCheckIcon, FrownIcon } from "lucide-react";
-import type Stripe from "stripe";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -13,6 +12,36 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { stripe } from "@/lib/stripe/stripe";
+
+async function validateStripeSession(sessionId: string): Promise<boolean> {
+  try {
+    const checkoutSession = await stripe.checkout.sessions.retrieve(sessionId, {
+      expand: ["payment_intent"],
+    });
+
+    // Vérifier le statut de la session (expired, open, complete)
+    if (checkoutSession.status !== "complete") {
+      return false;
+    }
+
+    // Vérifier que payment_intent existe et est un objet (pas une string)
+    const paymentIntent = checkoutSession.payment_intent;
+
+    if (paymentIntent === null || typeof paymentIntent === "string") {
+      return false;
+    }
+
+    if (paymentIntent.status !== "succeeded") {
+      return false;
+    }
+
+    return true;
+  } catch (error) {
+    // Session invalide, n'existe pas, ou erreur Stripe
+    console.error("Stripe session retrieval error:", error);
+    return false;
+  }
+}
 
 async function Page({
   searchParams,
@@ -25,14 +54,11 @@ async function Page({
     return <PaymentFailed />;
   }
 
-  const checkoutSession: Stripe.Checkout.Session =
-    await stripe.checkout.sessions.retrieve(actualSearchParams.session_id, {
-      expand: ["line_items", "payment_intent"],
-    });
+  const isValidPayment = await validateStripeSession(
+    actualSearchParams.session_id,
+  );
 
-  const paymentIntent = checkoutSession.payment_intent as Stripe.PaymentIntent;
-
-  if (paymentIntent.status !== "succeeded") {
+  if (isValidPayment === false) {
     return <PaymentFailed />;
   }
 

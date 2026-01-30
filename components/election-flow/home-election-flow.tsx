@@ -23,6 +23,7 @@ import {
 } from "@/lib/election/election.types";
 import { getCandidatesByMunicipality } from "@/lib/election/election-firebase-server";
 import { getParties } from "@/lib/firebase/firebase-server";
+import { useIsMounted } from "@/lib/hooks/use-is-mounted";
 import { type PartyDetails } from "@/lib/party-details";
 import { cn } from "@/lib/utils";
 
@@ -35,6 +36,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import { Skeleton } from "../ui/skeleton";
 
 import MunicipalitySearch from "./municipality-search";
 
@@ -85,6 +87,7 @@ const MAX_PARTIES_DISPLAY = 6;
 
 const HomeElectionFlow = ({ className }: Props) => {
   const router = useRouter();
+  const isMounted = useIsMounted();
 
   // Flow state
   const [scope, setScope] = useState<Scope | null>(null);
@@ -205,6 +208,25 @@ const HomeElectionFlow = ({ className }: Props) => {
   };
 
   const stepNumber = getStepNumber();
+
+  // Render skeleton during SSR and hydration to avoid Radix UI Select hydration mismatch
+  if (isMounted === false) {
+    return (
+      <div className={cn("w-full space-y-6", className)}>
+        <div className="flex h-10 items-center justify-between">
+          <div />
+          <Skeleton className="h-5 w-24" />
+        </div>
+        <div className="space-y-4">
+          <div className="flex items-center gap-2">
+            <Skeleton className="size-5" />
+            <Skeleton className="h-6 w-64" />
+          </div>
+          <Skeleton className="h-10 w-full" />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={cn("w-full space-y-6", className)}>

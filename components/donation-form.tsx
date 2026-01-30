@@ -2,8 +2,6 @@
 
 import { useState } from "react";
 
-import Link from "next/link";
-
 import NumberFlow from "@number-flow/react";
 import { track } from "@vercel/analytics/react";
 import { EqualIcon } from "lucide-react";
@@ -24,11 +22,11 @@ import { Input } from "./ui/input";
 import { Slider } from "./ui/slider";
 import { DonateSubmitButton } from "./donate-submit-button";
 
-function DonationForm() {
+const defaultAmounts = [5, 10, 20, 50, 100, 200, 500];
+
+const DonationForm = () => {
   const [amount, setAmount] = useState(50);
   const [customAmount, setCustomAmount] = useState(false);
-
-  const defaultAmounts = [5, 10, 20, 50, 100, 200, 500];
 
   const handleDonate = async (data: FormData) => {
     track("donation_started", {
@@ -54,26 +52,21 @@ function DonationForm() {
 
   return (
     <form action={handleDonate}>
-      <CardHeader>
-        <CardTitle className="text-center text-2xl">
-          Maintenez{" "}
-          <Link className="underline" href="/">
-            chatvote
-          </Link>{" "}
-          en vie grâce à votre don !
+      <CardHeader className="space-y-3">
+        <CardTitle className="text-center text-xl">
+          <span>Maintenez Chatvote en vie grâce à votre don !</span>
         </CardTitle>
         <CardDescription className="text-center">
-          Nous finançons actuellement{" "}
-          <Link className="underline" href="/">
-            chatvote
-          </Link>{" "}
-          entièrement de notre poche. Votre don nous aide à maintenir ce projet
-          et à couvrir les coûts des serveurs et de l&lsquo;IA.
+          <p>
+            Nous finançons actuellement Chatvote entièrement de notre poche.
+            Votre don nous aide à maintenir ce projet et à couvrir les coûts des
+            serveurs et de l&lsquo;IA.
+          </p>
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-[1fr,auto,1fr] items-center gap-4">
-          <div className="mt-4 mb-8 flex flex-col items-center justify-center">
+        <div className="grid grid-cols-[1fr,auto,1fr] items-center gap-2">
+          <div className="flex flex-col items-center justify-center">
             {customAmount ? (
               <Input
                 type="number"
@@ -81,7 +74,7 @@ function DonationForm() {
                 min="5"
                 max="10000"
                 step="1"
-                className="mb-2 h-16 w-32 [appearance:textfield] text-center !text-4xl font-bold [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                className="mb-2 h-16 w-32 [appearance:textfield] text-center text-4xl font-bold [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
                 value={amount}
                 onChange={(e) => {
                   const value = Math.max(0, Math.floor(Number(e.target.value)))
@@ -100,8 +93,8 @@ function DonationForm() {
               don unique
             </p>
           </div>
-          <EqualIcon className="text-3xl" />
-          <div className="mt-4 mb-8 flex flex-col items-center justify-center">
+          <EqualIcon className="mx-auto size-10" />
+          <div className="mb-8 flex flex-col items-center justify-center">
             <h1 className="text-center text-4xl font-bold">
               <NumberFlow value={amount * 50} />
             </h1>
@@ -142,20 +135,20 @@ function DonationForm() {
         <Slider
           className="my-8"
           defaultValue={[50]}
-          min={10}
+          min={5}
           max={5000}
-          step={10}
+          step={5}
           value={[amount]}
           onValueChange={handleSliderChange}
         />
 
         <input type="hidden" name="amount" value={amount} />
       </CardContent>
-      <CardFooter>
-        <DonateSubmitButton amount={amount} />
+      <CardFooter className="flex items-center justify-center">
+        <DonateSubmitButton isDisabled={amount < 5} />
       </CardFooter>
     </form>
   );
-}
+};
 
 export default DonationForm;
