@@ -15,32 +15,32 @@ import ProConIcon from "./chat/pro-con-icon";
 import { AccordionGroup, AccordionItem } from "./ui/accordion";
 import { Button } from "./ui/button";
 
+const partySpecificQuestions = [
+  "Quelle est la position de LFI sur le climat ?",
+  "Comment le RN se positionne-t-il sur la dette publique ?",
+  "Comment Renaissance veut-elle réduire la bureaucratie ?",
+  "Comment les Écologistes veulent-ils faire avancer la transition numérique ?",
+  "Comment le PS et le PCF veulent-ils mettre en œuvre la réforme du temps de travail ?",
+  "Comment EELV et Renaissance veulent-ils améliorer la coopération européenne ?",
+];
+
+const compareQuestions = [
+  "Comment les partis se différencient-ils dans la lutte contre le changement climatique ?",
+  "Quelles sont les différences de position entre Renaissance et le RN sur la dette ?",
+  "Comparez les positions de LFI et du RN sur la migration.",
+];
+
+const generalQuestions = [
+  "Comment puis-je voter par procuration ?",
+  "Qui est derrière chatvote ?",
+  "Comment fonctionne le vote par procuration ?",
+];
+
+function buildQuestionLink(question: string) {
+  return `/session?q=${question}`;
+}
+
 function HowTo() {
-  const partySpecificQuestions = [
-    "Quelle est la position de LFI sur le climat ?",
-    "Comment le RN se positionne-t-il sur la dette publique ?",
-    "Comment Renaissance veut-elle réduire la bureaucratie ?",
-    "Comment les Écologistes veulent-ils faire avancer la transition numérique ?",
-    "Comment le PS et le PCF veulent-ils mettre en œuvre la réforme du temps de travail ?",
-    "Comment EELV et Renaissance veulent-ils améliorer la coopération européenne ?",
-  ];
-
-  const compareQuestions = [
-    "Comment les partis se différencient-ils dans la lutte contre le changement climatique ?",
-    "Quelles sont les différences de position entre Renaissance et le RN sur la dette ?",
-    "Comparez les positions de LFI et du RN sur la migration.",
-  ];
-
-  const generalQuestions = [
-    "Comment puis-je voter par procuration ?",
-    "Qui est derrière chatvote ?",
-    "Comment fonctionne le vote par procuration ?",
-  ];
-
-  const buildQuestionLink = (question: string) => {
-    return `/session?q=${question}`;
-  };
-
   return (
     <article>
       <section>
@@ -164,32 +164,29 @@ function HowTo() {
             </div>
           </AccordionItem>
 
-          <AccordionItem title="position">
-            <div className="font-bold">Évaluer la position</div>
-            <div>
-              <div className="my-2 flex items-center justify-center">
-                <div className="relative rounded-md">
-                  <Button
-                    variant="outline"
-                    className="h-8 px-2 group-data-has-message-background:bg-zinc-100 group-data-has-message-background:hover:bg-zinc-200 group-data-has-message-background:dark:bg-zinc-900 group-data-has-message-background:dark:hover:bg-zinc-800"
-                    tooltip="Évaluer la position en Pour ou Contre"
-                    type="button"
-                  >
-                    <ProConIcon />
-                    <span className="text-xs">Évaluer la position</span>
-                  </Button>
-                  <ChatActionButtonHighlight showHighlight />
-                </div>
+          <AccordionItem title="Évaluer la position">
+            <p>
+              Lorsque vous cliquez sur ce bouton sous l&lsquo;un des messages,
+              la position du message est évaluée. Les critères suivants sont
+              pris en compte : Faisabilité, Effets à court terme et à long
+              terme.
+              <br />
+              Nous utilisons des informations et sources actuelles
+              d&lsquo;Internet fournies par Perplexity.ai.
+            </p>
+            <div className="my-2 flex items-center justify-center">
+              <div className="relative rounded-md">
+                <Button
+                  variant="outline"
+                  className="h-8 px-2 group-data-has-message-background:bg-zinc-100 group-data-has-message-background:hover:bg-zinc-200 group-data-has-message-background:dark:bg-zinc-900 group-data-has-message-background:dark:hover:bg-zinc-800"
+                  tooltip="Évaluer la position en Pour ou Contre"
+                  type="button"
+                >
+                  <ProConIcon />
+                  <span className="text-xs">Évaluer la position</span>
+                </Button>
+                <ChatActionButtonHighlight showHighlight />
               </div>
-              <p>
-                Lorsque vous cliquez sur ce bouton sous l&lsquo;un des messages,
-                la position du message est évaluée. Les critères suivants sont
-                pris en compte : Faisabilité, Effets à court terme et à long
-                terme.
-                <br />
-                Nous utilisons des informations et sources actuelles
-                d&lsquo;Internet fournies par Perplexity.ai.
-              </p>
             </div>
           </AccordionItem>
 
