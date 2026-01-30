@@ -1,7 +1,11 @@
-import Footer from "@/components/footer";
-import Header from "@/components/header";
+import { Footer } from "./footer";
+import { Header } from "./header";
 
-function Layout({ children }: { children: React.ReactNode }) {
+type PageLayoutProps = {
+  children: React.ReactNode;
+};
+
+export const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
   return (
     <div className="relative flex size-full flex-col">
       <Header />
@@ -11,6 +15,4 @@ function Layout({ children }: { children: React.ReactNode }) {
       <Footer />
     </div>
   );
-}
-
-export default Layout;
+};

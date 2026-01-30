@@ -18,7 +18,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { getCurrentUser } from "@/lib/firebase/firebase-server";
+import { getAuth } from "@/lib/firebase/firebase-server";
 import { getUserDetailsFromUser } from "@/lib/utils";
 
 import ChatSidebarGroupSelect from "./chat-sidebar-group-select";
@@ -26,9 +26,9 @@ import SidebarHistorySr from "./sidebar-history-sr";
 import SidebarNewChatButtons from "./sidebar-new-chat-buttons";
 
 async function ChatSidebar() {
-  const user = await getCurrentUser();
+  const auth = await getAuth();
 
-  const userDetails = user ? getUserDetailsFromUser(user) : undefined;
+  const userDetails = auth.user ? getUserDetailsFromUser(auth.user) : undefined;
 
   return (
     <Sidebar

@@ -5,7 +5,7 @@ import { headers } from "next/headers";
 import { TENANT_ID_HEADER } from "@/lib/constants";
 import { detectDevice } from "@/lib/device";
 import { getTenant } from "@/lib/firebase/firebase-admin";
-import { getParties, getUser } from "@/lib/firebase/firebase-server";
+import { getAuth, getParties } from "@/lib/firebase/firebase-server";
 import { getTheme } from "@/lib/theme/getTheme";
 
 import { AppProvider } from "./_providers/AppProvider";
@@ -122,7 +122,7 @@ export default async function RootLayout({
   const parties = await getParties();
   const tenantId = requestHeaders.get(TENANT_ID_HEADER);
   const tenant = await getTenant(tenantId);
-  const user = await getUser();
+  const auth = await getAuth();
 
   return (
     <html lang="fr" data-theme={theme}>
@@ -134,7 +134,7 @@ export default async function RootLayout({
       >
         <AppProvider
           device={device}
-          user={user}
+          auth={auth}
           tenant={tenant}
           parties={parties}
         >

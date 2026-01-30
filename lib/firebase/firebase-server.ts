@@ -4,7 +4,7 @@ import { unstable_cache as cache } from "next/cache";
 import { headers } from "next/headers";
 
 import { initializeServerApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import { getAuth as getFirebaseAuth } from "firebase/auth";
 import {
   collection,
   doc,
@@ -17,7 +17,6 @@ import {
   where,
 } from "firebase/firestore";
 
-import { type FullUser } from "@/components/anonymous-auth";
 import { CacheTags } from "@/lib/cache-tags";
 import { ASSISTANT_ID, GROUP_PARTY_ID } from "@/lib/constants";
 import { type PartyDetails } from "@/lib/party-details";
@@ -25,10 +24,8 @@ import {
   type GroupedMessage,
   type MessageItem,
 } from "@/lib/stores/chat-store.types";
-import {
-  firestoreTimestampToDate,
-  makeFirebaseUserSerializable,
-} from "@/lib/utils";
+import { type Auth, type User } from "@/lib/types/auth";
+import { firestoreTimestampToDate } from "@/lib/utils";
 
 import {
   type ChatSession,
@@ -52,15 +49,70 @@ async function getServerApp({
   return initializeServerApp(firebaseConfig, { authIdToken });
 }
 
-export async function getCurrentUser() {
+async function getFirebaseAuthUser() {
   const serverApp = await getServerApp();
-  const auth = getAuth(serverApp);
-  await auth.authStateReady();
-  if (!auth.currentUser) {
+  const firebaseAuth = getFirebaseAuth(serverApp);
+  await firebaseAuth.authStateReady();
+
+  if (!firebaseAuth.currentUser) {
     return null;
   }
 
-  return auth.currentUser;
+  return firebaseAuth.currentUser;
+}
+
+export async function getAuth(): Promise<Auth> {
+  try {
+    const firebaseUser = await getFirebaseAuthUser();
+
+    if (!firebaseUser) {
+      return { session: null, user: null };
+    }
+
+    const serverDb = await getServerFirestore();
+    const userDoc = await getDoc(doc(serverDb, "users", firebaseUser.uid));
+    const userData = userDoc.data() as Partial<User> | undefined;
+
+    const surveyTimestamp = userData?.survey_status?.timestamp
+      ? firestoreTimestampToDate(userData.survey_status.timestamp)
+      : undefined;
+
+    return {
+      session: {
+        uid: firebaseUser.uid,
+        isAnonymous: firebaseUser.isAnonymous,
+        emailVerified: firebaseUser.emailVerified,
+      },
+      user: {
+        uid: firebaseUser.uid,
+        email: firebaseUser.email,
+        displayName: firebaseUser.displayName,
+        photoURL: firebaseUser.photoURL,
+        phoneNumber: firebaseUser.phoneNumber,
+        providerId: firebaseUser.providerId,
+        providerData: firebaseUser.providerData,
+        metadata: {
+          creationTime: firebaseUser.metadata.creationTime,
+          lastSignInTime: firebaseUser.metadata.lastSignInTime,
+        },
+        // Business data
+        survey_status:
+          userData?.survey_status && surveyTimestamp
+            ? {
+                state: userData.survey_status.state,
+                timestamp: surveyTimestamp,
+              }
+            : undefined,
+        newsletter_allowed: userData?.newsletter_allowed,
+        clicked_away_login_reminder: userData?.clicked_away_login_reminder
+          ? firestoreTimestampToDate(userData.clicked_away_login_reminder)
+          : undefined,
+        keep_up_to_date_email: userData?.keep_up_to_date_email,
+      },
+    };
+  } catch {
+    return { session: null, user: null };
+  }
 }
 
 async function getServerFirestore({
@@ -318,34 +370,3 @@ export async function getSystemStatus() {
   } as LlmSystemStatus;
 }
 
-export async function getUser() {
-  try {
-    const serverDb = await getServerFirestore();
-    const currentUser = await getCurrentUser();
-
-    if (!currentUser) {
-      return null;
-    }
-
-    const user = await getDoc(doc(serverDb, "users", currentUser?.uid));
-
-    const data = user.data();
-
-    return {
-      ...makeFirebaseUserSerializable(currentUser),
-      id: user.id,
-      ...data,
-      clicked_away_login_reminder: data?.clicked_away_login_reminder
-        ? firestoreTimestampToDate(data.clicked_away_login_reminder)
-        : undefined,
-      survey_status: data?.survey_status
-        ? {
-            state: data.survey_status.state,
-            timestamp: firestoreTimestampToDate(data.survey_status.timestamp),
-          }
-        : undefined,
-    } as FullUser;
-  } catch {
-    return null;
-  }
-}

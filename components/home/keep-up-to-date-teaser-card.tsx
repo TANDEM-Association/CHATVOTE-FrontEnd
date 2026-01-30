@@ -7,16 +7,16 @@ import Image from "next/image";
 import { MailCheckIcon } from "lucide-react";
 import { toast } from "sonner";
 
-import { type FullUser, useAnonymousAuth } from "../anonymous-auth";
+import { type User, useAuth } from "../anonymous-auth";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 
 type Props = {
-  initialUser: FullUser | null;
+  initialUser: User | null;
 };
 
 function KeepUpToDateTeaserCard({ initialUser }: Props) {
-  const { user, updateUser } = useAnonymousAuth();
+  const { user, updateUser } = useAuth();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

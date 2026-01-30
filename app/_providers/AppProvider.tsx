@@ -5,10 +5,7 @@ import React from "react";
 import { Analytics } from "@vercel/analytics/react";
 import { domAnimation, LazyMotion } from "motion/react";
 
-import {
-  AnonymousAuthProvider,
-  type FullUser,
-} from "@/components/anonymous-auth";
+import { type Auth, AuthProvider } from "@/components/anonymous-auth";
 import AuthServiceWorkerProvider from "@/components/providers/auth-service-worker-provider";
 import { PartiesProvider } from "@/components/providers/parties-provider";
 import TenantProvider from "@/components/providers/tenant-provider";
@@ -20,7 +17,7 @@ import { type PartyDetails } from "@/lib/party-details";
 
 type AppProviderProps = {
   children: React.ReactNode;
-  user: FullUser | null;
+  auth: Auth;
   tenant: Tenant | undefined;
   device: Device;
   parties: PartyDetails[];
@@ -34,7 +31,7 @@ const AppContext = React.createContext<AppContextValue | null>(null);
 
 export const AppProvider: React.FC<AppProviderProps> = ({
   children,
-  user,
+  auth,
   tenant,
   device,
   parties,
@@ -43,7 +40,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({
     <AppContext.Provider value={{ device }}>
       <AuthServiceWorkerProvider />
       <TooltipProvider>
-        <AnonymousAuthProvider user={user}>
+        <AuthProvider initialAuth={auth}>
           <TenantProvider tenant={tenant}>
             <LazyMotion features={domAnimation}>
               <PartiesProvider parties={parties}>{children}</PartiesProvider>
@@ -53,7 +50,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({
               <Analytics />
             </LazyMotion>
           </TenantProvider>
-        </AnonymousAuthProvider>
+        </AuthProvider>
       </TooltipProvider>
     </AppContext.Provider>
   );
@@ -65,5 +62,6 @@ export function useAppContext() {
   if (context === null) {
     throw new Error("useApp must be used within an AppProvider");
   }
+
   return context;
 }

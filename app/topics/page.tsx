@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import { ArrowLeftIcon } from "lucide-react";
 
+import { PageLayout } from "@/components/layout/page-layout";
 import TopicsFilterableList from "@/components/topics/topics-filterable-list";
 import { Button } from "@/components/ui/button";
 import {
@@ -21,7 +22,7 @@ async function TopicsPage() {
   );
 
   return (
-    <>
+    <PageLayout>
       <Button variant="link" asChild className="mt-4 px-0">
         <Link href="/">
           <ArrowLeftIcon className="size-4" />
@@ -62,7 +63,7 @@ async function TopicsPage() {
           exampleQuestionsShareableChatSessions
         }
       />
-    </>
+    </PageLayout>
   );
 }
 

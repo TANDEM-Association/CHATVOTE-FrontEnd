@@ -1,15 +1,10 @@
-"use server";
-
-import { cookies } from "next/headers";
+"use client";
 
 import { type Theme } from "./types";
 
-export async function setTheme(theme: Theme) {
-  const cookieStore = await cookies();
+export function setTheme(theme: Theme): void {
+  const isProduction = process.env.NODE_ENV === "production";
+  const secure = isProduction ? ";secure" : "";
 
-  cookieStore.set("theme", theme, {
-    path: "/",
-    sameSite: "lax",
-    secure: process.env.NODE_ENV === "production",
-  });
+  document.cookie = `theme=${theme};path=/;samesite=lax${secure};max-age=31536000`;
 }

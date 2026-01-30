@@ -1,15 +1,18 @@
 import {
-  getCurrentUser,
+  getAuth,
   getUsersChatSessions,
 } from "@/lib/firebase/firebase-server";
 
 import SidebarHistory from "./sidebar-history";
 
 async function getChatHistory() {
-  const user = await getCurrentUser();
-  if (!user) return;
+  const auth = await getAuth();
 
-  return getUsersChatSessions(user.uid);
+  if (!auth.session) {
+    return;
+  }
+
+  return getUsersChatSessions(auth.session.uid);
 }
 
 async function SidebarHistorySr() {

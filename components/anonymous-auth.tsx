@@ -2,135 +2,163 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 
-import {
-  signInAnonymously,
-  type UserInfo,
-  type UserMetadata,
-} from "firebase/auth";
-import { type Timestamp } from "firebase/firestore";
+import { signInAnonymously } from "firebase/auth";
 import { toast } from "sonner";
 
 import {
   auth,
   getUser,
-  updateUser as updateUserFirebase,
+  updateUserData as updateUserDataFirebase,
 } from "@/lib/firebase/firebase";
+import { type Auth, type User } from "@/lib/types/auth";
 
-export type ChatvoteUser = {
-  survey_status?: {
-    // where closed just means that the user clicked on the close button on the top right corner of the banner
-    state: "opened" | "closed";
-    timestamp: Date | Timestamp;
-  } | null;
-  newsletter_allowed?: boolean;
-  clicked_away_login_reminder?: Date | Timestamp;
-  keep_up_to_date_email?: string;
-};
-
-export type SerializableFirebaseUser = UserInfo & {
-  uid: string;
-  emailVerified: boolean;
-  isAnonymous: boolean;
-  providerData: UserInfo[];
-  metadata: UserMetadata;
-};
-
-export type FullUser = SerializableFirebaseUser & ChatvoteUser;
-
-type AnonymousAuthContextType = {
-  user: FullUser | null;
+type AuthContextType = {
+  session: Auth["session"];
+  user: Auth["user"];
   loading: boolean;
-  updateUser: (data: Partial<ChatvoteUser>) => Promise<void>;
+  updateUser: (data: Partial<User>) => Promise<void>;
   refreshUser: () => Promise<void>;
 };
 
-const AnonymousAuthContext = createContext<AnonymousAuthContextType>({
+const AuthContext = createContext<AuthContextType>({
+  session: null,
   user: null,
   loading: true,
   updateUser: async () => {},
   refreshUser: async () => {},
 });
 
-export const useAnonymousAuth = () => {
-  return useContext(AnonymousAuthContext);
+export const useAuth = () => {
+  return useContext(AuthContext);
 };
 
-export function AnonymousAuthProvider({
-  children,
-  user: initialUser,
-}: {
+type AuthProviderProps = {
   children: React.ReactNode;
-  user: FullUser | null;
-}) {
-  const [user, setUser] = useState<FullUser | null>(initialUser);
+  initialAuth: Auth;
+};
+
+export const AuthProvider = ({ children, initialAuth }: AuthProviderProps) => {
+  const [session, setSession] = useState<Auth["session"]>(initialAuth.session);
+  const [user, setUser] = useState<Auth["user"]>(initialAuth.user);
   const [loading, setLoading] = useState(true);
 
   const fetchUser = async (uid: string) => {
     const user = await getUser(uid);
-    setUser((currUser) => {
-      if (!currUser) {
+
+    setUser((currentUser) => {
+      if (!currentUser) {
         return null;
       }
 
       return {
-        ...currUser,
+        ...currentUser,
         ...user,
       };
     });
+
     setLoading(false);
   };
 
   useEffect(() => {
-    auth.onAuthStateChanged(async (user) => {
-      if (user) {
-        setUser(user);
+    const unsubscribe = auth.onAuthStateChanged(async (firebaseUser) => {
+      if (firebaseUser) {
+        setSession({
+          uid: firebaseUser.uid,
+          isAnonymous: firebaseUser.isAnonymous,
+          emailVerified: firebaseUser.emailVerified,
+        });
 
-        fetchUser(user.uid);
+        setUser((currentUser) => ({
+          uid: firebaseUser.uid,
+          email: firebaseUser.email,
+          displayName: firebaseUser.displayName,
+          photoURL: firebaseUser.photoURL,
+          phoneNumber: firebaseUser.phoneNumber,
+          providerId: firebaseUser.providerId,
+          providerData: firebaseUser.providerData,
+          metadata: {
+            creationTime: firebaseUser.metadata.creationTime,
+            lastSignInTime: firebaseUser.metadata.lastSignInTime,
+          },
+          // Preserve existing business data
+          survey_status: currentUser?.survey_status,
+          newsletter_allowed: currentUser?.newsletter_allowed,
+          clicked_away_login_reminder: currentUser?.clicked_away_login_reminder,
+          keep_up_to_date_email: currentUser?.keep_up_to_date_email,
+        }));
+
+        await fetchUser(firebaseUser.uid);
       } else {
-        createSession();
+        await createSession();
       }
     });
+
+    return unsubscribe;
   }, []);
 
-  async function updateUser(data: Partial<ChatvoteUser>) {
-    if (!user?.uid) return;
+  async function updateUser(data: Partial<User>) {
+    if (!session?.uid) {
+      return;
+    }
 
-    await updateUserFirebase(user?.uid, data);
-    await fetchUser(user?.uid);
+    await updateUserDataFirebase(session.uid, data);
+    await fetchUser(session.uid);
   }
 
   async function refreshUser() {
     setLoading(true);
 
-    const user = auth.currentUser;
+    const firebaseUser = auth.currentUser;
 
-    setUser((currUser) =>
-      currUser
-        ? {
-            ...currUser,
-            ...user,
-          }
-        : null,
-    );
+    if (firebaseUser) {
+      setSession({
+        uid: firebaseUser.uid,
+        isAnonymous: firebaseUser.isAnonymous,
+        emailVerified: firebaseUser.emailVerified,
+      });
 
-    if (user) await fetchUser(user.uid);
+      setUser((currentUser) => ({
+        uid: firebaseUser.uid,
+        email: firebaseUser.email,
+        displayName: firebaseUser.displayName,
+        photoURL: firebaseUser.photoURL,
+        phoneNumber: firebaseUser.phoneNumber,
+        providerId: firebaseUser.providerId,
+        providerData: firebaseUser.providerData,
+        metadata: {
+          creationTime: firebaseUser.metadata.creationTime,
+          lastSignInTime: firebaseUser.metadata.lastSignInTime,
+        },
+        survey_status: currentUser?.survey_status,
+        newsletter_allowed: currentUser?.newsletter_allowed,
+        clicked_away_login_reminder: currentUser?.clicked_away_login_reminder,
+        keep_up_to_date_email: currentUser?.keep_up_to_date_email,
+      }));
+
+      await fetchUser(firebaseUser.uid);
+    }
   }
 
   return (
-    <AnonymousAuthContext.Provider
-      value={{ user, updateUser, loading, refreshUser }}
+    <AuthContext.Provider
+      value={{ session, user, updateUser, loading, refreshUser }}
     >
       {children}
-    </AnonymousAuthContext.Provider>
+    </AuthContext.Provider>
   );
-}
+};
 
 async function createSession() {
   try {
     await signInAnonymously(auth);
   } catch (error) {
     console.error(error);
-
-    toast.error("Une erreur s&lsquo;est produite. Veuillez recharger la page.");
+    toast.error("Une erreur s'est produite. Veuillez recharger la page.");
   }
 }
+
+// Backwards compatibility alias
+export const useAnonymousAuth = useAuth;
+
+// Re-export types for convenience
+export type { Auth, User } from "@/lib/types/auth";

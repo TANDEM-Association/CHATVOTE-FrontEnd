@@ -5,7 +5,7 @@ import UserAvatar from "@/components/auth/user-avatar";
 import EmbedOpenWebsiteButton from "@/components/embed-open-website-button";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { getCurrentUser } from "@/lib/firebase/firebase-server";
+import { getAuth } from "@/lib/firebase/firebase-server";
 import { cn, getUserDetailsFromUser, IS_EMBEDDED } from "@/lib/utils";
 
 import NavbarItem from "./navbar-item";
@@ -27,8 +27,8 @@ export default async function NavBar({ className }: Props) {
     },
   ];
 
-  const user = await getCurrentUser();
-  const userDetails = user ? getUserDetailsFromUser(user) : undefined;
+  const auth = await getAuth();
+  const userDetails = auth.user ? getUserDetailsFromUser(auth.user) : undefined;
 
   return (
     <nav

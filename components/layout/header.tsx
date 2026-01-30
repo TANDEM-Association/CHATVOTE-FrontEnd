@@ -1,16 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { getCurrentUser } from "@/lib/firebase/firebase-server";
+import EmbedOpenWebsiteButton from "@/components/embed-open-website-button";
+import MobileNavbar from "@/components/navbar/mobile-navbar";
+import NavBar from "@/components/navbar/navbar";
+import { getAuth } from "@/lib/firebase/firebase-server";
 import { getUserDetailsFromUser, IS_EMBEDDED } from "@/lib/utils";
 
-import MobileNavbar from "./navbar/mobile-navbar";
-import NavBar from "./navbar/navbar";
-import EmbedOpenWebsiteButton from "./embed-open-website-button";
-
-async function Header() {
-  const user = await getCurrentUser();
-  const userDetails = user ? getUserDetailsFromUser(user) : undefined;
+export const Header: React.FC = async () => {
+  const auth = await getAuth();
+  const userDetails = auth.user ? getUserDetailsFromUser(auth.user) : undefined;
 
   return (
     <header className="border-border bg-background sticky top-0 z-30 border-b px-4 py-2 md:px-0">
@@ -37,6 +36,4 @@ async function Header() {
       </div>
     </header>
   );
-}
-
-export default Header;
+};

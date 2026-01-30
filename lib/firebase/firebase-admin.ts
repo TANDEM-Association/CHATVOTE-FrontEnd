@@ -22,7 +22,7 @@ import {
   type ShareableChatSessionSnapshot,
   type Tenant,
 } from "./firebase.types";
-import { getCurrentUser } from "./firebase-server";
+import { getAuth } from "./firebase-server";
 
 function initializeApp(): FirebaseApp {
   const existingApps = getApps();
@@ -106,9 +106,9 @@ export async function copySharedChatSession(
   snapshotId: string,
   userId: string,
 ) {
-  const user = await getCurrentUser();
+  const auth = await getAuth();
 
-  if (!user) {
+  if (!auth.session) {
     throw new Error("User not found");
   }
 

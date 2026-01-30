@@ -9,12 +9,13 @@ import HomePartyCards from "@/components/home/home-party-cards";
 import HowToCard from "@/components/home/how-to-card";
 import KnownFrom from "@/components/home/known-from";
 import SupportUsCard from "@/components/home/support-us-card";
+import { PageLayout } from "@/components/layout/page-layout";
 import { Button } from "@/components/ui/button";
 import { IS_EMBEDDED } from "@/lib/utils";
 
 export default function Home() {
   return (
-    <React.Fragment>
+    <PageLayout>
       <div className="mt-4 flex w-full flex-row items-center justify-center gap-2">
         <MousePointerClickIcon />
         <h1 className="text-center text-sm font-semibold">
@@ -51,6 +52,6 @@ export default function Home() {
           <HowToCard />
         </section>
       )}
-    </React.Fragment>
+    </PageLayout>
   );
 }

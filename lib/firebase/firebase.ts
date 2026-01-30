@@ -17,13 +17,13 @@ import {
   where,
 } from "firebase/firestore";
 
-import { type ChatvoteUser } from "@/components/anonymous-auth";
 import {
   type GroupedMessage,
   type MessageFeedback,
   type MessageItem,
   type VotingBehavior,
 } from "@/lib/stores/chat-store.types";
+import { type User } from "@/lib/types/auth";
 import { firestoreTimestampToDate, generateUuid } from "@/lib/utils";
 
 import { type ChatSession, type LlmSystemStatus } from "./firebase.types";
@@ -307,24 +307,31 @@ export async function updateMessageFeedback(
   });
 }
 
-export async function getUser(uid: string) {
+export async function getUser(uid: string): Promise<Partial<User>> {
   const user = await getDoc(doc(db, "users", uid));
-
   const data = user.data();
 
+  const surveyTimestamp = data?.survey_status?.timestamp
+    ? firestoreTimestampToDate(data.survey_status.timestamp)
+    : undefined;
+
   return {
-    id: user.id,
-    ...data,
-    survey_status: data?.survey_status
-      ? {
-          state: data.survey_status.state,
-          timestamp: firestoreTimestampToDate(data.survey_status.timestamp),
-        }
+    survey_status:
+      data?.survey_status && surveyTimestamp
+        ? {
+            state: data.survey_status.state,
+            timestamp: surveyTimestamp,
+          }
+        : undefined,
+    newsletter_allowed: data?.newsletter_allowed,
+    clicked_away_login_reminder: data?.clicked_away_login_reminder
+      ? firestoreTimestampToDate(data.clicked_away_login_reminder)
       : undefined,
-  } as ChatvoteUser;
+    keep_up_to_date_email: data?.keep_up_to_date_email,
+  };
 }
 
-export async function updateUser(uid: string, data: Partial<ChatvoteUser>) {
+export async function updateUserData(uid: string, data: Partial<User>) {
   await setDoc(doc(db, "users", uid), data, { merge: true });
 }
 

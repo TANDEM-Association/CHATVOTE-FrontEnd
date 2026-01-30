@@ -1,4 +1,5 @@
 "use client";
+
 import { useState } from "react";
 
 import Link from "next/link";
@@ -7,18 +8,18 @@ import { FirebaseError } from "firebase/app";
 import {
   EmailAuthProvider,
   getAuth,
-  GithubAuthProvider,
   GoogleAuthProvider,
   linkWithCredential,
   linkWithPopup,
+  OAuthProvider,
   signInWithCredential,
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import { toast } from "sonner";
 
 import { useAnonymousAuth } from "@/components/anonymous-auth";
-import GithubIcon from "@/components/icons/github-icon";
 import GoogleIcon from "@/components/icons/google-icon";
+import MicrosoftIcon from "@/components/icons/microsoft-icon";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -27,7 +28,7 @@ import { getUser } from "@/lib/firebase/firebase";
 import PasswordResetForm from "./password-reset-form";
 import SuccessAuthForm from "./success-auth-form";
 
-type AuthProvider = "google" | "github" | "email";
+type AuthProvider = "google" | "microsoft" | "email";
 
 type Props = {
   onSuccess: () => void;
@@ -68,6 +69,14 @@ function LoginForm({ onSuccess }: Props) {
       if (error.code === "auth/provider-already-linked") {
         return handleProviderAlreadyLinked();
       }
+      if (error.code === "auth/operation-not-allowed") {
+        return toast.error(
+          "Cette méthode de connexion n'est pas disponible pour le moment.",
+        );
+      }
+      if (error.code === "auth/popup-closed-by-user") {
+        return; // User closed popup, no need to show error
+      }
     }
 
     console.error(error);
@@ -83,8 +92,8 @@ function LoginForm({ onSuccess }: Props) {
     let credential = null;
     if (provider === "google") {
       credential = GoogleAuthProvider.credentialFromError(error);
-    } else if (provider === "github") {
-      credential = GithubAuthProvider.credentialFromError(error);
+    } else if (provider === "microsoft") {
+      credential = OAuthProvider.credentialFromError(error);
     } else if (provider === "email") {
       return;
     }
@@ -140,7 +149,7 @@ function LoginForm({ onSuccess }: Props) {
   };
 
   const handleOAuthLogin = async (
-    provider: GoogleAuthProvider | GithubAuthProvider,
+    provider: GoogleAuthProvider | OAuthProvider,
   ) => {
     const auth = getAuth();
 
@@ -154,7 +163,7 @@ function LoginForm({ onSuccess }: Props) {
       const credential =
         provider instanceof GoogleAuthProvider
           ? GoogleAuthProvider.credentialFromResult(result)
-          : GithubAuthProvider.credentialFromResult(result);
+          : OAuthProvider.credentialFromResult(result);
 
       if (!credential) {
         showErrorReloadToast();
@@ -166,13 +175,14 @@ function LoginForm({ onSuccess }: Props) {
     } catch (error) {
       handleAuthError(
         error,
-        provider instanceof GoogleAuthProvider ? "google" : "github",
+        provider instanceof GoogleAuthProvider ? "google" : "microsoft",
       );
     }
   };
 
   const handleGoogleLogin = () => handleOAuthLogin(new GoogleAuthProvider());
-  const handleGithubLogin = () => handleOAuthLogin(new GithubAuthProvider());
+  const handleMicrosoftLogin = () =>
+    handleOAuthLogin(new OAuthProvider("microsoft.com"));
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -194,7 +204,7 @@ function LoginForm({ onSuccess }: Props) {
 
   const showErrorReloadToast = () => {
     toast.error(
-      "Une erreur s&lsquo;est produite. Veuillez recharger la page et réessayer.",
+      "Une erreur s'est produite. Veuillez recharger la page et réessayer.",
     );
   };
 
@@ -306,11 +316,11 @@ function LoginForm({ onSuccess }: Props) {
               className="flex items-center gap-2"
               disabled={isLoading}
               type="button"
-              onClick={handleGithubLogin}
+              onClick={handleMicrosoftLogin}
             >
               <div className="flex items-center gap-2">
-                <GithubIcon className="size-3!" />
-                <span>Github</span>
+                <MicrosoftIcon className="size-3!" />
+                <span>Microsoft</span>
               </div>
             </Button>
           </div>

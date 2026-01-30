@@ -3,7 +3,7 @@ import React, { Suspense } from "react";
 import AiDisclaimer from "@/components/legal/ai-disclaimer";
 import LoadingSpinner from "@/components/loading-spinner";
 import {
-  getCurrentUser,
+  getAuth,
   getSystemStatus,
 } from "@/lib/firebase/firebase-server";
 
@@ -28,7 +28,7 @@ async function ChatView({
   municipalityCode,
 }: Props) {
   const systemStatus = await getSystemStatus();
-  const user = await getCurrentUser();
+  const auth = await getAuth();
 
   return (
     <div className="relative flex size-full flex-col overflow-hidden">
@@ -60,7 +60,7 @@ async function ChatView({
           <ChatScrollDownIndicator />
           <ChatDynamicChatInput
             initialSystemStatus={systemStatus}
-            hasValidServerUser={!user?.isAnonymous}
+            hasValidServerUser={auth.session !== null && !auth.session.isAnonymous}
           />
           <AiDisclaimer />
         </div>

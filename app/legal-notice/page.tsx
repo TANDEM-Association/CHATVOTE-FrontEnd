@@ -1,3 +1,4 @@
+import { PageLayout } from "@/components/layout/page-layout";
 import { Markdown } from "@/components/markdown";
 
 const LegalNotices = () => {
@@ -15,9 +16,11 @@ France
   `;
 
   return (
-    <div className="mx-auto w-full">
-      <Markdown onReferenceClick={() => {}}>{markdown}</Markdown>
-    </div>
+    <PageLayout>
+      <div className="mx-auto w-full">
+        <Markdown onReferenceClick={() => {}}>{markdown}</Markdown>
+      </div>
+    </PageLayout>
   );
 };
 

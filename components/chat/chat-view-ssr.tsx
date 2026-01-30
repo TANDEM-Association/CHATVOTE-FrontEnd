@@ -3,9 +3,9 @@ import { redirect } from "next/navigation";
 import {
   getChatSession,
   getChatSessionMessages,
-  getCurrentUser,
   getParties,
   getPartiesById,
+  getAuth,
   getProposedQuestions,
 } from "@/lib/firebase/firebase-server";
 
@@ -22,9 +22,9 @@ async function getChatSessionServer(
   chatSessionId: string,
   partyIds?: string[],
 ) {
-  const user = await getCurrentUser();
+  const auth = await getAuth();
 
-  if (!user) {
+  if (!auth.session) {
     throw new Error("User not found");
   }
 
