@@ -2,6 +2,9 @@ import { type Metadata } from "next";
 import { Merriweather, Merriweather_Sans } from "next/font/google";
 import { headers } from "next/headers";
 
+import { GoogleAnalytics } from "@next/third-parties/google";
+
+import { config } from "@/config";
 import { TENANT_ID_HEADER } from "@/lib/constants";
 import { detectDevice } from "@/lib/device";
 import { getTenant } from "@/lib/firebase/firebase-admin";
@@ -141,6 +144,7 @@ export default async function RootLayout({
           {children}
         </AppProvider>
       </body>
+      <GoogleAnalytics gaId={config.googleAnalytics.gaId} />
     </html>
   );
 }
