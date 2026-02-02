@@ -33,7 +33,7 @@
 ## Hosting, Delivery & Cloud Services
 
 - **Hosting**: Firebase Hosting configured for Next.js framework SSR (`firebase.json`) with backend region `europe-west1`.
-- **CDN/Images**: Next Image remote loader allows assets from `chatvote.fr` and `dev.chatvote.fr` (`next.config.ts`).
+- **CDN/Images**: Next Image remote loader allows assets from `chatvote.org` and `dev.chatvote.org` (`next.config.ts`).
 - **Analytics**: Vercel Analytics (`@vercel/analytics`) initialized in the root layout.
 - **Sitemap/SEO**: `next-sitemap` config plus `app/sitemap.ts` and `app/robots.ts`.
 
