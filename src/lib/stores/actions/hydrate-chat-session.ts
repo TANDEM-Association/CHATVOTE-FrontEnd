@@ -78,13 +78,6 @@ export const hydrateChatSession: ChatStoreActionHandlerFor<
             initializingChatSession: false,
             newMessage: false,
           },
-          sharingSnapshot: chatSession.sharing_snapshot
-            ? {
-                id: chatSession.sharing_snapshot?.id,
-                messagesLengthAtSharing:
-                  chatSession.sharing_snapshot?.messages_length_at_sharing ?? 0,
-              }
-            : undefined,
         };
       });
 
@@ -110,7 +103,6 @@ export const hydrateChatSession: ChatStoreActionHandlerFor<
           initializingChatSession: false,
           newMessage: false,
         },
-        sharingSnapshot: undefined,
       }));
     }
 

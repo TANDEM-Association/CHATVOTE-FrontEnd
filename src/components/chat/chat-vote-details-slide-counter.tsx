@@ -1,9 +1,8 @@
 "use client";
 
-import { useTranslations } from "next-intl";
-
 import useCarouselCurrentIndex from "@lib/hooks/use-carousel-current-index";
 import { type Vote } from "@lib/socket.types";
+import { useTranslations } from "next-intl";
 
 type Props = {
   votes: Vote[];

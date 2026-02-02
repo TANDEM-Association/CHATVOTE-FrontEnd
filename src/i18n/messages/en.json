@@ -48,7 +48,6 @@
     "about": "About",
     "donate": "Donate",
     "sources": "Sources",
-    "press": "Press",
     "feedback": "Feedback",
     "legalNotice": "Legal notice",
     "privacyPolicy": "Privacy policy",
@@ -166,12 +165,6 @@
       "referencedInText": "Referenced in text:",
       "additionallyAnalyzed": "Additionally analyzed:",
       "publishedOn": "Published on:"
-    },
-    "share": {
-      "shareSession": "Share chat session",
-      "shareChatvote": "Share chatvote",
-      "shareSessionDescription": "Anyone with this link can view this chat session.",
-      "shareChatvoteDescription": "Share chatvote with your friends and family."
     },
     "copy": {
       "success": "Text copied to clipboard"
@@ -388,11 +381,6 @@
     "loading": "Loading PDF...",
     "error": "Error loading PDF"
   },
-  "budgetSpent": {
-    "title": "Budget exhausted",
-    "description": "Since we are financed exclusively by donations, it may happen that our budget is exhausted.",
-    "supportUs": "If you would like to support us, you can make a donation."
-  },
   "donateResult": {
     "success": "Your donation was successful!",
     "successDescription": "Thank you very much for your support! We will use your donation to enable neutral and independent information.",
@@ -400,10 +388,6 @@
     "failed": "Unfortunately, your donation was not successful.",
     "failedDescription": "Please try again.",
     "backToDonate": "Back to donation page"
-  },
-  "sources": {
-    "title": "Sources used by",
-    "description": "Our AI uses these sources for general responses. To contextualize positions, we use Perplexity.ai which relies on current information from the Internet."
   },
   "about": {
     "title": "About"

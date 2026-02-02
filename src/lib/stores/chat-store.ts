@@ -13,7 +13,6 @@ import { completeStreamingMessage } from "./actions/complete-streaming-message";
 import { completeVotingBehavior } from "./actions/complete-voting-behavior";
 import { generateCandidateProConPerspective } from "./actions/generate-candidate-pro-con-perspective";
 import { generateProConPerspective } from "./actions/generate-pro-con-perspective";
-import { generateSharingSnapshotLink } from "./actions/generate-sharing-snapshot-link";
 import { generateVotingBehaviorSummary } from "./actions/generate-voting-behavior-summary";
 import { hydrateChatSession } from "./actions/hydrate-chat-session";
 import { initializeChatSession } from "./actions/initialize-chat-session";
@@ -116,7 +115,6 @@ export function createChatStore(initialState?: Partial<ChatStore>) {
           set,
         ),
         completeProConPerspective: completeProConPerspective(get, set),
-        generateSharingSnapshotLink: generateSharingSnapshotLink(get, set),
         generateVotingBehaviorSummary: generateVotingBehaviorSummary(get, set),
         addVotingBehaviorResult: addVotingBehaviorResult(get, set),
         addVotingBehaviorSummaryChunk: addVotingBehaviorSummaryChunk(get, set),

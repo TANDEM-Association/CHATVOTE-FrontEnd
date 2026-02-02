@@ -1,7 +1,5 @@
 "use client";
 
-import { useTranslations } from "next-intl";
-
 import EmbedOpenWebsiteButton from "@components/embed-open-website-button";
 import GuideDialog from "@components/guide-dialog";
 import { Button } from "@components/ui/button";
@@ -12,6 +10,7 @@ import {
   TooltipTrigger,
 } from "@components/ui/tooltip";
 import { HelpCircleIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import SocketDisconnectedBanner from "./socket-disconnected-banner";
 

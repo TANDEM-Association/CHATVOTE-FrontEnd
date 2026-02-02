@@ -28,10 +28,8 @@ import {
 
 import {
   type ChatSession,
-  type ExampleQuestionShareableChatSession,
   type LlmSystemStatus,
   type ProposedQuestion,
-  type SourceDocument,
 } from "./firebase.types";
 import { firebaseConfig } from "./firebase-config";
 
@@ -294,68 +292,6 @@ export const getHomeInputProposedQuestions = cache(
   {
     revalidate: 60 * 60 * 24,
     tags: [CacheTags.HOME_PROPOSED_QUESTIONS],
-  },
-);
-
-async function getSourceDocumentsImpl() {
-  const serverDb = await getServerFirestore({ useHeaders: false });
-  const partiesRef = collection(serverDb, "parties");
-  const partiesSnapshot = await getDocs(partiesRef);
-
-  const sourcesPromises = [
-    ...partiesSnapshot.docs.map((doc) => doc.id),
-    ASSISTANT_ID,
-  ].map(async (partyId) => {
-    const sourcesRef = query(
-      collection(serverDb, "sources", partyId, "source_documents"),
-    );
-    const sourcesSnapshot = await getDocs(sourcesRef);
-    return sourcesSnapshot.docs.map((doc) => {
-      const data = doc.data();
-      return {
-        ...data,
-        id: doc.id,
-        publish_date: firestoreTimestampToDate(data.publish_date),
-        party_id: partyId,
-      } as SourceDocument;
-    });
-  });
-
-  const sources = await Promise.all(sourcesPromises);
-
-  return sources.flat();
-}
-
-export const getSourceDocuments = cache(getSourceDocumentsImpl, undefined, {
-  revalidate: 60 * 60 * 24,
-  tags: [CacheTags.SOURCE_DOCUMENTS],
-});
-
-async function getExampleQuestionsShareableChatSessionImpl() {
-  const serverDb = await getServerFirestore({ useHeaders: false });
-  const queryRef = query(
-    collection(serverDb, "shareable_chat_session_snapshots"),
-    where("type", "==", "example-question"),
-  );
-  const snapshot = await getDocs(queryRef);
-
-  return snapshot.docs.map((doc) => {
-    const data = doc.data();
-
-    return {
-      id: doc.id,
-      question: data.question,
-      topic: data.topic,
-    } as ExampleQuestionShareableChatSession;
-  });
-}
-
-export const getExampleQuestionsShareableChatSession = cache(
-  getExampleQuestionsShareableChatSessionImpl,
-  undefined,
-  {
-    revalidate: 60 * 60 * 24,
-    tags: [CacheTags.EXAMPLE_QUESTIONS_SHAREABLE_CHAT_SESSIONS],
   },
 );
 

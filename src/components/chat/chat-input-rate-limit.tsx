@@ -1,12 +1,11 @@
 "use client";
 
-import { useTranslations } from "next-intl";
-
 import { useAnonymousAuth } from "@components/anonymous-auth";
 import LoginButton from "@components/auth/login-button";
 import { useChatStore } from "@components/providers/chat-store-provider";
 import { Button } from "@components/ui/button";
 import { cn } from "@lib/utils";
+import { useTranslations } from "next-intl";
 
 import MessageLoadingBorderTrail from "./message-loading-border-trail";
 

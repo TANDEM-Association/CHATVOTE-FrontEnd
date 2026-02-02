@@ -4,6 +4,7 @@ import { useState, useSyncExternalStore } from "react";
 
 import Link from "next/link";
 
+import { config } from "@config";
 import { useTranslations } from "next-intl";
 
 import { useTenant } from "../providers/tenant-provider";
@@ -51,7 +52,7 @@ const IframeChecker = () => {
         </h2>
         <p className="text-muted-foreground text-sm">
           {t("iframePermissionDescription")}{" "}
-          <Link className="underline" href="mailto:contact@chatvote.org">
+          <Link className="underline" href={`mailto:${config.contactEmail}`}>
             contact@chatvote.org
           </Link>
           .
@@ -63,7 +64,7 @@ const IframeChecker = () => {
           {t("close")}
         </Button>
         <Button asChild>
-          <Link href="mailto:contact@chatvote.org">{t("contactUs")}</Link>
+          <Link href={`mailto:${config.contactEmail}`}>{t("contactUs")}</Link>
         </Button>
       </div>
     </Modal>

@@ -1,7 +1,5 @@
 "use client";
 
-import { useTranslations } from "next-intl";
-
 import { useAppContext } from "@components/providers/app-provider";
 import { Button } from "@components/ui/button";
 import {
@@ -12,6 +10,7 @@ import {
 } from "@components/ui/dropdown-menu";
 import { useTheme } from "@lib/hooks/useTheme";
 import { Moon, Sun } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 type Props = {
   align?: "start" | "end" | "center";

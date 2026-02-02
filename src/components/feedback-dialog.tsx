@@ -4,7 +4,8 @@ import React, { useState } from "react";
 
 import Link from "next/link";
 
-import { MailIcon, MessageSquareHeart } from "lucide-react";
+import { config } from "@config";
+import { MailIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 import { Button } from "./ui/button";
@@ -34,18 +35,9 @@ const FeedbackDialog = ({ children }: Props) => {
 
         <div className="flex w-full flex-col gap-2">
           <Button asChild variant="outline">
-            <Link href="mailto:contact@chatvote.org">
+            <Link href={`mailto:${config.contactEmail}`} target="_top">
               <MailIcon />
               {t("writeEmail")}
-            </Link>
-          </Button>
-          <Button asChild variant="outline">
-            <Link
-              href="https://forms.fillout.com/t/cGozfJUor9us"
-              target="_blank"
-            >
-              <MessageSquareHeart />
-              {t("fillForm")}
             </Link>
           </Button>
         </div>

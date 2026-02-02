@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { useTranslations } from "next-intl";
 
 import LoginButton from "@components/auth/login-button";
 import DonationDialog from "@components/donation-dialog";
@@ -20,6 +19,7 @@ import { config } from "@config";
 import { type ChatSession } from "@lib/firebase/firebase.types";
 import { type Auth } from "@lib/types/auth";
 import { HeartHandshakeIcon, MessageCircleIcon, UserIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import ChatSidebarGroupSelect from "./chat-sidebar-group-select";
 import SidebarHistory from "./sidebar-history";
@@ -108,11 +108,6 @@ const ChatSidebarContent = ({ auth, history }: Props) => {
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
                   <Link href="/guide">{t("howItWorks")}</Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link href="/sources">{t("sources")}</Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
