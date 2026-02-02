@@ -1,19 +1,22 @@
-import type { NextConfig } from 'next';
+/* eslint-disable @typescript-eslint/no-require-imports */
+import { type NextConfig } from "next";
+
+import createNextIntlPlugin from "next-intl/plugin";
 
 const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'wahl.chat',
-        port: '',
-        pathname: '/images/**',
+        protocol: "https",
+        hostname: "app.chatvote.org",
+        port: "",
+        pathname: "/images/**",
       },
       {
-        protocol: 'https',
-        hostname: 'dev.wahl.chat',
-        port: '',
-        pathname: '/images/**',
+        protocol: "https",
+        hostname: "storage.googleapis.com",
+        port: "",
+        pathname: "/chat-vote-dev.firebasestorage.app/**",
       },
     ],
   },
@@ -24,8 +27,9 @@ const nextConfig: NextConfig = {
   },
 };
 
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
-  enabled: process.env.ANALYZE === 'true',
+const withBundleAnalyzer = require("@next/bundle-analyzer")({
+  enabled: process.env.ANALYZE === "true",
 });
 
-export default withBundleAnalyzer(nextConfig);
+const withNextIntl = createNextIntlPlugin();
+export default withBundleAnalyzer(withNextIntl(nextConfig));
