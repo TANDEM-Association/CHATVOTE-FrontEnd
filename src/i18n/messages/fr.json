@@ -48,7 +48,6 @@
     "about": "À propos",
     "donate": "Faire un don",
     "sources": "Sources",
-    "press": "Presse",
     "feedback": "Feedback",
     "legalNotice": "Mentions légales",
     "privacyPolicy": "Confidentialité",
@@ -166,12 +165,6 @@
       "referencedInText": "Référencé dans le texte :",
       "additionallyAnalyzed": "Analysé en plus :",
       "publishedOn": "Publié le :"
-    },
-    "share": {
-      "shareSession": "Partager la session de chat",
-      "shareChatvote": "Partager chatvote",
-      "shareSessionDescription": "Toute personne disposant de ce lien peut voir cette session de chat.",
-      "shareChatvoteDescription": "Partagez chatvote avec vos amis et votre famille."
     },
     "copy": {
       "success": "Texte copié dans le presse-papiers"
@@ -388,11 +381,6 @@
     "loading": "Chargement du PDF...",
     "error": "Erreur lors du chargement du PDF"
   },
-  "budgetSpent": {
-    "title": "Budget épuisé",
-    "description": "Comme nous nous finançons exclusivement par des dons, il peut arriver que notre budget soit épuisé.",
-    "supportUs": "Si vous souhaitez nous soutenir, vous pouvez faire un don."
-  },
   "donateResult": {
     "success": "Votre don a été effectué avec succès !",
     "successDescription": "Merci beaucoup pour votre soutien ! Nous utiliserons votre don pour permettre une information neutre et indépendante.",
@@ -400,10 +388,6 @@
     "failed": "Votre don n'a malheureusement pas abouti.",
     "failedDescription": "Veuillez réessayer.",
     "backToDonate": "Retour à la page de don"
-  },
-  "sources": {
-    "title": "Sources utilisées par",
-    "description": "Notre IA utilise ces sources pour les réponses générales. Pour contextualiser les positions, nous utilisons Perplexity.ai qui s'appuie sur des informations actuelles d'Internet."
   },
   "about": {
     "title": "À propos"

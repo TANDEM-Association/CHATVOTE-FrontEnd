@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 
 import Link from "next/link";
-import { useTranslations } from "next-intl";
 
 import { useAnonymousAuth } from "@components/anonymous-auth";
 import { useChatStore } from "@components/providers/chat-store-provider";
@@ -19,6 +18,7 @@ import {
 import { listenToHistory } from "@lib/firebase/firebase";
 import { type ChatSession } from "@lib/firebase/firebase.types";
 import { cn } from "@lib/utils";
+import { useTranslations } from "next-intl";
 
 type Props = {
   history?: ChatSession[];

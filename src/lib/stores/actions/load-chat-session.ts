@@ -30,13 +30,6 @@ export const loadChatSession: ChatStoreActionHandlerFor<"loadChatSession"> =
           initializingChatSession: false,
           newMessage: false,
         },
-        sharingSnapshot: session.sharing_snapshot
-          ? {
-              id: session.sharing_snapshot.id,
-              messagesLengthAtSharing:
-                session.sharing_snapshot.messages_length_at_sharing,
-            }
-          : undefined,
       }));
     } catch (error) {
       console.error(error);

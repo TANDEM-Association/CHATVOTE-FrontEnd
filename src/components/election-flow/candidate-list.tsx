@@ -3,7 +3,6 @@
 import React from "react";
 
 import { useRouter } from "next/navigation";
-import { useTranslations } from "next-intl";
 
 import {
   type Candidate,
@@ -13,6 +12,7 @@ import { type PartyDetails } from "@lib/party-details";
 import { cn } from "@lib/utils";
 import { track } from "@vercel/analytics/react";
 import { MessageCircleIcon, UsersIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import { Button } from "../ui/button";
 

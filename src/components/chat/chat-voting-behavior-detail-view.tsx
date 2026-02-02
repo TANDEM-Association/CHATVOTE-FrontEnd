@@ -3,11 +3,11 @@
 import { useState } from "react";
 
 import Link from "next/link";
-import { useTranslations } from "next-intl";
 
 import { type Vote } from "@lib/socket.types";
 import { prettifiedUrlName } from "@lib/utils";
 import { ArrowUpRightIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import { ChatVotingDetailsProvider } from "../providers/chat-voting-details-provider";
 import { Button } from "../ui/button";

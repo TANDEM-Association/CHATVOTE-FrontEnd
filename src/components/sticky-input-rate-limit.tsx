@@ -2,11 +2,10 @@
 
 import { useEffect, useRef, useState } from "react";
 
-import { useTranslations } from "next-intl";
-
 import LoginButton from "@components/auth/login-button";
 import { Button } from "@components/ui/button";
 import { cn } from "@lib/utils";
+import { useTranslations } from "next-intl";
 
 import MessageLoadingBorderTrail from "./chat/message-loading-border-trail";
 

@@ -1,7 +1,5 @@
 "use client";
 
-import { useTranslations } from "next-intl";
-
 import { Button } from "@components/ui/button";
 import { DropdownMenuTrigger } from "@components/ui/dropdown-menu";
 import { useSidebar } from "@components/ui/sidebar";
@@ -11,6 +9,7 @@ import {
   TooltipTrigger,
 } from "@components/ui/tooltip";
 import { SquarePenIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 type Props = {
   onTriggerClick?: () => void;

@@ -2,12 +2,11 @@
 
 import { useState } from "react";
 
-import { useTranslations } from "next-intl";
-
 import {
   DropdownMenu,
   DropdownMenuContent,
 } from "@components/ui/dropdown-menu";
+import { useTranslations } from "next-intl";
 
 import PartyCards from "../party-cards";
 

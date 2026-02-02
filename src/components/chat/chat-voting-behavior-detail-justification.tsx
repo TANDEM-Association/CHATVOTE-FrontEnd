@@ -1,8 +1,7 @@
 "use client";
 
-import { useTranslations } from "next-intl";
-
 import { type Vote } from "@lib/socket.types";
+import { useTranslations } from "next-intl";
 
 import { useChatVotingDetails } from "../providers/chat-voting-details-provider";
 

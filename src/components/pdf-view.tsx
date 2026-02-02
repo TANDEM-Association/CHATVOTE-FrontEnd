@@ -3,7 +3,6 @@
 import { useLayoutEffect, useMemo, useRef, useState } from "react";
 
 import { useSearchParams } from "next/navigation";
-import { useTranslations } from "next-intl";
 
 import LoadingSpinner from "@components/loading-spinner";
 import { Button } from "@components/ui/button";
@@ -13,6 +12,7 @@ import {
   TooltipTrigger,
 } from "@components/ui/tooltip";
 import { MinusIcon, PlusIcon, ShieldAlert } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Document, Page, pdfjs } from "react-pdf";
 import { type DocumentCallback } from "react-pdf/dist/esm/shared/types.js";
 import AutoSizer from "react-virtualized-auto-sizer";

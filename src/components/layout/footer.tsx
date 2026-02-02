@@ -6,7 +6,6 @@ import Link from "next/link";
 import { ThemeModeToggle } from "@components/chat/theme-mode-toggle";
 import FeedbackDialog from "@components/feedback-dialog";
 import { config } from "@config";
-import { PRESS_LINK } from "@lib/contact-config";
 import { useTranslations } from "next-intl";
 
 const websiteUrl = config.websiteUrl;
@@ -30,12 +29,11 @@ export const Footer: React.FC = () => {
         <Link href="/guide">{t("guide")}</Link>
         <Link href="/donate">{t("donate")}</Link>
         <Link href={aboutPage}>{t("about")}</Link>
-        <Link href="/sources">{t("sources")}</Link>
-        <Link href={PRESS_LINK} target="_blank">
-          {t("press")}
-        </Link>
+
         <FeedbackDialog>
-          <button type="button">{t("feedback")}</button>
+          <button type="button" className="cursor-pointer underline">
+            {t("feedback")}
+          </button>
         </FeedbackDialog>
         <Link href="/legal-notice">{t("legalNotice")}</Link>
         <Link href="/privacy-policy">{t("privacyPolicy")}</Link>

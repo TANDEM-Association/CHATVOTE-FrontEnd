@@ -10,8 +10,6 @@ import {
 } from "react";
 import { createPortal } from "react-dom";
 
-import { useTranslations } from "next-intl";
-
 import { useLockScroll } from "@lib/hooks/useLockScroll";
 import { cn } from "@lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
@@ -23,6 +21,7 @@ import {
   useMotionValue,
   useTransform,
 } from "motion/react";
+import { useTranslations } from "next-intl";
 
 type SheetContextValue = {
   open: boolean;

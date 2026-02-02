@@ -3,7 +3,6 @@
 import React from "react";
 
 import Link from "next/link";
-import { useTranslations } from "next-intl";
 
 import { Button } from "@components/ui/button";
 import {
@@ -13,6 +12,7 @@ import {
   CardTitle,
 } from "@components/ui/card";
 import { CircleCheckIcon, FrownIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 type Props = {
   isSuccess: boolean;

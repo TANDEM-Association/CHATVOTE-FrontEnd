@@ -1,12 +1,11 @@
 "use client";
 
-import { useTranslations } from "next-intl";
-
 import { useChatStore } from "@components/providers/chat-store-provider";
 import { Button } from "@components/ui/button";
 import { type StreamingMessage } from "@lib/socket.types";
 import { type MessageItem } from "@lib/stores/chat-store.types";
 import { track } from "@vercel/analytics/react";
+import { useTranslations } from "next-intl";
 
 import ChatActionButtonHighlight from "./chat-action-button-highlight";
 import ProConIcon from "./pro-con-icon";

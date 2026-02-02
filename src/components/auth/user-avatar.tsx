@@ -1,10 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { useTranslations } from "next-intl";
-
 import { type User } from "@lib/types/auth";
 import { UserIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 type UserAvatarProps = {
   user: User | null;

@@ -107,10 +107,6 @@ export type ChatStoreState = {
   currentStreamedVotingBehavior?: CurrentStreamedVotingBehavior;
   clickedProConButton?: boolean;
   clickedVotingBehaviorSummaryButton?: boolean;
-  sharingSnapshot?: {
-    id: string;
-    messagesLengthAtSharing: number;
-  };
   tenant?: Tenant;
   scope: ChatScope;
   municipalityCode?: string;
@@ -196,7 +192,6 @@ export type ChatStoreActions = {
   startTimeoutForStreamingMessages: (streamingMessageId: string) => void;
   cancelStreamingMessages: (streamingMessageId?: string) => void;
   completeProConPerspective: (requestId: string, message: MessageItem) => void;
-  generateSharingSnapshotLink: () => Promise<void>;
   generateVotingBehaviorSummary: (
     partyId: string,
     message: MessageItem | StreamingMessage,

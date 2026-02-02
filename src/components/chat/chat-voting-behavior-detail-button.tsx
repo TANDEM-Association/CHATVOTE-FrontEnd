@@ -2,8 +2,6 @@
 
 import { forwardRef, useImperativeHandle, useMemo, useState } from "react";
 
-import { useTranslations } from "next-intl";
-
 import { useAppContext } from "@components/providers/app-provider";
 import { Button } from "@components/ui/button";
 import {
@@ -17,6 +15,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@components/ui/sheet";
 import { type VotingBehavior } from "@lib/stores/chat-store.types";
 import { track } from "@vercel/analytics/react";
 import { ScrollTextIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import VisuallyHidden from "../visually-hidden";
 

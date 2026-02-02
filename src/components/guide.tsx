@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 
+import { config } from "@config";
 import {
   MessageCircleQuestionIcon,
   MessageCircleReplyIcon,
@@ -214,11 +215,7 @@ function Guide() {
                 </li>
               </ol>
               <br />
-              {t("data.sourcesLink")}{" "}
-              <Link href="/sources" className="underline">
-                ici
-              </Link>
-              .
+              {t("data.sourcesLink")}
             </div>
           </AccordionItem>
           <AccordionItem title={t("guidelines.title")}>
@@ -260,9 +257,12 @@ function Guide() {
               <br />
               <br />
               {t("partySelection.missingParty")}{" "}
-              <a href="mailto:contact@chatvote.org" className="underline">
+              <Link
+                href={`mailto:${config.contactEmail}`}
+                className="underline"
+              >
                 contact@chatvote.org
-              </a>
+              </Link>
             </div>
           </AccordionItem>
         </AccordionGroup>

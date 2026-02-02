@@ -12,7 +12,6 @@ import { HelpCircleIcon } from "lucide-react";
 
 import ChatEmbedHeader from "./chat-embed-header";
 import ChatHeaderHomeButton from "./chat-header-home-button";
-import ChatShareButton from "./chat-share-button";
 import CreateNewChatDropdownButton from "./create-new-chat-dropdown-button";
 import SocketDisconnectedBanner from "./socket-disconnected-banner";
 import { ThemeModeToggle } from "./theme-mode-toggle";
@@ -50,7 +49,6 @@ async function ChatHeader() {
               <HelpCircleIcon />
             </Button>
           </HowToDialog>
-          <ChatShareButton />
           <CreateNewChatDropdownButton />
         </div>
       </header>
