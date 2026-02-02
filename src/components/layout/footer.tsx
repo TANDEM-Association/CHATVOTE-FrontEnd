@@ -5,11 +5,7 @@ import Link from "next/link";
 
 import { ThemeModeToggle } from "@components/chat/theme-mode-toggle";
 import FeedbackDialog from "@components/feedback-dialog";
-import { config } from "@config";
 import { useTranslations } from "next-intl";
-
-const websiteUrl = config.websiteUrl;
-const aboutPage = `${websiteUrl}/about`;
 
 export const Footer: React.FC = () => {
   const t = useTranslations("navigation");
@@ -28,7 +24,6 @@ export const Footer: React.FC = () => {
       <section className="flex grow flex-wrap items-center justify-center gap-2 underline md:justify-end">
         <Link href="/guide">{t("guide")}</Link>
         <Link href="/donate">{t("donate")}</Link>
-        <Link href={aboutPage}>{t("about")}</Link>
 
         <FeedbackDialog>
           <button type="button" className="cursor-pointer underline">
