@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { type NextRequest } from "next/server";
 
-import { TENANT_ID_HEADER } from "./lib/constants";
+import { TENANT_ID_HEADER } from "@lib/constants";
 
 export async function proxy(request: NextRequest) {
   const budgetSpent = process.env.BUDGET_SPENT === "true";

@@ -32,7 +32,7 @@ This project is **source-available** under the **PolyForm Noncommercial 1.0.0** 
 
 - Free for **non-commercial** use (see LICENSE for permitted purposes)
 - Share the license text and any `Required Notice:` lines when distributing
-- Please contact us at info@chatvote.fr to
+- Please contact us at contact@chatvote.fr to
   a. inform us about your use case
   b. get access to assets required for a reference to chatvote on your project page
 - Do not use the chatvote name or logo in your project without our permission

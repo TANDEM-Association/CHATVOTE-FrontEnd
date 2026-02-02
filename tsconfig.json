@@ -19,7 +19,14 @@
       }
     ],
     "paths": {
-      "@/*": ["./*"]
+      "@config": ["./src/config"],
+      "@config/*": ["./src/config/*"],
+      "@lib/*": ["./src/lib/*"],
+      "@i18n/*": ["./src/i18n/*"],
+      "@actions/*": ["./src/app/_actions/*"],
+      "@components/*": ["./src/components/*"],
+      "@hooks/*": ["./src/hooks/*"],
+      "@types/*": ["./src/types/*"]
     }
   },
   "include": [
