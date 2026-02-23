@@ -26,10 +26,7 @@ function ChatSidebarGroupSelect() {
   return (
     <div className="w-full">
       <ChatGroupPartySelect onNewChat={handleNewChat}>
-        <Button
-          className="border-border mt-4 w-full max-w-xl border whitespace-normal"
-          variant="secondary"
-        >
+        <Button className="mt-4 w-full max-w-xl whitespace-normal">
           <GitCompareIcon />
           Comparer les partis
         </Button>
