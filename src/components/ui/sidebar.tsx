@@ -213,14 +213,14 @@ const Sidebar = React.forwardRef<
             {children}
           </div>
         </div>
-        {state === "expanded" && (
+        {state === "expanded" ? (
           <div
             className={
               "flex-1 cursor-pointer bg-purple-900/20 backdrop-blur-sm"
             }
             onClick={toggleSidebar}
           />
-        )}
+        ) : null}
       </div>
     );
   },
