@@ -453,7 +453,7 @@ const DropdownMenuContent = ({
           }}
           onKeyDown={handleKeyDown}
           className={cn(
-            "min-w-32 overflow-hidden rounded-md border border-neutral-200 bg-white p-1 text-neutral-950 shadow-md dark:border-neutral-700 dark:bg-neutral-950 dark:text-neutral-100",
+            "min-w-32 overflow-hidden rounded-md border border-neutral-200 bg-white p-1 text-neutral-950 shadow-md dark:border-neutral-700 dark:bg-purple-900 dark:text-neutral-100",
             className,
           )}
         >
@@ -642,7 +642,7 @@ const DropdownMenuSubContent = ({
           onMouseEnter={() => subContext.setIsOpen(true)}
           onMouseLeave={() => subContext.setIsOpen(false)}
           className={cn(
-            "min-w-32 overflow-hidden rounded-md border border-neutral-200 bg-white p-1 text-neutral-950 shadow-lg dark:border-neutral-700 dark:bg-neutral-950 dark:text-neutral-100",
+            "min-w-32 overflow-hidden rounded-md border border-neutral-200 bg-white p-1 text-neutral-950 shadow-lg dark:border-neutral-700 dark:bg-purple-900 dark:text-neutral-100",
             className,
           )}
         >

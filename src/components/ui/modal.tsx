@@ -56,7 +56,7 @@ export const Modal: React.FC<ModalProps> = ({
         >
           <motion.div
             className={cn(
-              "relative max-h-[80dvh] w-fit max-w-257.5 rounded-lg border border-neutral-100 bg-neutral-950",
+              "relative max-h-[80dvh] w-fit max-w-257.5 rounded-lg border border-neutral-100 bg-purple-900",
               className,
             )}
             onClick={(event) => {

@@ -332,7 +332,7 @@ const SheetContent = React.forwardRef<HTMLDivElement, SheetContentProps>(
           >
             <div
               className={cn(
-                "flex h-20 w-6 items-center justify-center bg-neutral-100 shadow-md dark:bg-neutral-950",
+                "flex h-20 w-6 items-center justify-center bg-neutral-100 shadow-md dark:bg-purple-900",
                 "border-neutral-950 dark:border-neutral-100",
                 isLeftSide
                   ? "rounded-l-2xl border-t border-b border-l"
