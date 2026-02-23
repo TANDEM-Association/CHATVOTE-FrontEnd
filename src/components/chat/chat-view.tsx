@@ -1,5 +1,6 @@
 import React, { Suspense } from "react";
 
+import ChatDesktopSidebar from "@components/chat/sidebar/chat-desktop-sidebar";
 import AiDisclaimer from "@components/legal/ai-disclaimer";
 import LoadingSpinner from "@components/loading-spinner";
 import { getAuth, getSystemStatus } from "@lib/firebase/firebase-server";
@@ -28,42 +29,44 @@ async function ChatView({
   const auth = await getAuth();
 
   return (
-    <div className="relative flex size-full flex-col overflow-hidden">
+    <div className="relative flex size-full items-stretch overflow-hidden">
       {/* Sidebar as fixed overlay */}
       <ChatSidebar />
-
-      <ChatHeader />
-      {/* Main content - adds padding when sidebar is expanded */}
-      <ChatMainContent>
-        <Suspense
-          fallback={
-            <div className="flex min-h-0 flex-1 flex-col items-center justify-center gap-2">
-              <LoadingSpinner />
-              <p className="text-muted-foreground text-center text-sm">
-                Loading Chat Session...
-              </p>
-            </div>
-          }
-        >
-          <ChatViewSsr
-            chatId={sessionId}
-            partyIds={partyIds}
-            initialQuestion={initialQuestion}
-            municipalityCode={municipalityCode}
-          />
-        </Suspense>
-
-        <div className="bg-background relative mx-auto w-full max-w-192 shrink-0 p-3 md:p-4">
-          <ChatScrollDownIndicator />
-          <ChatDynamicChatInput
-            initialSystemStatus={systemStatus}
-            hasValidServerUser={
-              auth.session !== null && !auth.session.isAnonymous
+      <ChatDesktopSidebar />
+      <div className="flex w-full flex-col overflow-hidden">
+        <ChatHeader />
+        {/* Main content - adds padding when sidebar is expanded */}
+        <ChatMainContent>
+          <Suspense
+            fallback={
+              <div className="flex min-h-0 flex-1 flex-col items-center justify-center gap-2">
+                <LoadingSpinner />
+                <p className="text-muted-foreground text-center text-sm">
+                  Loading Chat Session...
+                </p>
+              </div>
             }
-          />
-          <AiDisclaimer />
-        </div>
-      </ChatMainContent>
+          >
+            <ChatViewSsr
+              chatId={sessionId}
+              partyIds={partyIds}
+              initialQuestion={initialQuestion}
+              municipalityCode={municipalityCode}
+            />
+          </Suspense>
+
+          <div className="bg-background relative mx-auto w-full max-w-192 shrink-0 p-3 md:p-4">
+            <ChatScrollDownIndicator />
+            <ChatDynamicChatInput
+              initialSystemStatus={systemStatus}
+              hasValidServerUser={
+                auth.session !== null && !auth.session.isAnonymous
+              }
+            />
+            <AiDisclaimer />
+          </div>
+        </ChatMainContent>
+      </div>
     </div>
   );
 }
