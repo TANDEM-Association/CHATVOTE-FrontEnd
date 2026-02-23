@@ -5,7 +5,7 @@ import Link from "next/link";
 
 import { SidebarTrigger } from "@components/ui/sidebar";
 
-const ChatDesktopSidebar = () => {
+const ChatSidebarDesktop = () => {
   return (
     <div className="hidden h-screen w-16 flex-none flex-col items-center overflow-hidden border-r border-purple-500 bg-purple-900 px-2 py-4 md:flex">
       <div className={"flex flex-col items-center"}>
@@ -25,4 +25,4 @@ const ChatDesktopSidebar = () => {
   );
 };
 
-export default ChatDesktopSidebar;
+export default ChatSidebarDesktop;

@@ -1,6 +1,6 @@
 import React, { Suspense } from "react";
 
-import ChatDesktopSidebar from "@components/chat/sidebar/chat-desktop-sidebar";
+import ChatSidebarDesktop from "@components/chat/sidebar/chat-sidebar-desktop";
 import AiDisclaimer from "@components/legal/ai-disclaimer";
 import LoadingSpinner from "@components/loading-spinner";
 import { getAuth, getSystemStatus } from "@lib/firebase/firebase-server";
@@ -32,7 +32,7 @@ async function ChatView({
     <div className="relative flex size-full items-stretch overflow-hidden">
       {/* Sidebar as fixed overlay */}
       <ChatSidebar />
-      <ChatDesktopSidebar />
+      <ChatSidebarDesktop />
       <div className="flex w-full flex-col overflow-hidden">
         <ChatHeader />
         {/* Main content - adds padding when sidebar is expanded */}
