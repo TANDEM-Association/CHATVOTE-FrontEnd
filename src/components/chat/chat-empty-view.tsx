@@ -42,7 +42,7 @@ const ChatEmptyView = ({ parties, proposedQuestions }: Props) => {
 
   return (
     <div className="flex grow flex-col items-center justify-center gap-4 px-8">
-      <div className="relative flex size-28 items-center justify-center rounded-md border bg-neutral-100 md:size-36">
+      <div className="relative flex size-28 items-center justify-center rounded-md md:size-36">
         {party ? (
           <Image
             alt={party.name}

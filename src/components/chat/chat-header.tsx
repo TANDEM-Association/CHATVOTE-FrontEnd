@@ -23,7 +23,7 @@ async function ChatHeader() {
 
   return (
     <React.Fragment>
-      <header className="border-b-muted bg-background sticky top-0 z-10 flex h-12 w-full shrink-0 items-center justify-between gap-1 border-b px-4">
+      <header className="flex h-12 w-full items-center justify-between gap-1 px-4">
         {/* Left side - Logo, Home, Theme, Language, Sidebar Toggle */}
         <div className="flex items-center gap-1">
           <Link href="/" className="mr-2 flex items-center">
