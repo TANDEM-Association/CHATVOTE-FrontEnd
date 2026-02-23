@@ -6,14 +6,10 @@ import { useSidebar } from "@components/ui/sidebar";
 import { GitCompareIcon } from "lucide-react";
 
 function ChatSidebarGroupSelect() {
-  const { setOpenMobile, isMobile } = useSidebar();
+  const { setOpen } = useSidebar();
 
   const handleNewChat = () => {
-    if (!isMobile) {
-      return;
-    }
-
-    setOpenMobile(false);
+    setOpen(false);
 
     // hacky fix since the sidebar collides with the drawer's pointer events settings
     setTimeout(() => {

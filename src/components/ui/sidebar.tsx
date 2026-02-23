@@ -27,8 +27,6 @@ type SidebarContext = {
   state: "expanded" | "collapsed";
   open: boolean;
   setOpen: (open: boolean) => void;
-  openMobile: boolean;
-  setOpenMobile: (open: boolean) => void;
   isMobile: boolean;
   toggleSidebar: () => void;
 };
@@ -66,7 +64,6 @@ const SidebarProvider = React.forwardRef<
   ) => {
     const { device } = useAppContext();
     const isMobile = device === "mobile";
-    const [openMobile, setOpenMobile] = React.useState(false);
 
     // This is the internal state of the sidebar.
     // We use openProp and setOpenProp for control from outside the component.
@@ -86,10 +83,8 @@ const SidebarProvider = React.forwardRef<
 
     // Helper to toggle the sidebar.
     const toggleSidebar = React.useCallback(() => {
-      return isMobile
-        ? setOpenMobile((open) => !open)
-        : setOpen((open) => !open);
-    }, [isMobile, setOpen, setOpenMobile]);
+      return setOpen((open) => !open);
+    }, [isMobile, setOpen, setOpen]);
 
     // Adds a keyboard shortcut to toggle the sidebar.
     React.useEffect(() => {
@@ -117,19 +112,9 @@ const SidebarProvider = React.forwardRef<
         open,
         setOpen,
         isMobile,
-        openMobile,
-        setOpenMobile,
         toggleSidebar,
       }),
-      [
-        state,
-        open,
-        setOpen,
-        isMobile,
-        openMobile,
-        setOpenMobile,
-        toggleSidebar,
-      ],
+      [state, open, setOpen, isMobile, toggleSidebar],
     );
 
     return (
@@ -182,8 +167,7 @@ const Sidebar = React.forwardRef<
     },
     ref,
   ) => {
-    const { isMobile, state, openMobile, setOpenMobile, toggleSidebar } =
-      useSidebar();
+    const { isMobile, state, setOpen, toggleSidebar } = useSidebar();
 
     if (collapsible === "none") {
       return (
