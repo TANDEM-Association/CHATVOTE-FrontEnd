@@ -12,11 +12,13 @@ import ChatInputRateLimit from "./chat-input-rate-limit";
 type Props = {
   initialSystemStatus: LlmSystemStatus;
   hasValidServerUser?: boolean;
+  municipalityCode?: string;
 };
 
 function ChatDynamicChatInput({
   initialSystemStatus,
   hasValidServerUser,
+  municipalityCode,
 }: Props) {
   const { session } = useAnonymousAuth();
   const [isAtRateLimit, setIsAtRateLimit] = useState(
@@ -39,7 +41,7 @@ function ChatDynamicChatInput({
     return <ChatInputRateLimit />;
   }
 
-  return <ChatInput />;
+  return <ChatInput disabled={!municipalityCode} />;
 }
 
 export default ChatDynamicChatInput;

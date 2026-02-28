@@ -10,7 +10,11 @@ import { useTranslations } from "next-intl";
 import ChatInputAddPartiesButton from "./chat-input-add-parties-button";
 import MessageLoadingBorderTrail from "./message-loading-border-trail";
 
-const ChatInput = () => {
+type Props = {
+  disabled?: boolean;
+};
+
+const ChatInput = ({ disabled }: Props) => {
   const t = useTranslations("chat");
   const { user } = useAnonymousAuth();
   const input = useChatStore((state) => state.input);
@@ -54,12 +58,13 @@ const ChatInput = () => {
   return (
     <form
       onSubmit={handleSubmit}
+      aria-disabled={disabled}
       className={cn(
-        "border-input bg-chat-input relative w-full overflow-hidden rounded-4xl border transition-colors focus-within:border-zinc-300 dark:focus-within:border-zinc-700",
+        "bg-chat-input relative w-full overflow-hidden rounded-4xl border border-purple-400 transition-colors focus-within:border-zinc-300 dark:focus-within:border-zinc-700",
         quickReplies?.length > 0 && "rounded-2xl",
       )}
     >
-      {quickReplies.length > 0 && (
+      {quickReplies.length > 0 && !disabled && (
         <>
           <ChatInputAddPartiesButton disabled={loading} />
           <div
@@ -85,24 +90,29 @@ const ChatInput = () => {
 
       {loading && <MessageLoadingBorderTrail />}
 
-      <input
-        className="bg-chat-input placeholder:text-muted-foreground w-full py-3 pr-11 pl-4 text-base focus-visible:ring-0 focus-visible:outline-none disabled:cursor-not-allowed"
-        placeholder={t("placeholder")}
-        onChange={handleChange}
-        value={input}
-        disabled={loading}
-        maxLength={500}
-      />
-      <Button
-        type="submit"
-        disabled={!input.length || loading}
+      <div
         className={cn(
-          "bg-foreground text-background hover:bg-foreground/80 disabled:bg-foreground/20 disabled:text-muted absolute top-1/2 right-2 flex size-8 -translate-y-1/2 items-center justify-center rounded-full transition-colors",
-          quickReplies.length > 0 && "bottom-0 translate-y-0",
+          "items flex w-full items-start gap-4 overflow-hidden px-4 py-3",
+          disabled ? "bg-white/10" : "bg-chat-input",
         )}
       >
-        <ArrowUp className="size-4 font-bold" />
-      </Button>
+        <input
+          className="placeholder:text-muted-foreground flex-1 text-base whitespace-pre focus-visible:ring-0 focus-visible:outline-none disabled:cursor-not-allowed"
+          placeholder={t("placeholder")}
+          onChange={handleChange}
+          value={input}
+          disabled={loading || !!disabled}
+        />
+        <Button
+          type="submit"
+          disabled={!input.length || loading || !!disabled}
+          className={
+            "bg-foreground text-background hover:bg-foreground/80 disabled:bg-foreground/20 disabled:text-muted flex size-8 flex-none items-center justify-center rounded-full transition-colors"
+          }
+        >
+          <ArrowUp className="size-4 font-bold" />
+        </Button>
+      </div>
     </form>
   );
 };

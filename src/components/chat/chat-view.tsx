@@ -62,6 +62,7 @@ async function ChatView({
               hasValidServerUser={
                 auth.session !== null && !auth.session.isAnonymous
               }
+              municipalityCode={municipalityCode}
             />
             <AiDisclaimer />
           </div>
