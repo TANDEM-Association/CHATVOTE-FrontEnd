@@ -338,7 +338,6 @@ const HomeElectionFlow = ({ className }: Props) => {
         <MunicipalitySearch
           selectedMunicipality={selectedMunicipality}
           onSelectMunicipality={handleSelectMunicipality}
-          onClearSelection={handleClearMunicipality}
         />
       ) : null}
 
