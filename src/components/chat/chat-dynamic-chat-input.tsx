@@ -13,12 +13,14 @@ type Props = {
   initialSystemStatus: LlmSystemStatus;
   hasValidServerUser?: boolean;
   municipalityCode?: string;
+  sessionId?: string;
 };
 
 function ChatDynamicChatInput({
   initialSystemStatus,
   hasValidServerUser,
   municipalityCode,
+  sessionId,
 }: Props) {
   const { session } = useAnonymousAuth();
   const [isAtRateLimit, setIsAtRateLimit] = useState(
@@ -41,7 +43,7 @@ function ChatDynamicChatInput({
     return <ChatInputRateLimit />;
   }
 
-  return <ChatInput disabled={!municipalityCode} />;
+  return <ChatInput disabled={!municipalityCode && !sessionId} />;
 }
 
 export default ChatDynamicChatInput;

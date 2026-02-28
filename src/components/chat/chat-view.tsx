@@ -63,6 +63,7 @@ async function ChatView({
                 auth.session !== null && !auth.session.isAnonymous
               }
               municipalityCode={municipalityCode}
+              sessionId={sessionId}
             />
             <AiDisclaimer />
           </div>
