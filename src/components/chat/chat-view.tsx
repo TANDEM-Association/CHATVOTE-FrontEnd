@@ -32,7 +32,7 @@ async function ChatView({
     <div className="relative flex size-full items-stretch overflow-hidden">
       {/* Sidebar as fixed overlay */}
       <ChatSidebar />
-      <ChatSidebarDesktop />
+      <ChatSidebarDesktop auth={auth} />
       <div className="flex w-full flex-col overflow-hidden">
         <ChatHeader />
         {/* Main content - adds padding when sidebar is expanded */}

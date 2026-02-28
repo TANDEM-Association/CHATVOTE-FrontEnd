@@ -3,9 +3,13 @@
 import ChatGroupPartySelect from "@components/chat/chat-group-party-select";
 import { Button } from "@components/ui/button";
 import { useSidebar } from "@components/ui/sidebar";
-import { GitCompareIcon } from "lucide-react";
+import { GitCompareArrows } from "lucide-react";
 
-function ChatSidebarGroupSelect() {
+type Props = {
+  iconOnly?: boolean;
+};
+
+const ChatSidebarGroupSelect = ({ iconOnly }: Props) => {
   const { setOpen } = useSidebar();
 
   const handleNewChat = () => {
@@ -20,15 +24,19 @@ function ChatSidebarGroupSelect() {
   };
 
   return (
-    <div className="w-full">
-      <ChatGroupPartySelect onNewChat={handleNewChat}>
-        <Button className="mt-4 w-full max-w-xl whitespace-normal">
-          <GitCompareIcon />
-          Comparer les partis
-        </Button>
-      </ChatGroupPartySelect>
-    </div>
+    <ChatGroupPartySelect onNewChat={handleNewChat}>
+      <Button
+        className={
+          iconOnly
+            ? "size-10"
+            : "mt-4 flex w-full items-center justify-center gap-2"
+        }
+      >
+        <GitCompareArrows />
+        {iconOnly ? null : <div>Comparer les partis</div>}
+      </Button>
+    </ChatGroupPartySelect>
   );
-}
+};
 
 export default ChatSidebarGroupSelect;

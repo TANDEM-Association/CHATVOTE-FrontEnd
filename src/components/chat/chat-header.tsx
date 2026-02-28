@@ -19,14 +19,15 @@ async function ChatHeader() {
 
   return (
     <React.Fragment>
-      <header className="flex h-12 w-full items-center justify-between gap-1 px-4">
+      <header className="flex h-16 w-full flex-none items-center justify-between gap-1 px-4">
         {/* Left side - Logo, Home, Theme, Language, Sidebar Toggle */}
         <div className="flex items-center gap-1">
+          <div className="block md:hidden">
+            <SidebarTrigger className={"bg-primary"} />
+          </div>
           <ThemeModeToggle />
           <LanguageSwitcher />
-          <SidebarTrigger />
         </div>
-
         {/* Right side - Help, Share, New Chat */}
         <div className="flex items-center gap-1">
           <HowToDialog>
