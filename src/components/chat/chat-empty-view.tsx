@@ -69,13 +69,17 @@ const ChatEmptyView = ({
         )}
       </div>
       <ChatPostcodePrompt />
-      {party ? (
-        <p className="text-center">
-          {t("partyDescription", { party: party.name })}
-        </p>
-      ) : (
-        <p className="text-center">{t("genericDescription")}</p>
-      )}
+      {!!municipalityCode ? (
+        <div>
+          {party ? (
+            <p className="text-center">
+              {t("partyDescription", { party: party.name })}
+            </p>
+          ) : (
+            <p className="text-center">{t("genericDescription")}</p>
+          )}
+        </div>
+      ) : null}
       <div className="flex max-w-xl flex-wrap justify-center gap-2">
         {proposedQuestions?.map((question) => (
           <InitialSuggestionBubble

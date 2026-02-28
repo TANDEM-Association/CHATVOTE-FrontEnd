@@ -4,6 +4,7 @@ import ChatSidebarDesktop from "@components/chat/sidebar/chat-sidebar-desktop";
 import AiDisclaimer from "@components/legal/ai-disclaimer";
 import LoadingSpinner from "@components/loading-spinner";
 import { getAuth, getSystemStatus } from "@lib/firebase/firebase-server";
+import { cn } from "@lib/utils";
 
 import ChatSidebar from "./sidebar/chat-sidebar";
 import ChatDynamicChatInput from "./chat-dynamic-chat-input";
@@ -29,7 +30,7 @@ async function ChatView({
   const auth = await getAuth();
 
   return (
-    <div className="relative flex size-full items-stretch overflow-hidden">
+    <div className="relative flex size-full h-full items-stretch overflow-hidden">
       {/* Sidebar as fixed overlay */}
       <ChatSidebar />
       <ChatSidebarDesktop auth={auth} />
@@ -54,7 +55,12 @@ async function ChatView({
               municipalityCode={municipalityCode}
             />
           </Suspense>
-
+          <div
+            className={cn(
+              "absolute inset-x-0 bottom-0 left-16 z-20 w-full bg-linear-to-t from-purple-900/50 to-transparent backdrop-blur-xs transition-all",
+              !sessionId && !municipalityCode ? "h-1/2" : "h-0",
+            )}
+          />
           <div className="bg-background relative mx-auto w-full max-w-192 shrink-0 p-3 md:p-4">
             <ChatScrollDownIndicator />
             <ChatDynamicChatInput
