@@ -3,6 +3,7 @@
 import Image from "next/image";
 
 import { useAnonymousAuth } from "@components/anonymous-auth";
+import ChatPostcodePrompt from "@components/chat/chat-postcode-prompt";
 import { useChatStore } from "@components/providers/chat-store-provider";
 import { type ProposedQuestion } from "@lib/firebase/firebase.types";
 import { type PartyDetails } from "@lib/party-details";
@@ -14,9 +15,14 @@ import InitialSuggestionBubble from "./initial-suggestion-bubble";
 type Props = {
   parties?: PartyDetails[];
   proposedQuestions?: ProposedQuestion[];
+  municipalityCode?: string;
 };
 
-const ChatEmptyView = ({ parties, proposedQuestions }: Props) => {
+const ChatEmptyView = ({
+  parties,
+  proposedQuestions,
+  municipalityCode,
+}: Props) => {
   const t = useTranslations("chat.emptyView");
   const { user } = useAnonymousAuth();
   const addUserMessage = useChatStore((state) => state.addUserMessage);
@@ -62,6 +68,7 @@ const ChatEmptyView = ({ parties, proposedQuestions }: Props) => {
           />
         )}
       </div>
+      <ChatPostcodePrompt />
       {party ? (
         <p className="text-center">
           {t("partyDescription", { party: party.name })}

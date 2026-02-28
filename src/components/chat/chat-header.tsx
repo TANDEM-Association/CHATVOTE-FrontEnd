@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 
 import HowToDialog from "@components/guide-dialog";
