@@ -46,7 +46,7 @@ export const Modal: React.FC<ModalProps> = ({
           }}
           animate={{
             backdropFilter: "blur(4px)",
-            background: "rgba(10, 10, 10, 0.9)",
+            background: "rgba(25,22,39,0.8)",
           }}
           exit={{
             backdropFilter: "blur(0px)",
@@ -56,7 +56,7 @@ export const Modal: React.FC<ModalProps> = ({
         >
           <motion.div
             className={cn(
-              "relative max-h-[80dvh] w-fit max-w-257.5 rounded-lg border border-neutral-100 bg-purple-900",
+              "relative max-h-[80dvh] w-fit max-w-257.5 rounded-lg border border-purple-400 bg-purple-900",
               className,
             )}
             onClick={(event) => {

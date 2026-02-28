@@ -60,7 +60,7 @@ const ChatInput = ({ disabled }: Props) => {
       onSubmit={handleSubmit}
       aria-disabled={disabled}
       className={cn(
-        "bg-chat-input relative w-full overflow-hidden rounded-4xl border border-purple-400 transition-colors focus-within:border-zinc-300 dark:focus-within:border-zinc-700",
+        "relative w-full overflow-hidden rounded-4xl border border-purple-400 bg-purple-500 transition-colors focus-within:border-zinc-300 dark:focus-within:border-zinc-700",
         quickReplies?.length > 0 && "rounded-2xl",
       )}
     >
@@ -93,7 +93,6 @@ const ChatInput = ({ disabled }: Props) => {
       <div
         className={cn(
           "items flex w-full items-start gap-4 overflow-hidden px-4 py-3",
-          disabled ? "bg-white/10" : "bg-chat-input",
         )}
       >
         <input
