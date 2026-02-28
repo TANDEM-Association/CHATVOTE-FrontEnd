@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 
 import HowToDialog from "@components/guide-dialog";
@@ -12,7 +14,7 @@ import CreateNewChatDropdownButton from "./create-new-chat-dropdown-button";
 import SocketDisconnectedBanner from "./socket-disconnected-banner";
 import { ThemeModeToggle } from "./theme-mode-toggle";
 
-async function ChatHeader() {
+function ChatHeader() {
   if (IS_EMBEDDED) {
     return <ChatEmbedHeader />;
   }
