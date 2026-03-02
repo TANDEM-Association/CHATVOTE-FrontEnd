@@ -3,6 +3,7 @@
 import Image from "next/image";
 
 import { useAnonymousAuth } from "@components/anonymous-auth";
+import ChatPostcodePrompt from "@components/chat/chat-postcode-prompt";
 import { useChatStore } from "@components/providers/chat-store-provider";
 import { type ProposedQuestion } from "@lib/firebase/firebase.types";
 import { type PartyDetails } from "@lib/party-details";
@@ -14,9 +15,14 @@ import InitialSuggestionBubble from "./initial-suggestion-bubble";
 type Props = {
   parties?: PartyDetails[];
   proposedQuestions?: ProposedQuestion[];
+  municipalityCode?: string;
 };
 
-const ChatEmptyView = ({ parties, proposedQuestions }: Props) => {
+const ChatEmptyView = ({
+  parties,
+  proposedQuestions,
+  municipalityCode,
+}: Props) => {
   const t = useTranslations("chat.emptyView");
   const { user } = useAnonymousAuth();
   const addUserMessage = useChatStore((state) => state.addUserMessage);
@@ -42,7 +48,7 @@ const ChatEmptyView = ({ parties, proposedQuestions }: Props) => {
 
   return (
     <div className="flex grow flex-col items-center justify-center gap-4 px-8">
-      <div className="relative flex size-28 items-center justify-center rounded-md border bg-neutral-100 md:size-36">
+      <div className="relative flex size-28 items-center justify-center rounded-md border-2 border-purple-400 md:size-36">
         {party ? (
           <Image
             alt={party.name}
@@ -62,13 +68,18 @@ const ChatEmptyView = ({ parties, proposedQuestions }: Props) => {
           />
         )}
       </div>
-      {party ? (
-        <p className="text-center">
-          {t("partyDescription", { party: party.name })}
-        </p>
-      ) : (
-        <p className="text-center">{t("genericDescription")}</p>
-      )}
+      <ChatPostcodePrompt />
+      {!!municipalityCode ? (
+        <div>
+          {party ? (
+            <p className="text-center">
+              {t("partyDescription", { party: party.name })}
+            </p>
+          ) : (
+            <p className="text-center">{t("genericDescription")}</p>
+          )}
+        </div>
+      ) : null}
       <div className="flex max-w-xl flex-wrap justify-center gap-2">
         {proposedQuestions?.map((question) => (
           <InitialSuggestionBubble

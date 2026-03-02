@@ -29,7 +29,7 @@ function SidebarHistory({ history: initialHistory }: Props) {
   const { user } = useAnonymousAuth();
   const [history, setHistory] = useState<ChatSession[]>(initialHistory ?? []);
   const chatId = useChatStore((state) => state.chatId);
-  const { setOpenMobile } = useSidebar();
+  const { setOpen } = useSidebar();
 
   useEffect(() => {
     if (!user?.uid) return;
@@ -42,7 +42,7 @@ function SidebarHistory({ history: initialHistory }: Props) {
   }, [user?.uid]);
 
   function handleClick() {
-    setOpenMobile(false);
+    setOpen(false);
   }
 
   if (history.length === 0) return null;
