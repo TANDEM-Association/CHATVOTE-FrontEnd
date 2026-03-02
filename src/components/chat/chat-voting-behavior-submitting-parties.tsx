@@ -19,7 +19,7 @@ function ChatVotingBehaviorSubmittingParties({ vote }: Props) {
   const parties = useParties();
 
   const submittingParties = useMemo(() => {
-    return vote.submitting_parties
+    return (vote.submitting_parties ?? [])
       .map((party) => parties?.find((p) => p?.party_id === party))
       .filter((p) => p !== undefined);
   }, [vote.submitting_parties, parties]);
@@ -27,7 +27,7 @@ function ChatVotingBehaviorSubmittingParties({ vote }: Props) {
   return (
     <>
       <p className="pt-4 pb-2 text-sm font-bold">
-        {vote.submitting_parties.length > 1
+        {(vote.submitting_parties ?? []).length > 1
           ? t("submittingParties")
           : t("submittingParty")}
       </p>

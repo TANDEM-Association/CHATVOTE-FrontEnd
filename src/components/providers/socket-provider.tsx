@@ -139,7 +139,7 @@ function SocketProvider({ children }: Props) {
     function onPartyResponseChunkReady(data: PartyResponseChunkReadyPayload) {
       mergeStreamingChunkPayloadForMessage(
         data.session_id,
-        data.party_id,
+        data.party_id ?? "",
         data,
       );
     }
