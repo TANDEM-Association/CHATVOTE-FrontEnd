@@ -2,7 +2,7 @@
 
 import { headers } from "next/headers";
 
-import { stripe } from "@lib/stripe/stripe";
+import { getStripe } from "@lib/stripe/stripe";
 import { CURRENCY } from "@lib/stripe/stripe-config";
 import { formatAmountForStripe } from "@lib/stripe/stripe-helpers";
 import { type Stripe } from "stripe";
@@ -23,7 +23,7 @@ export async function createCheckoutSession(
   const origin: string = headersStore.get("origin") as string;
 
   const checkoutSession: Stripe.Checkout.Session =
-    await stripe.checkout.sessions.create({
+    await getStripe().checkout.sessions.create({
       mode: "payment",
       submit_type: "donate",
       line_items: [
@@ -53,7 +53,7 @@ export async function createPaymentIntent(
   data: FormData,
 ): Promise<{ client_secret: string }> {
   const paymentIntent: Stripe.PaymentIntent =
-    await stripe.paymentIntents.create({
+    await getStripe().paymentIntents.create({
       amount: formatAmountForStripe(
         Number(data.get("customDonation") as string),
         CURRENCY,

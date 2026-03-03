@@ -4,7 +4,7 @@ import { type ChatStoreActionHandlerFor } from "@lib/stores/chat-store.types";
 export const generateVotingBehaviorSummary: ChatStoreActionHandlerFor<
   "generateVotingBehaviorSummary"
 > = (get, set) => async (partyId, message) => {
-  const { socket, messages, getLLMSize, isAnonymous } = get();
+  const { socket, messages, getLLMSize, isAnonymous, locale } = get();
 
   if (!socket?.io?.connected) {
     return;
@@ -29,6 +29,7 @@ export const generateVotingBehaviorSummary: ChatStoreActionHandlerFor<
     last_assistant_message: message.content,
     summary_llm_size: getLLMSize(),
     user_is_logged_in: !isAnonymous,
+    locale,
   });
 
   set((state) => {

@@ -87,6 +87,16 @@ export const chatAddUserMessage: ChatStoreActionHandlerFor<"addUserMessage"> =
           tenant?.id,
         );
 
+        // Eagerly set chatId in the store so that streaming socket events
+        // (responding_parties_selected, party_response_chunk_ready, etc.)
+        // are not dropped by their `state.chatId !== session_id` guards.
+        // This also ensures hydrateChatSession sees changedPage=false, so it
+        // will not clear currentStreamingMessages when the navigation to
+        // /chat/[chatId] triggers a re-render.
+        set((state) => {
+          state.chatId = safeSessionId;
+        });
+
         if (typeof window !== "undefined") {
           const url = new URL(window.location.href);
 

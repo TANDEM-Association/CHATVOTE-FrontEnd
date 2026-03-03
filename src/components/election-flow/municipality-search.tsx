@@ -35,7 +35,7 @@ function filterMunicipalities(
       if (municipality.code.includes(searchLower)) {
         return true;
       }
-      return municipality.codesPostaux.some((cp) => cp.includes(searchLower));
+      return (municipality.codesPostaux ?? []).some((cp) => cp.includes(searchLower));
     }
 
     // Search by name (substring, case insensitive)
@@ -181,21 +181,20 @@ const MunicipalitySearch = ({
   return (
     <div className="relative w-full space-y-4">
       {/* Selected municipality info */}
-      {selectedMunicipality !== null && selectedMunicipality !== undefined ? (
+      {selectedMunicipality !== null && selectedMunicipality !== undefined && selectedMunicipality.nom ? (
         <div className="mt-3 flex flex-col items-center gap-4 text-center">
           <div className="text-2xl font-medium">
-            {selectedMunicipality.nom}, {selectedMunicipality!.codesPostaux[0]}
+            {selectedMunicipality.nom}, {selectedMunicipality.codesPostaux?.[0]}
           </div>
           <div className="text-muted-foreground text-base">
-            {selectedMunicipality!.departement.nom} •{" "}
-            {selectedMunicipality!.region.nom}
+            {selectedMunicipality.departement?.nom} •{" "}
+            {selectedMunicipality.region?.nom}
           </div>
         </div>
       ) : (
         <>
           <div>
-            Avant de poser votre question, renseignez votre commune ou code
-            postal
+            {t("municipalityPrompt")}
           </div>
           <Input
             ref={inputRef}
@@ -232,9 +231,9 @@ const MunicipalitySearch = ({
                     >
                       <div className="font-medium">{municipality.nom}</div>
                       <div className="text-muted-foreground text-xs">
-                        {municipality.codesPostaux.slice(0, 2).join(", ")}
-                        {municipality.codesPostaux.length > 2
-                          ? ` +${municipality.codesPostaux.length - 2}`
+                        {(municipality.codesPostaux ?? []).slice(0, 2).join(", ")}
+                        {(municipality.codesPostaux ?? []).length > 2
+                          ? ` +${(municipality.codesPostaux ?? []).length - 2}`
                           : ""}{" "}
                         • {municipality.departement.nom}
                       </div>

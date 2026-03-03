@@ -3,12 +3,19 @@ import { NextResponse } from "next/server";
 import { type Municipality } from "@lib/election/election.types";
 import { firebaseConfig } from "@lib/firebase/firebase-config";
 import { initializeServerApp } from "firebase/app";
-import { collection, getDocs, getFirestore } from "firebase/firestore";
+import {
+  collection,
+  connectFirestoreEmulator,
+  getDocs,
+  type Firestore,
+  getFirestore,
+} from "firebase/firestore";
 
 // Cache the municipalities in memory on the server
 let cachedMunicipalities: Municipality[] | null = null;
 let cacheTimestamp = 0;
 const CACHE_TTL = 24 * 60 * 60 * 1000; // 24 hours
+const _connectedInstances = new WeakSet<Firestore>();
 
 async function loadMunicipalities(): Promise<Municipality[]> {
   const now = Date.now();
@@ -20,6 +27,15 @@ async function loadMunicipalities(): Promise<Municipality[]> {
 
   const serverApp = initializeServerApp(firebaseConfig, {});
   const db = getFirestore(serverApp);
+
+  if (
+    process.env.NEXT_PUBLIC_USE_FIREBASE_EMULATORS === "true" &&
+    !_connectedInstances.has(db)
+  ) {
+    connectFirestoreEmulator(db, "localhost", 8081);
+    _connectedInstances.add(db);
+  }
+
   const municipalitiesRef = collection(db, "municipalities");
   const snapshot = await getDocs(municipalitiesRef);
 

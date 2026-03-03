@@ -34,14 +34,27 @@ export const hydrateChatSession: ChatStoreActionHandlerFor<
     const scope = municipalityCode !== undefined ? "local" : "national";
 
     set((state) => {
-      const sessionId = changedPage ? chatId : state.chatId;
-      const preliminarySessionId =
-        (changedPage ? sessionId : state.localPreliminaryChatId) ??
-        generateUuid();
+      // During active streaming, do NOT overwrite chatId — the store's
+      // chatId was set by addUserMessage and all streaming event handlers
+      // rely on it matching the session_id from the backend.  When the
+      // useEffect re-fires (e.g. locale/tenant dependency change) with the
+      // SSR chatId prop still undefined, changedPage becomes true and would
+      // clobber chatId to undefined, silently dropping every socket event.
+      const isActivelyStreaming =
+        state.loading.newMessage ||
+        state.currentStreamingMessages !== undefined;
 
-      state.chatId = sessionId;
-      state.localPreliminaryChatId = preliminarySessionId;
-      state.partyIds = partyIds;
+      if (!isActivelyStreaming) {
+        const sessionId = changedPage ? chatId : state.chatId;
+        const preliminarySessionId =
+          (changedPage ? sessionId : state.localPreliminaryChatId) ??
+          generateUuid();
+
+        state.chatId = sessionId;
+        state.localPreliminaryChatId = preliminarySessionId;
+        state.partyIds = partyIds;
+      }
+
       state.initialQuestionError = undefined;
       state.pendingInitialQuestion = initialQuestion;
       state.userId = userId;
@@ -60,16 +73,30 @@ export const hydrateChatSession: ChatStoreActionHandlerFor<
     if (chatSession && messages !== undefined) {
       set((state) => {
         const lastMessage = messages[messages.length - 1];
+        // Don't clear streaming state if a message is actively being sent
+        // (loading.newMessage=true) or streaming is already in progress.
+        // This handles the first-message flow where chatId transitions from
+        // undefined → session UUID (changedPage=true), but streaming must
+        // survive the navigation from /chat → /chat/[chatId].
+        const isActivelyStreaming =
+          state.loading.newMessage ||
+          state.currentStreamingMessages !== undefined;
 
         return {
           messages,
           chatId: chatSession.id,
-          currentQuickReplies: lastMessage
-            ? (lastMessage.quick_replies ?? [])
-            : [],
+          // Only reset streaming-related state when actually navigating to a
+          // different session AND no streaming is in progress.
+          ...(changedPage && !isActivelyStreaming
+            ? {
+                currentQuickReplies: lastMessage
+                  ? (lastMessage.quick_replies ?? [])
+                  : [],
+                currentStreamingMessages: undefined,
+              }
+            : {}),
           currentChatTitle: chatSession.title,
           chatSessionIsPublic: chatSession.is_public,
-          currentStreamingMessages: undefined,
           partyIds: new Set(chatSession.party_ids ?? []),
           preSelectedPartyIds: new Set(chatSession.party_ids ?? []),
           loading: {
@@ -91,20 +118,45 @@ export const hydrateChatSession: ChatStoreActionHandlerFor<
         })
         .unwrap();
     } else {
-      set((state) => ({
-        messages: [],
-        currentQuickReplies: [],
-        currentChatTitle: undefined,
-        chatSessionIsPublic: false,
-        currentStreamingMessages: undefined,
-        loading: {
-          ...state.loading,
-          chatSession: false,
-          initializingChatSession: false,
-          newMessage: false,
-        },
-      }));
+      set((state) => {
+        // Don't clear streaming state if a response is actively being
+        // streamed.  The else-branch fires when the useEffect re-runs
+        // (e.g. locale / tenant dependency change) while no SSR session
+        // is present — which is exactly the first-message flow.
+        const isActivelyStreaming =
+          state.loading.newMessage ||
+          state.currentStreamingMessages !== undefined;
+
+        if (isActivelyStreaming) {
+          return {
+            loading: {
+              ...state.loading,
+              chatSession: false,
+              initializingChatSession: false,
+            },
+          };
+        }
+
+        return {
+          messages: [],
+          currentQuickReplies: [],
+          currentChatTitle: undefined,
+          chatSessionIsPublic: false,
+          currentStreamingMessages: undefined,
+          loading: {
+            ...state.loading,
+            chatSession: false,
+            initializingChatSession: false,
+            newMessage: false,
+          },
+        };
+      });
     }
 
-    initializeChatSession();
+    // Skip re-initialization if we're actively streaming — a new
+    // chat_session_init would reset the backend session mid-response.
+    const { loading: currentLoading, currentStreamingMessages: csm } = get();
+    if (!(currentLoading.newMessage || csm !== undefined)) {
+      initializeChatSession();
+    }
   };

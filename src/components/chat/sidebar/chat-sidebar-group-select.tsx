@@ -4,12 +4,14 @@ import ChatGroupPartySelect from "@components/chat/chat-group-party-select";
 import { Button } from "@components/ui/button";
 import { useSidebar } from "@components/ui/sidebar";
 import { GitCompareArrows } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 type Props = {
   iconOnly?: boolean;
 };
 
 const ChatSidebarGroupSelect = ({ iconOnly }: Props) => {
+  const t = useTranslations("chat.sidebar");
   const { setOpen } = useSidebar();
 
   const handleNewChat = () => {
@@ -33,7 +35,7 @@ const ChatSidebarGroupSelect = ({ iconOnly }: Props) => {
         }
       >
         <GitCompareArrows />
-        {iconOnly ? null : <div>Comparer les partis</div>}
+        {iconOnly ? null : <div>{t("compareParties")}</div>}
       </Button>
     </ChatGroupPartySelect>
   );

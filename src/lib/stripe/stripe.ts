@@ -3,14 +3,22 @@ import Stripe from "stripe";
 
 import "server-only";
 
-const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
-if (stripeSecretKey === undefined) {
-  throw new Error("STRIPE_SECRET_KEY is not set");
-}
+let _stripe: Stripe | null = null;
 
-export const stripe = new Stripe(stripeSecretKey, {
-  appInfo: {
-    name: "chatvote",
-    url: getAppUrlSync(),
-  },
-});
+export function getStripe(): Stripe {
+  if (_stripe) return _stripe;
+
+  const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
+  if (!stripeSecretKey) {
+    throw new Error("STRIPE_SECRET_KEY is not set");
+  }
+
+  _stripe = new Stripe(stripeSecretKey, {
+    appInfo: {
+      name: "chatvote",
+      url: getAppUrlSync(),
+    },
+  });
+
+  return _stripe;
+}

@@ -4,6 +4,9 @@
     "loading": "Loading...",
     "loadingPdf": "Loading PDF...",
     "error": "Error",
+    "oops": "Oops!",
+    "errorOccurred": "An error occurred.",
+    "retry": "Retry",
     "back": "Back",
     "close": "Close",
     "send": "Send",
@@ -180,6 +183,20 @@
       "submit": "Submit feedback"
     },
     "resend": "Resend",
+    "voteChart": {
+      "yes": "Yes",
+      "no": "No",
+      "abstention": "Abstention",
+      "notVoted": "Not voted"
+    },
+    "groupSelect": {
+      "maxPartiesError": "You can only select up to {max} parties"
+    },
+    "survey": {
+      "title": "Help us improve chatvote!",
+      "description": "We would be very grateful if you shared your opinion about this chat and our platform.",
+      "startSurvey": "Start the survey"
+    },
     "sidebar": {
       "description": "Start a new chat or select a previous conversation.",
       "newChat": "New chat",
@@ -194,7 +211,8 @@
       "sources": "Sources",
       "legalNotice": "Legal notice",
       "privacy": "Privacy",
-      "loadingHistory": "Loading history..."
+      "loadingHistory": "Loading history...",
+      "compareParties": "Compare parties"
     },
     "groupSelect": {
       "partySelection": "Party selection",
@@ -351,6 +369,7 @@
     "parties": "Parties:",
     "website": "Website:",
     "whereDoYouLive": "Where do you live?",
+    "municipalityPrompt": "Before asking your question, enter your municipality or postal code",
     "municipalityPlaceholder": "Municipality name or postal code...",
     "clearSelection": "Clear selection",
     "showMore": "Show more ({remaining} remaining)",

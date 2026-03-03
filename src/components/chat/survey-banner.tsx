@@ -9,10 +9,12 @@ import { FilloutPopupEmbed } from "@fillout/react";
 import { SURVEY_BANNER_MIN_MESSAGE_COUNT } from "@lib/stores/chat-store";
 import { track } from "@vercel/analytics/react";
 import { MessageCircleHeartIcon, XIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import "@fillout/react/style.css";
 
 const SurveyBanner = () => {
+  const t = useTranslations("chat.survey");
   const sessionId = useChatStore((state) => state.chatId);
   const [open, setOpen] = useState(false);
   const { user, updateUser, loading } = useAnonymousAuth();
@@ -94,7 +96,7 @@ const SurveyBanner = () => {
     <div className="bg-muted flex flex-col gap-2 rounded-lg p-4 group-data-has-message-background:mx-4 group-data-has-message-background:mb-4 group-data-has-message-background:bg-zinc-200 group-data-has-message-background:dark:bg-zinc-800">
       <div className="flex items-center justify-between">
         <h2 className="text-sm font-bold">
-          👆🏼 Aidez-nous à améliorer chatvote !
+          👆🏼 {t("title")}
         </h2>
 
         <Button
@@ -107,12 +109,11 @@ const SurveyBanner = () => {
         </Button>
       </div>
       <p className="text-muted-foreground text-sm">
-        Nous serions très heureux si vous partagiez votre avis sur ce chat et
-        notre plateforme.
+        {t("description")}
       </p>
       <Button size="sm" variant="default" onClick={() => setOpen(true)}>
         <MessageCircleHeartIcon />
-        Commencer le sondage
+        {t("startSurvey")}
       </Button>
       {open && (
         <FilloutPopupEmbed

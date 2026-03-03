@@ -22,11 +22,13 @@ function ChatMarkdown({ message }: Props) {
     }
 
     const source = message.sources[number];
-    const isPdfLink = source?.url.includes(".pdf");
+    if (!source?.url) return;
 
-    if (source && isPdfLink && window) {
+    const isPdfLink = source.url.includes(".pdf");
+
+    if (isPdfLink && window) {
       const url = buildPdfUrl(source);
-      return window.open(url.toString(), "_blank");
+      if (url) return window.open(url.toString(), "_blank");
     }
 
     window.open(source.url, "_blank");

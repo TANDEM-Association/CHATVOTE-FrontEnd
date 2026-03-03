@@ -106,10 +106,12 @@ export function prettyDate(
   return new Intl.DateTimeFormat("fr-FR", options).format(date);
 }
 
-export function buildPdfUrl(source: Source) {
+export function buildPdfUrl(source: Source): URL | null {
+  if (!source.url) return null;
+
   return new URL(
     `/pdf/view?page=${encodeURIComponent(
-      source.page,
+      source.page ?? 1,
     )}&pdf=${encodeURIComponent(source.url)}`,
     window.location.href,
   );

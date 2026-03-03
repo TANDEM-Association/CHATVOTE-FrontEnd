@@ -7,10 +7,11 @@ import {
 import { type User } from "@lib/types/auth";
 import { firestoreTimestampToDate, generateUuid } from "@lib/utils";
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import { connectAuthEmulator, getAuth } from "firebase/auth";
 import {
   arrayUnion,
   collection,
+  connectFirestoreEmulator,
   doc,
   getDoc,
   getDocs,
@@ -32,6 +33,11 @@ const app = initializeApp(firebaseConfig);
 
 export const auth = getAuth(app);
 const db = getFirestore(app);
+
+if (process.env.NEXT_PUBLIC_USE_FIREBASE_EMULATORS === "true") {
+  connectFirestoreEmulator(db, "localhost", 8081);
+  connectAuthEmulator(auth, "http://localhost:9099", { disableWarnings: true });
+}
 
 export async function createChatSession(
   userId: string,
@@ -160,6 +166,9 @@ async function getGroupedMessage(sessionId: string, groupedMessageId: string) {
   const groupedMessage = await getDoc(
     doc(db, "chat_sessions", sessionId, "messages", groupedMessageId),
   );
+  if (!groupedMessage.exists()) {
+    return { id: groupedMessageId, messages: [] } as unknown as GroupedMessage;
+  }
   return {
     id: groupedMessage.id,
     ...groupedMessage.data(),
@@ -173,6 +182,8 @@ export async function addProConPerspectiveToMessage(
   proConPerspective: MessageItem,
 ) {
   const groupedMessage = await getGroupedMessage(sessionId, groupedMessageId);
+
+  if (!groupedMessage.messages?.length) return;
 
   const groupedMessageRef = doc(
     db,
@@ -203,6 +214,8 @@ export async function addVotingBehaviorToMessage(
   votingBehavior: VotingBehavior,
 ) {
   const groupedMessage = await getGroupedMessage(sessionId, groupedMessageId);
+
+  if (!groupedMessage.messages?.length) return;
 
   const groupedMessageRef = doc(
     db,

@@ -44,7 +44,7 @@ function CurrentStreamingMessages() {
     return <ThinkingMessage />;
   }
 
-  if (!respondingPartyIds || !messageParties) {
+  if (!respondingPartyIds || respondingPartyIds.length === 0) {
     return null;
   }
 
@@ -56,6 +56,8 @@ function CurrentStreamingMessages() {
     return <CurrentStreamingMessage partyId={respondingPartyIds[0]} />;
   }
 
+  const displayPartyId = messageParties?.[0]?.party_id ?? respondingPartyIds[0];
+
   return (
     <div
       key={id}
@@ -64,7 +66,7 @@ function CurrentStreamingMessages() {
       className="group relative rounded-lg bg-zinc-100 dark:bg-zinc-900"
     >
       <div className="p-4">
-        <CurrentStreamingMessage partyId={messageParties?.[0].party_id} />
+        <CurrentStreamingMessage partyId={displayPartyId} />
       </div>
       <div className="mb-4 flex flex-row items-center justify-center gap-4">
         <div className="flex flex-row items-center justify-center gap-2 py-1">

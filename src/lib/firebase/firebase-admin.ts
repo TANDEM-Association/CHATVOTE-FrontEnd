@@ -20,6 +20,17 @@ function initializeApp(): FirebaseApp {
     return existingApps[0];
   }
 
+  const useEmulators =
+    process.env.NEXT_PUBLIC_USE_FIREBASE_EMULATORS === "true";
+
+  if (useEmulators) {
+    process.env.FIRESTORE_EMULATOR_HOST ??= "localhost:8081";
+    return initializeAdminApp({
+      projectId:
+        process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || "chat-vote-dev",
+    });
+  }
+
   const {
     NEXT_PUBLIC_FIREBASE_PROJECT_ID,
     FIREBASE_CLIENT_EMAIL,

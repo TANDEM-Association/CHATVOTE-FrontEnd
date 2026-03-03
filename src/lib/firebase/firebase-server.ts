@@ -16,9 +16,11 @@ import { initializeServerApp } from "firebase/app";
 import { getAuth as getFirebaseAuth } from "firebase/auth";
 import {
   collection,
+  connectFirestoreEmulator,
   doc,
   getDoc,
   getDocs,
+  type Firestore,
   getFirestore,
   limit,
   orderBy,
@@ -47,6 +49,10 @@ async function getServerApp({
 }
 
 async function getFirebaseAuthUser() {
+  if (process.env.NEXT_PUBLIC_USE_FIREBASE_EMULATORS === "true") {
+    return null;
+  }
+
   const serverApp = await getServerApp();
   const firebaseAuth = getFirebaseAuth(serverApp);
   await firebaseAuth.authStateReady();
@@ -112,11 +118,27 @@ export async function getAuth(): Promise<Auth> {
   }
 }
 
+const _connectedInstances = new WeakSet<Firestore>();
+
 async function getServerFirestore({
   useHeaders = true,
 }: { useHeaders?: boolean } = {}) {
   const serverApp = await getServerApp({ useHeaders });
-  return getFirestore(serverApp);
+  const firestore = getFirestore(serverApp);
+
+  if (
+    process.env.NEXT_PUBLIC_USE_FIREBASE_EMULATORS === "true" &&
+    !_connectedInstances.has(firestore)
+  ) {
+    try {
+      connectFirestoreEmulator(firestore, "localhost", 8081);
+    } catch {
+      // Already connected (e.g. after HMR module reload)
+    }
+    _connectedInstances.add(firestore);
+  }
+
+  return firestore;
 }
 
 async function getPartiesImpl() {
@@ -134,10 +156,13 @@ async function getPartiesImpl() {
   }
 }
 
-export const getParties = cache(getPartiesImpl, undefined, {
-  revalidate: false,
-  tags: [CacheTags.PARTIES],
-});
+export const getParties =
+  process.env.NEXT_PUBLIC_USE_FIREBASE_EMULATORS === "true"
+    ? getPartiesImpl
+    : cache(getPartiesImpl, undefined, {
+        revalidate: false,
+        tags: [CacheTags.PARTIES],
+      });
 
 async function getPartyImpl(partyId: string) {
   const serverDb = await getServerFirestore({ useHeaders: false });

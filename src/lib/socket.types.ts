@@ -57,8 +57,10 @@ export type QuickRepliesAndTitleReadyPayload = QuickRepliesAndTitleDto;
 /** @see RespondingPartiesDto */
 export type RespondingPartiesSelectedPayload = RespondingPartiesDto;
 
-/** @see VotingBehaviorRequestDto */
-export type GenerateVotingBehaviorSummaryPayload = VotingBehaviorRequestDto;
+/** @see VotingBehaviorRequestDto. Adds locale so backend error messages respect user language. */
+export type GenerateVotingBehaviorSummaryPayload = VotingBehaviorRequestDto & {
+  locale: string;
+};
 
 // --- Frontend-adapted types ---
 // These intentionally differ from backend DTOs (drop status, use MessageItem,

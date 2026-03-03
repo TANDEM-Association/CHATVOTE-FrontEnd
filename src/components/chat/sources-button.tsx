@@ -135,6 +135,7 @@ const SourceItem = ({ source }: { source: SourceWithIndex }) => {
 
   const onSourceClick = (source: Source) => {
     const url = buildPdfUrl(source);
+    if (!url) return;
     return window.open(url.toString(), "_blank");
   };
 

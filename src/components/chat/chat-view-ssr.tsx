@@ -22,7 +22,9 @@ async function getChatSessionServer(chatId: string, partyIds?: string[]) {
   const auth = await getAuth();
 
   if (!auth.session) {
-    throw new Error("User not found");
+    const searchParams = new URLSearchParams();
+    partyIds?.forEach((partyId) => searchParams.append("party_id", partyId));
+    redirect(`/chat?${searchParams.toString()}`);
   }
 
   try {

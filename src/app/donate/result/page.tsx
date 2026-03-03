@@ -1,11 +1,11 @@
 import { type NextPage } from "next";
 
 import DonateResultContent from "@components/donate-result-content";
-import { stripe } from "@lib/stripe/stripe";
+import { getStripe } from "@lib/stripe/stripe";
 
 async function validateStripeSession(sessionId: string): Promise<boolean> {
   try {
-    const checkoutSession = await stripe.checkout.sessions.retrieve(sessionId, {
+    const checkoutSession = await getStripe().checkout.sessions.retrieve(sessionId, {
       expand: ["payment_intent"],
     });
 
