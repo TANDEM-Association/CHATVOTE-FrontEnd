@@ -296,7 +296,7 @@
       ]
     },
     "numberOfParties": {
-      "title": "number-parties",
+      "title": "Number of parties",
       "question": "How many parties can I chat with?",
       "description": "You can start the chat with up to {max} parties simultaneously, but you have the option to add more parties during the conversation.",
       "addMore": "Additionally, you can easily add or remove parties from the chat via the button above the text field."
@@ -311,7 +311,7 @@
       "description": "When you click this button below one of the messages, the party's past voting behavior is analyzed. Additionally, by clicking \"Show votes\" you can see detailed information about the party's votes."
     },
     "data": {
-      "title": "data",
+      "title": "Data sources",
       "question": "What data is used?",
       "description": "To provide well-founded and neutral answers, chatvote uses a variety of data sources:",
       "programs": "Programs and other relevant documents:",
@@ -323,7 +323,7 @@
       "sourcesLink": "We have listed all the sources that chatvote uses here."
     },
     "guidelines": {
-      "title": "guidelines",
+      "title": "Guidelines",
       "question": "What guidelines does chatvote follow in its answers?",
       "description": "The following guidelines apply to answers in chats:",
       "sourceBased": "Source-based:",
@@ -334,7 +334,7 @@
       "transparencyDescription": "For each statement, relevant sources must be directly linked to allow detailed examination and content verification."
     },
     "partySelection": {
-      "title": "party-selection",
+      "title": "Party selection",
       "question": "What criteria are used to select parties?",
       "description": "The initial selection of parties was made based on the publication of their election programs. We now want to gradually add missing parties and are very happy for your help.",
       "missingParty": "If you are missing a party, feel free to send us an email with their program in PDF attached to info@chatvote.org, and we will add it as soon as possible."

@@ -10,6 +10,7 @@ import { type ProposedQuestion } from "@lib/firebase/firebase.types";
 import { type PartyDetails } from "@lib/party-details";
 import { useTranslations } from "next-intl";
 
+import ChatPostcodePrompt from "./chat-postcode-prompt";
 import InitialSuggestionBubble from "./initial-suggestion-bubble";
 
 type Props = {
@@ -56,6 +57,7 @@ const GroupChatEmptyView = ({ parties, proposedQuestions }: Props) => {
             />
           ))}
         </div>
+        <ChatPostcodePrompt />
         <p className="text-center">
           {t("groupDescription")}
           <br />
