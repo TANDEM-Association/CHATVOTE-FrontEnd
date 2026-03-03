@@ -296,7 +296,7 @@
       ]
     },
     "numberOfParties": {
-      "title": "number-parties",
+      "title": "Nombre de partis",
       "question": "Avec combien de partis puis-je discuter ?",
       "description": "Vous pouvez démarrer le chat avec jusqu'à {max} partis simultanément, mais vous avez la possibilité d'ajouter d'autres partis pendant la conversation.",
       "addMore": "De plus, vous pouvez facilement ajouter ou supprimer des partis du chat via le bouton au-dessus du champ de texte."
@@ -311,7 +311,7 @@
       "description": "Lorsque vous cliquez sur ce bouton sous l'un des messages, le comportement de vote passé du parti est analysé. De plus, en cliquant sur \"Afficher les votes\" vous pouvez voir des informations détaillées sur les votes du parti."
     },
     "data": {
-      "title": "data",
+      "title": "Sources de données",
       "question": "Quelles données sont utilisées ?",
       "description": "Pour fournir des réponses fondées et neutres, chatvote utilise une variété de sources de données :",
       "programs": "Programmes et autres documents pertinents :",
@@ -323,7 +323,7 @@
       "sourcesLink": "Nous avons listé toutes les sources que chatvote utilise ici."
     },
     "guidelines": {
-      "title": "guidelines",
+      "title": "Directives",
       "question": "Quelles directives chatvote suit-il dans ses réponses ?",
       "description": "Les directives suivantes s'appliquent aux réponses dans les chats :",
       "sourceBased": "Basé sur les sources :",
@@ -334,7 +334,7 @@
       "transparencyDescription": "Pour chaque déclaration, les sources pertinentes doivent être directement liées pour permettre un examen détaillé et une vérification du contenu."
     },
     "partySelection": {
-      "title": "party-selection",
+      "title": "Sélection des partis",
       "question": "Selon quels critères les partis sont-ils sélectionnés ?",
       "description": "La sélection initiale des partis a été effectuée et s'est basée sur la publication de leurs programmes électoraux. Nous voulons maintenant ajouter progressivement les partis manquants et sommes très heureux de votre aide.",
       "missingParty": "Si vous manquez un parti, n'hésitez pas à nous envoyer un e-mail avec son programme en PDF en pièce jointe à info@chatvote.org, et nous l'ajouterons dès que possible."
