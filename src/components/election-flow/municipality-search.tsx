@@ -69,12 +69,14 @@ async function fetchMunicipalities(
 
 type Props = {
   selectedMunicipality?: Municipality | null;
+  municipalityCode?: string;
   onSelectMunicipality: (municipality: Municipality) => void;
 };
 
 const MunicipalitySearch = ({
   selectedMunicipality,
   onSelectMunicipality,
+  municipalityCode,
 }: Props) => {
   const t = useTranslations("electionFlow");
   const [searchTerm, setSearchTerm] = useState("");
@@ -89,38 +91,6 @@ const MunicipalitySearch = ({
 
   const inputRef = useRef<HTMLInputElement>(null);
   const suggestionsRef = useRef<HTMLDivElement>(null);
-
-  // Prefetch municipalities on mount (with AbortController for cleanup)
-  useEffect(() => {
-    // Skip if already cached (state is already initialized from cache)
-    if (municipalitiesClientCache !== null) {
-      return;
-    }
-
-    const abortController = new AbortController();
-
-    fetchMunicipalities(abortController.signal)
-      .then((data) => {
-        if (!abortController.signal.aborted) {
-          setMunicipalities(data);
-          setIsLoadingData(false);
-        }
-      })
-      .catch((error) => {
-        // Ignore abort errors
-        if (error instanceof Error && error.name === "AbortError") {
-          return;
-        }
-        console.error("Failed to fetch municipalities:", error);
-        if (!abortController.signal.aborted) {
-          setIsLoadingData(false);
-        }
-      });
-
-    return () => {
-      abortController.abort();
-    };
-  }, []);
 
   // Filter municipalities locally (instant results)
   const allSuggestions = useMemo(() => {
@@ -159,6 +129,23 @@ const MunicipalitySearch = ({
     [onSelectMunicipality],
   );
 
+  const handleSelectMunicipalityFromCodeProp = (
+    localMunicipalities: Municipality[],
+  ) => {
+    if (
+      !municipalityCode ||
+      localMunicipalities.length === 0 ||
+      selectedMunicipality?.code === municipalityCode
+    ) {
+      return;
+    }
+
+    const match = localMunicipalities.find((m) => m.code === municipalityCode);
+    if (match) {
+      onSelectMunicipality(match);
+    }
+  };
+
   // Close suggestions when clicking outside
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -178,13 +165,48 @@ const MunicipalitySearch = ({
     };
   }, []);
 
+  // Prefetch municipalities on mount (with AbortController for cleanup)
+  useEffect(() => {
+    // Skip if already cached (state is already initialized from cache)
+    if (municipalitiesClientCache !== null) {
+      handleSelectMunicipalityFromCodeProp(municipalitiesClientCache);
+      return;
+    }
+
+    const abortController = new AbortController();
+
+    fetchMunicipalities(abortController.signal)
+      .then((data) => {
+        if (!abortController.signal.aborted) {
+          setMunicipalities(data);
+          setIsLoadingData(false);
+          handleSelectMunicipalityFromCodeProp(data);
+        }
+      })
+      .catch((error) => {
+        // Ignore abort errors
+        if (error instanceof Error && error.name === "AbortError") {
+          return;
+        }
+        console.error("Failed to fetch municipalities:", error);
+        if (!abortController.signal.aborted) {
+          setIsLoadingData(false);
+        }
+      });
+
+    return () => {
+      abortController.abort();
+    };
+  }, []);
+
   return (
     <div className="relative w-full space-y-4">
       {/* Selected municipality info */}
       {selectedMunicipality !== null && selectedMunicipality !== undefined ? (
         <div className="mt-3 flex flex-col items-center gap-4 text-center">
           <div className="text-2xl font-medium">
-            {selectedMunicipality.nom}, {selectedMunicipality!.codesPostaux[0]}
+            {selectedMunicipality.nom},{" "}
+            {selectedMunicipality!.codesPostaux?.[0]}
           </div>
           <div className="text-muted-foreground text-base">
             {selectedMunicipality!.departement.nom} •{" "}
@@ -218,7 +240,7 @@ const MunicipalitySearch = ({
           {showSuggestions && visibleSuggestions.length > 0 ? (
             <div
               ref={suggestionsRef}
-              className="absolute top-24 z-50 w-full overflow-hidden rounded-3xl border border-purple-400 bg-purple-500 p-2 shadow-lg"
+              className="absolute top-28 z-50 w-full overflow-hidden rounded-3xl border border-purple-400 bg-purple-500 p-2 shadow-lg md:top-24"
             >
               <ul className="max-h-80 space-y-1 overflow-auto">
                 {visibleSuggestions.map((municipality) => (
