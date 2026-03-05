@@ -38,17 +38,20 @@ function ChatSingleMessageActions({
 
   const isAssistantMessage = partyId === ASSISTANT_ID;
 
+  // TODO: re-enable pro/con button for assistant messages once we have a better way to handle the pro/con perspective for assistant messages (currently it doesn't make much sense to have it since the assistant doesn't represent a specific party or candidate, but we could potentially use it to show the pros and cons of the assistant's response or something like that)
   const showProConButton =
     (partyId || candidateId) &&
     !message.pro_con_perspective &&
     !isLoadingProConPerspective &&
-    !isAssistantMessage;
+    !isAssistantMessage &&
+    false;
 
   const showVotingBehaviorSummaryButton =
     partyId &&
     !message.voting_behavior &&
     !isLoadingVotingBehaviorSummary &&
-    !isAssistantMessage;
+    !isAssistantMessage &&
+    false;
 
   const showSeparator = showProConButton || showVotingBehaviorSummaryButton;
 
