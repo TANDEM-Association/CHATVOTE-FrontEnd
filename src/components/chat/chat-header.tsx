@@ -23,12 +23,14 @@ function ChatHeader() {
       <header>
         <div
           className={
-            "flex w-full items-center justify-between border-b border-purple-400 bg-purple-900 px-4 py-3"
+            "flex w-full items-center justify-between bg-purple-600 px-4 py-3"
           }
         >
-          <div>
-            ChatVote est une initiative citoyenne Open Source. La solution est
-            actuellement en beta
+          <div className={"text-sm"}>
+            ChatVote est une initiative associative open source et souveraine -
+            la fiabilité et traçablité de l’information fournie sont notre
+            priorité. Pas d’historique conservé. Version. 1.0. Aidez-nous à
+            aider la démocratie.
           </div>
           <Button data-sidebar="more" size="sm">
             <div>En savoir plus</div>
