@@ -1,5 +1,8 @@
 "use client";
 
+import React from "react";
+
+import Image from "next/image";
 import Link from "next/link";
 
 import LoginButton from "@components/auth/login-button";
@@ -14,6 +17,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarTrigger,
 } from "@components/ui/sidebar";
 import { config } from "@config";
 import { type ChatSession } from "@lib/firebase/firebase.types";
@@ -38,11 +42,34 @@ const ChatSidebarContent = ({ auth, history }: Props) => {
   const isAuthenticated = auth.session !== null && !auth.session.isAnonymous;
 
   return (
-    <Sidebar
-      mobileVisuallyHiddenTitle="chatvote"
-      mobileVisuallyHiddenDescription={t("description")}
-    >
+    <Sidebar variant={"sidebar"}>
       <SidebarContent>
+        <div className={"flex w-full items-center justify-between gap-2"}>
+          <div className={"flex items-center"}>
+            <Link href="https://tndm.fr" className="flex items-center">
+              <Image
+                src="/images/logos/tandem.svg"
+                alt="tandem"
+                width={0}
+                height={0}
+                sizes="100vw"
+                className="size-12"
+              />
+            </Link>
+            <Link href="/" className="flex items-center">
+              <Image
+                src="/images/logos/chatvote.svg"
+                alt="chatvote"
+                width={0}
+                height={0}
+                sizes="100vw"
+                className="size-12"
+              />
+            </Link>
+          </div>
+
+          <SidebarTrigger />
+        </div>
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarGroupLabel>{t("newChat")}</SidebarGroupLabel>

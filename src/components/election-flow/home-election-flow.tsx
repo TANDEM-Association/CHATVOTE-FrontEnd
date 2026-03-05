@@ -267,7 +267,7 @@ const HomeElectionFlow = ({ className }: Props) => {
             <SelectTrigger className="w-full">
               <SelectValue placeholder={t("selectScope")} />
             </SelectTrigger>
-            <SelectContent className="border-border overflow-hidden rounded-md border bg-neutral-200 shadow-lg data-[side=bottom]:translate-y-px dark:bg-neutral-950">
+            <SelectContent className="border-border overflow-hidden rounded-md border bg-neutral-200 shadow-lg data-[side=bottom]:translate-y-px dark:bg-purple-900">
               <SelectItem
                 value="local"
                 className="cursor-pointer rounded-md px-3 py-2 transition-all duration-300 ease-in-out hover:bg-neutral-700"
@@ -338,7 +338,6 @@ const HomeElectionFlow = ({ className }: Props) => {
         <MunicipalitySearch
           selectedMunicipality={selectedMunicipality}
           onSelectMunicipality={handleSelectMunicipality}
-          onClearSelection={handleClearMunicipality}
         />
       ) : null}
 

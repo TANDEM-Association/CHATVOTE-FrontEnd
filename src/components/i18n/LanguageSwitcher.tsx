@@ -41,7 +41,7 @@ export const LanguageSwitcher: React.FC = () => {
         <GlobeIcon className="size-4" />
         <SelectValue placeholder={t("select")} />
       </SelectTrigger>
-      <SelectContent className="border-border min-w-16 overflow-hidden rounded-md border bg-neutral-200 shadow-lg data-[side=bottom]:translate-y-px dark:bg-neutral-950">
+      <SelectContent className="border-border min-w-16 overflow-hidden rounded-md border bg-neutral-200 shadow-lg data-[side=bottom]:translate-y-px dark:bg-purple-900">
         {locales.map((locale) => {
           return (
             <SelectItem

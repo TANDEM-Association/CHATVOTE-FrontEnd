@@ -266,7 +266,7 @@ const TooltipContent = ({
             visibility: tooltipSize.width === 0 ? "hidden" : "visible",
           }}
           className={cn(
-            "pointer-events-none rounded-md border border-neutral-700 bg-neutral-100 px-3 py-1.5 text-sm text-neutral-950 shadow-md dark:bg-neutral-950 dark:text-neutral-100",
+            "pointer-events-none rounded-md border border-neutral-700 bg-neutral-100 px-3 py-1.5 text-sm text-neutral-950 shadow-md dark:bg-purple-900 dark:text-neutral-100",
             className,
           )}
         >

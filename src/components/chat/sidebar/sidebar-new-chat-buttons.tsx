@@ -4,10 +4,10 @@ import PartyCards from "@components/party-cards";
 import { useSidebar } from "@components/ui/sidebar";
 
 function SidebarNewChatButtons() {
-  const { setOpenMobile } = useSidebar();
+  const { setOpen } = useSidebar();
 
   const handleNewChat = () => {
-    setOpenMobile(false);
+    setOpen(false);
   };
 
   return (

@@ -161,7 +161,7 @@ export const HeaderMobile: React.FC<HeaderMobileProps> = ({
             variants={menuVariants}
             animate={isMenuOpen === true ? "open" : "closed"}
             initial="closed"
-            className="fixed inset-0 z-40 flex h-dvh w-screen flex-col items-start justify-between gap-6 overflow-hidden bg-neutral-950"
+            className="fixed inset-0 z-40 flex h-dvh w-screen flex-col items-start justify-between gap-6 overflow-hidden bg-purple-900"
             onAnimationComplete={(animationDefinition) => {
               if (animationDefinition === "closed" && pendingPath !== null) {
                 setPendingPath(null);

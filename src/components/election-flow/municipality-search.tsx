@@ -9,14 +9,7 @@ import React, {
 } from "react";
 
 import { type Municipality } from "@lib/election/election.types";
-import {
-  CheckIcon,
-  ChevronDownIcon,
-  LoaderIcon,
-  MapPinIcon,
-  SearchIcon,
-  XIcon,
-} from "lucide-react";
+import { ChevronDownIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 import { Button } from "../ui/button";
@@ -75,15 +68,13 @@ async function fetchMunicipalities(
 }
 
 type Props = {
-  selectedMunicipality: Municipality | null;
+  selectedMunicipality?: Municipality | null;
   onSelectMunicipality: (municipality: Municipality) => void;
-  onClearSelection?: () => void;
 };
 
 const MunicipalitySearch = ({
   selectedMunicipality,
   onSelectMunicipality,
-  onClearSelection,
 }: Props) => {
   const t = useTranslations("electionFlow");
   const [searchTerm, setSearchTerm] = useState("");
@@ -168,14 +159,6 @@ const MunicipalitySearch = ({
     [onSelectMunicipality],
   );
 
-  // Handle clear selection
-  const handleClear = useCallback(() => {
-    setSearchTerm("");
-    setVisibleCount(RESULTS_PER_PAGE);
-    setShowSuggestions(false);
-    onClearSelection?.();
-  }, [onClearSelection]);
-
   // Close suggestions when clicking outside
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -196,15 +179,24 @@ const MunicipalitySearch = ({
   }, []);
 
   return (
-    <div className="w-full space-y-4">
-      <div className="flex items-center gap-2">
-        <MapPinIcon className="size-5" />
-        <h2 className="text-lg font-semibold">{t("whereDoYouLive")}</h2>
-      </div>
-
-      <div className="relative">
-        <div className="relative">
-          <SearchIcon className="text-muted-foreground pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2" />
+    <div className="relative w-full space-y-4">
+      {/* Selected municipality info */}
+      {selectedMunicipality !== null && selectedMunicipality !== undefined ? (
+        <div className="mt-3 flex flex-col items-center gap-4 text-center">
+          <div className="text-2xl font-medium">
+            {selectedMunicipality.nom}, {selectedMunicipality!.codesPostaux[0]}
+          </div>
+          <div className="text-muted-foreground text-base">
+            {selectedMunicipality!.departement.nom} •{" "}
+            {selectedMunicipality!.region.nom}
+          </div>
+        </div>
+      ) : (
+        <>
+          <div>
+            Avant de poser votre question, renseignez votre commune ou code
+            postal
+          </div>
           <Input
             ref={inputRef}
             type="text"
@@ -216,40 +208,28 @@ const MunicipalitySearch = ({
                 setShowSuggestions(true);
               }
             }}
-            className="pr-10 pl-10"
-            disabled={selectedMunicipality !== null}
+            className={"px-4 py-2"}
+            disabled={
+              selectedMunicipality !== null &&
+              selectedMunicipality !== undefined
+            }
           />
-          {selectedMunicipality !== null ? (
-            <button
-              onClick={handleClear}
-              className="text-muted-foreground hover:text-foreground absolute top-1/2 right-3 -translate-y-1/2"
-              aria-label={t("clearSelection")}
+          {/* Suggestions dropdown */}
+          {showSuggestions && visibleSuggestions.length > 0 ? (
+            <div
+              ref={suggestionsRef}
+              className="absolute top-24 z-50 w-full overflow-hidden rounded-3xl border border-purple-400 bg-purple-500 p-2 shadow-lg"
             >
-              <XIcon className="size-4" />
-            </button>
-          ) : isLoadingData ? (
-            <LoaderIcon className="text-muted-foreground absolute top-1/2 right-3 size-4 -translate-y-1/2 animate-spin" />
-          ) : null}
-        </div>
-
-        {/* Suggestions dropdown */}
-        {showSuggestions && visibleSuggestions.length > 0 ? (
-          <div
-            ref={suggestionsRef}
-            className="bg-popover border-border absolute top-full z-50 mt-px w-full overflow-hidden rounded-md border shadow-lg"
-          >
-            <ul className="bg-background max-h-80 space-y-1 overflow-auto">
-              {visibleSuggestions.map((municipality) => (
-                <li
-                  key={municipality.code}
-                  className="cursor-pointer rounded-md p-1 transition-all duration-300 ease-in-out hover:bg-neutral-700"
-                >
-                  <button
-                    className="hover:bg-accent flex w-full items-start gap-2 px-3 py-2 text-left text-sm"
-                    onClick={() => handleSelectMunicipality(municipality)}
+              <ul className="max-h-80 space-y-1 overflow-auto">
+                {visibleSuggestions.map((municipality) => (
+                  <li
+                    key={municipality.code}
+                    className="hover:bg-primary cursor-pointer rounded-md p-1 transition-all duration-300 ease-in-out first:rounded-t-2xl last:rounded-b-2xl"
                   >
-                    <MapPinIcon className="text-muted-foreground mt-0.5 size-4 shrink-0" />
-                    <div className="flex-1">
+                    <button
+                      className="flex w-full flex-col items-start gap-2 px-3 py-2 text-left text-sm"
+                      onClick={() => handleSelectMunicipality(municipality)}
+                    >
                       <div className="font-medium">{municipality.nom}</div>
                       <div className="text-muted-foreground text-xs">
                         {municipality.codesPostaux.slice(0, 2).join(", ")}
@@ -258,48 +238,31 @@ const MunicipalitySearch = ({
                           : ""}{" "}
                         • {municipality.departement.nom}
                       </div>
-                    </div>
-                  </button>
-                </li>
-              ))}
+                    </button>
+                  </li>
+                ))}
 
-              {/* Show more button */}
-              {hasMore ? (
-                <li className="border-border border-t p-1">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="w-full"
-                    onClick={handleShowMore}
-                  >
-                    <ChevronDownIcon className="mr-2 size-4" />
-                    {t("showMore", {
-                      remaining: allSuggestions.length - visibleCount,
-                    })}
-                  </Button>
-                </li>
-              ) : null}
-            </ul>
-          </div>
-        ) : null}
-
-        {/* Selected municipality info */}
-        {selectedMunicipality !== null ? (
-          <div className="bg-primary/5 border-primary/20 mt-3 flex items-center gap-2 rounded-md border p-3">
-            <CheckIcon className="text-primary size-5" />
-            <div className="flex-1">
-              <div className="font-medium">{selectedMunicipality.nom}</div>
-              <div className="text-muted-foreground text-xs">
-                {selectedMunicipality.codesPostaux[0]} •{" "}
-                {selectedMunicipality.departement.nom} •{" "}
-                {selectedMunicipality.region.nom}
-              </div>
+                {/* Show more button */}
+                {hasMore ? (
+                  <li className="border-border border-t p-1">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="w-full"
+                      onClick={handleShowMore}
+                    >
+                      <ChevronDownIcon className="mr-2 size-4" />
+                      {t("showMore", {
+                        remaining: allSuggestions.length - visibleCount,
+                      })}
+                    </Button>
+                  </li>
+                ) : null}
+              </ul>
             </div>
-          </div>
-        ) : null}
-      </div>
-
-      <p className="text-muted-foreground text-xs">{t("searchHint")}</p>
+          ) : null}
+        </>
+      )}
     </div>
   );
 };

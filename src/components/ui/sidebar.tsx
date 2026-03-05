@@ -6,7 +6,6 @@ import { useAppContext } from "@components/providers/app-provider";
 import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
 import { Separator } from "@components/ui/separator";
-import { Sheet, SheetContent } from "@components/ui/sheet";
 import { Skeleton } from "@components/ui/skeleton";
 import {
   Tooltip,
@@ -20,8 +19,6 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { PanelLeft } from "lucide-react";
 import { useTranslations } from "next-intl";
 
-import VisuallyHidden from "../visually-hidden";
-
 const SIDEBAR_WIDTH = "16rem";
 const SIDEBAR_WIDTH_ICON = "3rem";
 const SIDEBAR_KEYBOARD_SHORTCUT = "b";
@@ -30,8 +27,6 @@ type SidebarContext = {
   state: "expanded" | "collapsed";
   open: boolean;
   setOpen: (open: boolean) => void;
-  openMobile: boolean;
-  setOpenMobile: (open: boolean) => void;
   isMobile: boolean;
   toggleSidebar: () => void;
 };
@@ -69,7 +64,6 @@ const SidebarProvider = React.forwardRef<
   ) => {
     const { device } = useAppContext();
     const isMobile = device === "mobile";
-    const [openMobile, setOpenMobile] = React.useState(false);
 
     // This is the internal state of the sidebar.
     // We use openProp and setOpenProp for control from outside the component.
@@ -89,10 +83,8 @@ const SidebarProvider = React.forwardRef<
 
     // Helper to toggle the sidebar.
     const toggleSidebar = React.useCallback(() => {
-      return isMobile
-        ? setOpenMobile((open) => !open)
-        : setOpen((open) => !open);
-    }, [isMobile, setOpen, setOpenMobile]);
+      return setOpen((open) => !open);
+    }, [isMobile, setOpen, setOpen]);
 
     // Adds a keyboard shortcut to toggle the sidebar.
     React.useEffect(() => {
@@ -120,19 +112,9 @@ const SidebarProvider = React.forwardRef<
         open,
         setOpen,
         isMobile,
-        openMobile,
-        setOpenMobile,
         toggleSidebar,
       }),
-      [
-        state,
-        open,
-        setOpen,
-        isMobile,
-        openMobile,
-        setOpenMobile,
-        toggleSidebar,
-      ],
+      [state, open, setOpen, isMobile, toggleSidebar],
     );
 
     return (
@@ -185,7 +167,7 @@ const Sidebar = React.forwardRef<
     },
     ref,
   ) => {
-    const { isMobile, state, openMobile, setOpenMobile } = useSidebar();
+    const { isMobile, state, setOpen, toggleSidebar } = useSidebar();
 
     if (collapsible === "none") {
       return (
@@ -201,56 +183,44 @@ const Sidebar = React.forwardRef<
         </div>
       );
     }
-
-    if (isMobile) {
-      return (
-        <Sheet open={openMobile} onOpenChange={setOpenMobile} {...props}>
-          <VisuallyHidden>
-            <h2>{mobileVisuallyHiddenTitle}</h2>
-            <p>{mobileVisuallyHiddenDescription}</p>
-          </VisuallyHidden>
-          <SheetContent
-            data-sidebar="sidebar"
-            data-mobile="true"
-            className="bg-background text-foreground p-0"
-            style={
-              {
-                "--sidebar-width": "100%",
-              } as React.CSSProperties
-            }
-            side={side}
-            fullWidth
-            closeButtonPosition="drag-handle"
-          >
-            <div className="relative flex size-full flex-col">{children}</div>
-          </SheetContent>
-        </Sheet>
-      );
-    }
-
     // Overlay sidebar - doesn't take space in layout, slides over content
     // Positioned below the header (h-12 = 3rem)
     return (
       <div
-        ref={ref}
         className={cn(
-          "bg-background border-border fixed top-12 bottom-0 z-50 hidden w-95 flex-col border-r transition-transform duration-200 ease-linear md:flex",
-          state === "expanded" ? "translate-x-0" : "-translate-x-full",
-          side === "left" ? "left-0" : "right-0",
-          className,
+          "pointer-events-none fixed inset-0 z-50 flex items-stretch",
+          state === "expanded" ? "pointer-events-auto" : "pointer-events-none",
         )}
-        data-state={state}
-        data-collapsible={state === "collapsed" ? collapsible : ""}
-        data-variant={variant}
-        data-side={side}
-        {...props}
       >
         <div
-          data-sidebar="sidebar"
-          className="bg-background flex size-full flex-col overflow-hidden"
+          ref={ref}
+          className={cn(
+            "flex-col overflow-hidden border-r border-purple-500 bg-purple-900 duration-200",
+            // Expanded state
+            state === "expanded" ? "w-full md:w-95" : "w-0",
+            className,
+          )}
+          data-state={state}
+          data-collapsible={state === "collapsed" ? collapsible : ""}
+          data-variant={variant}
+          data-side={side}
+          {...props}
         >
-          {children}
+          <div
+            data-sidebar="sidebar"
+            className="flex size-full min-w-screen flex-col overflow-hidden px-3 py-4 md:min-w-95"
+          >
+            {children}
+          </div>
         </div>
+        {state === "expanded" ? (
+          <div
+            className={
+              "flex-1 cursor-pointer bg-purple-900/20 backdrop-blur-sm"
+            }
+            onClick={toggleSidebar}
+          />
+        ) : null}
       </div>
     );
   },
@@ -274,7 +244,7 @@ const SidebarTrigger = React.forwardRef<
       data-sidebar="trigger"
       variant="ghost"
       size="icon"
-      className={cn("h-7 w-7", className)}
+      className={cn("size-9", className)}
       onClick={(event) => {
         onClick?.(event);
         toggleSidebar();
@@ -443,7 +413,7 @@ const SidebarGroupLabel = React.forwardRef<
       ref={ref}
       data-sidebar="group-label"
       className={cn(
-        "text-sidebar-foreground/70 ring-sidebar-ring flex h-8 shrink-0 items-center rounded-md px-2 text-xs font-medium transition-[margin,opa] duration-200 ease-linear outline-none focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0",
+        "text-sidebar-foreground/70 ring-sidebar-ring flex h-8 shrink-0 items-center rounded-md px-2 text-sm font-bold transition-[margin,opa] duration-200 ease-linear outline-none focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0",
         "group-data-[collapsible=icon]:-mt-8 group-data-[collapsible=icon]:opacity-0",
         className,
       )}

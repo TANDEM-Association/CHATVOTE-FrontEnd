@@ -117,6 +117,7 @@ function ChatMessagesView({
             <ChatEmptyView
               parties={parties}
               proposedQuestions={proposedQuestions}
+              municipalityCode={municipalityCode}
             />
           </div>
         )}

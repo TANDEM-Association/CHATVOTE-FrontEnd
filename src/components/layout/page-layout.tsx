@@ -7,11 +7,11 @@ type PageLayoutProps = {
 
 export const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
   return (
-    <div className="relative flex size-full flex-col">
+    <div className="size-screen flex w-full flex-col items-stretch overflow-hidden">
       <Header />
-      <main className="mx-auto min-h-[calc(100vh-var(--header-height)-var(--footer-height))] w-full max-w-xl grow px-4 pb-8 md:px-0">
-        {children}
-      </main>
+      <div className="flex flex-1 justify-center overflow-hidden px-4 py-8">
+        <main className="w-full max-w-xl">{children}</main>
+      </div>
       <Footer />
     </div>
   );
