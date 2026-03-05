@@ -1,11 +1,12 @@
 import React from "react";
 
+import DonationDialog from "@components/donation-dialog";
 import HowToDialog from "@components/guide-dialog";
 import { LanguageSwitcher } from "@components/i18n/LanguageSwitcher";
 import { Button } from "@components/ui/button";
 import { SidebarTrigger } from "@components/ui/sidebar";
-import { IS_EMBEDDED } from "@lib/utils";
-import { HelpCircleIcon } from "lucide-react";
+import { cn, IS_EMBEDDED } from "@lib/utils";
+import { Heart, HelpCircleIcon } from "lucide-react";
 
 import ChatEmbedHeader from "./chat-embed-header";
 import CreateNewChatDropdownButton from "./create-new-chat-dropdown-button";
@@ -19,27 +20,52 @@ function ChatHeader() {
 
   return (
     <React.Fragment>
-      <header className="flex h-16 w-full flex-none items-center justify-between gap-1 px-4">
-        {/* Left side - Logo, Home, Theme, Language, Sidebar Toggle */}
-        <div className="flex items-center gap-1">
-          <div className="block md:hidden">
-            <SidebarTrigger className={"bg-primary"} />
+      <header>
+        <div
+          className={
+            "flex w-full items-center justify-between border-b border-purple-400 bg-purple-900 px-4 py-3"
+          }
+        >
+          <div>
+            ChatVote est une initiative citoyenne Open Source. La solution est
+            actuellement en beta
           </div>
-          <ThemeModeToggle />
-          <LanguageSwitcher />
+          <Button data-sidebar="more" size="sm">
+            <div>En savoir plus</div>
+          </Button>
         </div>
-        {/* Right side - Help, Share, New Chat */}
-        <div className="flex items-center gap-1">
-          <HowToDialog>
-            <Button variant="ghost" size="icon" className="size-8">
-              <HelpCircleIcon />
-            </Button>
-          </HowToDialog>
-          <CreateNewChatDropdownButton />
+        <div className="flex h-16 w-full flex-none items-center justify-between gap-1 px-4">
+          {/* Left side - Logo, Home, Theme, Language, Sidebar Toggle */}
+          <div className="flex items-center gap-1">
+            <div className="block md:hidden">
+              <SidebarTrigger className={"bg-primary"} />
+            </div>
+            <ThemeModeToggle />
+            <LanguageSwitcher />
+          </div>
+          {/* Right side - Help, Share, New Chat */}
+          <div className="flex items-center gap-1">
+            <DonationDialog>
+              <Button
+                data-sidebar="donation"
+                variant="secondary"
+                size="icon"
+                className={cn("size-10")}
+              >
+                <Heart />
+              </Button>
+            </DonationDialog>
+            <HowToDialog>
+              <Button variant="ghost" size="icon" className="size-8">
+                <HelpCircleIcon />
+              </Button>
+            </HowToDialog>
+            <CreateNewChatDropdownButton />
+          </div>
         </div>
-      </header>
 
-      <SocketDisconnectedBanner />
+        <SocketDisconnectedBanner />
+      </header>
     </React.Fragment>
   );
 }
