@@ -58,7 +58,7 @@ async function ChatView({
           <div
             className={cn(
               "absolute right-0 bottom-0 left-0 z-20 w-full bg-linear-to-t from-purple-900/50 to-transparent backdrop-blur-xs transition-all md:left-16",
-              !sessionId && !municipalityCode ? "h-1/3 md:h-1/2" : "h-0",
+              !sessionId && !municipalityCode ? "h-1/4 md:h-1/2" : "h-0",
             )}
           />
           <div className="bg-background relative mx-auto w-full max-w-192 shrink-0 p-3 md:p-4">
