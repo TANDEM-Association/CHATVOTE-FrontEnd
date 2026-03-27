@@ -1,22 +1,17 @@
 // Types for election-related data
 
-// Candidate types
+import { type Candidate as GeneratedCandidate } from "../generated";
 
-export type Candidate = {
-  candidate_id: string;
-  first_name: string;
-  last_name: string;
-  municipality_code: string | null;
-  municipality_name: string | null;
-  party_ids: string[];
-  presence_score: number; // 0-100, used for sorting (higher = more visible)
+// Candidate types
+// Extends backend Candidate model. Overrides nullable fields that are guaranteed
+// non-null when read from Firestore, and drops backend-only election_type_id.
+
+export type Candidate = Omit<
+  GeneratedCandidate,
+  "election_type_id" | "position" | "bio" | "created_at" | "updated_at"
+> & {
   position: string;
   bio: string;
-  is_incumbent: boolean;
-  birth_year: number | null;
-  photo_url: string | null;
-  contact_email: string | null;
-  website_url: string | null;
   created_at: string;
   updated_at: string;
 };
